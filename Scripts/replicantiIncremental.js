@@ -2,7 +2,7 @@ $(()=>{
     $("#goBackToHub").on("click", ()=>{
         window.location.href="../index.html"
     })
-    //#region player variable
+    //#region player
     let player={
         stats:{
             replicanti:{
@@ -67,7 +67,7 @@ $(()=>{
         }
     }
     //#endregion
-    //#region playerStatsCalculated variable
+    //#region playerStatsCalculated 
     let playerStatsCalculated = {
         replicanti:{
             replicationTimeInMs: 1000,
@@ -159,5 +159,61 @@ $(()=>{
             }
         }
     }
+    //#endregion
+    //#region  saving and loading 
+    const Save = () => {
+        const playerParsedToJson = JSON.stringify(player);
+        let jwt = CreatePartialJWT(playerParsedToJson);
+        localStorage.setItem("replicantiIncSave", jwt);
+    };
+
+    const CreatePartialJWT = (payloadInJson) => {
+        let payloadInBase64 = btoa(payloadInJson);
+        let signatureInBase64 = btoa(JSON.stringify("LeastObviousSignature"));
+        let jwt = payloadInBase64 + "." + signatureInBase64;
+        return jwt;
+    };
+
+    const DecodePartialJwt = () => {
+        let jwt = localStorage.getItem("replicantiIncSave");
+        if (jwt != null) {
+            let [payload, signature] = jwt.split(".");
+            if (JSON.parse(atob(signature)) != "LeastObviousSignature") {
+                alert("Ey man how about you don't alter the localstorage aight?");
+                return null;
+            }
+            return atob(payload);
+        }
+        return null;
+    };
+
+    let SaveInterval = setInterval(Save, 5000);
+
+    const Load = () => {
+        let playerJson = DecodePartialJwt();
+        if (playerJson != null) {
+            let playerParsed = JSON.parse(playerJson);
+            player = Object.assign({}, player, playerParsed);
+
+            CheckForMissingData();
+
+            if (player.options.save.autoSaveInterval == null) {
+                clearInterval(SaveInterval);
+            } 
+            else {
+                clearInterval(SaveInterval);
+                SaveInterval = setInterval(Save, player.options.save.autoSaveInterval);
+            }
+        }
+    };
+
+    const CheckForMissingData = () => {
+        // use if I change player object
+    };
+
+    const HardReset = () => {
+        localStorage.removeItem("replicantiIncSave");
+        location.reload();
+    };
     //#endregion
 })
