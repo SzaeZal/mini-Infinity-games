@@ -226,9 +226,9 @@ $(()=>{
             $("#close-open").html(`
                 <svg 
                     xmlns="http://www.w3.org/2000/svg" 
-                    height="50px" 
+                    height="49px" 
                     viewBox="0 -960 960 960" 
-                    width="50px" 
+                    width="49px" 
                     fill="#e3e3e3">
                         <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
                 </svg>
@@ -240,9 +240,9 @@ $(()=>{
             $("#close-open").html(`
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    height="50px"
+                    height="49px"
                     viewBox="0 -960 960 960"
-                    width="50px"
+                    width="49px"
                     fill="#e3e3e3">
                         <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
                 </svg>
@@ -262,7 +262,7 @@ $(()=>{
             mainMenuCallbacks[mainMenuIndex]()
         }
         else if(e.originalEvent.code == "KeyS" || e.originalEvent.code == "ArrowDown"){
-            mainMenuIndex= mainMenuIndex == 0 ? subMenuLimits.length-2 : mainMenuIndex-1
+            mainMenuIndex= mainMenuIndex == 0 ? subMenuLimits.length-1 : mainMenuIndex-1
             mainMenuCallbacks[mainMenuIndex]()
         }
         else if(e.originalEvent.code == "KeyA" || e.originalEvent.code == "ArrowLeft"){
@@ -353,5 +353,97 @@ $(()=>{
         `)
     }
     //#endregion
+    //#region replicanti replication
+    const DoReplicantiReplication = ()=>{
+        player.stats.replicanti.currentAmount*=playerStatsCalculated.replicanti.replicationMulti
+        console.log(player.stats.replicanti.currentAmount)
+        if(mainMenuIndex==2){
+            UpdateReplicantiView()
+        }
+    }
+    //#endregion
+    //#region Infinity nav
+    /*$("#infinity").on("click", ()=>{
+        mainMenuIndex=3
+        GoToInfinity()
+    })*/
+
+    const GoToInfinity = () =>{
+        view.html(`
+            Rep
+        `)
+    }
+    //#endregion
+    //#region Replicanti UI update
+    const UpdateReplicantiView= ()=>{
+        console.log("here")
+    }
+    //#endregion
+    //#region infinity replication
+    const DoInfinityReset = ()=>{
+        player.stats.infinity.currentAmount++
+        let rng = 1+Math.round(Math.random()*100)
+        if(rng<=playerStatsCalculated.infinity.replication.replicationChancePercent){
+            player.stats.infinity.currentAmount*=playerStatsCalculated.infinity.replication.replicationMulti
+        }
+        if(mainMenuIndex==3){
+            UpdateInfinityView()
+        }
+    }
+    //#endregion
+    //#region infinity UI update
+    const UpdateInfinityView= ()=>{
+        console.log("here")
+    }
+    //#endregion
+    //#region Eternity nav
+    /*$("#eternity").on("click", ()=>{
+        mainMenuIndex=4
+        GoToEternity()
+    })*/
+
+    const GoToEternity = () =>{
+        view.html(`
+            Rep
+        `)
+    }
+    //#endregion
+    //#region Eternity replication
+    const DoEternityReset = ()=>{
+        player.stats.eternity.currentAmount+=playerStatsCalculated.eternity.static.gain
+        let rng = Math.round(Math.random()*1010)/10
+        if(rng<=playerStatsCalculated.eternity.replication.replicationChancePercent){
+            player.stats.eternity.currentAmount*=playerStatsCalculated.eternity.replication.replicationMulti
+        }
+        if(mainMenuIndex==4){
+            UpdateEternityView()
+        }
+    }
+    //#endregion
+    //#region Eternity UI update
+    const UpdateEternityView= ()=>{
+        console.log("here")
+    }
+    //#endregion
+    //#region tick
+    let totalTimeSinceReplicationInMs=0
+    const DoTick = (ms)=>{
+        totalTimeSinceReplicationInMs+=ms
+        if(totalTimeSinceReplicationInMs>=playerStatsCalculated.replicanti.replicationTimeInMs){
+            totalTimeSinceReplicationInMs-=playerStatsCalculated.replicanti.replicationTimeInMs
+            DoReplicantiReplication()
+        }
+
+        if(player.stats.replicanti.currentAmount==Infinity){
+            DoInfinityReset(1)
+        }
+
+        if(player.stats.infinity.currentAmount==Infinity){
+            DoEternityReset(2)
+        }
+    }
+    //#endregion
     let mainMenuCallbacks=[GoToSettings, GoToInformation, GoToReplicanti]
+    let tick=setInterval(DoTick, 25, 25)
+    
 })

@@ -6,6 +6,7 @@
     <title>Replicanti Incremental</title>
     <link rel="stylesheet" href="../Styles/base.css">
     <link rel="stylesheet" href="../Styles/sidebar.css">
+    <link rel="stylesheet" href="../Styles/content.css">
     <script src="../Scripts/jquery.min.js"></script>
     <script src="../Scripts/replicantiIncremental.js"></script>
 </head>
@@ -49,15 +50,24 @@
             <div id="close-open">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    height="50px"
+                    height="49px"
                     viewBox="0 -960 960 960"
-                    width="50px"
+                    width="49px"
                     fill="#e3e3e3"
                 >
                     <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
                 </svg>
             </div>
-            <div id="view"></div>
+            <div id="view">
+                <div id="subMenuInView">
+                    <div class="subMenuItem selectedSubMenuItem">
+                        Main
+                    </div>
+                </div>
+                <div class="mainView">
+                    <div id="currencyBar">1 / 1.79e308</div>
+                </div>
+            </div>
         </div>
         <div class="hidden" id="dialogBox"></div>
         <div id="notifications"></div>

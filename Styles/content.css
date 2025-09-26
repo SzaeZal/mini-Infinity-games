@@ -1,0 +1,44 @@
+.content{
+    flex: 1;
+}
+#view{
+    height: 100%;
+    bottom: 58px;
+}
+#subMenuInView{
+    width: calc(100% - 50px);
+    margin-left: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.subMenuItem{
+    border: 2px gray solid;
+    flex: 1;
+    padding: 13px;
+    font-size: x-large;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.subMenuItem:hover{
+    border: 2px rgb(160, 160, 160) solid;
+}
+.subMenuHidden{
+    opacity: 0;
+    height: 55px;
+}
+.selectedSubMenuItem{
+    border: 2px rgb(100, 100, 100) solid;
+}
+.selectedSubMenuItem:hover{
+    font-size: x-large;
+    border: 2px rgb(100, 100, 100) solid;
+    padding: 13px;
+}
+.mainView{
+    padding: 20px;
+    margin: auto;
+    width: fit-content;
+    position: relative;
+}
