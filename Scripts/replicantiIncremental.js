@@ -216,4 +216,142 @@ $(()=>{
         location.reload();
     };
     //#endregion
+    //#region sidebar open-close
+    let sidebar = $("#sidebar")
+    let isSidebarOpen=true
+    $("#close-open").on("click", ()=>{
+        if(isSidebarOpen){
+            sidebar.removeClass("openSidebar")
+            sidebar.addClass("closeSidebar")
+            $("#close-open").html(`
+                <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    height="50px" 
+                    viewBox="0 -960 960 960" 
+                    width="50px" 
+                    fill="#e3e3e3">
+                        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+                </svg>
+            `)
+        }
+        else{
+            sidebar.removeClass("closeSidebar")
+            sidebar.addClass("openSidebar")
+            $("#close-open").html(`
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="50px"
+                    viewBox="0 -960 960 960"
+                    width="50px"
+                    fill="#e3e3e3">
+                        <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
+                </svg>
+            `)
+        }
+        isSidebarOpen=!isSidebarOpen
+    })
+    //#endregion
+    //#region menu navigation
+    const view = $("#view")
+    let mainMenuIndex=2
+    let subMenuIndexes=[0, 0, 0]
+    let subMenuLimits=[1, 1, 0]
+    $(document).keydown((e)=>{
+        if(e.originalEvent.code == "KeyW" || e.originalEvent.code == "ArrowUp"){
+            mainMenuIndex= mainMenuIndex == subMenuLimits.length-1 ? 0 : mainMenuIndex+1
+            mainMenuCallbacks[mainMenuIndex]()
+        }
+        else if(e.originalEvent.code == "KeyS" || e.originalEvent.code == "ArrowDown"){
+            mainMenuIndex= mainMenuIndex == 0 ? subMenuLimits.length-2 : mainMenuIndex-1
+            mainMenuCallbacks[mainMenuIndex]()
+        }
+        else if(e.originalEvent.code == "KeyA" || e.originalEvent.code == "ArrowLeft"){
+            subMenuIndexes[mainMenuIndex] = subMenuIndexes[mainMenuIndex] == 0 ? subMenuLimits[mainMenuIndex] : subMenuIndexes[mainMenuIndex]-1
+            mainMenuCallbacks[mainMenuIndex]()
+        }
+        else if(e.originalEvent.code == "KeyD" || e.originalEvent.code == "ArrowRight"){
+            subMenuIndexes[mainMenuIndex] = subMenuIndexes[mainMenuIndex] == subMenuLimits[mainMenuIndex] ? 0 : subMenuIndexes[mainMenuIndex]+1
+            mainMenuCallbacks[mainMenuIndex]()
+        }
+    })
+
+    //#endregion
+    //#region Settings navigation
+    $("#options").on("click", ()=>{
+        mainMenuIndex=0
+        GoToSettings()
+    })
+
+    const GoToSettings = () =>{
+        switch(subMenuIndexes[0]){
+            case 0:
+                GoToUISettings();
+                break;
+            case 1:
+                GoToSaveSettings();
+                break;
+            default:
+                console.log("Settings sub navigation broke")
+                break;
+        }
+    }
+
+
+    const GoToUISettings = () =>{
+        view.html(`
+            FISH    
+        `)
+    }
+
+    const GoToSaveSettings = () =>{
+        view.html(`
+            FISH    
+        `)
+    }
+    //#endregion
+    //#region Information nav
+    $("#information").on("click", ()=>{
+        mainMenuIndex=1
+        GoToInformation()
+    })
+
+    const GoToInformation = () =>{
+        switch(subMenuIndexes[0]){
+            case 0:
+                GoToMainInformation();
+                break;
+            case 1:
+                GoToChangelogInformation();
+                break;
+            default:
+                console.log("Settings sub navigation broke")
+                break;
+        }
+    }
+
+    const GoToMainInformation = () =>{
+        view.html(`
+            FISH    
+        `)
+    }
+
+    const GoToChangelogInformation = () =>{
+        view.html(`
+            FISH    
+        `)
+    }
+    //#endregion
+    //#region Replicanti nav
+    $("#replicanti").on("click", ()=>{
+        mainMenuIndex=2
+        GoToReplicanti()
+    })
+
+    const GoToReplicanti = () =>{
+        view.html(`
+            Rep
+        `)
+    }
+    //#endregion
+    let mainMenuCallbacks=[GoToSettings, GoToInformation, GoToReplicanti]
 })

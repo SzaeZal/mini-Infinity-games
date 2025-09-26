@@ -26,10 +26,13 @@
   animation: sidebarClose 0.35s;
   width: 0px;
 }
+#close-open{
+  border: 2px gray solid;
+  border-left: none;
+}
 
 #sidebar{
     max-width: 250px;
-    width: 250px;
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
