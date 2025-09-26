@@ -356,10 +356,21 @@ $(()=>{
     //#region replicanti replication
     const DoReplicantiReplication = ()=>{
         player.stats.replicanti.currentAmount*=playerStatsCalculated.replicanti.replicationMulti
-        console.log(player.stats.replicanti.currentAmount)
         if(mainMenuIndex==2){
             UpdateReplicantiView()
         }
+    }
+    //#endregion
+    //#region Replicanti UI update
+    const UpdateReplicantiView= ()=>{
+        $("#currencyText").text(`${FormatNumber(player.stats.replicanti.currentAmount)} / 1.79e308 replicanti`)
+        $("#replicationStatus").css("background-image", `linear-gradient(
+            to right, 
+            blue,
+            blue ${(Math.log10(player.stats.replicanti.currentAmount)/Math.log10(1.79e308))*100}%,
+            transparent ${(Math.log10(player.stats.replicanti.currentAmount)/Math.log10(1.79e308))*100}%,
+            transparent
+        )`)
     }
     //#endregion
     //#region Infinity nav
@@ -374,11 +385,7 @@ $(()=>{
         `)
     }
     //#endregion
-    //#region Replicanti UI update
-    const UpdateReplicantiView= ()=>{
-        console.log("here")
-    }
-    //#endregion
+
     //#region infinity replication
     const DoInfinityReset = ()=>{
         player.stats.infinity.currentAmount++
@@ -443,6 +450,27 @@ $(()=>{
         }
     }
     //#endregion
+    //#region FormatNumber
+    const FormatNumber= (numberToFormat)=>{
+        let result = Math.floor(numberToFormat).toString();
+        if (numberToFormat < 10) {
+        result = (Math.floor(numberToFormat * 100) / 100).toString();
+        }
+        if (numberToFormat > 1000000) {
+        result =
+            Math.floor(
+            Math.pow(
+                10,
+                Math.log10(numberToFormat) -
+                Math.floor(Math.log10(numberToFormat))
+            ) * 100
+            ) /
+            100 +
+            "e" +
+            Math.floor(Math.log10(numberToFormat));
+        }
+        return result; 
+    }
     let mainMenuCallbacks=[GoToSettings, GoToInformation, GoToReplicanti]
     let tick=setInterval(DoTick, 25, 25)
     

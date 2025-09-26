@@ -38,7 +38,5 @@
 }
 .mainView{
     padding: 20px;
-    margin: auto;
-    width: fit-content;
-    position: relative;
+    width: inherit;
 }
