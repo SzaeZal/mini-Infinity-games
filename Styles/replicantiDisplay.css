@@ -8,6 +8,53 @@
     border: 2px gray solid;
     text-align: center;
 }
+.buyables{
+  margin: 15px auto;
+  width: fit-content;
+  text-align: center;
+}
+.gap-50px{
+  gap: 50px;
+}
+.subTitle{
+  font-size: x-large;
+  margin: 15px;
+}
+.buyable{
+  border-radius: 5px;
+  max-width: 250px;
+  border: 2px solid gray;
+  display: flex;
+  flex-direction: column;
+  font-size: large;
+}
+.buyable>div{
+  padding: 10px;
+}
+.disclaimer{
+  margin-top: 15px;
+}
+.buyable>.row{
+  justify-content: space-around;
+  padding: 0;
+}
+.buyableBuy1{
+  border-top: 1px gray solid;
+  border-right: 1px gray solid;
+  flex: 1;
+  padding: 5px;
+}
+.buyableBuyMax{
+  border-top: 1px gray solid;
+  flex: 1;
+  padding: 5px;
+}
+.buyablePurchaseAble{
+  background-color: rgba(0, 255, 0, 0.25);
+}
+.buyablePurchaseAble:hover{
+  background-color: rgba(0, 255, 0, 0.35);
+}
 
 #replicanti{
   background-color: rgba(0, 50, 128, 0.5);

@@ -72,7 +72,7 @@ $(()=>{
     //#region playerStatsCalculated 
     let playerStatsCalculated = {
         replicanti:{
-            replicationTimeInMs: 100,
+            replicationTimeInMs: 1000,
             replicationMulti: 2,
             buyables:{
                 buyable1:{
@@ -351,7 +351,67 @@ $(()=>{
 
     const GoToReplicanti = () =>{
         view.html(`
-            Rep
+            <div id="subMenuInView">
+                <div class="subMenuItem selectedSubMenuItem">
+                    Main
+                </div>
+            </div>
+            <div class="mainView">
+                <div id="currencyBar" class="currencyBar">
+                    1 / 1.79e308 replicanti
+                </div>
+                <div class="buyables">
+                    <div class="subTitle">
+                        Buyables
+                    </div>
+                    <div class="row gap-50px">
+                        <div id="replicantiBuyable1" class="buyable">
+                            <div class="upgradeTitle">
+                                Replication Fastener <br> 
+                                level <span id="replicantiBuyable1Amount">0 / 4</span>
+                            </div>
+                            <div class="upgradeDescription">
+                                Each level divides replication time by /+1 
+                            </div>
+                            <div id="replicantibuyable1Effect">
+                                Currently: /1
+                            </div>
+                            <div id="replicantiBuyable1Cost">
+                                Cost: 128 replicanti
+                            </div>
+                            <div class="row">
+                                <div id="replicantiBuyable1BuyOne" class="buyableBuy1">Buy 1</div>
+                                <div id="replicantiBuyable1BuyMax" class="buyableBuyMax">Buy Max</div>
+                            </div>
+                        </div>
+                        <div id="replicantiBuyable2" class="buyable">
+                            <div class="upgradeTitle">
+                                Replication Increaser <br> 
+                                level <span id="replicantiBuyable1Amount">0 / 4</span>
+                            </div>
+                            <div class="upgradeDescription">
+                                Each level multiplies replication multi by x1.5 
+                            </div>
+                            <div id="replicantibuyable2Effect">
+                                Currently: x1
+                            </div>
+                            <div id="replicantiBuyable2Cost">
+                                Cost: 1024 replicanti
+                            </div>
+                            <div class="row ">
+                                <div id="replicantiBuyable2BuyOne" class="buyableBuy1">Buy 1</div>
+                                <div id="replicantiBuyable2BuyMax" class="buyableBuyMax">Buy Max</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="disclaimer">
+                        *replicanti buyables will divide your replicanti instead of subtracting
+                    </div>
+                </div>
+                <div id="replicationTimer" class="currencyBar">
+                    x / 1000 ms
+                </div>
+            </div>
         `)
     }
     //#endregion
