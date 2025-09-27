@@ -2,22 +2,9 @@
     width: 80%;
     margin: auto;
     position: relative;
-
-}
-#currencyText{
     font-size: larger;
     border-radius: 10px;
     padding: 5px;
     border: 2px gray solid;
     text-align: center;
-    position: relative;
-    z-index: 2;
-}
-#replicationStatus{
-    position: absolute;
-    border-radius: 10px;
-    top: -0%;
-    width: 100%;
-    height: 36px;
-    z-index: 1;
 }

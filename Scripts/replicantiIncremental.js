@@ -363,8 +363,8 @@ $(()=>{
     //#endregion
     //#region Replicanti UI update
     const UpdateReplicantiView= ()=>{
-        $("#currencyText").text(`${FormatNumber(player.stats.replicanti.currentAmount)} / 1.79e308 replicanti`)
-        $("#replicationStatus").css("background-image", `linear-gradient(
+        $("#currencyBar").text(`${FormatNumber(player.stats.replicanti.currentAmount)} / 1.79e308 replicanti`)
+        $("#currencyBar").css("background-image", `linear-gradient(
             to right, 
             blue,
             blue ${(Math.log10(player.stats.replicanti.currentAmount)/Math.log10(1.79e308))*100}%,
