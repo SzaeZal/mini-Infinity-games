@@ -76,16 +76,3 @@
     background-color: rgba(128, 128, 128, 0.5);
 }
 
-#replicanti{
-  background-color: rgba(0, 50, 128, 0.5);
-}
-#replicanti:hover{
-  background-color: rgba(0, 50, 200, 0.5);
-}
-
-#infinity{
-  background-color: rgba(100, 100, 0, 0.5);
-}
-#infinity:hover{
-  background-color: rgba(125, 125, 0, 0.5);
-}

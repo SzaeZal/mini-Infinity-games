@@ -14,6 +14,7 @@ $(()=>{
             },
             infinity:{
                 currentAmount: 0,
+                unlocked: false,
                 upgrades:{
                     upgrade11Bought: false,
                     upgrade12Bought: false,
@@ -28,6 +29,7 @@ $(()=>{
             },
             eternity:{
                 currentAmount: 0,
+                unlocked: false,
                 upgrades:{
                     upgrade11Bought: false,
                     upgrade12Bought: false,
@@ -70,7 +72,7 @@ $(()=>{
     //#region playerStatsCalculated 
     let playerStatsCalculated = {
         replicanti:{
-            replicationTimeInMs: 1000,
+            replicationTimeInMs: 100,
             replicationMulti: 2,
             buyables:{
                 buyable1:{
@@ -361,6 +363,23 @@ $(()=>{
         }
     }
     //#endregion
+    //#region Replicanti Stats Calculation
+    const CalculateReplicantiBoosts = ()=>{
+        CalculateReplicantiReplicationTime()
+        CalculateReplicantiReplicationMulti()
+    }
+
+    const CalculateReplicantiReplicationTime = ()=>{
+        playerStatsCalculated.replicanti.replicationTimeInMs=1000 / (
+            1
+        )
+    }
+
+    const CalculateReplicantiReplicationMulti = ()=>{
+        playerStatsCalculated.replicanti.replicationMulti=2 
+        * 1
+    }
+    //#endregion
     //#region Replicanti UI update
     const UpdateReplicantiView= ()=>{
         $("#currencyBar").text(`${FormatNumber(player.stats.replicanti.currentAmount)} / 1.79e308 replicanti`)
@@ -371,23 +390,48 @@ $(()=>{
             transparent ${(Math.log10(player.stats.replicanti.currentAmount)/Math.log10(1.79e308))*100}%,
             transparent
         )`)
+        
+    }
+    //#endregion
+    //#region Reset Replicanti layer
+    const ResetReplicantiLayer = (layerReset) =>{
+        player.stats.replicanti.currentAmount=1
+        player.stats.replicanti.buyables.buyable1Amount=0
+        player.stats.replicanti.buyables.buyable2Amount=0
+        CalculateReplicantiBoosts()
     }
     //#endregion
     //#region Infinity nav
-    /*$("#infinity").on("click", ()=>{
-        mainMenuIndex=3
-        GoToInfinity()
-    })*/
-
     const GoToInfinity = () =>{
         view.html(`
             Rep
         `)
     }
     //#endregion
+    //#region Unlock Infinity
+    const UnlockInfinity = ()=>{
+        player.stats.infinity.unlocked=true
+        $("#infinity").text("Infinity")
 
+        $("#infinity").on("click", ()=>{
+            mainMenuIndex=3
+            GoToInfinity()
+        })
+
+        $("#mainMenu").append(`
+            <div class="sidebarMenuItem" id="eternity">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm240-120q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z"/></svg>
+                Infinite infinity
+            </div>
+        `)
+    }
+    //#endregion
     //#region infinity replication
     const DoInfinityReset = ()=>{
+        if(player.stats.infinity.unlocked==false){
+            UnlockInfinity()
+        }
+        ResetReplicantiLayer(1)
         player.stats.infinity.currentAmount++
         let rng = 1+Math.round(Math.random()*100)
         if(rng<=playerStatsCalculated.infinity.replication.replicationChancePercent){
@@ -403,20 +447,43 @@ $(()=>{
         console.log("here")
     }
     //#endregion
+    //#region Reset Infinity layer
+    const ResetInfinityLayer = (layerReset) =>{
+        player.stats.infinity.currentAmount=0
+        player.stats.replicanti.buyables.buyable1Amount=0
+        player.stats.replicanti.buyables.buyable2Amount=0
+        player.stats.infinity.upgrades.upgrade11Bought=false
+        player.stats.infinity.upgrades.upgrade12Bought=false
+        player.stats.infinity.upgrades.upgrade13Bought=false
+        player.stats.infinity.upgrades.upgrade14Bought=false
+        player.stats.infinity.upgrades.upgrade15Bought=false
+        CalculateReplicantiBoosts()
+    }
     //#region Eternity nav
-    /*$("#eternity").on("click", ()=>{
-        mainMenuIndex=4
-        GoToEternity()
-    })*/
-
     const GoToEternity = () =>{
         view.html(`
             Rep
         `)
     }
     //#endregion
+    //#region Unlock Eternity
+    const UnlockEternity = ()=>{
+        player.stats.eternity.unlocked=true
+        $("#eternity").text("Eternity")
+
+        $("#eternity").on("click", ()=>{
+            mainMenuIndex=4
+            GoToEternity()
+        })
+    }
+    //#endregion
     //#region Eternity replication
     const DoEternityReset = ()=>{
+        if(player.stats.eternity.unlocked==false){
+            UnlockEternity()
+        }
+        ResetInfinityLayer(2)
+        ResetReplicantiLayer(2)
         player.stats.eternity.currentAmount+=playerStatsCalculated.eternity.static.gain
         let rng = Math.round(Math.random()*1010)/10
         if(rng<=playerStatsCalculated.eternity.replication.replicationChancePercent){
@@ -436,17 +503,29 @@ $(()=>{
     let totalTimeSinceReplicationInMs=0
     const DoTick = (ms)=>{
         totalTimeSinceReplicationInMs+=ms
-        if(totalTimeSinceReplicationInMs>=playerStatsCalculated.replicanti.replicationTimeInMs){
+        if(mainMenuIndex==2){
+            $("#replicationTimer").text(`${totalTimeSinceReplicationInMs} / ${playerStatsCalculated.replicanti.replicationTimeInMs} ms`)
+            $("#replicationTimer").css("background-image", `linear-gradient(
+                to right, 
+                grey,
+                grey ${totalTimeSinceReplicationInMs/playerStatsCalculated.replicanti.replicationTimeInMs*100}%,
+                transparent ${totalTimeSinceReplicationInMs/playerStatsCalculated.replicanti.replicationTimeInMs*100}%,
+                transparent
+            )`)
+        }
+
+
+        while(totalTimeSinceReplicationInMs>=playerStatsCalculated.replicanti.replicationTimeInMs){
             totalTimeSinceReplicationInMs-=playerStatsCalculated.replicanti.replicationTimeInMs
             DoReplicantiReplication()
         }
 
         if(player.stats.replicanti.currentAmount==Infinity){
-            DoInfinityReset(1)
+            DoInfinityReset()
         }
 
         if(player.stats.infinity.currentAmount==Infinity){
-            DoEternityReset(2)
+            DoEternityReset()
         }
     }
     //#endregion
