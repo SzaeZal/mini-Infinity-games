@@ -9,20 +9,23 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     gap: 50px;
+    flex-wrap: wrap;
 }
 .settingTitle{
     font-size: xx-large;
 }
 .options{
-    flex: 1;
     display: flex;
     justify-content: end;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 .option{
     font-size: xx-large;
     padding: 15px;
+    max-width: 100px;
     border: 2px gray solid;
 }
 .option:hover{
