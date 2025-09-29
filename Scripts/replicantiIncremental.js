@@ -251,6 +251,22 @@ $(()=>{
         isSidebarOpen=!isSidebarOpen
     })
     //#endregion
+    //#region notification
+    const ShowNotification=(notificationTitle, notificationText, notificationType)=>{
+        $("#notifications").append(`
+            <div class="notification notification${notificationType}">
+                ${  notificationTitle!=""
+                    ? `
+                        ${notificationText}
+                        <hr>
+                    ` : ""
+                }
+                ${notificationText}
+            </div>    
+        `)
+    }
+    ShowNotification("", "success", "Success")
+    //#endregion
     //#region menu navigation
     const view = $("#view")
     let mainMenuIndex=2

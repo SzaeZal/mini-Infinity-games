@@ -1,0 +1,32 @@
+#notifications{
+    position:absolute;
+    left: 100vw;
+    translate: -300px 0px;
+    top: 75px;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    z-index: 999;
+}
+.notification{
+    width: 200px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    text-align: center;
+    font-size: xx-large;
+}
+
+.notificationInformation{
+    background-color: rgb(0, 50, 255);
+    border: 5px blue solid;
+}
+.notificationWarning{
+    background-color: rgb(255, 200, 0);
+    border: 5px rgb(200,150,0) solid;
+}
+.notificationSuccess{
+    background-color: rgb(0, 255,0);
+    border: 5px rgb(0, 175, 0) solid;
+}
