@@ -231,7 +231,7 @@ $(()=>{
                     height="49px" 
                     viewBox="0 -960 960 960" 
                     width="49px" 
-                    fill="#e3e3e3">
+                    fill="#888">
                         <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
                 </svg>
             `)
@@ -245,7 +245,7 @@ $(()=>{
                     height="49px"
                     viewBox="0 -960 960 960"
                     width="49px"
-                    fill="#e3e3e3">
+                    fill="#888">
                         <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
                 </svg>
             `)
@@ -410,7 +410,11 @@ $(()=>{
     //#endregion
     //#region Set UI update rate
     const SetUIUpdateRate = (newms)=>{
-
+        $(`#uiUpdateRate${player.options.ui.uiUpdateRateInMs}Option`).removeClass("selectedOption")
+        clearInterval(uiUpdateTicker)
+        player.options.ui.uiUpdateRateInMs=newms
+        uiUpdateTicker=setInterval(UpdateUI, newms)
+        $(`#uiUpdateRate${newms}Option`).addClass("selectedOption")
     }
     //#endregion
     //#region Save settings
@@ -717,7 +721,7 @@ $(()=>{
 
         $("#mainMenu").append(`
             <div class="sidebarMenuItem" id="eternity">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm240-120q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#888"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm240-120q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z"/></svg>
                 Infinite infinity
             </div>
         `)
