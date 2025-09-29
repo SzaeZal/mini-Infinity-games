@@ -1,0 +1,37 @@
+.settings{
+    max-width: 80%;
+    margin: 15px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+.setting{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 50px;
+}
+.settingTitle{
+    font-size: xx-large;
+}
+.options{
+    flex: 1;
+    display: flex;
+    justify-content: end;
+    flex-direction: row;
+}
+.option{
+    font-size: xx-large;
+    padding: 15px;
+    border: 2px gray solid;
+}
+.option:hover{
+    border: 2px rgba(128, 128, 128, 0.5) solid;
+}
+
+.selectedOption{
+    border: 2px green solid;
+}
+.selectedOption:hover{
+    border: 2px green solid;
+}

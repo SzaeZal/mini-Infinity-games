@@ -326,7 +326,7 @@ $(()=>{
                     </div>
                     <div class="setting">
                         <div class="settingTitle">
-                            Sub menu dipslay
+                            Sub menu display
                         </div>
                         <div class="options">
                             <div id="subMenuDisplayShownOption" class="option ${player.options.ui.subMenuShown==true ? "selectedOption" : ""}">
