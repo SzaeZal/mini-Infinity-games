@@ -316,10 +316,10 @@ $(()=>{
                             Theme
                         </div>
                         <div class="options">
-                            <div id="themeDarkOption" class="option selectedOption">
+                            <div id="themeDarkOption" class="option ${player.options.ui.theme=="Dark" ? "selectedOption" : ""}">
                                 Dark
                             </div>
-                            <div id="themeLightOption" class="option">
+                            <div id="themeLightOption" class="option ${player.options.ui.theme=="Light" ? "selectedOption" : ""}">
                                 Light
                             </div>
                         </div>
@@ -329,10 +329,10 @@ $(()=>{
                             Sub menu dipslay
                         </div>
                         <div class="options">
-                            <div id="subMenuDisplayShownOption" class="option selectedOption">
+                            <div id="subMenuDisplayShownOption" class="option ${player.options.ui.subMenuShown==true ? "selectedOption" : ""}">
                                 Shown
                             </div>
-                            <div id="subMenuDisplayHiddenOption" class="option">
+                            <div id="subMenuDisplayHiddenOption" class="option ${player.options.ui.subMenuShown==false ? "selectedOption" : ""}">
                                 Hidden
                             </div>
                         </div>
@@ -342,19 +342,19 @@ $(()=>{
                             UI update Rate
                         </div>
                         <div class="options">
-                            <div id="uiUpdateRate25Option" class="option selectedOption">
+                            <div id="uiUpdateRate25Option" class="option ${player.options.ui.uiUpdateRateInMs==25 ? "selectedOption" : ""}">
                                 25 ms
                             </div>
-                            <div id="uiUpdateRate50Option" class="option">
+                            <div id="uiUpdateRate50Option" class="option ${player.options.ui.uiUpdateRateInMs==50 ? "selectedOption" : ""}">
                                 50 ms 
                             </div>
-                            <div id="uiUpdateRate100Option" class="option">
+                            <div id="uiUpdateRate100Option" class="option ${player.options.ui.uiUpdateRateInMs==100 ? "selectedOption" : ""}">
                                 100 ms 
                             </div>
-                            <div id="uiUpdateRate150Option" class="option">
+                            <div id="uiUpdateRate150Option" class="option ${player.options.ui.uiUpdateRateInMs==150 ? "selectedOption" : ""}">
                                 150 ms 
                             </div>
-                            <div id="uiUpdateRate250Option" class="option">
+                            <div id="uiUpdateRate250Option" class="option ${player.options.ui.uiUpdateRateInMs==250 ? "selectedOption" : ""}">
                                 250 ms 
                             </div>
                         </div>
@@ -398,7 +398,14 @@ $(()=>{
     //#endregion
     //#region Set subMenuShown
     const SetSubMenuShown = (newDisplay)=>{
-
+        $(newDisplay==true ? "#subMenuDisplayHiddenOption" : "#subMenuDisplayShownOption").removeClass("selectedOption")
+        if(newDisplay==true){
+            $("#subMenuInView").removeClass("subMenuHidden")
+        }
+        else{
+            $("#subMenuInView").addClass("subMenuHidden")
+        }
+        $(newDisplay==true ? "#subMenuDisplayShownOption" : "#subMenuDisplayHiddenOption").addClass("selectedOption")
     }
     //#endregion
     //#region Set UI update rate

@@ -12,9 +12,6 @@
     flex-direction: row;
     justify-content: space-around;
 }
-.hiddenSubMenu{
-    opacity: 0;
-}
 .subMenuItem{
     border: 2px gray solid;
     flex: 1;
@@ -29,7 +26,6 @@
 }
 .subMenuHidden{
     opacity: 0;
-    height: 55px;
 }
 .selectedSubMenuItem{
     border: 2px rgb(100, 100, 100) solid;
