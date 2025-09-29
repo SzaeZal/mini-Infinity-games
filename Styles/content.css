@@ -12,10 +12,13 @@
     flex-direction: row;
     justify-content: space-around;
 }
+.hiddenSubMenu{
+    opacity: 0;
+}
 .subMenuItem{
     border: 2px gray solid;
     flex: 1;
-    padding: 13px;
+    padding: 12.9px;
     font-size: x-large;
     text-align: center;
     vertical-align: middle;
@@ -34,7 +37,7 @@
 .selectedSubMenuItem:hover{
     font-size: x-large;
     border: 2px rgb(100, 100, 100) solid;
-    padding: 13px;
+    padding: 12.9px;
 }
 .mainView{
     padding: 20px;

@@ -59,7 +59,7 @@ $(()=>{
         },
         options:{
             ui:{
-                theme: "dark",
+                theme: "Dark",
                 subMenuShown: true,
                 uiUpdateRateInMs: 25 
             },
@@ -259,11 +259,11 @@ $(()=>{
     let subMenuIndexes=[0, 0, 0]
     let subMenuLimits=[1, 1, 0]
     $(document).keydown((e)=>{
-        if(e.originalEvent.code == "KeyW" || e.originalEvent.code == "ArrowUp"){
+        if(e.originalEvent.code == "KeyS" || e.originalEvent.code == "ArrowDown"){
             mainMenuIndex= mainMenuIndex == subMenuLimits.length-1 ? 0 : mainMenuIndex+1
             mainMenuCallbacks[mainMenuIndex]()
         }
-        else if(e.originalEvent.code == "KeyS" || e.originalEvent.code == "ArrowDown"){
+        else if(e.originalEvent.code == "KeyW" || e.originalEvent.code == "ArrowUp"){
             mainMenuIndex= mainMenuIndex == 0 ? subMenuLimits.length-1 : mainMenuIndex-1
             mainMenuCallbacks[mainMenuIndex]()
         }
@@ -297,14 +297,116 @@ $(()=>{
                 break;
         }
     }
-
-
+    //#endregion
+    //#region UI settings
     const GoToUISettings = () =>{
         view.html(`
-            FISH    
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=hiddenSubMenu" : ""}>
+                <div class="subMenuItem selectedSubMenuItem">
+                    UI Settings
+                </div>
+                <div id="saveSettingsSubMenuItem" class="subMenuItem">
+                    Save Settings
+                </div>
+            </div>
+            <div class="mainView">
+                <div class="settings">
+                    <div class="setting">
+                        <div class="settingTitle">
+                            Theme
+                        </div>
+                        <div class="options">
+                            <div id="themeDarkOption" class="option selectedOption">
+                                Dark
+                            </div>
+                            <div id="themeLightOption" class="option">
+                                Light
+                            </div>
+                        </div>
+                    </div>
+                    <div class="setting">
+                        <div class="settingTitle">
+                            Sub menu dipslay
+                        </div>
+                        <div class="options">
+                            <div id="subMenuDisplayShownOption" class="option selectedOption">
+                                Shown
+                            </div>
+                            <div id="subMenuDisplayHiddenOption" class="option">
+                                Hidden
+                            </div>
+                        </div>
+                    </div>
+                    <div class="setting">
+                        <div class="settingTitle">
+                            UI update Rate
+                        </div>
+                        <div class="options">
+                            <div id="uiUpdateRate25Option" class="option selectedOption">
+                                25 ms
+                            </div>
+                            <div id="uiUpdateRate50Option" class="option">
+                                50 ms 
+                            </div>
+                            <div id="uiUpdateRate100Option" class="option">
+                                100 ms 
+                            </div>
+                            <div id="uiUpdateRate150Option" class="option">
+                                150 ms 
+                            </div>
+                            <div id="uiUpdateRate250Option" class="option">
+                                250 ms 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
         `)
+        AddSettingsUISettingsUIEvents()
     }
+    //#endregion
+    //#region UI settings Events
+    const AddSettingsUISettingsUIEvents = () =>{
+        if(player.options.ui.subMenuShown==true){
+            $("#saveSettingsSubMenuItem").on("click", ()=>{
+                subMenuIndexes[mainMenuIndex]=1
+                GoToSaveSettings()
+            })
+        }
 
+        $("#themeDarkOption").on("click", ()=>SetTheme("Dark"))
+        $("#themeLightOption").on("click", ()=>SetTheme("Light"))
+
+        $("#subMenuDisplayShownOption").on("click", ()=>SetSubMenuShown(true))
+        $("#subMenuDisplayHiddenOption").on("click", ()=>SetSubMenuShown(false))
+
+        $("#uiUpdateRate25Option").on("click", ()=>SetUIUpdateRate(25))
+        $("#uiUpdateRate50Option").on("click", ()=>SetUIUpdateRate(50))
+        $("#uiUpdateRate100Option").on("click", ()=>SetUIUpdateRate(100))
+        $("#uiUpdateRate150Option").on("click", ()=>SetUIUpdateRate(150))
+        $("#uiUpdateRate250Option").on("click", ()=>SetUIUpdateRate(250))
+    }
+    //#endregion
+    //#region Set theme
+    const SetTheme = (newTheme)=>{
+        $(newTheme=="Dark" ? "#themeLightOption" : "#themeDarkOption").removeClass("selectedOption")
+        $("#container").removeClass(`theme-${newTheme == "Light" ? "dark" : "light"}`)
+        player.options.ui.theme=newTheme
+        $(newTheme=="Dark" ? "#themeDarkOption" : "#themeLightOption").addClass("selectedOption")
+        $("#container").addClass(`theme-${newTheme == "Light" ? "light" : "dark"}`)
+    }
+    //#endregion
+    //#region Set subMenuShown
+    const SetSubMenuShown = (newDisplay)=>{
+
+    }
+    //#endregion
+    //#region Set UI update rate
+    const SetUIUpdateRate = (newms)=>{
+
+    }
+    //#endregion
+    //#region Save settings
     const GoToSaveSettings = () =>{
         view.html(`
             FISH    
@@ -351,7 +453,7 @@ $(()=>{
 
     const GoToReplicanti = () =>{
         view.html(`
-            <div id="subMenuInView">
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=hiddenSubMenu" : ""}>
                 <div class="subMenuItem selectedSubMenuItem">
                     Main
                 </div>
@@ -481,7 +583,7 @@ $(()=>{
     const UpdateReplicantiBuyable1UI=()=>{
         $("#replicantiBuyable1Amount").text(`${player.stats.replicanti.buyables.buyable1Amount}`)
         $("#replicantibuyable1Effect").text(`Currently: /${playerStatsCalculated.replicanti.buyables.buyable1.replicantiReplicationTimeDivider}`)
-        $("#replicantiBuyable1Cost").text(`Cost: ${player.stats.replicanti.currentAmount==4 ? 'Maxed' : FormatNumber(playerStatsCalculated.replicanti.buyables.buyable1.cost)}`)
+        $("#replicantiBuyable1Cost").text(`Cost: ${player.stats.replicanti.buyables.buyable1Amount==4 ? 'Maxed' : FormatNumber(playerStatsCalculated.replicanti.buyables.buyable1.cost) + " replicanti"} `)
     }
 
     const PurchaseReplicantiBuyable2 = ()=>{
@@ -507,7 +609,7 @@ $(()=>{
     const UpdateReplicantiBuyable2UI=()=>{
         $("#replicantiBuyable2Amount").text(`${player.stats.replicanti.buyables.buyable2Amount}`)
         $("#replicantibuyable2Effect").text(`Currently: x${playerStatsCalculated.replicanti.buyables.buyable2.replicantiReplicationMultiMultiplier}`)
-        $("#replicantiBuyable2Cost").text(`Cost: ${FormatNumber(playerStatsCalculated.replicanti.buyables.buyable2.cost)}`)
+        $("#replicantiBuyable2Cost").text(`Cost: ${FormatNumber(playerStatsCalculated.replicanti.buyables.buyable2.cost)+ " replicanti"} `)
     }
     //#endregion
     //#region replicanti replication
@@ -515,10 +617,6 @@ $(()=>{
         player.stats.replicanti.currentAmount*=playerStatsCalculated.replicanti.replicationMulti
         if(player.stats.replicanti.currentAmount==Infinity){
             DoInfinityReset()
-        }
-        
-        if(mainMenuIndex==2){
-            UpdateReplicantiView()
         }
     }
     //#endregion
@@ -542,6 +640,15 @@ $(()=>{
     //#endregion
     //#region Replicanti UI update
     const UpdateReplicantiView= ()=>{
+        $("#replicationTimer").text(`${FormatNumber(totalTimeSinceReplicationInMs)} / ${FormatNumber(playerStatsCalculated.replicanti.replicationTimeInMs)} ms`)
+        $("#replicationTimer").css("background-image", `linear-gradient(
+            to right, 
+            grey,
+            grey ${totalTimeSinceReplicationInMs/playerStatsCalculated.replicanti.replicationTimeInMs*100}%,
+            transparent ${totalTimeSinceReplicationInMs/playerStatsCalculated.replicanti.replicationTimeInMs*100}%,
+            transparent
+        )`)
+
         $("#currencyBar").text(`${FormatNumber(player.stats.replicanti.currentAmount)} / 1.79e308 replicanti`)
         $("#currencyBar").css("background-image", `linear-gradient(
             to right, 
@@ -550,7 +657,26 @@ $(()=>{
             transparent ${(Math.log10(player.stats.replicanti.currentAmount)/Math.log10(1.79e308))*100}%,
             transparent
         )`)
-        
+
+        if(player.stats.replicanti.currentAmount>=playerStatsCalculated.replicanti.buyables.buyable1.cost){
+            $("#replicantiBuyable1BuyOne").addClass("buyablePurchaseAble")
+            $("#replicantiBuyable1BuyMax").addClass("buyablePurchaseAble")
+        }
+        else{
+            $("#replicantiBuyable1BuyOne").removeClass("buyablePurchaseAble")
+            $("#replicantiBuyable1BuyMax").removeClass("buyablePurchaseAble")
+        }
+        if(player.stats.replicanti.currentAmount>=playerStatsCalculated.replicanti.buyables.buyable2.cost){
+            $("#replicantiBuyable2BuyOne").addClass("buyablePurchaseAble")
+            $("#replicantiBuyable2BuyMax").addClass("buyablePurchaseAble")
+        }
+        else{
+            $("#replicantiBuyable2BuyOne").removeClass("buyablePurchaseAble")
+            $("#replicantiBuyable2BuyMax").removeClass("buyablePurchaseAble")
+        }
+
+        UpdateReplicantiBuyable1UI()
+        UpdateReplicantiBuyable2UI()
     }
     //#endregion
     //#region Reset Replicanti layer
@@ -563,8 +689,6 @@ $(()=>{
         playerStatsCalculated.replicanti.buyables.buyable2.cost=1024
         playerStatsCalculated.replicanti.buyables.buyable2.replicantiReplicationMultiMultiplier=1
         CalculateReplicantiBoosts()
-        UpdateReplicantiBuyable1UI()
-        UpdateReplicantiBuyable2UI()
     }
     //#endregion
     //#region Infinity nav
@@ -669,17 +793,6 @@ $(()=>{
     let totalTimeSinceReplicationInMs=0
     const DoTick = (ms)=>{
         totalTimeSinceReplicationInMs+=ms
-        if(mainMenuIndex==2){
-            $("#replicationTimer").text(`${FormatNumber(totalTimeSinceReplicationInMs)} / ${FormatNumber(playerStatsCalculated.replicanti.replicationTimeInMs)} ms`)
-            $("#replicationTimer").css("background-image", `linear-gradient(
-                to right, 
-                grey,
-                grey ${totalTimeSinceReplicationInMs/playerStatsCalculated.replicanti.replicationTimeInMs*100}%,
-                transparent ${totalTimeSinceReplicationInMs/playerStatsCalculated.replicanti.replicationTimeInMs*100}%,
-                transparent
-            )`)
-        }
-
 
         while(totalTimeSinceReplicationInMs>=playerStatsCalculated.replicanti.replicationTimeInMs){
             totalTimeSinceReplicationInMs-=playerStatsCalculated.replicanti.replicationTimeInMs
@@ -688,6 +801,13 @@ $(()=>{
 
         if(player.stats.infinity.currentAmount==Infinity){
             DoEternityReset()
+        }
+    }
+    //#endregion
+    //#region update UI
+    const UpdateUI = () =>{
+        if(mainMenuIndex==2){
+            UpdateReplicantiView()
         }
     }
     //#endregion
@@ -715,4 +835,5 @@ $(()=>{
     let mainMenuCallbacks=[GoToSettings, GoToInformation, GoToReplicanti]
     let tick=setInterval(DoTick, 25, 25)
     AddReplicantiUIEvents()
+    let uiUpdateTicker=setInterval(UpdateUI, 25)
 })
