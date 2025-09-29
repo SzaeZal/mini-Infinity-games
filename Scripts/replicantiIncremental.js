@@ -189,8 +189,6 @@ $(()=>{
         return null;
     };
 
-    let SaveInterval = setInterval(Save, 5000);
-
     const Load = () => {
         let playerJson = DecodePartialJwt();
         if (playerJson != null) {
@@ -199,12 +197,12 @@ $(()=>{
 
             CheckForMissingData();
 
-            if (player.options.save.autoSaveInterval == null) {
-                clearInterval(SaveInterval);
+            if (player.options.save.autoSaveInterval == 0) {
+                clearInterval(autoSaveInterval);
             } 
             else {
-                clearInterval(SaveInterval);
-                SaveInterval = setInterval(Save, player.options.save.autoSaveInterval);
+                clearInterval(autoSaveInterval);
+                autoSaveInterval = setInterval(Save, player.options.save.autoSaveInterval);
             }
         }
     };
@@ -362,11 +360,11 @@ $(()=>{
                 </div>
             </div>    
         `)
-        AddSettingsUISettingsUIEvents()
+        AddUISettingsUIEvents()
     }
     //#endregion
     //#region UI settings Events
-    const AddSettingsUISettingsUIEvents = () =>{
+    const AddUISettingsUIEvents = () =>{
         if(player.options.ui.subMenuShown==true){
             $("#saveSettingsSubMenuItem").on("click", ()=>{
                 subMenuIndexes[mainMenuIndex]=1
@@ -420,8 +418,94 @@ $(()=>{
     //#region Save settings
     const GoToSaveSettings = () =>{
         view.html(`
-            FISH    
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=hiddenSubMenu" : ""}>
+                <div id="UISettingsSubMenuItem" class="subMenuItem">
+                    UI Settings
+                </div>
+                <div class="subMenuItem selectedSubMenuItem">
+                    Save Settings
+                </div>
+            </div>
+            <div class="mainView">
+                <div class="settings">
+                    <div class="setting">
+                        <div class="settingTitle">
+                            Save Related
+                        </div>
+                        <div class="options">
+                            <div id="saveGame" class="option">
+                                Save
+                            </div>
+                            <div id="exportSaveToClipboard" class="option">
+                                Export Save to clipboard
+                            </div>
+                            <div id="importSave" class="option">
+                                Import Save
+                            </div>
+                            <div id="hardReset" class="option danger">
+                                Hard Reset
+                            </div>
+                        </div>
+                    </div>
+                    <div class="setting">
+                        <div class="settingTitle">
+                            Auto Save Rate
+                        </div>
+                        <div class="options">
+                            <div id="autoSaveRate1000Option" class="option ${player.options.save.saveIntervalInMs==1000 ? "selectedOption" : ""}">
+                                1 seconds
+                            </div>
+                            <div id="autoSaveRate2500Option" class="option ${player.options.save.saveIntervalInMs==2500 ? "selectedOption" : ""}">
+                                2.5 seconds
+                            </div>
+                            <div id="autoSaveRate5000Option" class="option ${player.options.save.saveIntervalInMs==5000 ? "selectedOption" : ""}">
+                                5 seconds
+                            </div>
+                            <div id="autoSaveRate10000Option" class="option ${player.options.save.saveIntervalInMs==10000 ? "selectedOption" : ""}">
+                                10 seconds
+                            </div>
+                            <div id="autoSaveRate0Option" class="option ${player.options.save.saveIntervalInMs==0 ? "selectedOption" : ""}">
+                                Disabled
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>        
         `)
+        AddSaveSettingsUIEvents()
+    }
+    //#endregion
+    //#region AddSaveSettingsUIEvents
+    const AddSaveSettingsUIEvents=()=>{
+        if(player.options.ui.subMenuShown==true){
+            $("#UISettingsSubMenuItem").on("click", ()=>{
+                subMenuIndexes[mainMenuIndex]=0
+                GoToUISettings()
+            })
+        }
+
+        $("#saveGame").on("click", ()=>Save())
+        $("#exportSaveToClipboard").on("click", ()=>ExportSaveToClipboard())
+        $("#importSave").on("click", ()=>{})
+        $("#hardReset").on("click", ()=>{})
+
+        $("#autoSaveRate1000Option").on("click", ()=>SetAutoSave(1000))
+        $("#autoSaveRate2500Option").on("click", ()=>SetAutoSave(2500))
+        $("#autoSaveRate5000Option").on("click", ()=>SetAutoSave(5000))
+        $("#autoSaveRate10000Option").on("click", ()=>SetAutoSave(10000))
+        $("#autoSaveRate0Option").on("click", ()=>SetAutoSave(0))
+
+    }
+    //#endregion
+    //#region SetAutoSave
+    const SetAutoSave = (newms)=>{
+        $(`#autoSaveRate${player.options.save.saveIntervalInMs}Option`).removeClass("selectedOption")
+        clearInterval(autoSaveInterval)
+        player.options.save.saveIntervalInMs=newms
+        if(player.options.save.saveIntervalInMs!=0){
+            autoSaveInterval=setInterval(Save, newms)
+        }
+        $(`#autoSaveRate${newms}Option`).addClass("selectedOption")
     }
     //#endregion
     //#region Information nav
@@ -847,4 +931,5 @@ $(()=>{
     let tick=setInterval(DoTick, 25, 25)
     AddReplicantiUIEvents()
     let uiUpdateTicker=setInterval(UpdateUI, 25)
+    let autoSaveInterval = setInterval(Save, 5000);
 })

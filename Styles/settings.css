@@ -25,11 +25,21 @@
 .option{
     font-size: xx-large;
     padding: 15px;
-    max-width: 100px;
+    min-width: 100px;
+    max-width: 175px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 2px gray solid;
 }
 .option:hover{
     border: 2px rgba(128, 128, 128, 0.5) solid;
+}
+.danger{
+    border: 2px red solid;
+}
+.danger:hover{
+    border: 2px brown solid;
 }
 
 .selectedOption{
