@@ -76,12 +76,12 @@ $(()=>{
             replicationMulti: 2,
             buyables:{
                 buyable1:{
-                    cost: 100,
-                    replicantiReplicationTimeDivider: 1 // 1.25
+                    cost: 128,
+                    replicantiReplicationTimeDivider: 1 // +1 per
                 },
                 buyable2:{
-                    cost: 1000,
-                    replicantiReplicationMultiMultiplier: 1 // +0.5 per
+                    cost: 1024,
+                    replicantiReplicationMultiMultiplier: 1 // *2 per
                 },
             }
         },
@@ -368,16 +368,20 @@ $(()=>{
                         <div id="replicantiBuyable1" class="buyable">
                             <div class="upgradeTitle">
                                 Replication Fastener <br> 
-                                level <span id="replicantiBuyable1Amount">0 / 4</span>
+                                level <span id="replicantiBuyable1Amount">${player.stats.replicanti.buyables.buyable1Amount}</span> / 4
                             </div>
                             <div class="upgradeDescription">
                                 Each level divides replication time by /+1 
                             </div>
                             <div id="replicantibuyable1Effect">
-                                Currently: /1
+                                Currently: /${playerStatsCalculated.replicanti.buyables.buyable1.replicantiReplicationTimeDivider}
                             </div>
                             <div id="replicantiBuyable1Cost">
-                                Cost: 128 replicanti
+                                Cost: ${
+                                    player.stats.replicanti.buyables.buyable1Amount==4 
+                                    ? 'Maxed' 
+                                    : FormatNumber(playerStatsCalculated.replicanti.buyables.buyable1.cost)+ " replicanti"
+                                } 
                             </div>
                             <div class="row">
                                 <div id="replicantiBuyable1BuyOne" class="buyableBuy1">Buy 1</div>
@@ -387,16 +391,20 @@ $(()=>{
                         <div id="replicantiBuyable2" class="buyable">
                             <div class="upgradeTitle">
                                 Replication Increaser <br> 
-                                level <span id="replicantiBuyable1Amount">0 / 4</span>
+                                level <span id="replicantiBuyable2Amount">${player.stats.replicanti.buyables.buyable2Amount}</span> / 4
                             </div>
                             <div class="upgradeDescription">
-                                Each level multiplies replication multi by x1.5 
+                                Each level multiplies replication multi by x2
                             </div>
                             <div id="replicantibuyable2Effect">
-                                Currently: x1
+                                Currently: x${playerStatsCalculated.replicanti.buyables.buyable2.replicantiReplicationMultiMultiplier}
                             </div>
                             <div id="replicantiBuyable2Cost">
-                                Cost: 1024 replicanti
+                                Cost: ${
+                                    player.stats.replicanti.buyables.buyable2Amount==4 
+                                    ? 'Maxed' 
+                                    : FormatNumber(playerStatsCalculated.replicanti.buyables.buyable2.cost)+ " replicanti"
+                                } 
                             </div>
                             <div class="row ">
                                 <div id="replicantiBuyable2BuyOne" class="buyableBuy1">Buy 1</div>
@@ -413,11 +421,102 @@ $(()=>{
                 </div>
             </div>
         `)
+        AddReplicantiUIEvents()
+    }
+    //#endregion
+    //#region replicanti ui events
+    const AddReplicantiUIEvents=()=>{
+        $("#replicantiBuyable1BuyOne").on("click", ()=>{
+            if(player.stats.replicanti.currentAmount>=playerStatsCalculated.replicanti.buyables.buyable1.cost){
+                PurchaseReplicantiBuyable1()
+                UpdateReplicantiBuyable1UI()
+                UpdateReplicantiView()
+            }
+        })
+        $("#replicantiBuyable1BuyMax").on("click", ()=>{
+            while(player.stats.replicanti.currentAmount>=playerStatsCalculated.replicanti.buyables.buyable1.cost
+                && player.stats.replicanti.buyables.buyable1Amount<4
+            ){
+                PurchaseReplicantiBuyable1()
+                UpdateReplicantiBuyable1UI()
+                UpdateReplicantiView()
+            }
+        })
+        $("#replicantiBuyable2BuyOne").on("click", ()=>{
+            if(player.stats.replicanti.currentAmount>=playerStatsCalculated.replicanti.buyables.buyable2.cost){
+                PurchaseReplicantiBuyable2()
+                UpdateReplicantiBuyable2UI()
+                UpdateReplicantiView()
+            }
+        })
+        $("#replicantiBuyable2BuyMax").on("click", ()=>{
+            while(player.stats.replicanti.currentAmount>=playerStatsCalculated.replicanti.buyables.buyable2.cost
+                && player.stats.replicanti.buyables.buyable2Amount < 4
+            ){
+                PurchaseReplicantiBuyable2()
+                UpdateReplicantiBuyable2UI()
+                UpdateReplicantiView()
+            }
+        })
+    }
+    //#endregion
+    //#region Replicanti Buyables
+    const PurchaseReplicantiBuyable1 = ()=>{
+        if(player.stats.replicanti.buyables.buyable1Amount<4){
+            player.stats.replicanti.buyables.buyable1Amount++
+            player.stats.replicanti.currentAmount/=playerStatsCalculated.replicanti.buyables.buyable1.cost
+            playerStatsCalculated.replicanti.buyables.buyable1.replicantiReplicationTimeDivider= 1 + 
+                player.stats.replicanti.buyables.buyable1Amount
+            playerStatsCalculated.replicanti.buyables.buyable1.cost=Math.pow(
+                128,
+                Math.pow(
+                    player.stats.replicanti.buyables.buyable1Amount+1,
+                    2
+                )
+            )
+            CalculateReplicantiReplicationTime()
+        }
+    }
+
+    const UpdateReplicantiBuyable1UI=()=>{
+        $("#replicantiBuyable1Amount").text(`${player.stats.replicanti.buyables.buyable1Amount}`)
+        $("#replicantibuyable1Effect").text(`Currently: /${playerStatsCalculated.replicanti.buyables.buyable1.replicantiReplicationTimeDivider}`)
+        $("#replicantiBuyable1Cost").text(`Cost: ${player.stats.replicanti.currentAmount==4 ? 'Maxed' : FormatNumber(playerStatsCalculated.replicanti.buyables.buyable1.cost)}`)
+    }
+
+    const PurchaseReplicantiBuyable2 = ()=>{
+        if(player.stats.replicanti.buyables.buyable2Amount<4){
+            player.stats.replicanti.buyables.buyable2Amount++
+            player.stats.replicanti.currentAmount/=playerStatsCalculated.replicanti.buyables.buyable2.cost
+            playerStatsCalculated.replicanti.buyables.buyable2.replicantiReplicationMultiMultiplier= 1*
+                Math.pow(
+                    2,
+                    player.stats.replicanti.buyables.buyable1Amount
+                ) 
+            playerStatsCalculated.replicanti.buyables.buyable2.cost=Math.pow(
+                1024,
+                Math.pow(
+                    player.stats.replicanti.buyables.buyable2Amount+1,
+                    2
+                )
+            )
+            CalculateReplicantiReplicationMulti()
+        }
+    }
+
+    const UpdateReplicantiBuyable2UI=()=>{
+        $("#replicantiBuyable2Amount").text(`${player.stats.replicanti.buyables.buyable2Amount}`)
+        $("#replicantibuyable2Effect").text(`Currently: x${playerStatsCalculated.replicanti.buyables.buyable2.replicantiReplicationMultiMultiplier}`)
+        $("#replicantiBuyable2Cost").text(`Cost: ${FormatNumber(playerStatsCalculated.replicanti.buyables.buyable2.cost)}`)
     }
     //#endregion
     //#region replicanti replication
     const DoReplicantiReplication = ()=>{
         player.stats.replicanti.currentAmount*=playerStatsCalculated.replicanti.replicationMulti
+        if(player.stats.replicanti.currentAmount==Infinity){
+            DoInfinityReset()
+        }
+        
         if(mainMenuIndex==2){
             UpdateReplicantiView()
         }
@@ -431,13 +530,14 @@ $(()=>{
 
     const CalculateReplicantiReplicationTime = ()=>{
         playerStatsCalculated.replicanti.replicationTimeInMs=1000 / (
+            playerStatsCalculated.replicanti.buyables.buyable1.replicantiReplicationTimeDivider*
             1
         )
     }
 
     const CalculateReplicantiReplicationMulti = ()=>{
         playerStatsCalculated.replicanti.replicationMulti=2 
-        * 1
+        * playerStatsCalculated.replicanti.buyables.buyable2.replicantiReplicationMultiMultiplier
     }
     //#endregion
     //#region Replicanti UI update
@@ -457,8 +557,14 @@ $(()=>{
     const ResetReplicantiLayer = (layerReset) =>{
         player.stats.replicanti.currentAmount=1
         player.stats.replicanti.buyables.buyable1Amount=0
+        playerStatsCalculated.replicanti.buyables.buyable1.cost=128
+        playerStatsCalculated.replicanti.buyables.buyable1.replicantiReplicationTimeDivider=1
         player.stats.replicanti.buyables.buyable2Amount=0
+        playerStatsCalculated.replicanti.buyables.buyable2.cost=1024
+        playerStatsCalculated.replicanti.buyables.buyable2.replicantiReplicationMultiMultiplier=1
         CalculateReplicantiBoosts()
+        UpdateReplicantiBuyable1UI()
+        UpdateReplicantiBuyable2UI()
     }
     //#endregion
     //#region Infinity nav
@@ -564,7 +670,7 @@ $(()=>{
     const DoTick = (ms)=>{
         totalTimeSinceReplicationInMs+=ms
         if(mainMenuIndex==2){
-            $("#replicationTimer").text(`${totalTimeSinceReplicationInMs} / ${playerStatsCalculated.replicanti.replicationTimeInMs} ms`)
+            $("#replicationTimer").text(`${FormatNumber(totalTimeSinceReplicationInMs)} / ${FormatNumber(playerStatsCalculated.replicanti.replicationTimeInMs)} ms`)
             $("#replicationTimer").css("background-image", `linear-gradient(
                 to right, 
                 grey,
@@ -578,10 +684,6 @@ $(()=>{
         while(totalTimeSinceReplicationInMs>=playerStatsCalculated.replicanti.replicationTimeInMs){
             totalTimeSinceReplicationInMs-=playerStatsCalculated.replicanti.replicationTimeInMs
             DoReplicantiReplication()
-        }
-
-        if(player.stats.replicanti.currentAmount==Infinity){
-            DoInfinityReset()
         }
 
         if(player.stats.infinity.currentAmount==Infinity){
@@ -612,5 +714,5 @@ $(()=>{
     }
     let mainMenuCallbacks=[GoToSettings, GoToInformation, GoToReplicanti]
     let tick=setInterval(DoTick, 25, 25)
-    
+    AddReplicantiUIEvents()
 })
