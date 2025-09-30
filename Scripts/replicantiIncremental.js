@@ -252,9 +252,13 @@ $(()=>{
     })
     //#endregion
     //#region notification
+    let notificationIds=[0]
+    let notificationHiders=[]
+
     const ShowNotification=(notificationTitle, notificationText, notificationType)=>{
+        let currentId=notificationIds[notificationIds.length-1]
         $("#notifications").append(`
-            <div class="notification notification${notificationType}">
+            <div class="notification notification${notificationType}" id="notification${currentId}">
                 ${  notificationTitle!=""
                     ? `
                         ${notificationText}
@@ -264,8 +268,16 @@ $(()=>{
                 ${notificationText}
             </div>    
         `)
+
+        
+        notificationHiders.push(setTimeout(()=>{
+            $(`#notification${currentId}`).addClass("hiddenNotification")
+        }, 4000))
+
+        notificationIds.push(notificationIds.length)
     }
     ShowNotification("", "success", "Success")
+    setTimeout(ShowNotification, 2000,  "", "Fail", "Warning")
     //#endregion
     //#region menu navigation
     const view = $("#view")

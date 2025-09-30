@@ -1,3 +1,23 @@
+@keyframes notificationAppear {
+    0%{    
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+@keyframes notificationHide {
+    0%{  
+        display: flex;  
+        opacity: 1;
+    }
+    100%{
+        display: none;
+        opacity: 0;
+    }
+}
+
 #notifications{
     position:absolute;
     left: 100vw;
@@ -11,11 +31,17 @@
 .notification{
     width: 200px;
     padding: 10px;
-    display: flex;
-    flex-direction: column;
     gap: 5px;
     text-align: center;
     font-size: xx-large;
+    display: flex;
+    flex-direction: column;
+    animation: notificationAppear 0.7s linear;
+}
+
+.hiddenNotification{
+    animation: notificationHide 0.7s linear;
+    display: none;
 }
 
 .notificationInformation{
