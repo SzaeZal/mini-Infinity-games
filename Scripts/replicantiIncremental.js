@@ -261,7 +261,7 @@ $(()=>{
             <div class="notification notification${notificationType}" id="notification${currentId}">
                 ${  notificationTitle!=""
                     ? `
-                        ${notificationText}
+                        ${notificationTitle}
                         <hr>
                     ` : ""
                 }
@@ -276,8 +276,6 @@ $(()=>{
 
         notificationIds.push(notificationIds.length)
     }
-    ShowNotification("", "success", "Success")
-    setTimeout(ShowNotification, 2000,  "", "Fail", "Warning")
     //#endregion
     //#region menu navigation
     const view = $("#view")
@@ -523,6 +521,13 @@ $(()=>{
         $("#autoSaveRate10000Option").on("click", ()=>SetAutoSave(10000))
         $("#autoSaveRate0Option").on("click", ()=>SetAutoSave(0))
 
+    }
+    //#endregion
+    //#region Export Save to clipboard
+    const ExportSaveToClipboard = ()=>{
+        let save= localStorage.getItem("replicantiIncSave")
+        navigator.clipboard.writeText(save);
+        ShowNotification("Success", "Save exported to clipboard", "Success")
     }
     //#endregion
     //#region SetAutoSave
