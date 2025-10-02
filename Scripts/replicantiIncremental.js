@@ -579,7 +579,7 @@ $(()=>{
             </div>
             <div class="mainView">
                 <div class="gameRelatedMainInfo">
-                    <div class="gameTitle">
+                    <div class="informationGameTitle">
                         mini-Infinity-games <br> Replicanti Incremental
                     </div>
                     <div class="gameVersion">
@@ -618,23 +618,25 @@ $(()=>{
             </div>
             <div class="mainView">
                 <div class="changelog">
-                    <div class="changelogVersion">
-                        V1: This feels familiar
-                    </div>
-                    <div class="changelogChanges">
-                        <ul>
-                            <li>Initial release</li>
-                            <li>Added replicanti layer</li>
-                            <li>Added replicanti buyables</li>
-                            <li>Added infinity layer</li>
-                            <li>Added infinity upgrades</li>
-                            <li>Added infinity buyables</li>
-                            <li>Added eternity layer</li>
-                            <li>Added eternity upgrades</li>
-                            <li>Added eternity buyables</li>
-                            <li>Added eternity challenges</li>
-                            <li>Added settings</li>
-                        </ul>
+                    <div class="version">
+                        <div class="changelogVersionName">
+                            V1: This feels familiar
+                        </div>
+                        <div class="changelogChanges">
+                            <ul>
+                                <li>Initial release</li>
+                                <li>Added replicanti layer</li>
+                                <li>Added replicanti buyables</li>
+                                <li>Added infinity layer</li>
+                                <li>Added infinity upgrades</li>
+                                <li>Added infinity buyables</li>
+                                <li>Added eternity layer</li>
+                                <li>Added eternity upgrades</li>
+                                <li>Added eternity buyables</li>
+                                <li>Added eternity challenges</li>
+                                <li>Added settings</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>    

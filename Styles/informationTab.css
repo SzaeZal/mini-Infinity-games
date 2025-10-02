@@ -1,0 +1,40 @@
+.informationGameTitle {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    text-align: center;
+}
+.gameVersion {
+    font-size: 1.7em;
+    margin-bottom: 0.5em;
+    text-align: center;
+}
+.gameAuthor {
+    font-size: 1.5em;
+    text-align: center;
+}
+.changelog{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    margin-top: 1em;
+}
+.changelogVersionName {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    text-align: center;
+}
+.changelogChanges {
+    margin-left: 20px;
+    font-size: 1.2em;
+    width: fit-content;
+    margin: auto;
+}
+.changelogChangesList>li {
+    margin-bottom: 0.3em;
+}
+.changelogChangesList>li>ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
