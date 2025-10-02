@@ -553,7 +553,7 @@ $(()=>{
     })
 
     const GoToInformation = () =>{
-        switch(subMenuIndexes[0]){
+        switch(subMenuIndexes[1]){
             case 0:
                 GoToMainInformation();
                 break;
@@ -565,17 +565,91 @@ $(()=>{
                 break;
         }
     }
-
+    //#endregion
+    //#region GoToMainInformation
     const GoToMainInformation = () =>{
         view.html(`
-            FISH    
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=hiddenSubMenu" : ""}>
+                <div class="subMenuItem selectedSubMenuItem">
+                    Main
+                </div>
+                <div id="changelogSubMenuItem" class="subMenuItem interactable">
+                    Changelog
+                </div>
+            </div>
+            <div class="mainView">
+                <div class="gameRelatedMainInfo">
+                    <div class="gameTitle">
+                        mini-Infinity-games <br> Replicanti Incremental
+                    </div>
+                    <div class="gameVersion">
+                        V1: This feels familiar
+                    </div>
+                    <div class="gameAuthor">
+                        Made by SzaeZal
+                    </div>
+                </div>
+            </div>
         `)
-    }
 
+        AddMainInformationUIEvents()
+    }
+    //#endregion
+    //#region AddMainInformationUIEvents
+    const AddMainInformationUIEvents=()=>{
+        if(player.options.ui.subMenuShown==true){
+            $("#changelogSubMenuItem").on("click", ()=>{
+                subMenuIndexes[mainMenuIndex]=1
+                GoToChangelogInformation()
+            })
+        }
+    }
+    //#endregion
+    //#region GoToChangelogInformation
     const GoToChangelogInformation = () =>{
         view.html(`
-            FISH    
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=hiddenSubMenu" : ""}>
+                <div class="subMenuItem interactable" id="mainInformationSubMenuItem">
+                    Main
+                </div>
+                <div class="subMenuItem selectedSubMenuItem">
+                    Changelog
+                </div>
+            </div>
+            <div class="mainView">
+                <div class="changelog">
+                    <div class="changelogVersion">
+                        V1: This feels familiar
+                    </div>
+                    <div class="changelogChanges">
+                        <ul>
+                            <li>Initial release</li>
+                            <li>Added replicanti layer</li>
+                            <li>Added replicanti buyables</li>
+                            <li>Added infinity layer</li>
+                            <li>Added infinity upgrades</li>
+                            <li>Added infinity buyables</li>
+                            <li>Added eternity layer</li>
+                            <li>Added eternity upgrades</li>
+                            <li>Added eternity buyables</li>
+                            <li>Added eternity challenges</li>
+                            <li>Added settings</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>    
         `)
+        AddChangelogInformationUIEvents()
+    }
+    //#endregion
+    //#region AddChangelogInformationUIEvents
+    const AddChangelogInformationUIEvents=()=>{
+        if(player.options.ui.subMenuShown==true){
+            $("#mainInformationSubMenuItem").on("click", ()=>{
+                subMenuIndexes[mainMenuIndex]=0
+                GoToMainInformation()
+            })
+        }
     }
     //#endregion
     //#region Replicanti nav
@@ -726,7 +800,7 @@ $(()=>{
             playerStatsCalculated.replicanti.buyables.buyable2.replicantiReplicationMultiMultiplier= 1*
                 Math.pow(
                     2,
-                    player.stats.replicanti.buyables.buyable1Amount
+                    player.stats.replicanti.buyables.buyable2Amount
                 ) 
             playerStatsCalculated.replicanti.buyables.buyable2.cost=Math.pow(
                 1024,
