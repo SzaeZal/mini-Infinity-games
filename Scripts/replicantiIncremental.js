@@ -258,7 +258,7 @@ $(()=>{
     const ShowNotification=(notificationTitle, notificationText, notificationType)=>{
         let currentId=notificationIds[notificationIds.length-1]
         $("#notifications").append(`
-            <div class="notification notification${notificationType}" id="notification${currentId}">
+            <div class="notification notification${notificationType} interactable" id="notification${currentId}">
                 ${  notificationTitle!=""
                     ? `
                         ${notificationTitle}
@@ -273,6 +273,11 @@ $(()=>{
         notificationHiders.push(setTimeout(()=>{
             $(`#notification${currentId}`).addClass("hiddenNotification")
         }, 4000))
+
+        $("#notification"+currentId).on("click", ()=>{
+            clearTimeout(notificationHiders[currentId])
+            $(`#notification${currentId}`).addClass("hiddenNotification")
+        })
 
         notificationIds.push(notificationIds.length)
     }
@@ -329,7 +334,7 @@ $(()=>{
                 <div class="subMenuItem selectedSubMenuItem">
                     UI Settings
                 </div>
-                <div id="saveSettingsSubMenuItem" class="subMenuItem">
+                <div id="saveSettingsSubMenuItem" class="subMenuItem interactable">
                     Save Settings
                 </div>
             </div>
@@ -340,10 +345,10 @@ $(()=>{
                             Theme
                         </div>
                         <div class="options">
-                            <div id="themeDarkOption" class="option ${player.options.ui.theme=="Dark" ? "selectedOption" : ""}">
+                            <div id="themeDarkOption" class="option interactable ${player.options.ui.theme=="Dark" ? "selectedOption" : ""}">
                                 Dark
                             </div>
-                            <div id="themeLightOption" class="option ${player.options.ui.theme=="Light" ? "selectedOption" : ""}">
+                            <div id="themeLightOption" class="option interactable ${player.options.ui.theme=="Light" ? "selectedOption" : ""}">
                                 Light
                             </div>
                         </div>
@@ -353,10 +358,10 @@ $(()=>{
                             Sub menu display
                         </div>
                         <div class="options">
-                            <div id="subMenuDisplayShownOption" class="option ${player.options.ui.subMenuShown==true ? "selectedOption" : ""}">
+                            <div id="subMenuDisplayShownOption" class="option interactable ${player.options.ui.subMenuShown==true ? "selectedOption" : ""}">
                                 Shown
                             </div>
-                            <div id="subMenuDisplayHiddenOption" class="option ${player.options.ui.subMenuShown==false ? "selectedOption" : ""}">
+                            <div id="subMenuDisplayHiddenOption" class="option interactable ${player.options.ui.subMenuShown==false ? "selectedOption" : ""}">
                                 Hidden
                             </div>
                         </div>
@@ -366,19 +371,19 @@ $(()=>{
                             UI update Rate
                         </div>
                         <div class="options">
-                            <div id="uiUpdateRate25Option" class="option ${player.options.ui.uiUpdateRateInMs==25 ? "selectedOption" : ""}">
+                            <div id="uiUpdateRate25Option" class="option interactable ${player.options.ui.uiUpdateRateInMs==25 ? "selectedOption" : ""}">
                                 25 ms
                             </div>
-                            <div id="uiUpdateRate50Option" class="option ${player.options.ui.uiUpdateRateInMs==50 ? "selectedOption" : ""}">
+                            <div id="uiUpdateRate50Option" class="option interactable ${player.options.ui.uiUpdateRateInMs==50 ? "selectedOption" : ""}">
                                 50 ms 
                             </div>
-                            <div id="uiUpdateRate100Option" class="option ${player.options.ui.uiUpdateRateInMs==100 ? "selectedOption" : ""}">
+                            <div id="uiUpdateRate100Option" class="option interactable ${player.options.ui.uiUpdateRateInMs==100 ? "selectedOption" : ""}">
                                 100 ms 
                             </div>
-                            <div id="uiUpdateRate150Option" class="option ${player.options.ui.uiUpdateRateInMs==150 ? "selectedOption" : ""}">
+                            <div id="uiUpdateRate150Option" class="option interactable ${player.options.ui.uiUpdateRateInMs==150 ? "selectedOption" : ""}">
                                 150 ms 
                             </div>
-                            <div id="uiUpdateRate250Option" class="option ${player.options.ui.uiUpdateRateInMs==250 ? "selectedOption" : ""}">
+                            <div id="uiUpdateRate250Option" class="option interactable ${player.options.ui.uiUpdateRateInMs==250 ? "selectedOption" : ""}">
                                 250 ms 
                             </div>
                         </div>
@@ -445,7 +450,7 @@ $(()=>{
     const GoToSaveSettings = () =>{
         view.html(`
             <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=hiddenSubMenu" : ""}>
-                <div id="UISettingsSubMenuItem" class="subMenuItem">
+                <div id="UISettingsSubMenuItem" class="subMenuItem interactable">
                     UI Settings
                 </div>
                 <div class="subMenuItem selectedSubMenuItem">
@@ -459,16 +464,16 @@ $(()=>{
                             Save Related
                         </div>
                         <div class="options">
-                            <div id="saveGame" class="option">
+                            <div id="saveGame" class="option interactable">
                                 Save
                             </div>
-                            <div id="exportSaveToClipboard" class="option">
+                            <div id="exportSaveToClipboard" class="option interactable">
                                 Export Save to clipboard
                             </div>
-                            <div id="importSave" class="option">
+                            <div id="importSave" class="option interactable">
                                 Import Save
                             </div>
-                            <div id="hardReset" class="option danger">
+                            <div id="hardReset" class="option danger interactable">
                                 Hard Reset
                             </div>
                         </div>
@@ -478,19 +483,19 @@ $(()=>{
                             Auto Save Rate
                         </div>
                         <div class="options">
-                            <div id="autoSaveRate1000Option" class="option ${player.options.save.saveIntervalInMs==1000 ? "selectedOption" : ""}">
+                            <div id="autoSaveRate1000Option" class="option interactable ${player.options.save.saveIntervalInMs==1000 ? "selectedOption" : ""}">
                                 1 seconds
                             </div>
-                            <div id="autoSaveRate2500Option" class="option ${player.options.save.saveIntervalInMs==2500 ? "selectedOption" : ""}">
+                            <div id="autoSaveRate2500Option" class="option interactable ${player.options.save.saveIntervalInMs==2500 ? "selectedOption" : ""}">
                                 2.5 seconds
                             </div>
-                            <div id="autoSaveRate5000Option" class="option ${player.options.save.saveIntervalInMs==5000 ? "selectedOption" : ""}">
+                            <div id="autoSaveRate5000Option" class="option interactable ${player.options.save.saveIntervalInMs==5000 ? "selectedOption" : ""}">
                                 5 seconds
                             </div>
-                            <div id="autoSaveRate10000Option" class="option ${player.options.save.saveIntervalInMs==10000 ? "selectedOption" : ""}">
+                            <div id="autoSaveRate10000Option" class="option interactable ${player.options.save.saveIntervalInMs==10000 ? "selectedOption" : ""}">
                                 10 seconds
                             </div>
-                            <div id="autoSaveRate0Option" class="option ${player.options.save.saveIntervalInMs==0 ? "selectedOption" : ""}">
+                            <div id="autoSaveRate0Option" class="option interactable ${player.options.save.saveIntervalInMs==0 ? "selectedOption" : ""}">
                                 Disabled
                             </div>
                         </div>
@@ -614,8 +619,8 @@ $(()=>{
                                 } 
                             </div>
                             <div class="row">
-                                <div id="replicantiBuyable1BuyOne" class="buyableBuy1">Buy 1</div>
-                                <div id="replicantiBuyable1BuyMax" class="buyableBuyMax">Buy Max</div>
+                                <div id="replicantiBuyable1BuyOne" class="buyableBuy1 interactable">Buy 1</div>
+                                <div id="replicantiBuyable1BuyMax" class="buyableBuyMax interactable">Buy Max</div>
                             </div>
                         </div>
                         <div id="replicantiBuyable2" class="buyable">
@@ -637,8 +642,8 @@ $(()=>{
                                 } 
                             </div>
                             <div class="row ">
-                                <div id="replicantiBuyable2BuyOne" class="buyableBuy1">Buy 1</div>
-                                <div id="replicantiBuyable2BuyMax" class="buyableBuyMax">Buy Max</div>
+                                <div id="replicantiBuyable2BuyOne" class="buyableBuy1 interactable">Buy 1</div>
+                                <div id="replicantiBuyable2BuyMax" class="buyableBuyMax interactable">Buy Max</div>
                             </div>
                         </div>
                     </div>
@@ -737,7 +742,7 @@ $(()=>{
     const UpdateReplicantiBuyable2UI=()=>{
         $("#replicantiBuyable2Amount").text(`${player.stats.replicanti.buyables.buyable2Amount}`)
         $("#replicantibuyable2Effect").text(`Currently: x${playerStatsCalculated.replicanti.buyables.buyable2.replicantiReplicationMultiMultiplier}`)
-        $("#replicantiBuyable2Cost").text(`Cost: ${FormatNumber(playerStatsCalculated.replicanti.buyables.buyable2.cost)+ " replicanti"} `)
+        $("#replicantiBuyable2Cost").text(`Cost: ${player.stats.replicanti.buyables.buyable2Amount==4 ? "Maxed" : FormatNumber(playerStatsCalculated.replicanti.buyables.buyable2.cost)+ " replicanti"} `)
     }
     //#endregion
     //#region replicanti replication
@@ -786,7 +791,7 @@ $(()=>{
             transparent
         )`)
 
-        if(player.stats.replicanti.currentAmount>=playerStatsCalculated.replicanti.buyables.buyable1.cost){
+        if(player.stats.replicanti.currentAmount>=playerStatsCalculated.replicanti.buyables.buyable1.cost && player.stats.replicanti.buyables.buyable1Amount<4){
             $("#replicantiBuyable1BuyOne").addClass("buyablePurchaseAble")
             $("#replicantiBuyable1BuyMax").addClass("buyablePurchaseAble")
         }
@@ -794,7 +799,7 @@ $(()=>{
             $("#replicantiBuyable1BuyOne").removeClass("buyablePurchaseAble")
             $("#replicantiBuyable1BuyMax").removeClass("buyablePurchaseAble")
         }
-        if(player.stats.replicanti.currentAmount>=playerStatsCalculated.replicanti.buyables.buyable2.cost){
+        if(player.stats.replicanti.currentAmount>=playerStatsCalculated.replicanti.buyables.buyable2.cost && player.stats.replicanti.buyables.buyable2Amount<4){
             $("#replicantiBuyable2BuyOne").addClass("buyablePurchaseAble")
             $("#replicantiBuyable2BuyMax").addClass("buyablePurchaseAble")
         }
@@ -830,7 +835,7 @@ $(()=>{
     const UnlockInfinity = ()=>{
         player.stats.infinity.unlocked=true
         $("#infinity").text("Infinity")
-
+        $("#infinity").addClass("interactable")
         $("#infinity").on("click", ()=>{
             mainMenuIndex=3
             GoToInfinity()
@@ -888,7 +893,7 @@ $(()=>{
     const UnlockEternity = ()=>{
         player.stats.eternity.unlocked=true
         $("#eternity").text("Eternity")
-
+        $("#eternity").addClass("interactable")
         $("#eternity").on("click", ()=>{
             mainMenuIndex=4
             GoToEternity()
