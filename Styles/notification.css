@@ -27,13 +27,14 @@
     flex-direction: column;
     gap: 35px;
     z-index: 999;
+    overflow: hidden;
 }
 .notification{
     width: 200px;
     padding: 10px;
     gap: 5px;
     text-align: center;
-    font-size: xx-large;
+    font-size: x-large;
     display: flex;
     flex-direction: column;
     animation: notificationAppear 0.7s linear;

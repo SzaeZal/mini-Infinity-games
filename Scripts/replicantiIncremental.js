@@ -261,7 +261,7 @@ $(()=>{
             <div class="notification notification${notificationType} interactable" id="notification${currentId}">
                 ${  notificationTitle!=""
                     ? `
-                        ${notificationTitle}
+                        <h5>${notificationTitle}</h5>
                         <hr>
                     ` : ""
                 }
@@ -280,6 +280,41 @@ $(()=>{
         })
 
         notificationIds.push(notificationIds.length)
+    }
+    //#endregion
+    //#region dialog box
+    const ShowDialogBox=(dialogTitle, dialogText, dialogType, callbackYes, callbackNo)=>{
+        $("#dialogBox").html(`
+            <div class="dialogBoxContainer dialogBox${dialogType}">
+                <div class="dialogBoxHeader">
+                    ${dialogTitle}
+                    <div id="closeDialogBox" class="closeDialogBox interactable">&#10005;</div>
+                </div>
+                <div class="dialogBoxContent">
+                    ${dialogText}
+                </div>
+                <div class="dialogBoxButtons">
+                    <div id="dialogBoxCancel" class="dialogBoxButton dialogBoxButton${dialogType} interactable">Cancel</div>
+                    <div id="dialogBoxYes" class="dialogBoxButton dialogBoxButton${dialogType} interactable">Yes</div>
+                </div>
+            </div>
+        `)
+        $("#dialogBox").removeClass("hiddenDialogBox")
+        AddDialogBoxEvents(callbackYes, callbackNo)
+    }
+
+    const AddDialogBoxEvents=(callbackYes, callbackNo)=>{
+        $("#closeDialogBox").on("click", ()=>{
+            $("#dialogBox").addClass("hiddenDialogBox")
+        })
+        $("#dialogBoxCancel").on("click", ()=>{
+            $("#dialogBox").addClass("hiddenDialogBox")
+            if(callbackNo) callbackNo()
+        })
+        $("#dialogBoxYes").on("click", ()=>{
+            callbackYes()
+            $("#dialogBox").addClass("hiddenDialogBox")
+        })
     }
     //#endregion
     //#region menu navigation
@@ -518,7 +553,7 @@ $(()=>{
         $("#saveGame").on("click", ()=>Save())
         $("#exportSaveToClipboard").on("click", ()=>ExportSaveToClipboard())
         $("#importSave").on("click", ()=>{})
-        $("#hardReset").on("click", ()=>{})
+        $("#hardReset").on("click", ()=>{ ShowDialogBox("Hard Reset", "Are you sure you want to hard reset? This action is irreversible.", "Danger", HardReset)})
 
         $("#autoSaveRate1000Option").on("click", ()=>SetAutoSave(1000))
         $("#autoSaveRate2500Option").on("click", ()=>SetAutoSave(2500))
