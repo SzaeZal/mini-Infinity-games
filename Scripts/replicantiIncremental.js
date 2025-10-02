@@ -162,60 +162,7 @@ $(()=>{
         }
     }
     //#endregion
-    //#region  saving and loading 
-    const Save = () => {
-        const playerParsedToJson = JSON.stringify(player);
-        let jwt = CreatePartialJWT(playerParsedToJson);
-        localStorage.setItem("replicantiIncSave", jwt);
-    };
-
-    const CreatePartialJWT = (payloadInJson) => {
-        let payloadInBase64 = btoa(payloadInJson);
-        let signatureInBase64 = btoa(JSON.stringify("LeastObviousSignature"));
-        let jwt = payloadInBase64 + "." + signatureInBase64;
-        return jwt;
-    };
-
-    const DecodePartialJwt = () => {
-        let jwt = localStorage.getItem("replicantiIncSave");
-        if (jwt != null) {
-            let [payload, signature] = jwt.split(".");
-            if (JSON.parse(atob(signature)) != "LeastObviousSignature") {
-                alert("Ey man how about you don't alter the localstorage aight?");
-                return null;
-            }
-            return atob(payload);
-        }
-        return null;
-    };
-
-    const Load = () => {
-        let playerJson = DecodePartialJwt();
-        if (playerJson != null) {
-            let playerParsed = JSON.parse(playerJson);
-            player = Object.assign({}, player, playerParsed);
-
-            CheckForMissingData();
-
-            if (player.options.save.autoSaveInterval == 0) {
-                clearInterval(autoSaveInterval);
-            } 
-            else {
-                clearInterval(autoSaveInterval);
-                autoSaveInterval = setInterval(Save, player.options.save.autoSaveInterval);
-            }
-        }
-    };
-
-    const CheckForMissingData = () => {
-        // use if I change player object
-    };
-
-    const HardReset = () => {
-        localStorage.removeItem("replicantiIncSave");
-        location.reload();
-    };
-    //#endregion
+    
     //#region sidebar open-close
     let sidebar = $("#sidebar")
     let isSidebarOpen=true
@@ -552,7 +499,8 @@ $(()=>{
 
         $("#saveGame").on("click", ()=>Save())
         $("#exportSaveToClipboard").on("click", ()=>ExportSaveToClipboard())
-        $("#importSave").on("click", ()=>{})
+        $("#importSave").on("click", ()=>{ ShowDialogBox("Import Save",
+             "Importing a save will overwrite your current save. <br> <textarea id='dialogBoxTextarea' placeholder='paste your save here'> </textarea>", "Warning", ImportSave)})
         $("#hardReset").on("click", ()=>{ ShowDialogBox("Hard Reset", "Are you sure you want to hard reset? This action is irreversible.", "Danger", HardReset)})
 
         $("#autoSaveRate1000Option").on("click", ()=>SetAutoSave(1000))
@@ -923,6 +871,26 @@ $(()=>{
         UpdateReplicantiBuyable2UI()
     }
     //#endregion
+    //#region updateReplicantiBuyablesAfterLoad
+    const UpdateReplicantiBuyablesAfterLoad = ()=>{
+        playerStatsCalculated.replicanti.buyables.buyable1.replicantiReplicationTimeDivider= 1 + player.stats.replicanti.buyables.buyable1Amount
+        playerStatsCalculated.replicanti.buyables.buyable1.cost=Math.pow(
+            128,
+            Math.pow(
+                player.stats.replicanti.buyables.buyable1Amount+1,
+                2
+            )
+        )
+        playerStatsCalculated.replicanti.buyables.buyable2.replicantiReplicationMultiMultiplier= 1* Math.pow(2, player.stats.replicanti.buyables.buyable2Amount)
+        playerStatsCalculated.replicanti.buyables.buyable2.cost=Math.pow(
+            1024,
+            Math.pow(
+                player.stats.replicanti.buyables.buyable2Amount+1,
+                2
+            )
+        )
+    }
+    //#endregion
     //#region Reset Replicanti layer
     const ResetReplicantiLayer = (layerReset) =>{
         player.stats.replicanti.currentAmount=1
@@ -1078,7 +1046,86 @@ $(()=>{
     }
     let mainMenuCallbacks=[GoToSettings, GoToInformation, GoToReplicanti]
     let tick=setInterval(DoTick, 25, 25)
-    AddReplicantiUIEvents()
     let uiUpdateTicker=setInterval(UpdateUI, 25)
+
+    AddReplicantiUIEvents()
+    //#region  saving and loading 
+    const Save = () => {
+        const playerParsedToJson = JSON.stringify(player);
+        let jwt = CreatePartialJWT(playerParsedToJson);
+        localStorage.setItem("replicantiIncSave", jwt);
+    };
+
+    const CreatePartialJWT = (payloadInJson) => {
+        let payloadInBase64 = btoa(payloadInJson);
+        let signatureInBase64 = btoa(JSON.stringify("LeastObviousSignature"));
+        let jwt = payloadInBase64 + "." + signatureInBase64;
+        return jwt;
+    };
+
+    const DecodePartialJwt = () => {
+        let jwt = localStorage.getItem("replicantiIncSave");
+        if (jwt != null) {
+            let [payload, signature] = jwt.split(".");
+            if (JSON.parse(atob(signature)) != "LeastObviousSignature") {
+                alert("Ey man how about you don't alter the localstorage aight?");
+                return null;
+            }
+            return atob(payload);
+        }
+        return null;
+    };
+    
     let autoSaveInterval = setInterval(Save, 5000);
+
+    const Load = () => {
+        let playerJson = DecodePartialJwt();
+        try {
+            let playerParsed = JSON.parse(playerJson);
+            player = Object.assign({}, player, playerParsed);
+
+            CheckForMissingData();
+
+            if (player.options.save.autoSaveInterval == 0) {
+                clearInterval(autoSaveInterval);
+            } 
+            else {
+                clearInterval(autoSaveInterval);
+                autoSaveInterval = setInterval(Save, player.options.save.autoSaveInterval);
+            }
+
+            SetTheme(player.options.ui.theme);
+            SetUIUpdateRate(player.options.ui.uiUpdateRateInMs);
+
+            UpdateReplicantiBuyablesAfterLoad()
+            CalculateReplicantiBoosts();
+
+            if (player.stats.infinity.unlocked == true) {
+                UnlockInfinity();
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
+    };
+
+    const CheckForMissingData = () => {
+        // use if I change player object
+    };
+
+    const HardReset = () => {
+        localStorage.removeItem("replicantiIncSave");
+        location.reload();
+    };
+    //#endregion
+    //#region Import save
+    const ImportSave = ()=>{
+        clearInterval(autoSaveInterval)
+        let saveText=$("#dialogBoxTextarea").val()
+        localStorage.setItem("replicantiIncSave", saveText)
+        location.reload()
+    }
+    //#endregion
+    Load()
+
 })
