@@ -954,7 +954,7 @@ $(()=>{
                                     Each level adds +1% to infintiy replication chance
                                 </div>
                                 <div id="infinitybuyable1Effect">
-                                    Currently: /${playerStatsCalculated.infinity.buyables.buyable1.infinityReplicationChancePercentAdder}
+                                    Currently: +${playerStatsCalculated.infinity.buyables.buyable1.infinityReplicationChancePercentAdder}%
                                 </div>
                                 <div id="infinityBuyable1Cost">
                                     Cost: ${
@@ -974,10 +974,10 @@ $(()=>{
                                     level <span id="infinityBuyable2Amount">${player.stats.infinity.buyables.buyable2Amount}</span> / 30
                                 </div>
                                 <div class="upgradeDescription">
-                                    Each level adds +0.1 to infintiy replication multiplier
+                                    Each level adds +0.1 to infintiy replication multiplier base
                                 </div>
                                 <div id="infinitybuyable2Effect">
-                                    Currently: x${playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier}
+                                    Currently: +x${playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier}
                                 </div>
                                 <div id="infinityBuyable2Cost">
                                     Cost: ${
@@ -1217,6 +1217,24 @@ $(()=>{
         }
     }
     //#endregion
+    //#region Calculate Infinity boosts
+    const CalculateInfinityBoosts = ()=>{
+        CalculateInfinityReplicationChance()
+        CalculateInfinityReplicationMulti()
+    }
+
+    const CalculateInfinityReplicationChance = ()=>{
+        playerStatsCalculated.infinity.replication.replicationChancePercent=1
+            + playerStatsCalculated.infinity.buyables.buyable1.infinityReplicationChancePercentAdder
+            + 0
+    }
+
+    const CalculateInfinityReplicationMulti = ()=>{
+        playerStatsCalculated.infinity.replication.replicationMulti=(2 
+            + playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier)
+            * playerStatsCalculated.infinity.upgrades.upgrade15.infinityReplicationMultiMultiplier
+    }
+    //#endregion
     //#region Unlock Infinity
     const UnlockInfinity = ()=>{
         player.stats.infinity.unlocked=true
@@ -1257,7 +1275,59 @@ $(()=>{
     //#endregion
     //#region infinity UI update
     const UpdateInfinityView= ()=>{
-        console.log("here")
+        $("#replicantiAmount").text(`${FormatNumber(player.stats.replicanti.currentAmount)} / 1.79e308 replicanti`)
+        $("#replicantiAmount").css("background-image", `linear-gradient(
+            to right, 
+            blue,
+            blue ${(Math.log10(player.stats.replicanti.currentAmount)/Math.log10(1.79e308))*100}%,
+            transparent ${(Math.log10(player.stats.replicanti.currentAmount)/Math.log10(1.79e308))*100}%,
+            transparent
+        )`)
+
+        $("#currencyBar").text(`${FormatNumber(player.stats.infinity.currentAmount)} / 1.79e308 Infinity`)
+        $("#currencyBar").css("background-image", `linear-gradient(
+            to right, 
+            yellow,
+            yellow ${(Math.log10(player.stats.infinity.currentAmount)/Math.log10(1.79e308))*100}%,
+            transparent ${(Math.log10(player.stats.infinity.currentAmount)/Math.log10(1.79e308))*100}%,
+            transparent
+        )`)
+        
+        if(player.stats.infinity.currentAmount>=1 && player.stats.infinity.upgrades.upgrade11Bought==false){
+            $("#infinityUpgrade11").addClass("purchaseAbleUpgrade interactable")
+        }
+        if(player.stats.infinity.currentAmount>=1 && player.stats.infinity.upgrades.upgrade12Bought==false){
+            $("#infinityUpgrade12").addClass("purchaseAbleUpgrade interactable")
+        }
+        if(player.stats.infinity.currentAmount>=2 && player.stats.infinity.upgrades.upgrade13Bought==false){
+            $("#infinityUpgrade13").addClass("purchaseAbleUpgrade interactable")
+        }
+        if(player.stats.infinity.currentAmount>=5 && player.stats.infinity.upgrades.upgrade14Bought==false){
+            $("#infinityUpgrade14").addClass("purchaseAbleUpgrade interactable")
+        }
+        if(player.stats.infinity.currentAmount>=10 && player.stats.infinity.upgrades.upgrade15Bought==false){
+            $("#infinityUpgrade15").addClass("purchaseAbleUpgrade interactable")
+        }
+
+        if(player.stats.infinity.currentAmount>=playerStatsCalculated.infinity.buyables.buyable1.cost && player.stats.infinity.buyables.buyable1Amount<89){
+            $("#infinityBuyable1BuyOne").addClass("buyablePurchaseAble")
+            $("#infinityBuyable1BuyMax").addClass("buyablePurchaseAble")
+        }
+        else{
+            $("#infinityBuyable1BuyOne").removeClass("buyablePurchaseAble")
+            $("#infinityBuyable1BuyMax").removeClass("buyablePurchaseAble")
+        }
+        if(player.stats.infinity.currentAmount>=playerStatsCalculated.infinity.buyables.buyable2.cost && player.stats.infinity.buyables.buyable2Amount<30){
+            $("#infinityBuyable2BuyOne").addClass("buyablePurchaseAble")
+            $("#infinityBuyable2BuyMax").addClass("buyablePurchaseAble")
+        }
+        else{
+            $("#infinityBuyable2BuyOne").removeClass("buyablePurchaseAble")
+            $("#infinityBuyable2BuyMax").removeClass("buyablePurchaseAble")
+        }
+
+        UpdateInfinityBuyable1UI()
+        UpdateInfinityBuyable2UI()
     }
     //#endregion
     //#region Reset Infinity layer
@@ -1331,6 +1401,9 @@ $(()=>{
     const UpdateUI = () =>{
         if(mainMenuIndex==2){
             UpdateReplicantiView()
+        }
+        if(mainMenuIndex==3){
+            UpdateInfinityView()
         }
     }
     //#endregion
