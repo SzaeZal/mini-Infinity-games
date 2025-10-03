@@ -70,6 +70,48 @@
   background-color: rgba(125, 125, 0, 0.5);
 }
 
+.upgrades{
+  margin: 15px auto;
+  width: fit-content;
+  text-align: center;
+}
+.upgradeRow{
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.upgrade{
+  border: 5px solid gray;
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 10px;
+  max-width: 250px;
+  display: flex;
+  flex-direction: column;
+  font-size: large;
+  align-items: center;
+  justify-content: space-around;
+  gap: 10px;
+  padding: 10px;
+}
+.purchaseAbleUpgrade{
+  border-color: lime;
+  background-color: rgba(0, 255, 0, 0.25);
+}
+.purchaseAbleUpgrade:hover{
+  background-color: rgba(0, 255, 0, 0.35);
+}
+
+.boughtInfinityUpgrade{
+  border-color: orange;
+  background-color: rgba(255, 165, 0, 0.5);
+}
+.boughtInfinityUpgrade:hover{
+  border-color: orange;
+  background-color: rgba(255, 165, 0, 0.5);
+}
+
 #eternity{
     background-color: rgba(128, 0, 128, 0.5);
 }
