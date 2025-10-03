@@ -834,14 +834,22 @@ $(()=>{
 
     const CalculateReplicantiReplicationTime = ()=>{
         playerStatsCalculated.replicanti.replicationTimeInMs=1000 / (
-            playerStatsCalculated.replicanti.buyables.buyable1.replicantiReplicationTimeDivider*
-            1
+            playerStatsCalculated.replicanti.buyables.buyable1.replicantiReplicationTimeDivider
+            * playerStatsCalculated.infinity.upgrades.upgrade11.replicantiReplicationTimeDivider
         )
     }
 
     const CalculateReplicantiReplicationMulti = ()=>{
+        if(player.stats.infinity.upgrades.upgrade13Bought==true){
+            playerStatsCalculated.infinity.upgrades.upgrade13.replicantiReplicationMultiMultiplier= Math.pow(
+                1 + player.stats.infinity.currentAmount,
+                0.5
+            )
+        }
         playerStatsCalculated.replicanti.replicationMulti=2 
-        * playerStatsCalculated.replicanti.buyables.buyable2.replicantiReplicationMultiMultiplier
+            * playerStatsCalculated.replicanti.buyables.buyable2.replicantiReplicationMultiMultiplier
+            * playerStatsCalculated.infinity.upgrades.upgrade12.replicantiReplicationMultiMultiplier
+            * playerStatsCalculated.infinity.upgrades.upgrade13.replicantiReplicationMultiMultiplier
     }
     //#endregion
     //#region Replicanti UI update
@@ -1121,6 +1129,91 @@ $(()=>{
                     UpdateInfinityView()
                 }
             })
+        }
+    }
+    //#endregion
+    //#region Infinity Buyables
+    const PurchaseInfinityBuyable1 = ()=>{
+        if(player.stats.infinity.buyables.buyable1Amount<89){
+            player.stats.infinity.buyables.buyable1Amount++
+            player.stats.infinity.currentAmount-=playerStatsCalculated.infinity.buyables.buyable1.cost
+            playerStatsCalculated.infinity.buyables.buyable1.infinityReplicationChancePercentAdder= 1 * player.stats.infinity.buyables.buyable1Amount
+            playerStatsCalculated.infinity.buyables.buyable1.cost= 100*Math.pow(1.15, player.stats.infinity.buyables.buyable1Amount)
+            CalculateInfinityReplicationChance()
+        }
+    }
+
+    const UpdateInfinityBuyable1UI=()=>{
+        $("#infinityBuyable1Amount").text(`${player.stats.infinity.buyables.buyable1Amount}`)
+        $("#infinitybuyable1Effect").text(`Currently: +${FormatNumber(playerStatsCalculated.infinity.buyables.buyable1.infinityReplicationChancePercentAdder)}%`)
+        $("#infinityBuyable1Cost").text(`Cost: ${player.stats.infinity.buyables.buyable1Amount==89 ? 'Maxed' : FormatNumber(playerStatsCalculated.infinity.buyables.buyable1.cost) + " infinity"} `)
+    }
+
+    const PurchaseInfinityBuyable2 = ()=>{
+        if(player.stats.infinity.buyables.buyable2Amount<30){
+            player.stats.infinity.buyables.buyable2Amount++
+            player.stats.infinity.currentAmount-=playerStatsCalculated.infinity.buyables.buyable2.cost
+            playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier= 1 + (0.1 * player.stats.infinity.buyables.buyable2Amount)
+            playerStatsCalculated.infinity.buyables.buyable2.cost= 1000*Math.pow(2, player.stats.infinity.buyables.buyable2Amount)
+            CalculateInfinityReplicationMulti()
+        }
+    }
+
+    const UpdateInfinityBuyable2UI=()=>{
+        $("#infinityBuyable2Amount").text(`${player.stats.infinity.buyables.buyable2Amount}`)
+        $("#infinitybuyable2Effect").text(`Currently: x${FormatNumber(playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier)}`)
+        $("#infinityBuyable2Cost").text(`Cost: ${player.stats.infinity.buyables.buyable2Amount==30 ? "Maxed" : FormatNumber(playerStatsCalculated.infinity.buyables.buyable2.cost)+ " infinity"} `)
+    }
+    //#endregion
+    //#region Infinity Upgrades
+    const TryPurchaseInfinityUpgrade11 = ()=>{
+        if(player.stats.infinity.currentAmount>=1){
+            player.stats.infinity.currentAmount-=1
+            player.stats.infinity.upgrades.upgrade11Bought=true
+            playerStatsCalculated.infinity.upgrades.upgrade11.replicantiReplicationTimeDivider=2
+            CalculateReplicantiReplicationTime()
+            $("#infinityUpgrade11").addClass("boughtInfinityUpgrade")
+            $("#infinityUpgrade11").off("click")
+        }
+    }
+
+    const TryPurchaseInfinityUpgrade12 = ()=>{
+        if(player.stats.infinity.currentAmount>=1){
+            player.stats.infinity.currentAmount-=1
+            player.stats.infinity.upgrades.upgrade12Bought=true
+            playerStatsCalculated.infinity.upgrades.upgrade12.replicantiReplicationMultiMultiplier=1.5
+            CalculateReplicantiReplicationMulti()
+            $("#infinityUpgrade12").addClass("boughtInfinityUpgrade")
+            $("#infinityUpgrade12").off("click")
+        }
+    }
+
+    const TryPurchaseInfinityUpgrade13 = ()=>{
+        if(player.stats.infinity.currentAmount>=2){
+            player.stats.infinity.currentAmount-=2
+            player.stats.infinity.upgrades.upgrade13Bought=true
+            CalculateReplicantiReplicationMulti()
+            $("#infinityUpgrade13").addClass("boughtInfinityUpgrade")
+            $("#infinityUpgrade13").off("click")
+        }
+    }
+
+    const TryPurchaseInfinityUpgrade14 = ()=>{
+        if(player.stats.infinity.currentAmount>=5){
+            player.stats.infinity.currentAmount-=5
+            player.stats.infinity.upgrades.upgrade14Bought=true
+            $("#infinityUpgrade14").addClass("boughtInfinityUpgrade")
+            $("#infinityUpgrade14").off("click")
+        }
+    }
+
+    const TryPurchaseInfinityUpgrade15 = ()=>{
+        if(player.stats.infinity.currentAmount>=10){
+            player.stats.infinity.currentAmount-=10
+            player.stats.infinity.upgrades.upgrade15Bought=true
+            playerStatsCalculated.infinity.upgrades.upgrade15.infinityReplicationMultiMultiplier=2
+            CalculateInfinityReplicationMulti()
+            GoToInfinity()
         }
     }
     //#endregion
