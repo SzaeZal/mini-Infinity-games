@@ -906,7 +906,7 @@ $(()=>{
     //#region Infinity nav
     const GoToInfinity = () =>{
         view.html(`
-            Rep
+            
         `)
     }
     //#endregion
@@ -926,6 +926,10 @@ $(()=>{
                 Infinite infinity
             </div>
         `)
+
+        mainMenuCallbacks.push(GoToInfinity)
+        subMenuIndexes.push(0)
+        subMenuLimits.push(0)
     }
     //#endregion
     //#region infinity replication
@@ -1049,6 +1053,30 @@ $(()=>{
     let uiUpdateTicker=setInterval(UpdateUI, 25)
 
     AddReplicantiUIEvents()
+    //#endregion
+    //#region blur and focus
+    let windowFocused=true
+    let timeWhenBlurred=0
+    $(window).on("blur", ()=>{
+        windowFocused=false
+        timeWhenBlurred=Date.now()
+        clearInterval(tick)
+        clearInterval(uiUpdateTicker)
+        clearInterval(autoSaveInterval)
+    })
+    $(window).on("focus", ()=>{
+        if(windowFocused==false){
+            windowFocused=true
+            let timeWhenFocused=Date.now()
+            let timeDiff=timeWhenFocused-timeWhenBlurred
+            totalTimeSinceReplicationInMs+=timeDiff
+            tick=setInterval(DoTick, 25, 25)
+            uiUpdateTicker=setInterval(UpdateUI, player.options.ui.uiUpdateRateInMs)
+            if(player.options.save.saveIntervalInMs!=0){
+                autoSaveInterval=setInterval(Save, player.options.save.saveIntervalInMs)
+            }
+        }
+    })
     //#region  saving and loading 
     const Save = () => {
         const playerParsedToJson = JSON.stringify(player);
