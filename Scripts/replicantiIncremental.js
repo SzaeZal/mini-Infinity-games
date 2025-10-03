@@ -95,15 +95,22 @@ $(()=>{
             },
             upgrades:{
                 upgrade11:{
+                    cost: 1,
                     replicantiReplicationTimeDivider:1  // 2 if bought
                 },
                 upgrade12:{
+                    cost: 1,
                     replicantiReplicationMultiMultiplier:1 // 1.5 if bought
                 },
                 upgrade13:{
+                    cost: 2,
                     replicantiReplicationMultiMultiplier:1 // based on infinities (sqrt maybe)
-                },                                      //upgrade 14 keeps replicanti buyables
+                },
+                upgrade14:{
+                    cost: 5 //upgrade 14 keeps replicanti buyables
+                },                                      
                 upgrade15:{
+                    cost: 10,
                     infinityReplicationMultiMultiplier:1 // 2 if bought, also unlock infinity buyables
                 },
             },
@@ -114,7 +121,7 @@ $(()=>{
                 },
                 buyable2:{
                     cost: 1000,
-                    intinityReplicationMultiMultiplier: 1 // +0.1 per
+                    intinityReplicationMultiMultiplier: 1 // +0.1 per, max 30
                 },
             }
         },
@@ -128,18 +135,25 @@ $(()=>{
             },
             upgrades:{
                 upgrade11:{
+                    cost: 1,
                     replicantiReplicationMultiMultiplier:1  // 10 if bought
                 },                                          
                 upgrade12:{
+                    cost: 1,
                     infinityReplicationChancePercentAdder:1  // 10 if bought
                 }, 
                 upgrade13:{
+                    cost: 2,
                     replicantiReplicationMultiMultiplier: 1, // based on eternities (cbrt maybe)
                     intinityReplicationMultiMultiplier:1 // based on eternities (cbrt maybe)
                 },
                 upgrade14:{
+                    cost: 5,
                     infinityReplicationMultiMultiplier:1 // 2 if bought
-                },                                      // upgrade 15 keeps infinity upgrades
+                },
+                upgrade15:{
+                    cost: 10, // upgrade 15 keeps infinity upgrades
+                }                                      
             },
             buyables:{
                 buyable1:{
@@ -906,7 +920,140 @@ $(()=>{
     //#region Infinity nav
     const GoToInfinity = () =>{
         view.html(`
-            
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=hiddenSubMenu" : ""}>
+                <div class="subMenuItem selectedSubMenuItem">
+                    Main
+                </div>
+            </div>
+            <div class="mainView">
+                <div id="currencyBar" class="currencyBar">
+                    1 / 1.79e308 Infinity
+                </div>
+                ${player.stats.infinity.upgrades.upgrade15Bought ? `
+                    <div class="buyables">
+                        <div class="subTitle">
+                            Buyables
+                        </div>
+                        <div class="row gap-50px">
+                            <div id="infinityBuyable1" class="buyable">
+                                <div class="upgradeTitle">
+                                    Infinity replication chance adder <br> 
+                                    level <span id="infinityBuyable1Amount">${player.stats.infinity.buyables.buyable1Amount}</span> / 89
+                                </div>
+                                <div class="upgradeDescription">
+                                    Each level adds +1% to infintiy replication chance
+                                </div>
+                                <div id="infinitybuyable1Effect">
+                                    Currently: /${playerStatsCalculated.infinity.buyables.buyable1.infinityReplicationChancePercentAdder}
+                                </div>
+                                <div id="infinityBuyable1Cost">
+                                    Cost: ${
+                                        player.stats.infinity.buyables.buyable1Amount==89
+                                        ? 'Maxed' 
+                                        : FormatNumber(playerStatsCalculated.infinity.buyables.buyable1.cost)+ " infinity"
+                                    } 
+                                </div>
+                                <div class="row">
+                                    <div id="infinityBuyable1BuyOne" class="buyableBuy1 interactable">Buy 1</div>
+                                    <div id="infinityBuyable1BuyMax" class="buyableBuyMax interactable">Buy Max</div>
+                                </div>
+                            </div>
+                            <div id="infinityBuyable2" class="buyable">
+                                <div class="upgradeTitle">
+                                    Infinity Replication Increaser <br> 
+                                    level <span id="infinityBuyable2Amount">${player.stats.infinity.buyables.buyable2Amount}</span> / 30
+                                </div>
+                                <div class="upgradeDescription">
+                                    Each level adds +0.1 to infintiy replication multiplier
+                                </div>
+                                <div id="infinitybuyable2Effect">
+                                    Currently: x${playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier}
+                                </div>
+                                <div id="infinityBuyable2Cost">
+                                    Cost: ${
+                                        player.stats.infinity.buyables.buyable2Amount==30
+                                        ? 'Maxed' 
+                                        : FormatNumber(playerStatsCalculated.infinity.buyables.buyable2.cost)+ " infinity"
+                                    } 
+                                </div>
+                                <div class="row ">
+                                    <div id="infinityBuyable2BuyOne" class="buyableBuy1 interactable">Buy 1</div>
+                                    <div id="infinityBuyable2BuyMax" class="buyableBuyMax interactable">Buy Max</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ` : ``}
+                <div class="upgrades">
+                    <div class="subTitle">
+                        Upgrades
+                    </div>
+                    <div class="row gap-50px">
+                        <div id="infinityUpgrade11" class="upgrade ${player.stats.infinity.upgrades.upgrade11Bought ? "boughtInfinityUpgrade" : ""}">
+                            <div class="upgradeTitle">
+                                Replicanti Infinite speed
+                            </div>
+                            <div class="upgradeDescription">
+                                Replicanti replication time is divided by 2
+                            </div>
+                            <div class="upgradeCost">
+                                Cost: 1 infinity
+                            </div>
+                        </div>
+                        <div id="infinityUpgrade12" class="upgrade ${player.stats.infinity.upgrades.upgrade12Bought ? "boughtInfinityUpgrade" : ""}">
+                            <div class="upgradeTitle">
+                                Replicanti Infinite multiplier
+                            </div>
+                            <div class="upgradeDescription">
+                                Replicanti replication multiplier is multiplied by 1.5
+                            </div>
+                            <div class="upgradeCost">
+                                Cost: 1 infinity
+                            </div>
+                        </div>
+                        <div id="infinityUpgrade13" class="upgrade ${player.stats.infinity.upgrades.upgrade13Bought ? "boughtInfinityUpgrade" : ""}">
+                            <div class="upgradeTitle">
+                                Infinity-based Replicanti Multi
+                            </div>
+                            <div class="upgradeDescription">
+                                Replicanti replication multiplier is multiplied by (infinity^0.5)
+                            </div>
+                            <div class="infinityUpgrade13Effect">
+                                Currently: x${FormatNumber(playerStatsCalculated.infinity.upgrades.upgrade13.replicantiReplicationMultiMultiplier)}
+                            </div>
+                            <div class="upgradeCost">
+                                Cost: 2 infinity
+                            </div>
+                        </div>
+                        <div id="infinityUpgrade14" class="upgrade ${player.stats.infinity.upgrades.upgrade14Bought ? "boughtInfinityUpgrade" : ""}">
+                            <div class="upgradeTitle">
+                                Replicanti Buyable keeper
+                            </div>
+                            <div class="upgradeDescription">
+                                Replicanti buyables are kept on infinity reset
+                            </div>
+                            <div class="upgradeCost">
+                                Cost: 5 infinity
+                            </div>
+                        </div>
+                        <div id="infinityUpgrade15" class="upgrade ${player.stats.infinity.upgrades.upgrade15Bought ? "boughtInfinityUpgrade" : ""}">
+                            <div class="upgradeTitle">
+                                Infinity doubler with extras
+                            </div>
+                            <div class="upgradeDescription">
+                                2x infinity replication multiplier <br>
+                                Unlocks infinity buyables
+                            </div>
+                            <div class="upgradeCost">
+                                Cost: 10 infinity
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="replicantiAmount" class="currencyBar">
+                    x / 1.79e308 replicanti
+                </div>
+            </div>
         `)
     }
     //#endregion
