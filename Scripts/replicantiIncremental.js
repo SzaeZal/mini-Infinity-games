@@ -908,12 +908,14 @@ $(()=>{
     //#region Reset Replicanti layer
     const ResetReplicantiLayer = (layerReset) =>{
         player.stats.replicanti.currentAmount=1
-        player.stats.replicanti.buyables.buyable1Amount=0
-        playerStatsCalculated.replicanti.buyables.buyable1.cost=128
-        playerStatsCalculated.replicanti.buyables.buyable1.replicantiReplicationTimeDivider=1
-        player.stats.replicanti.buyables.buyable2Amount=0
-        playerStatsCalculated.replicanti.buyables.buyable2.cost=1024
-        playerStatsCalculated.replicanti.buyables.buyable2.replicantiReplicationMultiMultiplier=1
+        if(!(layerReset == 1 && player.stats.infinity.upgrades.upgrade14Bought==true)){
+            player.stats.replicanti.buyables.buyable1Amount=0
+            playerStatsCalculated.replicanti.buyables.buyable1.cost=128
+            playerStatsCalculated.replicanti.buyables.buyable1.replicantiReplicationTimeDivider=1
+            player.stats.replicanti.buyables.buyable2Amount=0
+            playerStatsCalculated.replicanti.buyables.buyable2.cost=1024
+            playerStatsCalculated.replicanti.buyables.buyable2.replicantiReplicationMultiMultiplier=1
+        }
         CalculateReplicantiBoosts()
     }
     //#endregion
@@ -1055,6 +1057,71 @@ $(()=>{
                 </div>
             </div>
         `)
+        AddInfinityUIEvents()
+    }
+    //#endregion
+    //#region infinity ui events
+    const AddInfinityUIEvents=()=>{
+        if(player.stats.infinity.upgrades.upgrade11Bought==false){
+            $("#infinityUpgrade11").on("click", ()=>{
+                TryPurchaseInfinityUpgrade11()
+            })
+        }
+        if(player.stats.infinity.upgrades.upgrade12Bought==false){
+            $("#infinityUpgrade12").on("click", ()=>{
+                TryPurchaseInfinityUpgrade12()
+            })
+        }
+        if(player.stats.infinity.upgrades.upgrade13Bought==false){
+            $("#infinityUpgrade13").on("click", ()=>{
+                TryPurchaseInfinityUpgrade13()
+            })
+        }
+        if(player.stats.infinity.upgrades.upgrade14Bought==false){
+            $("#infinityUpgrade14").on("click", ()=>{
+                TryPurchaseInfinityUpgrade14()
+            })
+        }
+        if(player.stats.infinity.upgrades.upgrade15Bought==false){
+            $("#infinityUpgrade15").on("click", ()=>{
+                TryPurchaseInfinityUpgrade15()
+            })
+        }
+
+        if(player.stats.infinity.upgrades.upgrade15Bought==true){
+            $("#infinityBuyable1BuyOne").on("click", ()=>{
+                if(player.stats.infinity.currentAmount>=playerStatsCalculated.infinity.buyables.buyable1.cost){
+                    PurchaseInfinityBuyable1()
+                    UpdateInfinityBuyable1UI()
+                    UpdateInfinityView()
+                }
+            })
+            $("#infinityBuyable1BuyMax").on("click", ()=>{
+                while(player.stats.infinity.currentAmount>=playerStatsCalculated.infinity.buyables.buyable1.cost 
+                    && player.stats.infinity.buyables.buyable1Amount<89
+                ){
+                    PurchaseInfinityBuyable1()
+                    UpdateInfinityBuyable1UI()
+                    UpdateInfinityView()
+                }
+            })
+            $("#infinityBuyable2BuyOne").on("click", ()=>{
+                if(player.stats.infinity.currentAmount>=playerStatsCalculated.infinity.buyables.buyable2.cost){
+                    PurchaseInfinityBuyable2()
+                    UpdateInfinityBuyable2UI()
+                    UpdateInfinityView()
+                }
+            })
+            $("#infinityBuyable2BuyMax").on("click", ()=>{
+                while(player.stats.infinity.currentAmount>=playerStatsCalculated.infinity.buyables.buyable2.cost
+                    && player.stats.infinity.buyables.buyable2Amount<30
+                ){
+                    PurchaseInfinityBuyable2()
+                    UpdateInfinityBuyable2UI()
+                    UpdateInfinityView()
+                }
+            })
+        }
     }
     //#endregion
     //#region Unlock Infinity
