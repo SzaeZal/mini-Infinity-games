@@ -26,6 +26,7 @@
   border: 2px solid gray;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   font-size: large;
 }
 .buyable>div{

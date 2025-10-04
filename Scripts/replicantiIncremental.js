@@ -676,7 +676,7 @@ $(()=>{
                         <div id="replicantiBuyable1" class="buyable">
                             <div class="upgradeTitle">
                                 Replication Fastener <br> 
-                                level <span id="replicantiBuyable1Amount">${player.stats.replicanti.buyables.buyable1Amount}</span> / 4
+                                level <span id="replicantiBuyable1Amount">${player.stats.replicanti.buyables.buyable1Amount}</span> / 9
                             </div>
                             <div class="upgradeDescription">
                                 Each level divides replication time by /+1 
@@ -686,7 +686,7 @@ $(()=>{
                             </div>
                             <div id="replicantiBuyable1Cost">
                                 Cost: ${
-                                    player.stats.replicanti.buyables.buyable1Amount==4 
+                                    player.stats.replicanti.buyables.buyable1Amount==9
                                     ? 'Maxed' 
                                     : FormatNumber(playerStatsCalculated.replicanti.buyables.buyable1.cost)+ " replicanti"
                                 } 
@@ -699,7 +699,7 @@ $(()=>{
                         <div id="replicantiBuyable2" class="buyable">
                             <div class="upgradeTitle">
                                 Replication Increaser <br> 
-                                level <span id="replicantiBuyable2Amount">${player.stats.replicanti.buyables.buyable2Amount}</span> / 4
+                                level <span id="replicantiBuyable2Amount">${player.stats.replicanti.buyables.buyable2Amount}</span> / 9
                             </div>
                             <div class="upgradeDescription">
                                 Each level multiplies replication multi by x2
@@ -709,7 +709,7 @@ $(()=>{
                             </div>
                             <div id="replicantiBuyable2Cost">
                                 Cost: ${
-                                    player.stats.replicanti.buyables.buyable2Amount==4 
+                                    player.stats.replicanti.buyables.buyable2Amount==9
                                     ? 'Maxed' 
                                     : FormatNumber(playerStatsCalculated.replicanti.buyables.buyable2.cost)+ " replicanti"
                                 } 
@@ -743,7 +743,7 @@ $(()=>{
         })
         $("#replicantiBuyable1BuyMax").on("click", ()=>{
             while(player.stats.replicanti.currentAmount>=playerStatsCalculated.replicanti.buyables.buyable1.cost
-                && player.stats.replicanti.buyables.buyable1Amount<4
+                && player.stats.replicanti.buyables.buyable1Amount<10
             ){
                 PurchaseReplicantiBuyable1()
                 UpdateReplicantiBuyable1UI()
@@ -759,7 +759,7 @@ $(()=>{
         })
         $("#replicantiBuyable2BuyMax").on("click", ()=>{
             while(player.stats.replicanti.currentAmount>=playerStatsCalculated.replicanti.buyables.buyable2.cost
-                && player.stats.replicanti.buyables.buyable2Amount < 4
+                && player.stats.replicanti.buyables.buyable2Amount < 10
             ){
                 PurchaseReplicantiBuyable2()
                 UpdateReplicantiBuyable2UI()
@@ -770,7 +770,7 @@ $(()=>{
     //#endregion
     //#region Replicanti Buyables
     const PurchaseReplicantiBuyable1 = ()=>{
-        if(player.stats.replicanti.buyables.buyable1Amount<4){
+        if(player.stats.replicanti.buyables.buyable1Amount<10){
             player.stats.replicanti.buyables.buyable1Amount++
             player.stats.replicanti.currentAmount/=playerStatsCalculated.replicanti.buyables.buyable1.cost
             playerStatsCalculated.replicanti.buyables.buyable1.replicantiReplicationTimeDivider= 1 + 
@@ -789,11 +789,11 @@ $(()=>{
     const UpdateReplicantiBuyable1UI=()=>{
         $("#replicantiBuyable1Amount").text(`${player.stats.replicanti.buyables.buyable1Amount}`)
         $("#replicantibuyable1Effect").text(`Currently: /${playerStatsCalculated.replicanti.buyables.buyable1.replicantiReplicationTimeDivider}`)
-        $("#replicantiBuyable1Cost").text(`Cost: ${player.stats.replicanti.buyables.buyable1Amount==4 ? 'Maxed' : FormatNumber(playerStatsCalculated.replicanti.buyables.buyable1.cost) + " replicanti"} `)
+        $("#replicantiBuyable1Cost").text(`Cost: ${player.stats.replicanti.buyables.buyable1Amount==9 ? 'Maxed' : FormatNumber(playerStatsCalculated.replicanti.buyables.buyable1.cost) + " replicanti"} `)
     }
 
     const PurchaseReplicantiBuyable2 = ()=>{
-        if(player.stats.replicanti.buyables.buyable2Amount<4){
+        if(player.stats.replicanti.buyables.buyable2Amount<10){
             player.stats.replicanti.buyables.buyable2Amount++
             player.stats.replicanti.currentAmount/=playerStatsCalculated.replicanti.buyables.buyable2.cost
             playerStatsCalculated.replicanti.buyables.buyable2.replicantiReplicationMultiMultiplier= 1*
@@ -815,7 +815,7 @@ $(()=>{
     const UpdateReplicantiBuyable2UI=()=>{
         $("#replicantiBuyable2Amount").text(`${player.stats.replicanti.buyables.buyable2Amount}`)
         $("#replicantibuyable2Effect").text(`Currently: x${playerStatsCalculated.replicanti.buyables.buyable2.replicantiReplicationMultiMultiplier}`)
-        $("#replicantiBuyable2Cost").text(`Cost: ${player.stats.replicanti.buyables.buyable2Amount==4 ? "Maxed" : FormatNumber(playerStatsCalculated.replicanti.buyables.buyable2.cost)+ " replicanti"} `)
+        $("#replicantiBuyable2Cost").text(`Cost: ${player.stats.replicanti.buyables.buyable2Amount==9 ? "Maxed" : FormatNumber(playerStatsCalculated.replicanti.buyables.buyable2.cost)+ " replicanti"} `)
     }
     //#endregion
     //#region replicanti replication
@@ -872,7 +872,7 @@ $(()=>{
             transparent
         )`)
 
-        if(player.stats.replicanti.currentAmount>=playerStatsCalculated.replicanti.buyables.buyable1.cost && player.stats.replicanti.buyables.buyable1Amount<4){
+        if(player.stats.replicanti.currentAmount>=playerStatsCalculated.replicanti.buyables.buyable1.cost && player.stats.replicanti.buyables.buyable1Amount<9){
             $("#replicantiBuyable1BuyOne").addClass("buyablePurchaseAble")
             $("#replicantiBuyable1BuyMax").addClass("buyablePurchaseAble")
         }
@@ -880,7 +880,7 @@ $(()=>{
             $("#replicantiBuyable1BuyOne").removeClass("buyablePurchaseAble")
             $("#replicantiBuyable1BuyMax").removeClass("buyablePurchaseAble")
         }
-        if(player.stats.replicanti.currentAmount>=playerStatsCalculated.replicanti.buyables.buyable2.cost && player.stats.replicanti.buyables.buyable2Amount<4){
+        if(player.stats.replicanti.currentAmount>=playerStatsCalculated.replicanti.buyables.buyable2.cost && player.stats.replicanti.buyables.buyable2Amount<9){
             $("#replicantiBuyable2BuyOne").addClass("buyablePurchaseAble")
             $("#replicantiBuyable2BuyMax").addClass("buyablePurchaseAble")
         }
@@ -948,7 +948,7 @@ $(()=>{
                             <div id="infinityBuyable1" class="buyable">
                                 <div class="upgradeTitle">
                                     Infinity replication chance adder <br> 
-                                    level <span id="infinityBuyable1Amount">${player.stats.infinity.buyables.buyable1Amount}</span> / 89
+                                    level <span id="infinityBuyable1Amount">${player.stats.infinity.buyables.buyable1Amount}</span> / 79
                                 </div>
                                 <div class="upgradeDescription">
                                     Each level adds +1% to infintiy replication chance
@@ -958,7 +958,7 @@ $(()=>{
                                 </div>
                                 <div id="infinityBuyable1Cost">
                                     Cost: ${
-                                        player.stats.infinity.buyables.buyable1Amount==89
+                                        player.stats.infinity.buyables.buyable1Amount==79
                                         ? 'Maxed' 
                                         : FormatNumber(playerStatsCalculated.infinity.buyables.buyable1.cost)+ " infinity"
                                     } 
@@ -1028,7 +1028,7 @@ $(()=>{
                             <div class="upgradeDescription">
                                 Replicanti replication multiplier is multiplied by (infinity^0.5)
                             </div>
-                            <div class="infinityUpgrade13Effect">
+                            <div id="infinityUpgrade13Effect">
                                 Currently: x${FormatNumber(playerStatsCalculated.infinity.upgrades.upgrade13.replicantiReplicationMultiMultiplier)}
                             </div>
                             <div class="upgradeCost">
@@ -1106,7 +1106,7 @@ $(()=>{
             })
             $("#infinityBuyable1BuyMax").on("click", ()=>{
                 while(player.stats.infinity.currentAmount>=playerStatsCalculated.infinity.buyables.buyable1.cost 
-                    && player.stats.infinity.buyables.buyable1Amount<89
+                    && player.stats.infinity.buyables.buyable1Amount<79
                 ){
                     PurchaseInfinityBuyable1()
                     UpdateInfinityBuyable1UI()
@@ -1134,19 +1134,19 @@ $(()=>{
     //#endregion
     //#region Infinity Buyables
     const PurchaseInfinityBuyable1 = ()=>{
-        if(player.stats.infinity.buyables.buyable1Amount<89){
+        if(player.stats.infinity.buyables.buyable1Amount<79){
             player.stats.infinity.buyables.buyable1Amount++
             player.stats.infinity.currentAmount-=playerStatsCalculated.infinity.buyables.buyable1.cost
             playerStatsCalculated.infinity.buyables.buyable1.infinityReplicationChancePercentAdder= 1 * player.stats.infinity.buyables.buyable1Amount
             playerStatsCalculated.infinity.buyables.buyable1.cost= 100*Math.pow(1.15, player.stats.infinity.buyables.buyable1Amount)
-            CalculateInfinityReplicationChance()
+            CalculateInfinityBoosts()
         }
     }
 
     const UpdateInfinityBuyable1UI=()=>{
         $("#infinityBuyable1Amount").text(`${player.stats.infinity.buyables.buyable1Amount}`)
         $("#infinitybuyable1Effect").text(`Currently: +${FormatNumber(playerStatsCalculated.infinity.buyables.buyable1.infinityReplicationChancePercentAdder)}%`)
-        $("#infinityBuyable1Cost").text(`Cost: ${player.stats.infinity.buyables.buyable1Amount==89 ? 'Maxed' : FormatNumber(playerStatsCalculated.infinity.buyables.buyable1.cost) + " infinity"} `)
+        $("#infinityBuyable1Cost").text(`Cost: ${player.stats.infinity.buyables.buyable1Amount==79 ? 'Maxed' : FormatNumber(playerStatsCalculated.infinity.buyables.buyable1.cost) + " infinity"} `)
     }
 
     const PurchaseInfinityBuyable2 = ()=>{
@@ -1155,13 +1155,13 @@ $(()=>{
             player.stats.infinity.currentAmount-=playerStatsCalculated.infinity.buyables.buyable2.cost
             playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier= 1 + (0.1 * player.stats.infinity.buyables.buyable2Amount)
             playerStatsCalculated.infinity.buyables.buyable2.cost= 1000*Math.pow(2, player.stats.infinity.buyables.buyable2Amount)
-            CalculateInfinityReplicationMulti()
+            CalculateInfinityBoosts()
         }
     }
 
     const UpdateInfinityBuyable2UI=()=>{
         $("#infinityBuyable2Amount").text(`${player.stats.infinity.buyables.buyable2Amount}`)
-        $("#infinitybuyable2Effect").text(`Currently: x${FormatNumber(playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier)}`)
+        $("#infinitybuyable2Effect").text(`Currently: +x${FormatNumber(playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier)}`)
         $("#infinityBuyable2Cost").text(`Cost: ${player.stats.infinity.buyables.buyable2Amount==30 ? "Maxed" : FormatNumber(playerStatsCalculated.infinity.buyables.buyable2.cost)+ " infinity"} `)
     }
     //#endregion
@@ -1202,6 +1202,7 @@ $(()=>{
         if(player.stats.infinity.currentAmount>=5){
             player.stats.infinity.currentAmount-=5
             player.stats.infinity.upgrades.upgrade14Bought=true
+            CalculateReplicantiReplicationMulti()
             $("#infinityUpgrade14").addClass("boughtInfinityUpgrade")
             $("#infinityUpgrade14").off("click")
         }
@@ -1212,6 +1213,7 @@ $(()=>{
             player.stats.infinity.currentAmount-=10
             player.stats.infinity.upgrades.upgrade15Bought=true
             playerStatsCalculated.infinity.upgrades.upgrade15.infinityReplicationMultiMultiplier=2
+            CalculateReplicantiReplicationMulti()
             CalculateInfinityReplicationMulti()
             GoToInfinity()
         }
@@ -1224,7 +1226,7 @@ $(()=>{
     }
 
     const CalculateInfinityReplicationChance = ()=>{
-        playerStatsCalculated.infinity.replication.replicationChancePercent=1
+        playerStatsCalculated.infinity.replication.replicationChancePercent=10
             + playerStatsCalculated.infinity.buyables.buyable1.infinityReplicationChancePercentAdder
             + 0
     }
@@ -1262,15 +1264,12 @@ $(()=>{
         if(player.stats.infinity.unlocked==false){
             UnlockInfinity()
         }
-        ResetReplicantiLayer(1)
         player.stats.infinity.currentAmount++
         let rng = 1+Math.round(Math.random()*100)
         if(rng<=playerStatsCalculated.infinity.replication.replicationChancePercent){
             player.stats.infinity.currentAmount*=playerStatsCalculated.infinity.replication.replicationMulti
         }
-        if(mainMenuIndex==3){
-            UpdateInfinityView()
-        }
+        ResetReplicantiLayer(1)
     }
     //#endregion
     //#region infinity UI update
@@ -1309,7 +1308,12 @@ $(()=>{
             $("#infinityUpgrade15").addClass("purchaseAbleUpgrade interactable")
         }
 
-        if(player.stats.infinity.currentAmount>=playerStatsCalculated.infinity.buyables.buyable1.cost && player.stats.infinity.buyables.buyable1Amount<89){
+        if(player.stats.infinity.upgrades.upgrade13Bought==true){
+            $("#infinityUpgrade13Effect").text(`Currently: x${FormatNumber(playerStatsCalculated.infinity.upgrades.upgrade13.replicantiReplicationMultiMultiplier)}`)
+        }
+
+
+        if(player.stats.infinity.currentAmount>=playerStatsCalculated.infinity.buyables.buyable1.cost && player.stats.infinity.buyables.buyable1Amount<79){
             $("#infinityBuyable1BuyOne").addClass("buyablePurchaseAble")
             $("#infinityBuyable1BuyMax").addClass("buyablePurchaseAble")
         }
@@ -1368,6 +1372,7 @@ $(()=>{
         player.stats.infinity.upgrades.upgrade14Bought=false
         player.stats.infinity.upgrades.upgrade15Bought=false
         CalculateReplicantiBoosts()
+        CalculateInfinityBoosts()
     }
     //#region Eternity nav
     const GoToEternity = () =>{
@@ -1399,9 +1404,7 @@ $(()=>{
         if(rng<=playerStatsCalculated.eternity.replication.replicationChancePercent){
             player.stats.eternity.currentAmount*=playerStatsCalculated.eternity.replication.replicationMulti
         }
-        if(mainMenuIndex==4){
-            UpdateEternityView()
-        }
+        CalculateReplicantiBoosts()
     }
     //#endregion
     //#region Eternity UI update
@@ -1542,6 +1545,10 @@ $(()=>{
             if (player.stats.infinity.unlocked == true) {
                 UnlockInfinity();
             }
+
+            if (player.stats.eternity.unlocked == true) {
+                UnlockEternity();
+            }
         }
         catch (e) {
             console.log(e);
@@ -1549,7 +1556,7 @@ $(()=>{
     };
 
     const CheckForMissingData = () => {
-        // use if I change player object
+
     };
 
     const HardReset = () => {
