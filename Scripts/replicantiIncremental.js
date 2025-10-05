@@ -668,6 +668,14 @@ $(()=>{
                 <div id="currencyBar" class="currencyBar">
                     1 / 1.79e308 replicanti
                 </div>
+                <div class="currencyStats">
+                    <div id="replicantiReplicationTime">
+                        Replication time: ${FormatNumber(playerStatsCalculated.replicanti.replicationTimeInMs)} ms
+                    </div>
+                    <div id="replicantiReplicationMulti">
+                        Replication multi: x${FormatNumber(playerStatsCalculated.replicanti.replicationMulti)}
+                    </div>
+                </div>
                 <div class="buyables">
                     <div class="subTitle">
                         Buyables
@@ -872,6 +880,9 @@ $(()=>{
             transparent
         )`)
 
+        $("#replicantiReplicationTime").text(`Replication time: ${FormatNumber(playerStatsCalculated.replicanti.replicationTimeInMs)} ms`)
+        $("#replicantiReplicationMulti").text(`Replication multi: x${FormatNumber(playerStatsCalculated.replicanti.replicationMulti)}`)
+
         if(player.stats.replicanti.currentAmount>=playerStatsCalculated.replicanti.buyables.buyable1.cost && player.stats.replicanti.buyables.buyable1Amount<9){
             $("#replicantiBuyable1BuyOne").addClass("buyablePurchaseAble")
             $("#replicantiBuyable1BuyMax").addClass("buyablePurchaseAble")
@@ -938,6 +949,14 @@ $(()=>{
             <div class="mainView">
                 <div id="currencyBar" class="currencyBar">
                     1 / 1.79e308 Infinity
+                </div>
+                <div class="currencyStats">
+                    <div id="infinityReplicationChance">
+                        Replication chance: ${playerStatsCalculated.infinity.replication.replicationChancePercent}%
+                    </div>
+                    <div id="infinityReplicationMulti">
+                        Replication multi: x${playerStatsCalculated.infinity.replication.replicationMulti}
+                    </div>
                 </div>
                 ${player.stats.infinity.upgrades.upgrade15Bought ? `
                     <div class="buyables">
@@ -1291,6 +1310,9 @@ $(()=>{
             transparent ${(Math.log10(player.stats.infinity.currentAmount)/Math.log10(1.79e308))*100}%,
             transparent
         )`)
+
+        $("#infinityReplicationChance").text(`Replication chance: ${playerStatsCalculated.infinity.replication.replicationChancePercent}%`)
+        $("#infinityReplicationMulti").text(`Replication multi: x${FormatNumber(playerStatsCalculated.infinity.replication.replicationMulti)}`)
         
         if(player.stats.infinity.currentAmount>=1 && player.stats.infinity.upgrades.upgrade11Bought==false){
             $("#infinityUpgrade11").addClass("purchaseAbleUpgrade interactable")
@@ -1365,12 +1387,20 @@ $(()=>{
     const ResetInfinityLayer = (layerReset) =>{
         player.stats.infinity.currentAmount=0
         player.stats.replicanti.buyables.buyable1Amount=0
+        playerStatsCalculated.infinity.buyables.buyable1.cost=100
+        playerStatsCalculated.infinity.buyables.buyable1.infinityReplicationChancePercentAdder=0
         player.stats.replicanti.buyables.buyable2Amount=0
+        playerStatsCalculated.infinity.buyables.buyable2.cost=1000
+        playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier=1
         player.stats.infinity.upgrades.upgrade11Bought=false
+        playerStatsCalculated.infinity.upgrades.upgrade11.replicantiReplicationTimeDivider=1
         player.stats.infinity.upgrades.upgrade12Bought=false
+        playerStatsCalculated.infinity.upgrades.upgrade12.replicantiReplicationMultiMultiplier=1
         player.stats.infinity.upgrades.upgrade13Bought=false
+        playerStatsCalculated.infinity.upgrades.upgrade13.replicantiReplicationMultiMultiplier=1
         player.stats.infinity.upgrades.upgrade14Bought=false
         player.stats.infinity.upgrades.upgrade15Bought=false
+        playerStatsCalculated.infinity.upgrades.upgrade15.infinityReplicationMultiMultiplier=1
         CalculateReplicantiBoosts()
         CalculateInfinityBoosts()
     }
@@ -1467,14 +1497,14 @@ $(()=>{
     //#region blur and focus
     let windowFocused=true
     let timeWhenBlurred=0
-    $(window).on("blur", ()=>{
+    $(document).on("blur", ()=>{
         windowFocused=false
         timeWhenBlurred=Date.now()
         clearInterval(tick)
         clearInterval(uiUpdateTicker)
         clearInterval(autoSaveInterval)
     })
-    $(window).on("focus", ()=>{
+    $(document).on("focus", ()=>{
         if(windowFocused==false){
             windowFocused=true
             let timeWhenFocused=Date.now()

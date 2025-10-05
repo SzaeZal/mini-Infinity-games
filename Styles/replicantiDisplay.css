@@ -8,6 +8,17 @@
     border: 2px gray solid;
     text-align: center;
 }
+.currencyStats{
+  width: fit-content;
+  margin: 10px auto;
+  display: flex;
+  justify-content: space-around;
+  font-size: medium;
+}
+.currencyStats>div{
+  padding: 5px;
+  max-width: fit-content;
+}
 .buyables{
   margin: 15px auto;
   width: fit-content;
