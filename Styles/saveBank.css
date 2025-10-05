@@ -1,0 +1,33 @@
+.saveBankTable{
+    max-width: 80%;
+    border-radius: 10px;
+    margin: auto;
+    border-collapse: collapse;
+}
+.saveBankTable, .saveBankTable th, .saveBankTable td{
+    padding: 10px;
+    text-align: center;
+    font-size: x-large;
+}
+.saveBankTable td{
+    width: 250px;
+}
+.saveBankTable .infinity{
+    background-color: rgba(200, 150, 0, 0.5);
+}
+.saveBankTable .eternity{
+    background-color: rgba(100, 0, 128, 0.5);
+}
+
+.saveBankOption{
+    border: 2px solid gray;
+    border-radius: 10px;
+    max-width: 200px;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px;
+    margin: 15px auto;
+}

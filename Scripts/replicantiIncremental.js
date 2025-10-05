@@ -576,7 +576,50 @@ $(()=>{
                 </div>
             </div>
             <div class="mainView">
-                
+                <table class="saveBankTable">
+                    <tr>
+                        <th class="infinity">
+                            Infinity
+                        </th>
+                        <th colspan=2 class="eternity">
+                            Eternity
+                            </th>
+                    </tr>
+                    <tr>
+                        <td class="infinity">
+                            <div class="saveBankOption interactable" id="firstInfinitySaveBank">    
+                                1st infinity
+                            </div>
+                        </td>
+                        <td class="eternity">
+                            <div class="saveBankOption interactable" id="firstEternitySaveBank">    
+                                1st eternity
+                            </div>
+                        </td>
+                        <td class="eternity">
+                            <div class="saveBankOption interactable" id="EC1CompletedSaveBank">    
+                                EC1 completed
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="infinity">
+                            <div class="saveBankOption interactable" id="infinityBuyablesUnlockedSaveBank">    
+                                Infinity buyables unlocked
+                            </div>
+                        </td>
+                        <td class="eternity">
+                            <div class="saveBankOption interactable" id="EC2CompletedSaveBank">
+                                EC2 completed
+                            </div>
+                        </td>
+                        <td class="eternity">
+                            <div class="saveBankOption interactable" id="EC3CompletedSaveBank">
+                                EC3 completed
+                            </div>        
+                        </td>
+                    </tr>
+                </table>
             </div>  
         `)
         AddSaveBankUIEvents()
@@ -1448,10 +1491,10 @@ $(()=>{
     //#region Reset Infinity layer
     const ResetInfinityLayer = (layerReset) =>{
         player.stats.infinity.currentAmount=0
-        player.stats.replicanti.buyables.buyable1Amount=0
+        player.stats.infinity.buyables.buyable1Amount=0
         playerStatsCalculated.infinity.buyables.buyable1.cost=100
         playerStatsCalculated.infinity.buyables.buyable1.infinityReplicationChancePercentAdder=0
-        player.stats.replicanti.buyables.buyable2Amount=0
+        player.stats.infinity.buyables.buyable2Amount=0
         playerStatsCalculated.infinity.buyables.buyable2.cost=1000
         playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier=1
         player.stats.infinity.upgrades.upgrade11Bought=false
