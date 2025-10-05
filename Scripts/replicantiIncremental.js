@@ -282,7 +282,7 @@ $(()=>{
     const view = $("#view")
     let mainMenuIndex=2
     let subMenuIndexes=[0, 0, 0]
-    let subMenuLimits=[1, 1, 0]
+    let subMenuLimits=[2, 1, 0]
     $(document).keydown((e)=>{
         if(e.originalEvent.code == "KeyS" || e.originalEvent.code == "ArrowDown"){
             mainMenuIndex= mainMenuIndex == subMenuLimits.length-1 ? 0 : mainMenuIndex+1
@@ -317,6 +317,9 @@ $(()=>{
             case 1:
                 GoToSaveSettings();
                 break;
+            case 2:
+                GoToSaveBank();
+                break;
             default:
                 console.log("Settings sub navigation broke")
                 break;
@@ -325,13 +328,17 @@ $(()=>{
     //#endregion
     //#region UI settings
     const GoToUISettings = () =>{
+        console.log(player.options.ui.subMenuShown)
         view.html(`
-            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=hiddenSubMenu" : ""}>
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ''}>
                 <div class="subMenuItem selectedSubMenuItem">
                     UI Settings
                 </div>
-                <div id="saveSettingsSubMenuItem" class="subMenuItem interactable">
+                <div id="saveSettingsSubMenuItem" class="subMenuItem">
                     Save Settings
+                </div>
+                <div id="saveBankSubMenuItem" class="subMenuItem">
+                    Save Bank
                 </div>
             </div>
             <div class="mainView">
@@ -397,6 +404,12 @@ $(()=>{
                 subMenuIndexes[mainMenuIndex]=1
                 GoToSaveSettings()
             })
+            $("#saveBankSubMenuItem").on("click", ()=>{
+                subMenuIndexes[mainMenuIndex]=2
+                GoToSaveBank()
+            })
+            $("#saveSettingsSubMenuItem").addClass("interactable")
+            $("#saveBankSubMenuItem").addClass("interactable")
         }
 
         $("#themeDarkOption").on("click", ()=>SetTheme("Dark"))
@@ -423,14 +436,8 @@ $(()=>{
     //#endregion
     //#region Set subMenuShown
     const SetSubMenuShown = (newDisplay)=>{
-        $(newDisplay==true ? "#subMenuDisplayHiddenOption" : "#subMenuDisplayShownOption").removeClass("selectedOption")
-        if(newDisplay==true){
-            $("#subMenuInView").removeClass("subMenuHidden")
-        }
-        else{
-            $("#subMenuInView").addClass("subMenuHidden")
-        }
-        $(newDisplay==true ? "#subMenuDisplayShownOption" : "#subMenuDisplayHiddenOption").addClass("selectedOption")
+        player.options.ui.subMenuShown=newDisplay
+        GoToUISettings()
     }
     //#endregion
     //#region Set UI update rate
@@ -445,12 +452,15 @@ $(()=>{
     //#region Save settings
     const GoToSaveSettings = () =>{
         view.html(`
-            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=hiddenSubMenu" : ""}>
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=subMenuHidden" : ""}>
                 <div id="UISettingsSubMenuItem" class="subMenuItem interactable">
                     UI Settings
                 </div>
                 <div class="subMenuItem selectedSubMenuItem">
                     Save Settings
+                </div>
+                <div id="saveBankSubMenuItem" class="subMenuItem interactable">
+                    Save Bank
                 </div>
             </div>
             <div class="mainView">
@@ -509,6 +519,14 @@ $(()=>{
                 subMenuIndexes[mainMenuIndex]=0
                 GoToUISettings()
             })
+            $("#saveBankSubMenuItem").on("click", ()=>{
+                subMenuIndexes[mainMenuIndex]=2
+                GoToSaveBank()
+            })
+        }
+        else{
+            $("#UISettingsSubMenuItem").removeClass("interactable")
+            $("#saveBankSubMenuItem").removeClass("interactable")
         }
 
         $("#saveGame").on("click", ()=>Save())
@@ -543,6 +561,44 @@ $(()=>{
         $(`#autoSaveRate${newms}Option`).addClass("selectedOption")
     }
     //#endregion
+    //#region Save bank
+    const GoToSaveBank = () =>{
+        view.html(`
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=hiddenSubMenu" : ""}>
+                <div id="UISettingsSubMenuItem" class="subMenuItem interactable">
+                    UI Settings
+                </div>
+                <div id="saveSettingsSubMenuItem" class="subMenuItem interactable">
+                    Save Settings
+                </div>
+                <div class="subMenuItem selectedSubMenuItem">
+                    Save Bank
+                </div>
+            </div>
+            <div class="mainView">
+                
+            </div>  
+        `)
+        AddSaveBankUIEvents()
+    }
+    //#endregion
+    //#region AddSaveBankUIEvents
+    const AddSaveBankUIEvents=()=>{
+        if(player.options.ui.subMenuShown==true){
+            $("#UISettingsSubMenuItem").on("click", ()=>{
+                subMenuIndexes[mainMenuIndex]=0
+                GoToUISettings()
+            })
+            $("#saveSettingsSubMenuItem").on("click", ()=>{
+                subMenuIndexes[mainMenuIndex]=1
+                GoToSaveSettings()
+            })
+        }
+        else{
+            $("#UISettingsSubMenuItem").removeClass("interactable")
+            $("#saveSettingsSubMenuItem").removeClass("interactable")
+        }
+    }
     //#region Information nav
     $("#information").on("click", ()=>{
         mainMenuIndex=1
@@ -566,7 +622,7 @@ $(()=>{
     //#region GoToMainInformation
     const GoToMainInformation = () =>{
         view.html(`
-            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=hiddenSubMenu" : ""}>
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=subMenuHidden" : ""}>
                 <div class="subMenuItem selectedSubMenuItem">
                     Main
                 </div>
@@ -599,6 +655,9 @@ $(()=>{
                 subMenuIndexes[mainMenuIndex]=1
                 GoToChangelogInformation()
             })
+        }
+        else{
+            $("#changelogSubMenuItem").removeClass("interactable")
         }
     }
     //#endregion
@@ -649,6 +708,9 @@ $(()=>{
                 GoToMainInformation()
             })
         }
+        else{
+            $("#mainInformationSubMenuItem").removeClass("interactable")
+        }
     }
     //#endregion
     //#region Replicanti nav
@@ -659,7 +721,7 @@ $(()=>{
 
     const GoToReplicanti = () =>{
         view.html(`
-            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=hiddenSubMenu" : ""}>
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=subMenuHidden" : ""}>
                 <div class="subMenuItem selectedSubMenuItem">
                     Main
                 </div>
@@ -941,7 +1003,7 @@ $(()=>{
     //#region Infinity nav
     const GoToInfinity = () =>{
         view.html(`
-            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=hiddenSubMenu" : ""}>
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=subMenuHidden" : ""}>
                 <div class="subMenuItem selectedSubMenuItem">
                     Main
                 </div>
@@ -1492,7 +1554,6 @@ $(()=>{
     let tick=setInterval(DoTick, 25, 25)
     let uiUpdateTicker=setInterval(UpdateUI, 25)
 
-    AddReplicantiUIEvents()
     //#endregion
     //#region blur and focus
     let windowFocused=true
@@ -1583,6 +1644,7 @@ $(()=>{
         catch (e) {
             console.log(e);
         }
+        GoToReplicanti()
     };
 
     const CheckForMissingData = () => {
