@@ -641,6 +641,8 @@ $(()=>{
             $("#UISettingsSubMenuItem").removeClass("interactable")
             $("#saveSettingsSubMenuItem").removeClass("interactable")
         }
+
+        //TODO: add save bank saves
     }
     //#region Information nav
     $("#information").on("click", ()=>{
