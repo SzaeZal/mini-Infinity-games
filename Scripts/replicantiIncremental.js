@@ -144,12 +144,12 @@ $(()=>{
                 }, 
                 upgrade13:{
                     cost: 2,
-                    replicantiReplicationMultiMultiplier: 1, // based on eternities (cbrt maybe)
+                    replicantiReplicationMultiMultiplier: 1, // based on eternities (sqrt maybe)
                     intinityReplicationMultiMultiplier:1 // based on eternities (cbrt maybe)
                 },
                 upgrade14:{
                     cost: 5,
-                    infinityReplicationMultiMultiplier:1 // 2 if bought
+                    infinityReplicationMultiMultiplier:1 // 10 if bought
                 },
                 upgrade15:{
                     cost: 10, // upgrade 15 keeps infinity upgrades
@@ -157,20 +157,20 @@ $(()=>{
             },
             buyables:{
                 buyable1:{
-                    cost: 10, // *10 per
-                    staticEternityGainMultiplier: 0 // *3 per
+                    cost: 1e5, // *10 per
+                    staticEternityGainMultiplier: 1 // *3 per
                 },
                 buyable2:{
-                    cost: 1e10, // *10 per
+                    cost: 1e5, // *1.1 per
                     eternityReplicationChancePercentAdder: 0 // +0.1 per
                 },
             },
             challenges:{
                 challenge1:{
                     staticEternityGainMultiplier: 1 // 10 if completed
-                },                                  // challenge 2 keeps infinity upgrades
+                },                                  // challenge 2 keeps infinity buyables
                 challenge3:{
-                    eternityReplicationChancePercentMultiplier: 1 // 2 if completed
+                    eternityReplicationChancePercentAdder: 0 // 10 if completed
                 }
             }
         }
@@ -1561,10 +1561,13 @@ $(()=>{
                     1 / 1.79e308 eternity
                 </div>
                 <div class="currencyStats">
+                    <div id="eternityStaticGain">
+                        Static gain: ${playerStatsCalculated.eternity.static.gain}
+                    </div>
                     <div id="eternityReplicationChance">
                         Replication chance: ${playerStatsCalculated.eternity.replication.replicationChancePercent}%
                     </div>
-                    <div id="infinityReplicationMulti">
+                    <div id="eternityReplicationMulti">
                         Replication multi: x${playerStatsCalculated.eternity.replication.replicationMulti}
                     </div>
                 </div>
@@ -1574,50 +1577,50 @@ $(()=>{
                             Buyables
                         </div>
                         <div class="row gap-50px">
-                            <div id="infinityBuyable1" class="buyable">
+                            <div id="eterinityBuyable1" class="buyable">
                                 <div class="upgradeTitle">
-                                    Infinity replication chance adder <br> 
-                                    level <span id="infinityBuyable1Amount">${player.stats.infinity.buyables.buyable1Amount}</span> / 79
+                                    Static eternity multiplier <br> 
+                                    level <span id="eternityBuyable1Amount">${player.stats.eternity.buyables.buyable1Amount}</span> / 10
                                 </div>
                                 <div class="upgradeDescription">
-                                    Each level adds +1% to infintiy replication chance
+                                    Multiplies static eternity gain by 3
                                 </div>
-                                <div id="infinitybuyable1Effect">
-                                    Currently: +${playerStatsCalculated.infinity.buyables.buyable1.infinityReplicationChancePercentAdder}%
+                                <div id="eternitybuyable1Effect">
+                                    Currently: x${playerStatsCalculated.eternity.buyables.buyable1.staticEternityGainMultiplier}%
                                 </div>
-                                <div id="infinityBuyable1Cost">
+                                <div id="eternityBuyable1Cost">
                                     Cost: ${
-                                        player.stats.infinity.buyables.buyable1Amount==79
+                                        player.stats.eternity.buyables.buyable1Amount==10
                                         ? 'Maxed' 
-                                        : FormatNumber(playerStatsCalculated.infinity.buyables.buyable1.cost)+ " infinity"
+                                        : FormatNumber(playerStatsCalculated.eternity.buyables.buyable1.cost)+ " eternity"
                                     } 
                                 </div>
                                 <div class="row">
-                                    <div id="infinityBuyable1BuyOne" class="buyableBuy1 interactable">Buy 1</div>
-                                    <div id="infinityBuyable1BuyMax" class="buyableBuyMax interactable">Buy Max</div>
+                                    <div id="eternityBuyable1BuyOne" class="buyableBuy1 interactable">Buy 1</div>
+                                    <div id="eternityBuyable1BuyMax" class="buyableBuyMax interactable">Buy Max</div>
                                 </div>
                             </div>
-                            <div id="infinityBuyable2" class="buyable">
+                            <div id="eternityBuyable2" class="buyable">
                                 <div class="upgradeTitle">
-                                    Infinity Replication Increaser <br> 
-                                    level <span id="infinityBuyable2Amount">${player.stats.infinity.buyables.buyable2Amount}</span> / 30
+                                    Eternity replication chance adder <br> 
+                                    level <span id="infinityBuyable2Amount">${player.stats.eternity.buyables.buyable2Amount}</span> / 900
                                 </div>
                                 <div class="upgradeDescription">
-                                    Each level adds +0.1 to infintiy replication multiplier base
+                                    Each level adds +0.1% to eternity replication chance
                                 </div>
                                 <div id="infinitybuyable2Effect">
-                                    Currently: +x${playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier}
+                                    Currently: +${playerStatsCalculated.eternity.buyables.buyable2.eternityReplicationChancePercentAdder}%
                                 </div>
                                 <div id="infinityBuyable2Cost">
                                     Cost: ${
-                                        player.stats.infinity.buyables.buyable2Amount==30
+                                        player.stats.eternity.buyables.buyable2Amount==900
                                         ? 'Maxed' 
-                                        : FormatNumber(playerStatsCalculated.infinity.buyables.buyable2.cost)+ " infinity"
+                                        : FormatNumber(playerStatsCalculated.eternity.buyables.buyable2.cost)+ " eternity"
                                     } 
                                 </div>
                                 <div class="row ">
-                                    <div id="infinityBuyable2BuyOne" class="buyableBuy1 interactable">Buy 1</div>
-                                    <div id="infinityBuyable2BuyMax" class="buyableBuyMax interactable">Buy Max</div>
+                                    <div id="eternityBuyable2BuyOne" class="buyableBuy1 interactable">Buy 1</div>
+                                    <div id="eternityBuyable2BuyMax" class="buyableBuyMax interactable">Buy Max</div>
                                 </div>
                             </div>
                         </div>
@@ -1628,63 +1631,64 @@ $(()=>{
                         Upgrades
                     </div>
                     <div class="upgradeRow">
-                        <div id="infinityUpgrade11" class="upgrade ${player.stats.infinity.upgrades.upgrade11Bought ? "boughtInfinityUpgrade" : ""}">
+                        <div id="eternityUpgrade11" class="upgrade ${player.stats.eternity.upgrades.upgrade11Bought ? "boughtEternityUpgrade" : ""}">
                             <div class="upgradeTitle">
-                                Replicanti Infinite speed
+                                Replicanti Eternal multiplier
                             </div>
                             <div class="upgradeDescription">
-                                Replicanti replication time is divided by 2
+                                Replicanti replication multiplier is multiplied by 1024
                             </div>
                             <div class="upgradeCost">
-                                Cost: 1 infinity
+                                Cost: 1 eternity
                             </div>
                         </div>
-                        <div id="infinityUpgrade12" class="upgrade ${player.stats.infinity.upgrades.upgrade12Bought ? "boughtInfinityUpgrade" : ""}">
+                        <div id="eternityUpgrade12" class="upgrade ${player.stats.eternity.upgrades.upgrade12Bought ? "boughtEternityUpgrade" : ""}">
                             <div class="upgradeTitle">
-                                Replicanti Infinite multiplier
+                                Infinity Eternal chance
                             </div>
                             <div class="upgradeDescription">
-                                Replicanti replication multiplier is multiplied by 1.5
+                                Adds +10% to infinity replication chance
                             </div>
                             <div class="upgradeCost">
-                                Cost: 1 infinity
+                                Cost: 1 eternity
                             </div>
                         </div>
-                        <div id="infinityUpgrade13" class="upgrade ${player.stats.infinity.upgrades.upgrade13Bought ? "boughtInfinityUpgrade" : ""}">
+                        <div id="eternityUpgrade13" class="upgrade ${player.stats.eternity.upgrades.upgrade13Bought ? "boughtEternityUpgrade" : ""}">
                             <div class="upgradeTitle">
-                                Infinity-based Replicanti Multi
+                                Eternity-based multipliers
                             </div>
                             <div class="upgradeDescription">
-                                Replicanti replication multiplier is multiplied by (infinity^0.5)
+                                Replicanti replication multiplier is multiplied by (1 + eternity^0.5) <br>
+                                Infinity replication multiplier is multiplied by ((1 + eternity)^0.25)
                             </div>
-                            <div id="infinityUpgrade13Effect">
-                                Currently: x${FormatNumber(playerStatsCalculated.infinity.upgrades.upgrade13.replicantiReplicationMultiMultiplier)}
+                            <div id="eternityUpgrade13Effect">
+                                Currently: x${FormatNumber(playerStatsCalculated.eternity.upgrades.upgrade13.replicantiReplicationMultiMultiplier)} replicanti multi
+                                <br> x${FormatNumber(playerStatsCalculated.eternity.upgrades.upgrade13.intinityReplicationMultiMultiplier)} infinity multi
                             </div>
                             <div class="upgradeCost">
-                                Cost: 2 infinity
+                                Cost: 2 eternity
                             </div>
                         </div>
-                        <div id="infinityUpgrade14" class="upgrade ${player.stats.infinity.upgrades.upgrade14Bought ? "boughtInfinityUpgrade" : ""}">
+                        <div id="eternityUpgrade14" class="upgrade ${player.stats.eternity.upgrades.upgrade14Bought ? "boughEternityUpgrade" : ""}">
                             <div class="upgradeTitle">
-                                Replicanti Buyable keeper
+                                Infinity Eternal multiplier
                             </div>
                             <div class="upgradeDescription">
-                                Replicanti buyables are kept on infinity reset
+                                Infinity replication multiplier is multiplied by 10
                             </div>
                             <div class="upgradeCost">
-                                Cost: 5 infinity
+                                Cost: 5 eternity
                             </div>
                         </div>
-                        <div id="infinityUpgrade15" class="upgrade ${player.stats.infinity.upgrades.upgrade15Bought ? "boughtInfinityUpgrade" : ""}">
+                        <div id="eternityUpgrade15" class="upgrade ${player.stats.eternity.upgrades.upgrade15Bought ? "boughtEternityUpgrade" : ""}">
                             <div class="upgradeTitle">
-                                Infinity doubler with extras
+                                Infinity upgrade keeper
                             </div>
                             <div class="upgradeDescription">
-                                2x infinity replication multiplier <br>
-                                Unlocks infinity buyables
+                                Keeps infinity upgrades on eternity
                             </div>
                             <div class="upgradeCost">
-                                Cost: 10 infinity
+                                Cost: 10 eternity
                             </div>
                         </div>
                     </div>
