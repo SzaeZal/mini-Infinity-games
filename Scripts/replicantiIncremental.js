@@ -456,7 +456,7 @@ $(()=>{
     //#region Save settings
     const GoToSaveSettings = () =>{
         view.html(`
-            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=subMenuHidden" : ""}>
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
                 <div id="UISettingsSubMenuItem" class="subMenuItem interactable">
                     UI Settings
                 </div>
@@ -568,7 +568,7 @@ $(()=>{
     //#region Save bank
     const GoToSaveBank = () =>{
         view.html(`
-            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=hiddenSubMenu" : ""}>
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="hiddenSubMenu"' : ""}>
                 <div id="UISettingsSubMenuItem" class="subMenuItem interactable">
                     UI Settings
                 </div>
@@ -671,7 +671,7 @@ $(()=>{
     //#region GoToMainInformation
     const GoToMainInformation = () =>{
         view.html(`
-            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=subMenuHidden" : ""}>
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
                 <div class="subMenuItem selectedSubMenuItem">
                     Main
                 </div>
@@ -713,7 +713,7 @@ $(()=>{
     //#region GoToChangelogInformation
     const GoToChangelogInformation = () =>{
         view.html(`
-            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=hiddenSubMenu" : ""}>
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="hiddenSubMenu"' : ""}>
                 <div class="subMenuItem interactable" id="mainInformationSubMenuItem">
                     Main
                 </div>
@@ -770,7 +770,7 @@ $(()=>{
 
     const GoToReplicanti = () =>{
         view.html(`
-            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=subMenuHidden" : ""}>
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
                 <div class="subMenuItem selectedSubMenuItem">
                     Main
                 </div>
@@ -1052,7 +1052,7 @@ $(()=>{
     //#region Infinity nav
     const GoToInfinity = () =>{
         view.html(`
-            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=subMenuHidden" : ""}>
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
                 <div class="subMenuItem selectedSubMenuItem">
                     Main
                 </div>
@@ -1552,7 +1552,7 @@ $(()=>{
     //#region Eternity main
     const GoToEternityMain = () =>{
         view.html(`
-            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=subMenuHidden" : ""}>
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
                 <div class="subMenuItem selectedSubMenuItem">
                     Main
                 </div>
@@ -1858,7 +1858,7 @@ $(()=>{
     //#region Eternity challenges
     const GoToEternityChallenges = () =>{
         view.html(`
-            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=subMenuHidden" : ""}>
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
                 <div id="eternityMainSubMenuItem" class="subMenuItem">
                     Main
                 </div>
