@@ -1424,17 +1424,36 @@ $(()=>{
         if(player.stats.infinity.currentAmount>=1 && player.stats.infinity.upgrades.upgrade11Bought==false){
             $("#infinityUpgrade11").addClass("purchaseAbleUpgrade interactable")
         }
+        else{
+            $("#infinityUpgrade11").removeClass("purchaseAbleUpgrade interactable")
+        }
+
         if(player.stats.infinity.currentAmount>=1 && player.stats.infinity.upgrades.upgrade12Bought==false){
             $("#infinityUpgrade12").addClass("purchaseAbleUpgrade interactable")
         }
+        else{
+            $("#infinityUpgrade12").removeClass("purchaseAbleUpgrade interactable")
+        }
+
         if(player.stats.infinity.currentAmount>=2 && player.stats.infinity.upgrades.upgrade13Bought==false){
             $("#infinityUpgrade13").addClass("purchaseAbleUpgrade interactable")
         }
+        else{
+            $("#infinityUpgrade13").removeClass("purchaseAbleUpgrade interactable")
+        }
+
         if(player.stats.infinity.currentAmount>=5 && player.stats.infinity.upgrades.upgrade14Bought==false){
             $("#infinityUpgrade14").addClass("purchaseAbleUpgrade interactable")
         }
+        else{
+            $("#infinityUpgrade14").removeClass("purchaseAbleUpgrade interactable")
+        }
+
         if(player.stats.infinity.currentAmount>=10 && player.stats.infinity.upgrades.upgrade15Bought==false){
             $("#infinityUpgrade15").addClass("purchaseAbleUpgrade interactable")
+        }
+        else{
+            $("#infinityUpgrade15").removeClass("purchaseAbleUpgrade interactable")
         }
 
         if(player.stats.infinity.upgrades.upgrade13Bought==true){
@@ -1467,7 +1486,7 @@ $(()=>{
     const UpdateInfinityBuyablesAfterLoad = ()=>{
         playerStatsCalculated.infinity.buyables.buyable1.infinityReplicationChancePercentAdder= 1 * player.stats.infinity.buyables.buyable1Amount
         playerStatsCalculated.infinity.buyables.buyable1.cost= 100*Math.pow(1.15, player.stats.infinity.buyables.buyable1Amount)
-        playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier= 1 + (0.1 * player.stats.infinity.buyables.buyable2Amount)
+        playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier= (0.1 * player.stats.infinity.buyables.buyable2Amount)
         playerStatsCalculated.infinity.buyables.buyable2.cost= 1000*Math.pow(2, player.stats.infinity.buyables.buyable2Amount)
     }
     //#endregion
@@ -1513,11 +1532,209 @@ $(()=>{
     }
     //#region Eternity nav
     const GoToEternity = () =>{
-        view.html(`
-            Rep
-        `)
+        switch(subMenuIndexes[mainMenuIndex]){
+            case 0:
+                GoToEternityMain()
+                break
+            case 1:
+                GoToEternityChallenges()
+                break
+            default:
+                console.log("error with submenu index")
+                break
+        }
     }
     //#endregion
+    //#region Eternity main
+    const GoToEternityMain = () =>{
+        view.html(`
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=subMenuHidden" : ""}>
+                <div class="subMenuItem selectedSubMenuItem">
+                    Main
+                </div>
+                <div id="eternityChallengesSubMenuItem" class="subMenuItem selectedSubMenuItem">
+                    Challenges
+                </div>
+            </div>
+            <div class="mainView">
+                <div id="currencyBar" class="currencyBar">
+                    1 / 1.79e308 eternity
+                </div>
+                <div class="currencyStats">
+                    <div id="eternityReplicationChance">
+                        Replication chance: ${playerStatsCalculated.eternity.replication.replicationChancePercent}%
+                    </div>
+                    <div id="infinityReplicationMulti">
+                        Replication multi: x${playerStatsCalculated.eternity.replication.replicationMulti}
+                    </div>
+                </div>
+                ${player.stats.eternity.challenges.challenge3.completed ? `
+                    <div class="buyables">
+                        <div class="subTitle">
+                            Buyables
+                        </div>
+                        <div class="row gap-50px">
+                            <div id="infinityBuyable1" class="buyable">
+                                <div class="upgradeTitle">
+                                    Infinity replication chance adder <br> 
+                                    level <span id="infinityBuyable1Amount">${player.stats.infinity.buyables.buyable1Amount}</span> / 79
+                                </div>
+                                <div class="upgradeDescription">
+                                    Each level adds +1% to infintiy replication chance
+                                </div>
+                                <div id="infinitybuyable1Effect">
+                                    Currently: +${playerStatsCalculated.infinity.buyables.buyable1.infinityReplicationChancePercentAdder}%
+                                </div>
+                                <div id="infinityBuyable1Cost">
+                                    Cost: ${
+                                        player.stats.infinity.buyables.buyable1Amount==79
+                                        ? 'Maxed' 
+                                        : FormatNumber(playerStatsCalculated.infinity.buyables.buyable1.cost)+ " infinity"
+                                    } 
+                                </div>
+                                <div class="row">
+                                    <div id="infinityBuyable1BuyOne" class="buyableBuy1 interactable">Buy 1</div>
+                                    <div id="infinityBuyable1BuyMax" class="buyableBuyMax interactable">Buy Max</div>
+                                </div>
+                            </div>
+                            <div id="infinityBuyable2" class="buyable">
+                                <div class="upgradeTitle">
+                                    Infinity Replication Increaser <br> 
+                                    level <span id="infinityBuyable2Amount">${player.stats.infinity.buyables.buyable2Amount}</span> / 30
+                                </div>
+                                <div class="upgradeDescription">
+                                    Each level adds +0.1 to infintiy replication multiplier base
+                                </div>
+                                <div id="infinitybuyable2Effect">
+                                    Currently: +x${playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier}
+                                </div>
+                                <div id="infinityBuyable2Cost">
+                                    Cost: ${
+                                        player.stats.infinity.buyables.buyable2Amount==30
+                                        ? 'Maxed' 
+                                        : FormatNumber(playerStatsCalculated.infinity.buyables.buyable2.cost)+ " infinity"
+                                    } 
+                                </div>
+                                <div class="row ">
+                                    <div id="infinityBuyable2BuyOne" class="buyableBuy1 interactable">Buy 1</div>
+                                    <div id="infinityBuyable2BuyMax" class="buyableBuyMax interactable">Buy Max</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ` : ``}
+                <div class="upgrades">
+                    <div class="subTitle">
+                        Upgrades
+                    </div>
+                    <div class="upgradeRow">
+                        <div id="infinityUpgrade11" class="upgrade ${player.stats.infinity.upgrades.upgrade11Bought ? "boughtInfinityUpgrade" : ""}">
+                            <div class="upgradeTitle">
+                                Replicanti Infinite speed
+                            </div>
+                            <div class="upgradeDescription">
+                                Replicanti replication time is divided by 2
+                            </div>
+                            <div class="upgradeCost">
+                                Cost: 1 infinity
+                            </div>
+                        </div>
+                        <div id="infinityUpgrade12" class="upgrade ${player.stats.infinity.upgrades.upgrade12Bought ? "boughtInfinityUpgrade" : ""}">
+                            <div class="upgradeTitle">
+                                Replicanti Infinite multiplier
+                            </div>
+                            <div class="upgradeDescription">
+                                Replicanti replication multiplier is multiplied by 1.5
+                            </div>
+                            <div class="upgradeCost">
+                                Cost: 1 infinity
+                            </div>
+                        </div>
+                        <div id="infinityUpgrade13" class="upgrade ${player.stats.infinity.upgrades.upgrade13Bought ? "boughtInfinityUpgrade" : ""}">
+                            <div class="upgradeTitle">
+                                Infinity-based Replicanti Multi
+                            </div>
+                            <div class="upgradeDescription">
+                                Replicanti replication multiplier is multiplied by (infinity^0.5)
+                            </div>
+                            <div id="infinityUpgrade13Effect">
+                                Currently: x${FormatNumber(playerStatsCalculated.infinity.upgrades.upgrade13.replicantiReplicationMultiMultiplier)}
+                            </div>
+                            <div class="upgradeCost">
+                                Cost: 2 infinity
+                            </div>
+                        </div>
+                        <div id="infinityUpgrade14" class="upgrade ${player.stats.infinity.upgrades.upgrade14Bought ? "boughtInfinityUpgrade" : ""}">
+                            <div class="upgradeTitle">
+                                Replicanti Buyable keeper
+                            </div>
+                            <div class="upgradeDescription">
+                                Replicanti buyables are kept on infinity reset
+                            </div>
+                            <div class="upgradeCost">
+                                Cost: 5 infinity
+                            </div>
+                        </div>
+                        <div id="infinityUpgrade15" class="upgrade ${player.stats.infinity.upgrades.upgrade15Bought ? "boughtInfinityUpgrade" : ""}">
+                            <div class="upgradeTitle">
+                                Infinity doubler with extras
+                            </div>
+                            <div class="upgradeDescription">
+                                2x infinity replication multiplier <br>
+                                Unlocks infinity buyables
+                            </div>
+                            <div class="upgradeCost">
+                                Cost: 10 infinity
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="infinityAmount" class="currencyBar">
+                    x / 1.79e308 infinity
+                </div>
+            </div>
+        `)
+        AddEternityMainUIEvents()
+    }
+    //#endregion
+    //#region Eternity main ui events
+    const AddEternityMainUIEvents=()=>{
+        if(player.options.ui.subMenuShown==true){
+            $("#eternityChallengesSubMenuItem").on("click", ()=>{
+                subMenuIndexes[mainMenuIndex]=1
+                GoToEternity()
+            })
+        }
+    }
+    //#endregion
+    //#region Eternity challenges
+    const GoToEternityChallenges = () =>{
+        view.html(`
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? "class=subMenuHidden" : ""}>
+                <div id="eternityMainSubMenuItem" class="subMenuItem">
+                    Main
+                </div>
+                <div class="subMenuItem selectedSubMenuItem">
+                    Challenges
+                </div>
+            </div>
+            <div class="mainView">
+                <div class="challenges">
+                </div>
+            </div>
+        `)
+        AddEternityChallengesUIEvents()
+    }
+    //#endregion
+    //#region Eternity challenges ui events
+    const AddEternityChallengesUIEvents=()=>{
+        if(player.options.ui.subMenuShown==true){
+            $("#eternityMainSubMenuItem").on("click", ()=>{
+                subMenuIndexes[mainMenuIndex]=0
+                GoToEternity()
+            })
+        }
+    }
     //#region Unlock Eternity
     const UnlockEternity = ()=>{
         player.stats.eternity.unlocked=true
@@ -1527,6 +1744,9 @@ $(()=>{
             mainMenuIndex=4
             GoToEternity()
         })
+
+        subMenuIndexes.push(0)
+        subMenuLimits.push(1)
     }
     //#endregion
     //#region Eternity replication
