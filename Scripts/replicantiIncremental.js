@@ -157,12 +157,12 @@ $(()=>{
             },
             buyables:{
                 buyable1:{
-                    cost: 1e5, // *10 per
-                    staticEternityGainMultiplier: 1 // *3 per
-                },
-                buyable2:{
                     cost: 1e5, // *1.1 per
                     eternityReplicationChancePercentAdder: 0 // +0.1 per
+                },
+                buyable2:{
+                    cost: 1e5, // *100 per
+                    eternityReplicationMultiplierAdder: 0 // +0.1 per
                 },
             },
             challenges:{
@@ -648,6 +648,17 @@ $(()=>{
 
         //TODO: add save bank saves
     }
+    //#endregion
+    //#region Save bank functions
+    const saveBank={
+        firstInfinity: "",
+        infinityBuyablesUnlocked: "eyJzdGF0cyI6eyJyZXBsaWNhbnRpIjp7ImN1cnJlbnRBbW91bnQiOjYuMjYzMjk2NDAxNTE4NzYyZSsyODQsImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50Ijo5LCJidXlhYmxlMkFtb3VudCI6OX19LCJpbmZpbml0eSI6eyJjdXJyZW50QW1vdW50Ijo0NjUsInVubG9ja2VkIjp0cnVlLCJ1cGdyYWRlcyI6eyJ1cGdyYWRlMTFCb3VnaHQiOnRydWUsInVwZ3JhZGUxMkJvdWdodCI6dHJ1ZSwidXBncmFkZTEzQm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTRCb3VnaHQiOnRydWUsInVwZ3JhZGUxNUJvdWdodCI6dHJ1ZX0sImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50IjowLCJidXlhYmxlMkFtb3VudCI6MH19LCJldGVybml0eSI6eyJjdXJyZW50QW1vdW50IjowLCJ1bmxvY2tlZCI6ZmFsc2UsInVwZ3JhZGVzIjp7InVwZ3JhZGUxMUJvdWdodCI6ZmFsc2UsInVwZ3JhZGUxMkJvdWdodCI6ZmFsc2UsInVwZ3JhZGUxM0JvdWdodCI6ZmFsc2UsInVwZ3JhZGUxNEJvdWdodCI6ZmFsc2UsInVwZ3JhZGUxNUJvdWdodCI6ZmFsc2V9LCJidXlhYmxlcyI6eyJidXlhYmxlMUFtb3VudCI6MCwiYnV5YWJsZTJBbW91bnQiOjB9LCJjaGFsbGVuZ2VzIjp7ImNoYWxsZW5nZTEiOnsiZW50ZXJlZCI6ZmFsc2UsImNvbXBsZXRlZCI6ZmFsc2V9LCJjaGFsbGVuZ2UyIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOmZhbHNlfSwiY2hhbGxlbmdlMyI6eyJlbnRlcmVkIjpmYWxzZSwiY29tcGxldGVkIjpmYWxzZX19fX0sIm9wdGlvbnMiOnsidWkiOnsidGhlbWUiOiJEYXJrIiwic3ViTWVudVNob3duIjp0cnVlLCJ1aVVwZGF0ZVJhdGVJbk1zIjoyNX0sInNhdmUiOnsic2F2ZUludGVydmFsSW5NcyI6NTAwMH19fQ==.IkxlYXN0T2J2aW91c1NpZ25hdHVyZSI=",
+        firstEternity: "eyJzdGF0cyI6eyJyZXBsaWNhbnRpIjp7ImN1cnJlbnRBbW91bnQiOjEuMDE0MTIwNDgwMTgyNTgzNWUrMzEsImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50IjowLCJidXlhYmxlMkFtb3VudCI6MH19LCJpbmZpbml0eSI6eyJjdXJyZW50QW1vdW50IjowLCJ1bmxvY2tlZCI6dHJ1ZSwidXBncmFkZXMiOnsidXBncmFkZTExQm91Z2h0IjpmYWxzZSwidXBncmFkZTEyQm91Z2h0IjpmYWxzZSwidXBncmFkZTEzQm91Z2h0IjpmYWxzZSwidXBncmFkZTE0Qm91Z2h0IjpmYWxzZSwidXBncmFkZTE1Qm91Z2h0IjpmYWxzZX0sImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50IjowLCJidXlhYmxlMkFtb3VudCI6MH19LCJldGVybml0eSI6eyJjdXJyZW50QW1vdW50IjowLCJ1bmxvY2tlZCI6dHJ1ZSwidXBncmFkZXMiOnsidXBncmFkZTExQm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTJCb3VnaHQiOmZhbHNlLCJ1cGdyYWRlMTNCb3VnaHQiOmZhbHNlLCJ1cGdyYWRlMTRCb3VnaHQiOmZhbHNlLCJ1cGdyYWRlMTVCb3VnaHQiOmZhbHNlfSwiYnV5YWJsZXMiOnsiYnV5YWJsZTFBbW91bnQiOjAsImJ1eWFibGUyQW1vdW50IjowfSwiY2hhbGxlbmdlcyI6eyJjaGFsbGVuZ2UxIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOmZhbHNlfSwiY2hhbGxlbmdlMiI6eyJlbnRlcmVkIjpmYWxzZSwiY29tcGxldGVkIjpmYWxzZX0sImNoYWxsZW5nZTMiOnsiZW50ZXJlZCI6ZmFsc2UsImNvbXBsZXRlZCI6ZmFsc2V9fX19LCJvcHRpb25zIjp7InVpIjp7InRoZW1lIjoiRGFyayIsInN1Yk1lbnVTaG93biI6dHJ1ZSwidWlVcGRhdGVSYXRlSW5NcyI6MjV9LCJzYXZlIjp7InNhdmVJbnRlcnZhbEluTXMiOjUwMDB9fX0=.IkxlYXN0T2J2aW91c1NpZ25hdHVyZSI=",
+        EC1Completed: "",
+        EC2Completed: "",
+        EC3Completed: "",
+    }
+    //#endregion
     //#region Information nav
     $("#information").on("click", ()=>{
         mainMenuIndex=1
@@ -1283,7 +1294,7 @@ $(()=>{
         if(player.stats.infinity.buyables.buyable2Amount<30){
             player.stats.infinity.buyables.buyable2Amount++
             player.stats.infinity.currentAmount-=playerStatsCalculated.infinity.buyables.buyable2.cost
-            playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier= 1 + (0.1 * player.stats.infinity.buyables.buyable2Amount)
+            playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier= 0.1 * player.stats.infinity.buyables.buyable2Amount
             playerStatsCalculated.infinity.buyables.buyable2.cost= 1000*Math.pow(2, player.stats.infinity.buyables.buyable2Amount)
             CalculateInfinityBoosts()
         }
@@ -1556,7 +1567,7 @@ $(()=>{
                 <div class="subMenuItem selectedSubMenuItem">
                     Main
                 </div>
-                <div id="eternityChallengesSubMenuItem" class="subMenuItem selectedSubMenuItem">
+                <div id="eternityChallengesSubMenuItem" class="subMenuItem">
                     Challenges
                 </div>
             </div>
@@ -1583,18 +1594,18 @@ $(()=>{
                         <div class="row gap-50px">
                             <div id="eterinityBuyable1" class="buyable">
                                 <div class="upgradeTitle">
-                                    Static eternity multiplier <br> 
-                                    level <span id="eternityBuyable1Amount">${player.stats.eternity.buyables.buyable1Amount}</span> / 10
+                                    Eternity replication chance adder <br> 
+                                    level <span id="eternityBuyable1Amount">${player.stats.eternity.buyables.buyable1Amount}</span> / 900
                                 </div>
                                 <div class="upgradeDescription">
-                                    Multiplies static eternity gain by 3
+                                    Each level adds +0.1% to eternity replication chance
                                 </div>
                                 <div id="eternitybuyable1Effect">
-                                    Currently: x${playerStatsCalculated.eternity.buyables.buyable1.staticEternityGainMultiplier}%
+                                    Currently: +${FormatNumber(playerStatsCalculated.eternity.buyables.buyable1.eternityReplicationChancePercentAdder)}%
                                 </div>
                                 <div id="eternityBuyable1Cost">
                                     Cost: ${
-                                        player.stats.eternity.buyables.buyable1Amount==10
+                                        player.stats.eternity.buyables.buyable1Amount==900
                                         ? 'Maxed' 
                                         : FormatNumber(playerStatsCalculated.eternity.buyables.buyable1.cost)+ " eternity"
                                     } 
@@ -1606,18 +1617,18 @@ $(()=>{
                             </div>
                             <div id="eternityBuyable2" class="buyable">
                                 <div class="upgradeTitle">
-                                    Eternity replication chance adder <br> 
-                                    level <span id="infinityBuyable2Amount">${player.stats.eternity.buyables.buyable2Amount}</span> / 900
+                                    Eternity replication multiplier adder <br> 
+                                    level <span id="infinityBuyable2Amount">${player.stats.eternity.buyables.buyable2Amount}</span> / 30
                                 </div>
                                 <div class="upgradeDescription">
-                                    Each level adds +0.1% to eternity replication chance
+                                    Each level adds +x0.1 to eternity replication multiplier
                                 </div>
                                 <div id="infinitybuyable2Effect">
-                                    Currently: +${playerStatsCalculated.eternity.buyables.buyable2.eternityReplicationChancePercentAdder}%
+                                    Currently: +x${playerStatsCalculated.eternity.buyables.buyable2.eternityReplicationMultiplierAdder}
                                 </div>
                                 <div id="infinityBuyable2Cost">
                                     Cost: ${
-                                        player.stats.eternity.buyables.buyable2Amount==900
+                                        player.stats.eternity.buyables.buyable2Amount==30
                                         ? 'Maxed' 
                                         : FormatNumber(playerStatsCalculated.eternity.buyables.buyable2.cost)+ " eternity"
                                     } 
@@ -1776,7 +1787,39 @@ $(()=>{
         }
     }
     //#endregion
-    
+    //#region Eternity Buyables
+    const PurchaseEternityBuyable1 = ()=>{
+        if(player.stats.eternity.buyables.buyable1Amount<900){
+            player.stats.eternity.buyables.buyable1Amount++
+            player.stats.eternity.currentAmount-=playerStatsCalculated.eternity.buyables.buyable1.cost
+            playerStatsCalculated.eternity.buyables.buyable1.eternityReplicationChancePercentAdder= 0.1 * player.stats.eternity.buyables.buyable1Amount
+            playerStatsCalculated.eternity.buyables.buyable1.cost= 1e5*Math.pow(1.1, player.stats.eternity.buyables.buyable1Amount)
+            CalculateEternityBoosts()
+        }
+    }
+
+    const UpdateEternityBuyable1UI=()=>{
+        $("#eternityBuyable1Amount").text(`${player.stats.eternity.buyables.buyable1Amount}`)
+        $("#eternitybuyable1Effect").text(`Currently: +${FormatNumber(playerStatsCalculated.eternity.buyables.buyable1.eternityReplicationChancePercentAdder)}%`)
+        $("#eternityBuyable1Cost").text(`Cost: ${player.stats.eternity.buyables.buyable1Amount==900 ? 'Maxed' : FormatNumber(playerStatsCalculated.eternity.buyables.buyable1.cost) + " eternity"} `)
+    }
+
+    const PurchaseEternityBuyable2 = ()=>{
+        if(player.stats.eternity.buyables.buyable2Amount<30){
+            player.stats.eternity.buyables.buyable2Amount++
+            player.stats.eternity.currentAmount-=playerStatsCalculated.eternity.buyables.buyable2.cost
+            playerStatsCalculated.eternity.buyables.buyable2.eternityReplicationMultiplierAdder= 0.1 * player.stats.eternity.buyables.buyable2Amount
+            playerStatsCalculated.eternity.buyables.buyable2.cost= 1e5*Math.pow(100, player.stats.eternity.buyables.buyable2Amount)
+            CalculateEternityBoosts()
+        }
+    }
+
+    const UpdateEternityBuyable2UI=()=>{
+        $("#eternityBuyable2Amount").text(`${player.stats.eternity.buyables.buyable2Amount}`)
+        $("#infinitybuyable2Effect").text(`Currently: +x${FormatNumber(playerStatsCalculated.eternity.buyables.buyable2.eternityReplicationMultiplierAdder)}`)
+        $("#infinityBuyable2Cost").text(`Cost: ${player.stats.eternity.buyables.buyable2Amount==30 ? "Maxed" : FormatNumber(playerStatsCalculated.eternity.buyables.buyable2.cost)+ " eternity"} `)
+    }
+    //#endregion
     //#region Eternity Upgrades
     const TryPurchaseEternityUpgrade11 = ()=>{
         if(player.stats.eternity.currentAmount>=1){
@@ -1848,11 +1891,12 @@ $(()=>{
         playerStatsCalculated.eternity.replication.replicationChancePercent=
             playerStatsCalculated.eternity.challenges.challenge2.eternityReplicationChancePercentAdder
             + playerStatsCalculated.eternity.challenges.challenge3.eternityReplicationChancePercentAdder
-            + playerStatsCalculated.eternity.buyables.buyable2.eternityReplicationChancePercentAdder
+            + playerStatsCalculated.eternity.buyables.buyable1.eternityReplicationChancePercentAdder
     }
 
     const CalculateEternityReplicationMulti = ()=>{
-        playerStatsCalculated.eternity.replication.replicationMulti=2
+        playerStatsCalculated.eternity.replication.replicationMulti=2 
+            + playerStatsCalculated.eternity.buyables.buyable2.eternityReplicationMultiplierAdder
     }
     //#endregion
     //#region Eternity challenges
@@ -1895,6 +1939,7 @@ $(()=>{
 
         subMenuIndexes.push(0)
         subMenuLimits.push(1)
+        mainMenuCallbacks.push(GoToEternity)
     }
     //#endregion
     //#region Eternity replication
