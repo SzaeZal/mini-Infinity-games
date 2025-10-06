@@ -168,9 +168,13 @@ $(()=>{
             challenges:{
                 challenge1:{
                     staticEternityGainMultiplier: 1 // 10 if completed
-                },                                  // challenge 2 keeps infinity buyables
-                challenge3:{
-                    eternityReplicationChancePercentAdder: 0 // 10 if completed
+                },    
+                challenge2:{ // challenge 2 keeps infinity buyables
+                    eternityReplicationChancePercentAdder: 0 // 5 if completed
+                },
+                challenge3:{ //also unlocks buyables   
+                    eternityReplicationChancePercentAdder: 0, // 5 if completed
+                    infinityReplicationChancePercentAdder: 0 // 1 if completed (yes im serious)
                 }
             }
         }
@@ -1709,6 +1713,146 @@ $(()=>{
                 GoToEternity()
             })
         }
+
+        if(player.stats.eternity.upgrades.upgrade11Bought==false){
+            $("#eternityUpgrade11").on("click", ()=>{
+                TryPurchaseEternityUpgrade11()
+            })
+        }
+        if(player.stats.eternity.upgrades.upgrade12Bought==false){
+            $("#eternityUpgrade12").on("click", ()=>{
+                TryPurchaseEternityUpgrade12()
+            })
+        }
+        if(player.stats.eternity.upgrades.upgrade13Bought==false){
+            $("#eternityUpgrade13").on("click", ()=>{
+                TryPurchaseEternityUpgrade13()
+            })
+        }
+        if(player.stats.eternity.upgrades.upgrade14Bought==false){
+            $("#eternityUpgrade14").on("click", ()=>{
+                TryPurchaseEternityUpgrade14()
+            })
+        }
+        if(player.stats.eternity.upgrades.upgrade15Bought==false){
+            $("#eternityUpgrade15").on("click", ()=>{
+                TryPurchaseEternityUpgrade15()
+            })
+        }
+
+        if(player.stats.eternity.challenges.challenge3.completed==true){
+            $("#eternityBuyable1BuyOne").on("click", ()=>{
+                if(player.stats.eternity.currentAmount>=playerStatsCalculated.eternity.buyables.buyable1.cost){
+                    PurchaseEternityBuyable1()
+                    UpdateEternityBuyable1UI()
+                    UpdateEternityView()
+                }
+            })
+            $("#eternityBuyable1BuyMax").on("click", ()=>{
+                while(player.stats.eternity.currentAmount>=playerStatsCalculated.eternity.buyables.buyable1.cost 
+                    && player.stats.eternity.buyables.buyable1Amount<10
+                ){
+                    PurchaseEternityBuyable1()
+                    UpdateEternityBuyable1UI()
+                    UpdateEternityView()
+                }
+            })
+            $("#eternityBuyable2BuyOne").on("click", ()=>{
+                if(player.stats.eternity.currentAmount>=playerStatsCalculated.eternity.buyables.buyable2.cost){
+                    PurchaseEternityBuyable2()
+                    UpdateEternityBuyable2UI()
+                    UpdateEternityView()
+                }
+            })
+            $("#eternityBuyable2BuyMax").on("click", ()=>{
+                while(player.stats.eternity.currentAmount>=playerStatsCalculated.eternity.buyables.buyable2.cost
+                    && player.stats.eternity.buyables.buyable2Amount<30
+                ){
+                    PurchaseEternityBuyable2()
+                    UpdateEternityBuyable2UI()
+                    UpdateEternityView()
+                }
+            })
+        }
+    }
+    //#endregion
+    
+    //#region Eternity Upgrades
+    const TryPurchaseEternityUpgrade11 = ()=>{
+        if(player.stats.eternity.currentAmount>=1){
+            player.stats.eternity.currentAmount-=1
+            player.stats.eternity.upgrades.upgrade11Bought=true
+            playerStatsCalculated.eternity.upgrades.upgrade11.replicantiReplicationMultiMultiplier=1024
+            CalculateReplicantiReplicationTime()
+            $("#eternityUpgrade11").addClass("boughtEternityUpgrade")
+            $("#eternityUpgrade11").off("click")
+        }
+    }
+
+    const TryPurchaseEternityUpgrade12 = ()=>{
+        if(player.stats.eternity.currentAmount>=1){
+            player.stats.eternity.currentAmount-=1
+            player.stats.eternity.upgrades.upgrade12Bought=true
+            playerStatsCalculated.eternity.upgrades.upgrade12.infinityReplicationChancePercentAdder=10
+            CalculateReplicantiReplicationMulti()
+            $("#eternityUpgrade12").addClass("boughtEternityUpgrade")
+            $("#eternityUpgrade12").off("click")
+        }
+    }
+
+    const TryPurchaseEternityUpgrade13 = ()=>{
+        if(player.stats.eternity.currentAmount>=2){
+            player.stats.eternity.currentAmount-=2
+            player.stats.eternity.upgrades.upgrade13Bought=true
+            CalculateReplicantiReplicationMulti()
+            CalculateInfinityReplicationMulti()
+            $("#eternityUpgrade13").addClass("boughtEternityUpgrade")
+            $("#eternityUpgrade13").off("click")
+        }
+    }
+
+    const TryPurchaseEternityUpgrade14 = ()=>{
+        if(player.stats.eternity.currentAmount>=5){
+            player.stats.eternity.currentAmount-=5
+            player.stats.eternity.upgrades.upgrade14Bought=true
+            playerStatsCalculated.eternity.upgrades.upgrade14.infinityReplicationMultiMultiplier=25
+            CalculateReplicantiReplicationMulti()
+            CalculateInfinityReplicationMulti()
+            $("#eternityUpgrade14").addClass("boughtEternityUpgrade")
+            $("#eternityUpgrade14").off("click")
+        }
+    }
+
+    const TryPurchaseEternityUpgrade15 = ()=>{
+        if(player.stats.eternity.currentAmount>=10){
+            player.stats.eternity.currentAmount-=10
+            player.stats.eternity.upgrades.upgrade15Bought=true
+            CalculateReplicantiReplicationMulti()
+            CalculateInfinityReplicationMulti()
+        }
+    }
+    //#endregion
+    //#region Calculate Eternity boosts
+    const CalculateEternityBoosts = ()=>{
+        CalculateEternityStaticGain()
+        CalculateEternityReplicationChance()
+        CalculateEternityReplicationMulti()
+    }
+
+    const CalculateEternityStaticGain = ()=>{
+        playerStatsCalculated.eternity.static.gain=1 
+            * playerStatsCalculated.eternity.challenges.challenge1.staticEternityGainMultiplier
+    }
+
+    const CalculateEternityReplicationChance = ()=>{
+        playerStatsCalculated.eternity.replication.replicationChancePercent=
+            playerStatsCalculated.eternity.challenges.challenge2.eternityReplicationChancePercentAdder
+            + playerStatsCalculated.eternity.challenges.challenge3.eternityReplicationChancePercentAdder
+            + playerStatsCalculated.eternity.buyables.buyable2.eternityReplicationChancePercentAdder
+    }
+
+    const CalculateEternityReplicationMulti = ()=>{
+        playerStatsCalculated.eternity.replication.replicationMulti=2
     }
     //#endregion
     //#region Eternity challenges
@@ -1901,6 +2045,7 @@ $(()=>{
 
             CalculateReplicantiBoosts();
             CalculateInfinityBoosts();
+            CalculateEternityBoosts();
             
             if (player.stats.infinity.unlocked == true) {
                 UnlockInfinity();
