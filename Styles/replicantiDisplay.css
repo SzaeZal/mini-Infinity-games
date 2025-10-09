@@ -130,3 +130,12 @@
 #eternity:hover{
   background-color: rgba(180, 0, 180, 0.5);
 }
+
+.boughtEternityUpgrade{
+  border-color: purple;
+  background-color: rgba(128, 0, 128, 0.5);
+}
+.boughtEternityUpgrade:hover{
+  border-color: purple;
+  background-color: rgba(128, 0, 128, 0.5);
+}

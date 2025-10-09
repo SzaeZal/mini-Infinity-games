@@ -976,10 +976,20 @@ $(()=>{
                 0.5
             )
         }
+
+        if(player.stats.eternity.upgrades.upgrade13Bought==true){
+            playerStatsCalculated.eternity.upgrades.upgrade13.replicantiReplicationMultiMultiplier=1 + Math.pow(
+                player.stats.eternity.currentAmount,
+                0.5
+            )
+        }
+
         playerStatsCalculated.replicanti.replicationMulti=2 
             * playerStatsCalculated.replicanti.buyables.buyable2.replicantiReplicationMultiMultiplier
             * playerStatsCalculated.infinity.upgrades.upgrade12.replicantiReplicationMultiMultiplier
             * playerStatsCalculated.infinity.upgrades.upgrade13.replicantiReplicationMultiMultiplier
+            * playerStatsCalculated.eternity.upgrades.upgrade11.replicantiReplicationMultiMultiplier
+            * playerStatsCalculated.eternity.upgrades.upgrade13.replicantiReplicationMultiMultiplier
     }
     //#endregion
     //#region Replicanti UI update
@@ -1369,13 +1379,23 @@ $(()=>{
     const CalculateInfinityReplicationChance = ()=>{
         playerStatsCalculated.infinity.replication.replicationChancePercent=10
             + playerStatsCalculated.infinity.buyables.buyable1.infinityReplicationChancePercentAdder
-            + 0
+            + playerStatsCalculated.eternity.upgrades.upgrade12.infinityReplicationChancePercentAdder
+            + playerStatsCalculated.eternity.challenges.challenge3.infinityReplicationChancePercentAdder
     }
 
     const CalculateInfinityReplicationMulti = ()=>{
+        if(player.stats.eternity.upgrades.upgrade13Bought==true){
+            playerStatsCalculated.eternity.upgrades.upgrade13.intinityReplicationMultiMultiplier=Math.pow(
+                1 + player.stats.eternity.currentAmount,
+                0.25
+            )
+        }
+
         playerStatsCalculated.infinity.replication.replicationMulti=(2 
             + playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier)
             * playerStatsCalculated.infinity.upgrades.upgrade15.infinityReplicationMultiMultiplier
+            * playerStatsCalculated.eternity.upgrades.upgrade13.intinityReplicationMultiMultiplier
+            * playerStatsCalculated.eternity.upgrades.upgrade14.infinityReplicationMultiMultiplier
     }
     //#endregion
     //#region Unlock Infinity
@@ -1419,7 +1439,7 @@ $(()=>{
         $("#replicantiAmount").css("background-image", `linear-gradient(
             to right, 
             blue,
-            blue ${(Math.log10(player.stats.replicanti.currentAmount)/Math.log10(1.79e308))*100}%,
+            blue ${player.stats.replicanti.currentAmount==0 ? 0 : (Math.log10(player.stats.replicanti.currentAmount)/Math.log10(1.79e308))*100}%,
             transparent ${(Math.log10(player.stats.replicanti.currentAmount)/Math.log10(1.79e308))*100}%,
             transparent
         )`)
@@ -1433,7 +1453,7 @@ $(()=>{
             transparent
         )`)
 
-        $("#infinityReplicationChance").text(`Replication chance: ${playerStatsCalculated.infinity.replication.replicationChancePercent}%`)
+        $("#infinityReplicationChance").text(`Replication chance: ${FormatNumber(playerStatsCalculated.infinity.replication.replicationChancePercent)}%`)
         $("#infinityReplicationMulti").text(`Replication multi: x${FormatNumber(playerStatsCalculated.infinity.replication.replicationMulti)}`)
         
         if(player.stats.infinity.currentAmount>=1 && player.stats.infinity.upgrades.upgrade11Bought==false){
@@ -1700,7 +1720,7 @@ $(()=>{
                                 Infinity upgrade keeper
                             </div>
                             <div class="upgradeDescription">
-                                Keeps infinity upgrades on eternity
+                                Keeps infinity upgrades and replicanti buyables on eternity
                             </div>
                             <div class="upgradeCost">
                                 Cost: 10 eternity
@@ -1875,6 +1895,94 @@ $(()=>{
         }
     }
     //#endregion
+    //#region eternity main UI update
+    const UpdateEternityMainView= ()=>{
+        $("#infinityAmount").text(`${FormatNumber(player.stats.infinity.currentAmount)} / 1.79e308 infinity`)
+        $("#infinityAmount").css("background-image", `linear-gradient(
+            to right, 
+            orange,
+            orange ${player.stats.infinity.currentAmount==0 ? "0" : (Math.log10(player.stats.infinity.currentAmount)/Math.log10(1.79e308))*100}%,
+            transparent ${(Math.log10(player.stats.infinity.currentAmount)/Math.log10(1.79e308))*100}%,
+            transparent
+        )`)
+
+        $("#currencyBar").text(`${FormatNumber(player.stats.eternity.currentAmount)} / 1.79e308 eternity`)
+        $("#currencyBar").css("background-image", `linear-gradient(
+            to right, 
+            purple,
+            purple ${(Math.log10(player.stats.eternity.currentAmount)/Math.log10(1.79e308))*100}%,
+            transparent ${(Math.log10(player.stats.eternity.currentAmount)/Math.log10(1.79e308))*100}%,
+            transparent
+        )`)
+
+        $("#eternityStaticGain").text(`Static gain: ${playerStatsCalculated.eternity.static.gain}`)
+        $("#eternityReplicationChance").text(`Replication chance: ${FormatNumber(playerStatsCalculated.eternity.replication.replicationChancePercent)}%`)
+        $("#eternityReplicationMulti").text(`Replication multi: x${FormatNumber(playerStatsCalculated.eternity.replication.replicationMulti)}`)
+        
+        if(player.stats.eternity.currentAmount>=1 && player.stats.eternity.upgrades.upgrade11Bought==false){
+            $("#eternityUpgrade11").addClass("purchaseAbleUpgrade interactable")
+        }
+        else{
+            $("#eternityUpgrade11").removeClass("purchaseAbleUpgrade interactable")
+        }
+
+        if(player.stats.eternity.currentAmount>=1 && player.stats.eternity.upgrades.upgrade12Bought==false){
+            $("#eternityUpgrade12").addClass("purchaseAbleUpgrade interactable")
+        }
+        else{
+            $("#eternityUpgrade12").removeClass("purchaseAbleUpgrade interactable")
+        }
+
+        if(player.stats.eternity.currentAmount>=2 && player.stats.eternity.upgrades.upgrade13Bought==false){
+            $("#eternityUpgrade13").addClass("purchaseAbleUpgrade interactable")
+        }
+        else{
+            $("#eternityUpgrade13").removeClass("purchaseAbleUpgrade interactable")
+        }
+
+        if(player.stats.eternity.currentAmount>=5 && player.stats.eternity.upgrades.upgrade14Bought==false){
+            $("#eternityUpgrade14").addClass("purchaseAbleUpgrade interactable")
+        }
+        else{
+            $("#eternityUpgrade14").removeClass("purchaseAbleUpgrade interactable")
+        }
+
+        if(player.stats.eternity.currentAmount>=10 && player.stats.eternity.upgrades.upgrade15Bought==false){
+            $("#eternityUpgrade15").addClass("purchaseAbleUpgrade interactable")
+        }
+        else{
+            $("#eternityUpgrade15").removeClass("purchaseAbleUpgrade interactable")
+        }
+
+        if(player.stats.eternity.upgrades.upgrade13Bought==true){
+            $("#eternityUpgrade13Effect").text(`
+                Currently: x${FormatNumber(playerStatsCalculated.eternity.upgrades.upgrade13.replicantiReplicationMultiMultiplier)} replicanti multi
+                <br> x${FormatNumber(playerStatsCalculated.eternity.upgrades.upgrade13.intinityReplicationMultiMultiplier)} infinity multi    
+            `)
+        }
+
+
+        if(player.stats.eternity.currentAmount>=playerStatsCalculated.eternity.buyables.buyable1.cost && player.stats.eternity.buyables.buyable1Amount<900){
+            $("#eternityBuyable1BuyOne").addClass("buyablePurchaseAble")
+            $("#eternityBuyable1BuyMax").addClass("buyablePurchaseAble")
+        }
+        else{
+            $("#eternityBuyable1BuyOne").removeClass("buyablePurchaseAble")
+            $("#eternityBuyable1BuyMax").removeClass("buyablePurchaseAble")
+        }
+        if(player.stats.eternity.currentAmount>=playerStatsCalculated.eternity.buyables.buyable2.cost && player.stats.eternity.buyables.buyable2Amount<30){
+            $("#eternityBuyable2BuyOne").addClass("buyablePurchaseAble")
+            $("#eternityBuyable2BuyMax").addClass("buyablePurchaseAble")
+        }
+        else{
+            $("#eternityBuyable2BuyOne").removeClass("buyablePurchaseAble")
+            $("#eternityBuyable2BuyMax").removeClass("buyablePurchaseAble")
+        }
+
+        UpdateEternityBuyable1UI()
+        UpdateEternityBuyable2UI()
+    }
+    //#endregion
     //#region Calculate Eternity boosts
     const CalculateEternityBoosts = ()=>{
         CalculateEternityStaticGain()
@@ -1897,6 +2005,37 @@ $(()=>{
     const CalculateEternityReplicationMulti = ()=>{
         playerStatsCalculated.eternity.replication.replicationMulti=2 
             + playerStatsCalculated.eternity.buyables.buyable2.eternityReplicationMultiplierAdder
+    }
+    //#endregion
+    //#region UpdateEternityBuyablesAfterLoad
+    const UpdateEternityBuyablesAfterLoad = ()=>{
+        playerStatsCalculated.eternity.buyables.buyable1.infinityReplicationChancePercentAdder= 1 * player.stats.infinity.buyables.buyable1Amount
+        playerStatsCalculated.eternity.buyables.buyable1.cost= 100*Math.pow(1.15, player.stats.infinity.buyables.buyable1Amount)
+        playerStatsCalculated.eternity.buyables.buyable2.intinityReplicationMultiMultiplier= (0.1 * player.stats.infinity.buyables.buyable2Amount)
+        playerStatsCalculated.eternity.buyables.buyable2.cost= 1000*Math.pow(2, player.stats.infinity.buyables.buyable2Amount)
+    }
+    //#endregion
+    //#region UpdateEternityUpgradesAfterLoad
+    const UpdateEternityUpgradesAfterLoad = ()=>{
+        if(player.stats.eternity.upgrades.upgrade11Bought==true){
+            playerStatsCalculated.eternity.upgrades.upgrade11.replicantiReplicationMultiMultiplier=1024
+        }
+        if(player.stats.eternity.upgrades.upgrade12Bought==true){
+            playerStatsCalculated.eternity.upgrades.upgrade12.infinityReplicationChancePercentAdder=10
+        }
+        if(player.stats.eternity.upgrades.upgrade13Bought==true){
+            playerStatsCalculated.eternity.upgrades.upgrade13.replicantiReplicationMultiMultiplier=1+ Math.pow(
+                player.stats.eternity.currentAmount,
+                0.5
+            )
+            playerStatsCalculated.eternity.upgrades.upgrade13.intinityReplicationMultiMultiplier= Math.pow(
+                1 + player.stats.eternity.currentAmount,
+                0.25
+            )
+        }
+        if(player.stats.eternity.upgrades.upgrade14Bought==true){
+            playerStatsCalculated.eternity.upgrades.upgrade14.infinityReplicationMultiMultiplier=10
+        }
     }
     //#endregion
     //#region Eternity challenges
@@ -1984,6 +2123,12 @@ $(()=>{
         }
         if(mainMenuIndex==3){
             UpdateInfinityView()
+        }
+
+        if(mainMenuIndex==4){
+            if(subMenuIndexes[mainMenuIndex]==0){
+                UpdateEternityMainView()
+            }
         }
     }
     //#endregion
@@ -2087,6 +2232,8 @@ $(()=>{
             UpdateReplicantiBuyablesAfterLoad()
             UpdateInfinityBuyablesAfterLoad()
             UpdateInfinityUpgradesAfterLoad()
+            UpdateEternityBuyablesAfterLoad()
+            UpdateEternityUpgradesAfterLoad()
 
             CalculateReplicantiBoosts();
             CalculateInfinityBoosts();
