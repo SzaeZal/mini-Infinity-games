@@ -809,7 +809,7 @@ $(()=>{
                                 level <span id="replicantiBuyable1Amount">${player.stats.replicanti.buyables.buyable1Amount}</span> / 9
                             </div>
                             <div class="upgradeDescription">
-                                Each level divides replication time by /+1 
+                                Each level divides replication time by +/1 
                             </div>
                             <div id="replicantibuyable1Effect">
                                 Currently: /${playerStatsCalculated.replicanti.buyables.buyable1.replicantiReplicationTimeDivider}
@@ -1177,7 +1177,7 @@ $(()=>{
                                 Infinity-based Replicanti Multi
                             </div>
                             <div class="upgradeDescription">
-                                Replicanti replication multiplier is multiplied by (infinity^0.5)
+                                Replicanti replication multiplier is multiplied by (1 + infinity)^0.5
                             </div>
                             <div id="infinityUpgrade13Effect">
                                 Currently: x${FormatNumber(playerStatsCalculated.infinity.upgrades.upgrade13.replicantiReplicationMultiMultiplier)}
@@ -1693,8 +1693,8 @@ $(()=>{
                                 Eternity-based multipliers
                             </div>
                             <div class="upgradeDescription">
-                                Replicanti replication multiplier is multiplied by (1 + eternity^0.5) <br>
-                                Infinity replication multiplier is multiplied by ((1 + eternity)^0.25)
+                                Replicanti replication multiplier is multiplied by 1 + (eternity)^0.5 <br>
+                                Infinity replication multiplier is multiplied by (1 + eternity)^0.25
                             </div>
                             <div id="eternityUpgrade13Effect">
                                 Currently: x${FormatNumber(playerStatsCalculated.eternity.upgrades.upgrade13.replicantiReplicationMultiMultiplier)} replicanti multi
@@ -1901,7 +1901,7 @@ $(()=>{
         $("#infinityAmount").css("background-image", `linear-gradient(
             to right, 
             orange,
-            orange ${player.stats.infinity.currentAmount==0 ? "0" : (Math.log10(player.stats.infinity.currentAmount)/Math.log10(1.79e308))*100}%,
+            orange ${player.stats.infinity.currentAmount==0 ? "0.001" : (Math.log10(player.stats.infinity.currentAmount)/Math.log10(1.79e308))*100}%,
             transparent ${(Math.log10(player.stats.infinity.currentAmount)/Math.log10(1.79e308))*100}%,
             transparent
         )`)
@@ -1955,7 +1955,7 @@ $(()=>{
         }
 
         if(player.stats.eternity.upgrades.upgrade13Bought==true){
-            $("#eternityUpgrade13Effect").text(`
+            $("#eternityUpgrade13Effect").html(`
                 Currently: x${FormatNumber(playerStatsCalculated.eternity.upgrades.upgrade13.replicantiReplicationMultiMultiplier)} replicanti multi
                 <br> x${FormatNumber(playerStatsCalculated.eternity.upgrades.upgrade13.intinityReplicationMultiMultiplier)} infinity multi    
             `)
