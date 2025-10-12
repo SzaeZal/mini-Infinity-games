@@ -2051,6 +2051,79 @@ $(()=>{
             </div>
             <div class="mainView">
                 <div class="challenges">
+                    <div class="challenge">
+                        <div class="challengeTitle">
+                            Eternity Challenge 1 - slowrun
+                        </div>
+                        <div class="challengeDescription">
+                            Replicanti replication time is increased by 5x
+                        </div>
+                        <div class="challengeGoal">
+                            Goal: Reach eternity
+                        </div>
+                        <div class="challengeReward">
+                            Reward: Eternity static gain is multiplied by 10
+                        </div>
+                        <div class="challengeEnterExit">
+                            ${
+                                player.stats.eternity.challenges.challenge1.entered==true
+                                ? `<div id="eternityChallenge1Exit" class="challengeExit interactable">Exit</div>`
+                                : player.stats.eternity.challenges.challenge1.completed==true
+                                ? `<div class="challengeCompleted">Completed</div>`
+                                : `<div id="eternityChallenge1Enter" class="challengeEnter interactable">Enter</div>`
+                            }
+                        </div>
+                    </div>
+                    <div class="challenge">
+                        <div class="challengeTitle">
+                            Eternity Challenge 2 - miniscule multipliers
+                        </div>
+                        <div class="challengeDescription">
+                            Replicanti replication multiplier is divided by 8192, <br>
+                            Infinity replication multiplier is divided by 16
+                        </div>
+                        <div class="challengeGoal">
+                            Goal: Reach eternity
+                        </div>
+                        <div class="challengeReward">
+                            Reward: Eternity replication chance is increased by 5% 
+                            <br> keep infinity buyables on eternity
+                        </div>
+                        <div class="challengeEnterExit">
+                            ${
+                                player.stats.eternity.challenges.challenge3.completed==true
+                                ? `<div class="challengeCompleted">Completed</div>`
+                                : player.stats.eternity.challenges.challenge3.entered==true
+                                ? `<div id="eternityChallenge2Exit" class="challengeExit interactable">Exit</div>`
+                                : `<div id="eternityChallenge2Enter" class="challengeEnter interactable">Enter</div>`
+                            }
+                        </div>
+                    </div>
+                    <div class="challenge">
+                        <div class="challengeTitle">
+                            Eternity Challenge 3 - duality
+                        </div>
+                        <div class="challengeDescription">
+                            EC1 and EC2 effects are both active
+                        </div>
+                        <div class="challengeGoal">
+                            Goal: Reach eternity
+                        </div>
+                        <div class="challengeReward">
+                            Reward: Eternity replication chance is increased by 5% 
+                            <br> Infinity replication chance is increased by 1% 
+                            <br> Unlock eternity buyables
+                        </div>
+                        <div class="challengeEnterExit">
+                            ${
+                                player.stats.eternity.challenges.challenge3.completed==true
+                                ? `<div class="challengeCompleted">Completed</div>`
+                                : player.stats.eternity.challenges.challenge3.entered==true
+                                ? `<div id="eternityChallenge3Exit" class="challengeExit interactable">Exit</div>`
+                                : `<div id="eternityChallenge3Enter" class="challengeEnter interactable">Enter</div>`
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
         `)
