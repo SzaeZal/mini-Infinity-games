@@ -2051,9 +2051,9 @@ $(()=>{
             </div>
             <div class="mainView">
                 <div class="challenges">
-                    <div class="challenge">
+                    <div class="challenge ${player.stats.eternity.challenges.challenge1.completed==true ? "completedEternityChallenge" : ""}">
                         <div class="challengeTitle">
-                            Eternity Challenge 1 - slowrun
+                            Eternity Challenge 1 <br> Slowrun
                         </div>
                         <div class="challengeDescription">
                             Replicanti replication time is increased by 5x
@@ -2066,17 +2066,17 @@ $(()=>{
                         </div>
                         <div class="challengeEnterExit">
                             ${
-                                player.stats.eternity.challenges.challenge1.entered==true
-                                ? `<div id="eternityChallenge1Exit" class="challengeExit interactable">Exit</div>`
-                                : player.stats.eternity.challenges.challenge1.completed==true
-                                ? `<div class="challengeCompleted">Completed</div>`
-                                : `<div id="eternityChallenge1Enter" class="challengeEnter interactable">Enter</div>`
+                                player.stats.eternity.challenges.challenge1.completed==true
+                                ? `<div>Completed</div>`
+                                : player.stats.eternity.challenges.challenge1.entered==true
+                                ? `<div id="eternityChallenge1Exit" class="challengeExit interactable">Exit challenge</div>`
+                                : `<div id="eternityChallenge1Enter" class="challengeEnter interactable">Enter challenge</div>`
                             }
                         </div>
                     </div>
-                    <div class="challenge">
+                    <div class="challenge ${player.stats.eternity.challenges.challenge2.completed==true ? "completedEternityChallenge" : ""}">
                         <div class="challengeTitle">
-                            Eternity Challenge 2 - miniscule multipliers
+                            Eternity Challenge 2 <br> Miniscule multipliers
                         </div>
                         <div class="challengeDescription">
                             Replicanti replication multiplier is divided by 8192, <br>
@@ -2092,16 +2092,16 @@ $(()=>{
                         <div class="challengeEnterExit">
                             ${
                                 player.stats.eternity.challenges.challenge3.completed==true
-                                ? `<div class="challengeCompleted">Completed</div>`
+                                ? `<div>Completed</div>`
                                 : player.stats.eternity.challenges.challenge3.entered==true
-                                ? `<div id="eternityChallenge2Exit" class="challengeExit interactable">Exit</div>`
-                                : `<div id="eternityChallenge2Enter" class="challengeEnter interactable">Enter</div>`
+                                ? `<div id="eternityChallenge2Exit" class="challengeExit interactable">Exit challenge</div>`
+                                : `<div id="eternityChallenge2Enter" class="challengeEnter interactable">Enter challenge</div>`
                             }
                         </div>
                     </div>
-                    <div class="challenge">
+                    <div class="challenge ${player.stats.eternity.challenges.challenge3.completed==true ? "completedEternityChallenge" : ""}">
                         <div class="challengeTitle">
-                            Eternity Challenge 3 - duality
+                            Eternity Challenge 3 <br> Duality
                         </div>
                         <div class="challengeDescription">
                             EC1 and EC2 effects are both active
@@ -2117,10 +2117,10 @@ $(()=>{
                         <div class="challengeEnterExit">
                             ${
                                 player.stats.eternity.challenges.challenge3.completed==true
-                                ? `<div class="challengeCompleted">Completed</div>`
+                                ? `<div>Completed</div>`
                                 : player.stats.eternity.challenges.challenge3.entered==true
-                                ? `<div id="eternityChallenge3Exit" class="challengeExit interactable">Exit</div>`
-                                : `<div id="eternityChallenge3Enter" class="challengeEnter interactable">Enter</div>`
+                                ? `<div id="eternityChallenge3Exit" class="challengeExit interactable">Exit challenge</div>`
+                                : `<div id="eternityChallenge3Enter" class="challengeEnter interactable">Enter challenge</div>`
                             }
                         </div>
                     </div>

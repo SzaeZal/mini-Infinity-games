@@ -131,11 +131,53 @@
   background-color: rgba(180, 0, 180, 0.5);
 }
 
+.challenges{
+  margin: 15px auto;
+  width: fit-content;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 25px;
+  font-size: larger;
+}
+
+.challenge{
+  border: 5px solid gray;
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 15px;
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.challenge>div {
+  padding: 10px;
+}
+.challengeEnter, .challengeExit{
+  border: 2px solid gray;
+  padding: 10px 20px;
+  font-size: x-large;
+  border-radius: 10px;
+
+}
+
+
 .boughtEternityUpgrade{
   border-color: purple;
   background-color: rgba(128, 0, 128, 0.5);
 }
 .boughtEternityUpgrade:hover{
+  border-color: purple;
+  background-color: rgba(128, 0, 128, 0.5);
+}
+
+.completedEternityChallenge{
   border-color: purple;
   background-color: rgba(128, 0, 128, 0.5);
 }
