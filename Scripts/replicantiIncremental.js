@@ -547,7 +547,7 @@ $(()=>{
         $("#saveGame").on("click", ()=>Save())
         $("#exportSaveToClipboard").on("click", ()=>ExportSaveToClipboard())
         $("#importSave").on("click", ()=>{ ShowDialogBox("Import Save",
-             "Importing a save will overwrite your current save. <br> <textarea id='dialogBoxTextarea' placeholder='paste your save here'> </textarea>", "Warning", ImportSave)})
+             "Importing a save will overwrite your current save. <br> <input id='dialogBoxTextarea' placeholder='paste your save here'> </input>", "Warning", ImportSave)})
         $("#hardReset").on("click", ()=>{ ShowDialogBox("Hard Reset", "Are you sure you want to hard reset? This action is irreversible.", "Danger", HardReset)})
 
         $("#autoSaveRate1000Option").on("click", ()=>SetAutoSave(1000))
@@ -657,17 +657,53 @@ $(()=>{
             $("#saveSettingsSubMenuItem").removeClass("interactable")
         }
 
-        //TODO: add save bank saves
+        $("#firstInfinitySaveBank").on("click", ()=>{ 
+            ShowDialogBox("Import Save Bank", "Are you sure you want to import the 1st infinity save bank? <br> This will overwrite your current save.", "Warning", ImportFirstInfinitySaveBank)
+        })
+        $("#infinityBuyablesUnlockedSaveBank").on("click", ()=>{
+            ShowDialogBox("Import Save Bank", "Are you sure you want to import the infinity buyables unlocked save bank? <br> This will overwrite your current save.", "Warning", ImportInfinityBuyablesUnlockedSaveBank)
+        })
+        $("#firstEternitySaveBank").on("click", ()=>{
+            ShowDialogBox("Import Save Bank", "Are you sure you want to import the 1st eternity save bank? <br> This will overwrite your current save.", "Warning", ImportFirstEternitySaveBank)
+        })
+        $("#EC1CompletedSaveBank").on("click", ()=>{
+            ShowDialogBox("Import Save Bank", "Are you sure you want to import the Eternity Challenge 1 - Slowrun completed save bank? <br> This will overwrite your current save.", "Warning", ImportEC1CompletedSaveBank)
+        })
+        $("#EC2CompletedSaveBank").on("click", ()=>{
+            ShowDialogBox("Import Save Bank", "Are you sure you want to import the Eternity Challenge 2 - Miniscule multipliers completed save bank? <br> This will overwrite your current save.", "Warning", ImportEC2CompletedSaveBank)
+        })
+        $("#EC3CompletedSaveBank").on("click", ()=>{
+            ShowDialogBox("Import Save Bank", "Are you sure you want to import the Eternity Challenge 3 - Duality completed save bank? <br> This will overwrite your current save.", "Warning", ImportEC3CompletedSaveBank)
+        })
     }
     //#endregion
     //#region Save bank functions
     const saveBank={
-        firstInfinity: "",
+        firstInfinity: "eyJzdGF0cyI6eyJyZXBsaWNhbnRpIjp7ImN1cnJlbnRBbW91bnQiOjY0LCJidXlhYmxlcyI6eyJidXlhYmxlMUFtb3VudCI6MCwiYnV5YWJsZTJBbW91bnQiOjB9fSwiaW5maW5pdHkiOnsiY3VycmVudEFtb3VudCI6MiwidW5sb2NrZWQiOnRydWUsInVwZ3JhZGVzIjp7InVwZ3JhZGUxMUJvdWdodCI6ZmFsc2UsInVwZ3JhZGUxMkJvdWdodCI6ZmFsc2UsInVwZ3JhZGUxM0JvdWdodCI6ZmFsc2UsInVwZ3JhZGUxNEJvdWdodCI6ZmFsc2UsInVwZ3JhZGUxNUJvdWdodCI6ZmFsc2V9LCJidXlhYmxlcyI6eyJidXlhYmxlMUFtb3VudCI6MCwiYnV5YWJsZTJBbW91bnQiOjB9fSwiZXRlcm5pdHkiOnsiY3VycmVudEFtb3VudCI6MCwidW5sb2NrZWQiOmZhbHNlLCJ1cGdyYWRlcyI6eyJ1cGdyYWRlMTFCb3VnaHQiOmZhbHNlLCJ1cGdyYWRlMTJCb3VnaHQiOmZhbHNlLCJ1cGdyYWRlMTNCb3VnaHQiOmZhbHNlLCJ1cGdyYWRlMTRCb3VnaHQiOmZhbHNlLCJ1cGdyYWRlMTVCb3VnaHQiOmZhbHNlfSwiYnV5YWJsZXMiOnsiYnV5YWJsZTFBbW91bnQiOjAsImJ1eWFibGUyQW1vdW50IjowLCJidXlhYmxlM0Ftb3VudCI6MH0sImNoYWxsZW5nZXMiOnsiY2hhbGxlbmdlMSI6eyJlbnRlcmVkIjpmYWxzZSwiY29tcGxldGVkIjpmYWxzZX0sImNoYWxsZW5nZTIiOnsiZW50ZXJlZCI6ZmFsc2UsImNvbXBsZXRlZCI6ZmFsc2V9LCJjaGFsbGVuZ2UzIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOmZhbHNlfX19fSwib3B0aW9ucyI6eyJ1aSI6eyJ0aGVtZSI6IkRhcmsiLCJzdWJNZW51U2hvd24iOnRydWUsInVpVXBkYXRlUmF0ZUluTXMiOjI1fSwic2F2ZSI6eyJzYXZlSW50ZXJ2YWxJbk1zIjo1MDAwfX19.IkxlYXN0T2J2aW91c1NpZ25hdHVyZSI=",
         infinityBuyablesUnlocked: "eyJzdGF0cyI6eyJyZXBsaWNhbnRpIjp7ImN1cnJlbnRBbW91bnQiOjYuMjYzMjk2NDAxNTE4NzYyZSsyODQsImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50Ijo5LCJidXlhYmxlMkFtb3VudCI6OX19LCJpbmZpbml0eSI6eyJjdXJyZW50QW1vdW50Ijo0NjUsInVubG9ja2VkIjp0cnVlLCJ1cGdyYWRlcyI6eyJ1cGdyYWRlMTFCb3VnaHQiOnRydWUsInVwZ3JhZGUxMkJvdWdodCI6dHJ1ZSwidXBncmFkZTEzQm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTRCb3VnaHQiOnRydWUsInVwZ3JhZGUxNUJvdWdodCI6dHJ1ZX0sImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50IjowLCJidXlhYmxlMkFtb3VudCI6MH19LCJldGVybml0eSI6eyJjdXJyZW50QW1vdW50IjowLCJ1bmxvY2tlZCI6ZmFsc2UsInVwZ3JhZGVzIjp7InVwZ3JhZGUxMUJvdWdodCI6ZmFsc2UsInVwZ3JhZGUxMkJvdWdodCI6ZmFsc2UsInVwZ3JhZGUxM0JvdWdodCI6ZmFsc2UsInVwZ3JhZGUxNEJvdWdodCI6ZmFsc2UsInVwZ3JhZGUxNUJvdWdodCI6ZmFsc2V9LCJidXlhYmxlcyI6eyJidXlhYmxlMUFtb3VudCI6MCwiYnV5YWJsZTJBbW91bnQiOjB9LCJjaGFsbGVuZ2VzIjp7ImNoYWxsZW5nZTEiOnsiZW50ZXJlZCI6ZmFsc2UsImNvbXBsZXRlZCI6ZmFsc2V9LCJjaGFsbGVuZ2UyIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOmZhbHNlfSwiY2hhbGxlbmdlMyI6eyJlbnRlcmVkIjpmYWxzZSwiY29tcGxldGVkIjpmYWxzZX19fX0sIm9wdGlvbnMiOnsidWkiOnsidGhlbWUiOiJEYXJrIiwic3ViTWVudVNob3duIjp0cnVlLCJ1aVVwZGF0ZVJhdGVJbk1zIjoyNX0sInNhdmUiOnsic2F2ZUludGVydmFsSW5NcyI6NTAwMH19fQ==.IkxlYXN0T2J2aW91c1NpZ25hdHVyZSI=",
         firstEternity: "eyJzdGF0cyI6eyJyZXBsaWNhbnRpIjp7ImN1cnJlbnRBbW91bnQiOjEuMDE0MTIwNDgwMTgyNTgzNWUrMzEsImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50IjowLCJidXlhYmxlMkFtb3VudCI6MH19LCJpbmZpbml0eSI6eyJjdXJyZW50QW1vdW50IjowLCJ1bmxvY2tlZCI6dHJ1ZSwidXBncmFkZXMiOnsidXBncmFkZTExQm91Z2h0IjpmYWxzZSwidXBncmFkZTEyQm91Z2h0IjpmYWxzZSwidXBncmFkZTEzQm91Z2h0IjpmYWxzZSwidXBncmFkZTE0Qm91Z2h0IjpmYWxzZSwidXBncmFkZTE1Qm91Z2h0IjpmYWxzZX0sImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50IjowLCJidXlhYmxlMkFtb3VudCI6MH19LCJldGVybml0eSI6eyJjdXJyZW50QW1vdW50IjowLCJ1bmxvY2tlZCI6dHJ1ZSwidXBncmFkZXMiOnsidXBncmFkZTExQm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTJCb3VnaHQiOmZhbHNlLCJ1cGdyYWRlMTNCb3VnaHQiOmZhbHNlLCJ1cGdyYWRlMTRCb3VnaHQiOmZhbHNlLCJ1cGdyYWRlMTVCb3VnaHQiOmZhbHNlfSwiYnV5YWJsZXMiOnsiYnV5YWJsZTFBbW91bnQiOjAsImJ1eWFibGUyQW1vdW50IjowfSwiY2hhbGxlbmdlcyI6eyJjaGFsbGVuZ2UxIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOmZhbHNlfSwiY2hhbGxlbmdlMiI6eyJlbnRlcmVkIjpmYWxzZSwiY29tcGxldGVkIjpmYWxzZX0sImNoYWxsZW5nZTMiOnsiZW50ZXJlZCI6ZmFsc2UsImNvbXBsZXRlZCI6ZmFsc2V9fX19LCJvcHRpb25zIjp7InVpIjp7InRoZW1lIjoiRGFyayIsInN1Yk1lbnVTaG93biI6dHJ1ZSwidWlVcGRhdGVSYXRlSW5NcyI6MjV9LCJzYXZlIjp7InNhdmVJbnRlcnZhbEluTXMiOjUwMDB9fX0=.IkxlYXN0T2J2aW91c1NpZ25hdHVyZSI=",
         EC1Completed: "eyJzdGF0cyI6eyJyZXBsaWNhbnRpIjp7ImN1cnJlbnRBbW91bnQiOjIuNTU3MzM2NDEyNDE4ODYxZSsxNDgsImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50IjowLCJidXlhYmxlMkFtb3VudCI6MH19LCJpbmZpbml0eSI6eyJjdXJyZW50QW1vdW50IjowLCJ1bmxvY2tlZCI6dHJ1ZSwidXBncmFkZXMiOnsidXBncmFkZTExQm91Z2h0IjpmYWxzZSwidXBncmFkZTEyQm91Z2h0IjpmYWxzZSwidXBncmFkZTEzQm91Z2h0IjpmYWxzZSwidXBncmFkZTE0Qm91Z2h0IjpmYWxzZSwidXBncmFkZTE1Qm91Z2h0IjpmYWxzZX0sImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50IjowLCJidXlhYmxlMkFtb3VudCI6MH19LCJldGVybml0eSI6eyJjdXJyZW50QW1vdW50IjoyLCJ1bmxvY2tlZCI6dHJ1ZSwidXBncmFkZXMiOnsidXBncmFkZTExQm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTJCb3VnaHQiOnRydWUsInVwZ3JhZGUxM0JvdWdodCI6ZmFsc2UsInVwZ3JhZGUxNEJvdWdodCI6ZmFsc2UsInVwZ3JhZGUxNUJvdWdodCI6ZmFsc2V9LCJidXlhYmxlcyI6eyJidXlhYmxlMUFtb3VudCI6MCwiYnV5YWJsZTJBbW91bnQiOjB9LCJjaGFsbGVuZ2VzIjp7ImNoYWxsZW5nZTEiOnsiZW50ZXJlZCI6ZmFsc2UsImNvbXBsZXRlZCI6dHJ1ZX0sImNoYWxsZW5nZTIiOnsiZW50ZXJlZCI6ZmFsc2UsImNvbXBsZXRlZCI6ZmFsc2V9LCJjaGFsbGVuZ2UzIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOmZhbHNlfX19fSwib3B0aW9ucyI6eyJ1aSI6eyJ0aGVtZSI6IkRhcmsiLCJzdWJNZW51U2hvd24iOnRydWUsInVpVXBkYXRlUmF0ZUluTXMiOjI1fSwic2F2ZSI6eyJzYXZlSW50ZXJ2YWxJbk1zIjo1MDAwfX19.IkxlYXN0T2J2aW91c1NpZ25hdHVyZSI=",
         EC2Completed: "eyJzdGF0cyI6eyJyZXBsaWNhbnRpIjp7ImN1cnJlbnRBbW91bnQiOjcuODk0NzA2OTIzNTE1NTY2ZSsxOTksImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50Ijo5LCJidXlhYmxlMkFtb3VudCI6OX19LCJpbmZpbml0eSI6eyJjdXJyZW50QW1vdW50Ijo4Ljg2NDQzNzE4MzkzNTEzOWUrMTg1LCJ1bmxvY2tlZCI6dHJ1ZSwidXBncmFkZXMiOnsidXBncmFkZTExQm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTJCb3VnaHQiOnRydWUsInVwZ3JhZGUxM0JvdWdodCI6dHJ1ZSwidXBncmFkZTE0Qm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTVCb3VnaHQiOnRydWV9LCJidXlhYmxlcyI6eyJidXlhYmxlMUFtb3VudCI6NzksImJ1eWFibGUyQW1vdW50IjozMH19LCJldGVybml0eSI6eyJjdXJyZW50QW1vdW50IjoyNSwidW5sb2NrZWQiOnRydWUsInVwZ3JhZGVzIjp7InVwZ3JhZGUxMUJvdWdodCI6dHJ1ZSwidXBncmFkZTEyQm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTNCb3VnaHQiOnRydWUsInVwZ3JhZGUxNEJvdWdodCI6dHJ1ZSwidXBncmFkZTE1Qm91Z2h0Ijp0cnVlfSwiYnV5YWJsZXMiOnsiYnV5YWJsZTFBbW91bnQiOjAsImJ1eWFibGUyQW1vdW50IjowfSwiY2hhbGxlbmdlcyI6eyJjaGFsbGVuZ2UxIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOnRydWV9LCJjaGFsbGVuZ2UyIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOnRydWV9LCJjaGFsbGVuZ2UzIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOmZhbHNlfX19fSwib3B0aW9ucyI6eyJ1aSI6eyJ0aGVtZSI6IkRhcmsiLCJzdWJNZW51U2hvd24iOnRydWUsInVpVXBkYXRlUmF0ZUluTXMiOjI1fSwic2F2ZSI6eyJzYXZlSW50ZXJ2YWxJbk1zIjo1MDAwfX19.IkxlYXN0T2J2aW91c1NpZ25hdHVyZSI=",
         EC3Completed: "eyJzdGF0cyI6eyJyZXBsaWNhbnRpIjp7ImN1cnJlbnRBbW91bnQiOjQuMDIyMzc1OTQ4NzAyMTYzZSsxMDQsImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50Ijo5LCJidXlhYmxlMkFtb3VudCI6OX19LCJpbmZpbml0eSI6eyJjdXJyZW50QW1vdW50Ijo5LjIzMzE3NDMyMjU1NDYzNGUrMTk0LCJ1bmxvY2tlZCI6dHJ1ZSwidXBncmFkZXMiOnsidXBncmFkZTExQm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTJCb3VnaHQiOnRydWUsInVwZ3JhZGUxM0JvdWdodCI6dHJ1ZSwidXBncmFkZTE0Qm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTVCb3VnaHQiOnRydWV9LCJidXlhYmxlcyI6eyJidXlhYmxlMUFtb3VudCI6NzksImJ1eWFibGUyQW1vdW50IjozMH19LCJldGVybml0eSI6eyJjdXJyZW50QW1vdW50Ijo1NSwidW5sb2NrZWQiOnRydWUsInVwZ3JhZGVzIjp7InVwZ3JhZGUxMUJvdWdodCI6dHJ1ZSwidXBncmFkZTEyQm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTNCb3VnaHQiOnRydWUsInVwZ3JhZGUxNEJvdWdodCI6dHJ1ZSwidXBncmFkZTE1Qm91Z2h0Ijp0cnVlfSwiYnV5YWJsZXMiOnsiYnV5YWJsZTFBbW91bnQiOjAsImJ1eWFibGUyQW1vdW50IjowfSwiY2hhbGxlbmdlcyI6eyJjaGFsbGVuZ2UxIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOnRydWV9LCJjaGFsbGVuZ2UyIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOnRydWV9LCJjaGFsbGVuZ2UzIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOnRydWV9fX19LCJvcHRpb25zIjp7InVpIjp7InRoZW1lIjoiRGFyayIsInN1Yk1lbnVTaG93biI6dHJ1ZSwidWlVcGRhdGVSYXRlSW5NcyI6MjV9LCJzYXZlIjp7InNhdmVJbnRlcnZhbEluTXMiOjUwMDB9fX0=.IkxlYXN0T2J2aW91c1NpZ25hdHVyZSI=",
+    }
+
+    const ImportFirstInfinitySaveBank = () =>{
+        ImportSaveFromText(saveBank.firstInfinity)
+    }
+    const ImportInfinityBuyablesUnlockedSaveBank = () =>{
+        ImportSaveFromText(saveBank.infinityBuyablesUnlocked)
+    }
+    const ImportFirstEternitySaveBank = () =>{
+        ImportSaveFromText(saveBank.firstEternity)
+    }
+    const ImportEC1CompletedSaveBank = () =>{
+        ImportSaveFromText(saveBank.EC1Completed)
+    }
+    const ImportEC2CompletedSaveBank = () =>{
+        ImportSaveFromText(saveBank.EC2Completed)
+    }
+    const ImportEC3CompletedSaveBank = () =>{
+        ImportSaveFromText(saveBank.EC3Completed)
     }
     //#endregion
     //#region Information nav
@@ -762,6 +798,7 @@ $(()=>{
                                 <li>Added eternity buyables</li>
                                 <li>Added eternity challenges</li>
                                 <li>Added settings</li>
+                                <li>Added awful balancing</li>
                             </ul>
                         </div>
                     </div>
@@ -2610,6 +2647,7 @@ $(()=>{
     }
 
     const HardReset = () => {
+        clearInterval(autoSaveInterval)
         localStorage.removeItem("replicantiIncSave");
         location.reload();
     };
@@ -2619,6 +2657,12 @@ $(()=>{
         clearInterval(autoSaveInterval)
         let saveText=$("#dialogBoxTextarea").val()
         localStorage.setItem("replicantiIncSave", saveText)
+        location.reload()
+    }
+
+    const ImportSaveFromText= (text)=>{
+        clearInterval(autoSaveInterval)
+        localStorage.setItem("replicantiIncSave", text)
         location.reload()
     }
     //#endregion

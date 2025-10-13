@@ -17,6 +17,7 @@
     flex: 1;
     padding: 12.9px;
     font-size: x-large;
+    text-wrap: nowrap;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;

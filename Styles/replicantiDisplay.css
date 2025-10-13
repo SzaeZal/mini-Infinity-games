@@ -184,3 +184,11 @@
   border-color: purple;
   background-color: rgba(128, 0, 128, 0.5);
 }
+
+input{
+  font-size: large;
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: 5px;
+  width: 90%;
+}
