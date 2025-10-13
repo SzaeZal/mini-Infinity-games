@@ -39,7 +39,8 @@ $(()=>{
                 },
                 buyables:{
                     buyable1Amount: 0,
-                    buyable2Amount: 0
+                    buyable2Amount: 0,
+                    buyable3Amount: 0
                 },
                 challenges:{
                     challenge1:{
@@ -129,7 +130,7 @@ $(()=>{
                 buyable2:{
                     cost: 1000,
                     intinityReplicationMultiMultiplier: 1 // +0.1 per, max 30
-                },
+                }
             }
         },
         eternity:{
@@ -171,6 +172,10 @@ $(()=>{
                     cost: 1e5, // *100 per
                     eternityReplicationMultiplierAdder: 0 // +0.1 per
                 },
+                buyable3:{
+                    cost: 50, // *4 per
+                    eternityStaticGainMultiplier: 1 // x3 per
+                }
             },
             challenges:{
                 challenge1:{
@@ -1652,15 +1657,15 @@ $(()=>{
                             <div id="eternityBuyable2" class="buyable ${player.stats.eternity.buyables.buyable2Amount==30 ? "maxedBuyable" :""}">
                                 <div class="upgradeTitle">
                                     Eternity replication multiplier adder <br> 
-                                    level <span id="infinityBuyable2Amount">${player.stats.eternity.buyables.buyable2Amount}</span> / 30
+                                    level <span id="eternityBuyable2Amount">${player.stats.eternity.buyables.buyable2Amount}</span> / 30
                                 </div>
                                 <div class="upgradeDescription">
                                     Each level adds +x0.1 to eternity replication multiplier
                                 </div>
-                                <div id="infinitybuyable2Effect">
+                                <div id="eternitybuyable2Effect">
                                     Currently: +x${playerStatsCalculated.eternity.buyables.buyable2.eternityReplicationMultiplierAdder}
                                 </div>
-                                <div id="infinityBuyable2Cost">
+                                <div id="eternityBuyable2Cost">
                                     Cost: ${
                                         player.stats.eternity.buyables.buyable2Amount==30
                                         ? 'Maxed' 
@@ -1670,6 +1675,29 @@ $(()=>{
                                 <div class="row ">
                                     <div id="eternityBuyable2BuyOne" class="buyableBuy1 interactable">Buy 1</div>
                                     <div id="eternityBuyable2BuyMax" class="buyableBuyMax interactable">Buy Max</div>
+                                </div>
+                            </div>
+                            <div id="eternityBuyable3" class="buyable ${player.stats.eternity.buyables.buyable3Amount==30 ? "maxedBuyable" :""}">
+                                <div class="upgradeTitle">
+                                    Eternity static tripler <br> 
+                                    level <span id="eternityBuyable3Amount">${player.stats.eternity.buyables.buyable3Amount}</span> / 30
+                                </div>
+                                <div class="upgradeDescription">
+                                    Each multiplies eternity static gain by 3
+                                </div>
+                                <div id="eternitybuyable3Effect">
+                                    Currently: x${playerStatsCalculated.eternity.buyables.buyable3.eternityStaticGainMultiplier}
+                                </div>
+                                <div id="eternityBuyable3Cost">
+                                    Cost: ${
+                                        player.stats.eternity.buyables.buyable3Amount==30
+                                        ? 'Maxed' 
+                                        : FormatNumber(playerStatsCalculated.eternity.buyables.buyable3.cost)+ " eternity"
+                                    } 
+                                </div>
+                                <div class="row ">
+                                    <div id="eternityBuyable3BuyOne" class="buyableBuy1 interactable">Buy 1</div>
+                                    <div id="eternityBuyable3BuyMax" class="buyableBuyMax interactable">Buy Max</div>
                                 </div>
                             </div>
                         </div>
@@ -1818,6 +1846,22 @@ $(()=>{
                     UpdateEternityView()
                 }
             })
+            $("#eternityBuyable3BuyOne").on("click", ()=>{
+                if(player.stats.eternity.currentAmount>=playerStatsCalculated.eternity.buyables.buyable3.cost){
+                    PurchaseEternityBuyable3()
+                    UpdateEternityBuyable3UI()
+                    UpdateEternityView()
+                }
+            })
+            $("#eternityBuyable3BuyMax").on("click", ()=>{
+                while(player.stats.eternity.currentAmount>=playerStatsCalculated.eternity.buyables.buyable3.cost
+                    && player.stats.eternity.buyables.buyable3Amount<30
+                ){
+                    PurchaseEternityBuyable3()
+                    UpdateEternityBuyable3UI()
+                    UpdateEternityView()
+                }
+            })
         }
     }
     //#endregion
@@ -1850,8 +1894,27 @@ $(()=>{
 
     const UpdateEternityBuyable2UI=()=>{
         $("#eternityBuyable2Amount").text(`${player.stats.eternity.buyables.buyable2Amount}`)
-        $("#infinitybuyable2Effect").text(`Currently: +x${FormatNumber(playerStatsCalculated.eternity.buyables.buyable2.eternityReplicationMultiplierAdder)}`)
-        $("#infinityBuyable2Cost").text(`Cost: ${player.stats.eternity.buyables.buyable2Amount==30 ? "Maxed" : FormatNumber(playerStatsCalculated.eternity.buyables.buyable2.cost)+ " eternity"} `)
+        $("#eternitybuyable2Effect").text(`Currently: +x${FormatNumber(playerStatsCalculated.eternity.buyables.buyable2.eternityReplicationMultiplierAdder)}`)
+        $("#eternityBuyable2Cost").text(`Cost: ${player.stats.eternity.buyables.buyable2Amount==30 ? "Maxed" : FormatNumber(playerStatsCalculated.eternity.buyables.buyable2.cost)+ " eternity"} `)
+    }
+
+    const PurchaseEternityBuyable3 = ()=>{
+        if(player.stats.eternity.buyables.buyable3Amount<30){
+            player.stats.eternity.buyables.buyable3Amount++
+            player.stats.eternity.currentAmount-=playerStatsCalculated.eternity.buyables.buyable3.cost
+            playerStatsCalculated.eternity.buyables.buyable3.eternityStaticGainMultiplier= Math.pow(
+                3,
+                player.stats.eternity.buyables.buyable3Amount
+            ) 
+            playerStatsCalculated.eternity.buyables.buyable3.cost= 50*Math.pow(4, player.stats.eternity.buyables.buyable3Amount)
+            CalculateEternityBoosts()
+        }
+    }
+
+    const UpdateEternityBuyable3UI=()=>{
+        $("#eternityBuyable3Amount").text(`${player.stats.eternity.buyables.buyable3Amount}`)
+        $("#eternitybuyable3Effect").text(`Currently: x${FormatNumber(playerStatsCalculated.eternity.buyables.buyable3.eternityStaticGainMultiplier)}`)
+        $("#eternityBuyable3Cost").text(`Cost: ${player.stats.eternity.buyables.buyable3Amount==30 ? "Maxed" : FormatNumber(playerStatsCalculated.eternity.buyables.buyable3.cost)+ " eternity"} `)
     }
     //#endregion
     //#region Eternity Upgrades
@@ -1994,9 +2057,18 @@ $(()=>{
             $("#eternityBuyable2BuyOne").removeClass("buyablePurchaseAble")
             $("#eternityBuyable2BuyMax").removeClass("buyablePurchaseAble")
         }
+        if(player.stats.eternity.currentAmount>=playerStatsCalculated.eternity.buyables.buyable3.cost && player.stats.eternity.buyables.buyable3Amount<30){
+            $("#eternityBuyable3BuyOne").addClass("buyablePurchaseAble")
+            $("#eternityBuyable3BuyMax").addClass("buyablePurchaseAble")
+        }
+        else{
+            $("#eternityBuyable3BuyOne").removeClass("buyablePurchaseAble")
+            $("#eternityBuyable3BuyMax").removeClass("buyablePurchaseAble")
+        }
 
         UpdateEternityBuyable1UI()
         UpdateEternityBuyable2UI()
+        UpdateEternityBuyable3UI()
     }
     //#endregion
     //#region Calculate Eternity boosts
@@ -2009,6 +2081,7 @@ $(()=>{
     const CalculateEternityStaticGain = ()=>{
         playerStatsCalculated.eternity.static.gain=1 
             * playerStatsCalculated.eternity.challenges.challenge1.staticEternityGainMultiplier
+            * playerStatsCalculated.eternity.buyables.buyable3.eternityStaticGainMultiplier
     }
 
     const CalculateEternityReplicationChance = ()=>{
@@ -2029,6 +2102,14 @@ $(()=>{
         playerStatsCalculated.eternity.buyables.buyable1.cost= 100*Math.pow(1.15, player.stats.eternity.buyables.buyable1Amount)
         playerStatsCalculated.eternity.buyables.buyable2.eternityReplicationMultiplierAdder= (0.1 * player.stats.eternity.buyables.buyable2Amount)
         playerStatsCalculated.eternity.buyables.buyable2.cost= 1000*Math.pow(2, player.stats.eternity.buyables.buyable2Amount)
+        playerStatsCalculated.eternity.buyables.buyable3.eternityStaticGainMultiplier=Math.pow(
+            3,
+            player.stats.eternity.buyables.buyable3Amount
+        )
+        playerStatsCalculated.eternity.buyables.buyable3.cost=50*Math.pow(
+            4, 
+            player.stats.eternity.buyables.buyable3Amount
+        )
     }
     //#endregion
     //#region UpdateEternityUpgradesAfterLoad
@@ -2363,11 +2444,6 @@ $(()=>{
         CalculateReplicantiBoosts()
     }
     //#endregion
-    //#region Eternity UI update
-    const UpdateEternityView= ()=>{
-        console.log("here")
-    }
-    //#endregion
     //#region tick
     let totalTimeSinceReplicationInMs=0
     const DoTick = (ms)=>{
@@ -2524,7 +2600,9 @@ $(()=>{
     };
 
     const CheckForMissingData = () => {
-
+        if(player.stats.eternity.buyables.buyable3Amount==undefined){
+            player.stats.eternity.buyables.buyable3Amount=0
+        }
     };
 
     const CheckForEnteredChallenges = ()=>{
