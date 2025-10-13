@@ -2276,6 +2276,27 @@ $(()=>{
         }
     }
     //#endregion
+    //#region CheckForNewEternityChallengeCompletion
+    const CheckForNewEternityChallengeCompletion = ()=>{
+        if(player.stats.eternity.challenges.challenge1.entered==true){
+            player.stats.eternity.challenges.challenge1.completed=true
+            playerStatsCalculated.eternity.challenges.challenge1.staticEternityGainMultiplier=10
+            ExitEternityChallenge1()
+        }
+
+        if(player.stats.eternity.challenges.challenge2.entered==true){
+            player.stats.eternity.challenges.challenge2.completed=true
+            playerStatsCalculated.eternity.challenges.challenge2.eternityReplicationChancePercentAdder=5
+            ExitEternityChallenge2()
+        }
+
+        if(player.stats.eternity.challenges.challenge3.entered==true){
+            player.stats.eternity.challenges.challenge3.completed=true
+            playerStatsCalculated.eternity.challenges.challenge3.eternityReplicationChancePercentAdder=5
+            playerStatsCalculated.eternity.challenges.challenge3.infinityReplicationChancePercentAdder=1
+            ExitEternityChallenge3()
+        }
+    }
     //#region Unlock Eternity
     const UnlockEternity = ()=>{
         player.stats.eternity.unlocked=true
@@ -2293,6 +2314,7 @@ $(()=>{
     //#endregion
     //#region Eternity replication
     const DoEternityReset = ()=>{
+        CheckForNewEternityChallengeCompletion()
         if(player.stats.eternity.unlocked==false){
             UnlockEternity()
         }
