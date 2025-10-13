@@ -271,8 +271,13 @@ $(()=>{
                     ${dialogText}
                 </div>
                 <div class="dialogBoxButtons">
-                    <div id="dialogBoxCancel" class="dialogBoxButton dialogBoxButton${dialogType} interactable">Cancel</div>
-                    <div id="dialogBoxYes" class="dialogBoxButton dialogBoxButton${dialogType} interactable">Yes</div>
+                    ${callbackYes==undefined 
+                        ? `<div id="dialogBoxCancel" class="dialogBoxButton dialogBoxButton${dialogType} interactable">I understand</div>`
+                        : `
+                            <div id="dialogBoxCancel" class="dialogBoxButton dialogBoxButton${dialogType} interactable">Cancel</div>
+                            <div id="dialogBoxYes" class="dialogBoxButton dialogBoxButton${dialogType} interactable">Yes</div>
+                        `
+                    }
                 </div>
             </div>
         `)
@@ -288,6 +293,7 @@ $(()=>{
             $("#dialogBox").addClass("hiddenDialogBox")
             if(callbackNo) callbackNo()
         })
+        if(callbackYes==undefined) return
         $("#dialogBoxYes").on("click", ()=>{
             callbackYes()
             $("#dialogBox").addClass("hiddenDialogBox")
@@ -2667,5 +2673,8 @@ $(()=>{
     }
     //#endregion
     Load()
-
+    
+    if(window.innerWidth<400){
+        ShowDialogBox("Warning", "This game is not optimized for small screens. <br> Please use a device with a larger screen for the best experience. <br> or use landscape orientation", "Warning")
+    }
 })
