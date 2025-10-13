@@ -72,6 +72,10 @@ $(()=>{
     //#region playerStatsCalculated 
     let playerStatsCalculated = {
         replicanti:{
+            challengeNerfs:{
+                replicationTimeNerf: 1,
+                replicationMultiNerf: 1
+            },
             replicationTimeInMs: 1000,
             replicationMulti: 2,
             buyables:{
@@ -88,6 +92,9 @@ $(()=>{
         infinity:{
             static:{
                 gain: 1
+            },
+            challengeNerfs:{
+                replicationMultiNerf:1
             },
             replication:{
                 replicationChancePercent: 1,
@@ -140,7 +147,7 @@ $(()=>{
                 },                                          
                 upgrade12:{
                     cost: 1,
-                    infinityReplicationChancePercentAdder:1  // 10 if bought
+                    infinityReplicationChancePercentAdder:0  // 10 if bought
                 }, 
                 upgrade13:{
                     cost: 2,
@@ -966,6 +973,7 @@ $(()=>{
         playerStatsCalculated.replicanti.replicationTimeInMs=1000 / (
             playerStatsCalculated.replicanti.buyables.buyable1.replicantiReplicationTimeDivider
             * playerStatsCalculated.infinity.upgrades.upgrade11.replicantiReplicationTimeDivider
+            / playerStatsCalculated.replicanti.challengeNerfs.replicationTimeNerf
         )
     }
 
@@ -990,6 +998,7 @@ $(()=>{
             * playerStatsCalculated.infinity.upgrades.upgrade13.replicantiReplicationMultiMultiplier
             * playerStatsCalculated.eternity.upgrades.upgrade11.replicantiReplicationMultiMultiplier
             * playerStatsCalculated.eternity.upgrades.upgrade13.replicantiReplicationMultiMultiplier
+            / playerStatsCalculated.replicanti.challengeNerfs.replicationMultiNerf
     }
     //#endregion
     //#region Replicanti UI update
@@ -1396,6 +1405,7 @@ $(()=>{
             * playerStatsCalculated.infinity.upgrades.upgrade15.infinityReplicationMultiMultiplier
             * playerStatsCalculated.eternity.upgrades.upgrade13.intinityReplicationMultiMultiplier
             * playerStatsCalculated.eternity.upgrades.upgrade14.infinityReplicationMultiMultiplier
+            / playerStatsCalculated.infinity.challengeNerfs.replicationMultiNerf
     }
     //#endregion
     //#region Unlock Infinity
@@ -1439,7 +1449,7 @@ $(()=>{
         $("#replicantiAmount").css("background-image", `linear-gradient(
             to right, 
             blue,
-            blue ${player.stats.replicanti.currentAmount==0 ? 0 : (Math.log10(player.stats.replicanti.currentAmount)/Math.log10(1.79e308))*100}%,
+            blue ${player.stats.replicanti.currentAmount==Infinity ? 0 : (Math.log10(player.stats.replicanti.currentAmount)/Math.log10(1.79e308))*100}%,
             transparent ${(Math.log10(player.stats.replicanti.currentAmount)/Math.log10(1.79e308))*100}%,
             transparent
         )`)
@@ -1448,7 +1458,7 @@ $(()=>{
         $("#currencyBar").css("background-image", `linear-gradient(
             to right, 
             orange,
-            orange ${(Math.log10(player.stats.infinity.currentAmount)/Math.log10(1.79e308))*100}%,
+            orange ${player.stats.infinity.currentAmount==Infinity ? 0 : (Math.log10(player.stats.infinity.currentAmount)/Math.log10(1.79e308))*100}%,
             transparent ${(Math.log10(player.stats.infinity.currentAmount)/Math.log10(1.79e308))*100}%,
             transparent
         )`)
@@ -1857,7 +1867,7 @@ $(()=>{
             player.stats.eternity.currentAmount-=1
             player.stats.eternity.upgrades.upgrade12Bought=true
             playerStatsCalculated.eternity.upgrades.upgrade12.infinityReplicationChancePercentAdder=10
-            CalculateReplicantiReplicationMulti()
+            CalculateInfinityReplicationChance()
             $("#eternityUpgrade12").addClass("boughtEternityUpgrade")
             $("#eternityUpgrade12").off("click")
         }
@@ -1901,7 +1911,7 @@ $(()=>{
         $("#infinityAmount").css("background-image", `linear-gradient(
             to right, 
             orange,
-            orange ${player.stats.infinity.currentAmount==0 ? "0.001" : (Math.log10(player.stats.infinity.currentAmount)/Math.log10(1.79e308))*100}%,
+            orange ${player.stats.infinity.currentAmount==Infinity ? "0" : (Math.log10(player.stats.infinity.currentAmount)/Math.log10(1.79e308))*100}%,
             transparent ${(Math.log10(player.stats.infinity.currentAmount)/Math.log10(1.79e308))*100}%,
             transparent
         )`)
@@ -1910,7 +1920,7 @@ $(()=>{
         $("#currencyBar").css("background-image", `linear-gradient(
             to right, 
             purple,
-            purple ${(Math.log10(player.stats.eternity.currentAmount)/Math.log10(1.79e308))*100}%,
+            purple ${player.stats.eternity.currentAmount==Infinity ? "100" : (Math.log10(player.stats.eternity.currentAmount)/Math.log10(1.79e308))*100}%,
             transparent ${(Math.log10(player.stats.eternity.currentAmount)/Math.log10(1.79e308))*100}%,
             transparent
         )`)
@@ -2138,7 +2148,122 @@ $(()=>{
                 GoToEternity()
             })
         }
+
+        if(player.stats.eternity.challenges.challenge1.completed==false){
+            if(player.stats.eternity.challenges.challenge1.entered==false){
+                $("#eternityChallenge1Enter").on("click", ()=>{
+                    EnterEternityChallenge1()
+                    GoToEternityChallenges()
+                })
+            }
+            else{
+                $("#eternityChallenge1Exit").on("click", ()=>{
+                    ExitEternityChallenge1()
+                    GoToEternityChallenges()
+                })
+            }
+        }
+
+        if(player.stats.eternity.challenges.challenge2.completed==false){
+            if(player.stats.eternity.challenges.challenge2.entered==false){
+                $("#eternityChallenge2Enter").on("click", ()=>{
+                    EnterEternityChallenge2()
+                    GoToEternityChallenges()
+                })
+            }
+            else{
+                $("#eternityChallenge2Exit").on("click", ()=>{
+                    ExitEternityChallenge2()
+                    GoToEternityChallenges()
+                })
+            }
+        }
+
+        if(player.stats.eternity.challenges.challenge3.completed==false){
+            if(player.stats.eternity.challenges.challenge3.entered==false){
+                $("#eternityChallenge3Enter").on("click", ()=>{
+                    EnterEternityChallenge3()
+                    GoToEternityChallenges()
+                })
+            }
+            else{
+                $("#eternityChallenge3Exit").on("click", ()=>{
+                    ExitEternityChallenge3()
+                    GoToEternityChallenges()
+                })
+            }
+        }
     }
+    //#endregion
+    //#region Eternity challenges functions
+    const EnterEternityChallenge1 = ()=>{
+        if(player.stats.eternity.challenges.challenge1.completed==false){
+            player.stats.eternity.challenges.challenge1.entered=true
+            playerStatsCalculated.replicanti.challengeNerfs.replicationTimeNerf=5
+            ResetReplicantiLayer(2)
+            ResetInfinityLayer(2)
+            CalculateReplicantiBoosts()
+            CalculateInfinityBoosts()
+        }
+    }
+
+    const ExitEternityChallenge1 = ()=>{
+        if(player.stats.eternity.challenges.challenge1.completed==false){
+            player.stats.eternity.challenges.challenge1.entered=false
+            playerStatsCalculated.replicanti.challengeNerfs.replicationTimeNerf=1
+            CalculateReplicantiBoosts()
+            CalculateInfinityBoosts()
+        }
+    }
+
+    const EnterEternityChallenge2 = ()=>{
+        if(player.stats.eternity.challenges.challenge2.completed==false){
+            player.stats.eternity.challenges.challenge2.entered=true
+            playerStatsCalculated.replicanti.challengeNerfs.replicationMultiNerf=8192
+            playerStatsCalculated.infinity.challengeNerfs.replicationMultiNerf=16
+            ResetReplicantiLayer(2)
+            ResetInfinityLayer(2)
+            CalculateReplicantiBoosts()
+            CalculateInfinityBoosts()
+        }
+    }
+
+    const ExitEternityChallenge2 = ()=>{
+        if(player.stats.eternity.challenges.challenge2.completed==false){
+            player.stats.eternity.challenges.challenge2.entered=false
+            playerStatsCalculated.replicanti.challengeNerfs.replicationMultiNerf=1
+            playerStatsCalculated.infinity.challengeNerfs.replicationMultiNerf=1
+            CalculateInfinityBoosts()
+            CalculateReplicantiBoosts()
+            CalculateEternityBoosts()
+        }
+    }
+
+    const EnterEternityChallenge3 = ()=>{
+        if(player.stats.eternity.challenges.challenge3.completed==false){
+            player.stats.eternity.challenges.challenge3.entered=true
+            playerStatsCalculated.replicanti.challengeNerfs.replicationTimeNerf=5
+            playerStatsCalculated.replicanti.challengeNerfs.replicationMultiNerf=8192
+            playerStatsCalculated.infinity.challengeNerfs.replicationMultiNerf=16
+            ResetReplicantiLayer(2)
+            ResetInfinityLayer(2)
+            CalculateReplicantiBoosts()
+            CalculateInfinityBoosts()
+        }
+    }
+
+    const ExitEternityChallenge3 = ()=>{
+        if(player.stats.eternity.challenges.challenge3.completed==false){
+            player.stats.eternity.challenges.challenge3.entered=false
+            playerStatsCalculated.replicanti.challengeNerfs.replicationTimeNerf=1
+            playerStatsCalculated.replicanti.challengeNerfs.replicationMultiNerf=1
+            playerStatsCalculated.infinity.challengeNerfs.replicationMultiNerf=1
+            CalculateInfinityBoosts()
+            CalculateReplicantiBoosts()
+            CalculateEternityBoosts()
+        }
+    }
+    //#endregion
     //#region Unlock Eternity
     const UnlockEternity = ()=>{
         player.stats.eternity.unlocked=true
@@ -2166,6 +2291,10 @@ $(()=>{
         if(rng<=playerStatsCalculated.eternity.replication.replicationChancePercent){
             player.stats.eternity.currentAmount*=playerStatsCalculated.eternity.replication.replicationMulti
         }
+        if(mainMenuIndex==3){
+            GoToInfinity()
+        }
+        CalculateInfinityBoosts()
         CalculateReplicantiBoosts()
     }
     //#endregion
