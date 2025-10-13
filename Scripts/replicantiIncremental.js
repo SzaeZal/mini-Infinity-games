@@ -593,7 +593,7 @@ $(()=>{
                         </th>
                         <th colspan=2 class="eternity">
                             Eternity
-                            </th>
+                        </th>
                     </tr>
                     <tr>
                         <td class="infinity">
@@ -661,8 +661,8 @@ $(()=>{
         infinityBuyablesUnlocked: "eyJzdGF0cyI6eyJyZXBsaWNhbnRpIjp7ImN1cnJlbnRBbW91bnQiOjYuMjYzMjk2NDAxNTE4NzYyZSsyODQsImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50Ijo5LCJidXlhYmxlMkFtb3VudCI6OX19LCJpbmZpbml0eSI6eyJjdXJyZW50QW1vdW50Ijo0NjUsInVubG9ja2VkIjp0cnVlLCJ1cGdyYWRlcyI6eyJ1cGdyYWRlMTFCb3VnaHQiOnRydWUsInVwZ3JhZGUxMkJvdWdodCI6dHJ1ZSwidXBncmFkZTEzQm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTRCb3VnaHQiOnRydWUsInVwZ3JhZGUxNUJvdWdodCI6dHJ1ZX0sImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50IjowLCJidXlhYmxlMkFtb3VudCI6MH19LCJldGVybml0eSI6eyJjdXJyZW50QW1vdW50IjowLCJ1bmxvY2tlZCI6ZmFsc2UsInVwZ3JhZGVzIjp7InVwZ3JhZGUxMUJvdWdodCI6ZmFsc2UsInVwZ3JhZGUxMkJvdWdodCI6ZmFsc2UsInVwZ3JhZGUxM0JvdWdodCI6ZmFsc2UsInVwZ3JhZGUxNEJvdWdodCI6ZmFsc2UsInVwZ3JhZGUxNUJvdWdodCI6ZmFsc2V9LCJidXlhYmxlcyI6eyJidXlhYmxlMUFtb3VudCI6MCwiYnV5YWJsZTJBbW91bnQiOjB9LCJjaGFsbGVuZ2VzIjp7ImNoYWxsZW5nZTEiOnsiZW50ZXJlZCI6ZmFsc2UsImNvbXBsZXRlZCI6ZmFsc2V9LCJjaGFsbGVuZ2UyIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOmZhbHNlfSwiY2hhbGxlbmdlMyI6eyJlbnRlcmVkIjpmYWxzZSwiY29tcGxldGVkIjpmYWxzZX19fX0sIm9wdGlvbnMiOnsidWkiOnsidGhlbWUiOiJEYXJrIiwic3ViTWVudVNob3duIjp0cnVlLCJ1aVVwZGF0ZVJhdGVJbk1zIjoyNX0sInNhdmUiOnsic2F2ZUludGVydmFsSW5NcyI6NTAwMH19fQ==.IkxlYXN0T2J2aW91c1NpZ25hdHVyZSI=",
         firstEternity: "eyJzdGF0cyI6eyJyZXBsaWNhbnRpIjp7ImN1cnJlbnRBbW91bnQiOjEuMDE0MTIwNDgwMTgyNTgzNWUrMzEsImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50IjowLCJidXlhYmxlMkFtb3VudCI6MH19LCJpbmZpbml0eSI6eyJjdXJyZW50QW1vdW50IjowLCJ1bmxvY2tlZCI6dHJ1ZSwidXBncmFkZXMiOnsidXBncmFkZTExQm91Z2h0IjpmYWxzZSwidXBncmFkZTEyQm91Z2h0IjpmYWxzZSwidXBncmFkZTEzQm91Z2h0IjpmYWxzZSwidXBncmFkZTE0Qm91Z2h0IjpmYWxzZSwidXBncmFkZTE1Qm91Z2h0IjpmYWxzZX0sImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50IjowLCJidXlhYmxlMkFtb3VudCI6MH19LCJldGVybml0eSI6eyJjdXJyZW50QW1vdW50IjowLCJ1bmxvY2tlZCI6dHJ1ZSwidXBncmFkZXMiOnsidXBncmFkZTExQm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTJCb3VnaHQiOmZhbHNlLCJ1cGdyYWRlMTNCb3VnaHQiOmZhbHNlLCJ1cGdyYWRlMTRCb3VnaHQiOmZhbHNlLCJ1cGdyYWRlMTVCb3VnaHQiOmZhbHNlfSwiYnV5YWJsZXMiOnsiYnV5YWJsZTFBbW91bnQiOjAsImJ1eWFibGUyQW1vdW50IjowfSwiY2hhbGxlbmdlcyI6eyJjaGFsbGVuZ2UxIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOmZhbHNlfSwiY2hhbGxlbmdlMiI6eyJlbnRlcmVkIjpmYWxzZSwiY29tcGxldGVkIjpmYWxzZX0sImNoYWxsZW5nZTMiOnsiZW50ZXJlZCI6ZmFsc2UsImNvbXBsZXRlZCI6ZmFsc2V9fX19LCJvcHRpb25zIjp7InVpIjp7InRoZW1lIjoiRGFyayIsInN1Yk1lbnVTaG93biI6dHJ1ZSwidWlVcGRhdGVSYXRlSW5NcyI6MjV9LCJzYXZlIjp7InNhdmVJbnRlcnZhbEluTXMiOjUwMDB9fX0=.IkxlYXN0T2J2aW91c1NpZ25hdHVyZSI=",
         EC1Completed: "eyJzdGF0cyI6eyJyZXBsaWNhbnRpIjp7ImN1cnJlbnRBbW91bnQiOjIuNTU3MzM2NDEyNDE4ODYxZSsxNDgsImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50IjowLCJidXlhYmxlMkFtb3VudCI6MH19LCJpbmZpbml0eSI6eyJjdXJyZW50QW1vdW50IjowLCJ1bmxvY2tlZCI6dHJ1ZSwidXBncmFkZXMiOnsidXBncmFkZTExQm91Z2h0IjpmYWxzZSwidXBncmFkZTEyQm91Z2h0IjpmYWxzZSwidXBncmFkZTEzQm91Z2h0IjpmYWxzZSwidXBncmFkZTE0Qm91Z2h0IjpmYWxzZSwidXBncmFkZTE1Qm91Z2h0IjpmYWxzZX0sImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50IjowLCJidXlhYmxlMkFtb3VudCI6MH19LCJldGVybml0eSI6eyJjdXJyZW50QW1vdW50IjoyLCJ1bmxvY2tlZCI6dHJ1ZSwidXBncmFkZXMiOnsidXBncmFkZTExQm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTJCb3VnaHQiOnRydWUsInVwZ3JhZGUxM0JvdWdodCI6ZmFsc2UsInVwZ3JhZGUxNEJvdWdodCI6ZmFsc2UsInVwZ3JhZGUxNUJvdWdodCI6ZmFsc2V9LCJidXlhYmxlcyI6eyJidXlhYmxlMUFtb3VudCI6MCwiYnV5YWJsZTJBbW91bnQiOjB9LCJjaGFsbGVuZ2VzIjp7ImNoYWxsZW5nZTEiOnsiZW50ZXJlZCI6ZmFsc2UsImNvbXBsZXRlZCI6dHJ1ZX0sImNoYWxsZW5nZTIiOnsiZW50ZXJlZCI6ZmFsc2UsImNvbXBsZXRlZCI6ZmFsc2V9LCJjaGFsbGVuZ2UzIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOmZhbHNlfX19fSwib3B0aW9ucyI6eyJ1aSI6eyJ0aGVtZSI6IkRhcmsiLCJzdWJNZW51U2hvd24iOnRydWUsInVpVXBkYXRlUmF0ZUluTXMiOjI1fSwic2F2ZSI6eyJzYXZlSW50ZXJ2YWxJbk1zIjo1MDAwfX19.IkxlYXN0T2J2aW91c1NpZ25hdHVyZSI=",
-        EC2Completed: "",
-        EC3Completed: "",
+        EC2Completed: "eyJzdGF0cyI6eyJyZXBsaWNhbnRpIjp7ImN1cnJlbnRBbW91bnQiOjcuODk0NzA2OTIzNTE1NTY2ZSsxOTksImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50Ijo5LCJidXlhYmxlMkFtb3VudCI6OX19LCJpbmZpbml0eSI6eyJjdXJyZW50QW1vdW50Ijo4Ljg2NDQzNzE4MzkzNTEzOWUrMTg1LCJ1bmxvY2tlZCI6dHJ1ZSwidXBncmFkZXMiOnsidXBncmFkZTExQm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTJCb3VnaHQiOnRydWUsInVwZ3JhZGUxM0JvdWdodCI6dHJ1ZSwidXBncmFkZTE0Qm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTVCb3VnaHQiOnRydWV9LCJidXlhYmxlcyI6eyJidXlhYmxlMUFtb3VudCI6NzksImJ1eWFibGUyQW1vdW50IjozMH19LCJldGVybml0eSI6eyJjdXJyZW50QW1vdW50IjoyNSwidW5sb2NrZWQiOnRydWUsInVwZ3JhZGVzIjp7InVwZ3JhZGUxMUJvdWdodCI6dHJ1ZSwidXBncmFkZTEyQm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTNCb3VnaHQiOnRydWUsInVwZ3JhZGUxNEJvdWdodCI6dHJ1ZSwidXBncmFkZTE1Qm91Z2h0Ijp0cnVlfSwiYnV5YWJsZXMiOnsiYnV5YWJsZTFBbW91bnQiOjAsImJ1eWFibGUyQW1vdW50IjowfSwiY2hhbGxlbmdlcyI6eyJjaGFsbGVuZ2UxIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOnRydWV9LCJjaGFsbGVuZ2UyIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOnRydWV9LCJjaGFsbGVuZ2UzIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOmZhbHNlfX19fSwib3B0aW9ucyI6eyJ1aSI6eyJ0aGVtZSI6IkRhcmsiLCJzdWJNZW51U2hvd24iOnRydWUsInVpVXBkYXRlUmF0ZUluTXMiOjI1fSwic2F2ZSI6eyJzYXZlSW50ZXJ2YWxJbk1zIjo1MDAwfX19.IkxlYXN0T2J2aW91c1NpZ25hdHVyZSI=",
+        EC3Completed: "eyJzdGF0cyI6eyJyZXBsaWNhbnRpIjp7ImN1cnJlbnRBbW91bnQiOjQuMDIyMzc1OTQ4NzAyMTYzZSsxMDQsImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50Ijo5LCJidXlhYmxlMkFtb3VudCI6OX19LCJpbmZpbml0eSI6eyJjdXJyZW50QW1vdW50Ijo5LjIzMzE3NDMyMjU1NDYzNGUrMTk0LCJ1bmxvY2tlZCI6dHJ1ZSwidXBncmFkZXMiOnsidXBncmFkZTExQm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTJCb3VnaHQiOnRydWUsInVwZ3JhZGUxM0JvdWdodCI6dHJ1ZSwidXBncmFkZTE0Qm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTVCb3VnaHQiOnRydWV9LCJidXlhYmxlcyI6eyJidXlhYmxlMUFtb3VudCI6NzksImJ1eWFibGUyQW1vdW50IjozMH19LCJldGVybml0eSI6eyJjdXJyZW50QW1vdW50Ijo1NSwidW5sb2NrZWQiOnRydWUsInVwZ3JhZGVzIjp7InVwZ3JhZGUxMUJvdWdodCI6dHJ1ZSwidXBncmFkZTEyQm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTNCb3VnaHQiOnRydWUsInVwZ3JhZGUxNEJvdWdodCI6dHJ1ZSwidXBncmFkZTE1Qm91Z2h0Ijp0cnVlfSwiYnV5YWJsZXMiOnsiYnV5YWJsZTFBbW91bnQiOjAsImJ1eWFibGUyQW1vdW50IjowfSwiY2hhbGxlbmdlcyI6eyJjaGFsbGVuZ2UxIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOnRydWV9LCJjaGFsbGVuZ2UyIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOnRydWV9LCJjaGFsbGVuZ2UzIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOnRydWV9fX19LCJvcHRpb25zIjp7InVpIjp7InRoZW1lIjoiRGFyayIsInN1Yk1lbnVTaG93biI6dHJ1ZSwidWlVcGRhdGVSYXRlSW5NcyI6MjV9LCJzYXZlIjp7InNhdmVJbnRlcnZhbEluTXMiOjUwMDB9fX0=.IkxlYXN0T2J2aW91c1NpZ25hdHVyZSI=",
     }
     //#endregion
     //#region Information nav
@@ -809,7 +809,7 @@ $(()=>{
                         Buyables
                     </div>
                     <div class="row gap-50px">
-                        <div id="replicantiBuyable1" class="buyable">
+                        <div id="replicantiBuyable1" class="buyable ${player.stats.replicanti.buyables.buyable1Amount==9 ? "maxedBuyable" :""}">
                             <div class="upgradeTitle">
                                 Replication Fastener <br> 
                                 level <span id="replicantiBuyable1Amount">${player.stats.replicanti.buyables.buyable1Amount}</span> / 9
@@ -832,7 +832,7 @@ $(()=>{
                                 <div id="replicantiBuyable1BuyMax" class="buyableBuyMax interactable">Buy Max</div>
                             </div>
                         </div>
-                        <div id="replicantiBuyable2" class="buyable">
+                        <div id="replicantiBuyable2" class="buyable ${player.stats.replicanti.buyables.buyable2Amount==9 ? "maxedBuyable" :""}">
                             <div class="upgradeTitle">
                                 Replication Increaser <br> 
                                 level <span id="replicantiBuyable2Amount">${player.stats.replicanti.buyables.buyable2Amount}</span> / 9
@@ -1067,7 +1067,8 @@ $(()=>{
     //#region Reset Replicanti layer
     const ResetReplicantiLayer = (layerReset) =>{
         player.stats.replicanti.currentAmount=1
-        if(!(layerReset == 1 && player.stats.infinity.upgrades.upgrade14Bought==true)){
+        if(!(layerReset == 1 && player.stats.infinity.upgrades.upgrade14Bought==true) 
+            && !(layerReset<=2 && player.stats.eternity.upgrades.upgrade15Bought==true)){
             player.stats.replicanti.buyables.buyable1Amount=0
             playerStatsCalculated.replicanti.buyables.buyable1.cost=128
             playerStatsCalculated.replicanti.buyables.buyable1.replicantiReplicationTimeDivider=1
@@ -1104,7 +1105,7 @@ $(()=>{
                             Buyables
                         </div>
                         <div class="row gap-50px">
-                            <div id="infinityBuyable1" class="buyable">
+                            <div id="infinityBuyable1" class="buyable ${player.stats.infinity.buyables.buyable1Amount==79 ? "maxedBuyable" :""}">
                                 <div class="upgradeTitle">
                                     Infinity replication chance adder <br> 
                                     level <span id="infinityBuyable1Amount">${player.stats.infinity.buyables.buyable1Amount}</span> / 79
@@ -1127,7 +1128,7 @@ $(()=>{
                                     <div id="infinityBuyable1BuyMax" class="buyableBuyMax interactable">Buy Max</div>
                                 </div>
                             </div>
-                            <div id="infinityBuyable2" class="buyable">
+                            <div id="infinityBuyable2" class="buyable ${player.stats.infinity.buyables.buyable2Amount==30 ? "maxedBuyable" :""}">
                                 <div class="upgradeTitle">
                                     Infinity Replication Increaser <br> 
                                     level <span id="infinityBuyable2Amount">${player.stats.infinity.buyables.buyable2Amount}</span> / 30
@@ -1556,21 +1557,25 @@ $(()=>{
     //#region Reset Infinity layer
     const ResetInfinityLayer = (layerReset) =>{
         player.stats.infinity.currentAmount=0
-        player.stats.infinity.buyables.buyable1Amount=0
-        playerStatsCalculated.infinity.buyables.buyable1.cost=100
-        playerStatsCalculated.infinity.buyables.buyable1.infinityReplicationChancePercentAdder=0
-        player.stats.infinity.buyables.buyable2Amount=0
-        playerStatsCalculated.infinity.buyables.buyable2.cost=1000
-        playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier=1
-        player.stats.infinity.upgrades.upgrade11Bought=false
-        playerStatsCalculated.infinity.upgrades.upgrade11.replicantiReplicationTimeDivider=1
-        player.stats.infinity.upgrades.upgrade12Bought=false
-        playerStatsCalculated.infinity.upgrades.upgrade12.replicantiReplicationMultiMultiplier=1
-        player.stats.infinity.upgrades.upgrade13Bought=false
-        playerStatsCalculated.infinity.upgrades.upgrade13.replicantiReplicationMultiMultiplier=1
-        player.stats.infinity.upgrades.upgrade14Bought=false
-        player.stats.infinity.upgrades.upgrade15Bought=false
-        playerStatsCalculated.infinity.upgrades.upgrade15.infinityReplicationMultiMultiplier=1
+        if(!(layerReset==2 && player.stats.eternity.challenges.challenge2.completed==true)){    
+            player.stats.infinity.buyables.buyable1Amount=0
+            playerStatsCalculated.infinity.buyables.buyable1.cost=100
+            playerStatsCalculated.infinity.buyables.buyable1.infinityReplicationChancePercentAdder=0
+            player.stats.infinity.buyables.buyable2Amount=0
+            playerStatsCalculated.infinity.buyables.buyable2.cost=1000
+            playerStatsCalculated.infinity.buyables.buyable2.intinityReplicationMultiMultiplier=1
+        }
+        if(!(layerReset==2 && player.stats.eternity.upgrades.upgrade15Bought==true)){    
+            player.stats.infinity.upgrades.upgrade11Bought=false
+            playerStatsCalculated.infinity.upgrades.upgrade11.replicantiReplicationTimeDivider=1
+            player.stats.infinity.upgrades.upgrade12Bought=false
+            playerStatsCalculated.infinity.upgrades.upgrade12.replicantiReplicationMultiMultiplier=1
+            player.stats.infinity.upgrades.upgrade13Bought=false
+            playerStatsCalculated.infinity.upgrades.upgrade13.replicantiReplicationMultiMultiplier=1
+            player.stats.infinity.upgrades.upgrade14Bought=false
+            player.stats.infinity.upgrades.upgrade15Bought=false
+            playerStatsCalculated.infinity.upgrades.upgrade15.infinityReplicationMultiMultiplier=1
+        }
         CalculateReplicantiBoosts()
         CalculateInfinityBoosts()
     }
@@ -1621,7 +1626,7 @@ $(()=>{
                             Buyables
                         </div>
                         <div class="row gap-50px">
-                            <div id="eterinityBuyable1" class="buyable">
+                            <div id="eterinityBuyable1" class="buyable ${player.stats.eternity.buyables.buyable1Amount==900 ? "maxedBuyable" :""}">
                                 <div class="upgradeTitle">
                                     Eternity replication chance adder <br> 
                                     level <span id="eternityBuyable1Amount">${player.stats.eternity.buyables.buyable1Amount}</span> / 900
@@ -1644,7 +1649,7 @@ $(()=>{
                                     <div id="eternityBuyable1BuyMax" class="buyableBuyMax interactable">Buy Max</div>
                                 </div>
                             </div>
-                            <div id="eternityBuyable2" class="buyable">
+                            <div id="eternityBuyable2" class="buyable ${player.stats.eternity.buyables.buyable2Amount==30 ? "maxedBuyable" :""}">
                                 <div class="upgradeTitle">
                                     Eternity replication multiplier adder <br> 
                                     level <span id="infinityBuyable2Amount">${player.stats.eternity.buyables.buyable2Amount}</span> / 30
@@ -1713,7 +1718,7 @@ $(()=>{
                                 Cost: 2 eternity
                             </div>
                         </div>
-                        <div id="eternityUpgrade14" class="upgrade ${player.stats.eternity.upgrades.upgrade14Bought ? "boughEternityUpgrade" : ""}">
+                        <div id="eternityUpgrade14" class="upgrade ${player.stats.eternity.upgrades.upgrade14Bought ? "boughtEternityUpgrade" : ""}">
                             <div class="upgradeTitle">
                                 Infinity Eternal multiplier
                             </div>
@@ -1901,6 +1906,8 @@ $(()=>{
             player.stats.eternity.upgrades.upgrade15Bought=true
             CalculateReplicantiReplicationMulti()
             CalculateInfinityReplicationMulti()
+            $("#eternityUpgrade15").addClass("boughtEternityUpgrade")
+            $("#eternityUpgrade15").off("click")
         }
     }
     //#endregion
@@ -1910,8 +1917,8 @@ $(()=>{
         $("#infinityAmount").css("background-image", `linear-gradient(
             to right, 
             orange,
-            orange ${player.stats.infinity.currentAmount==Infinity ? "0" : (Math.log10(player.stats.infinity.currentAmount)/Math.log10(1.79e308))*100}%,
-            transparent ${(Math.log10(player.stats.infinity.currentAmount)/Math.log10(1.79e308))*100}%,
+            orange ${player.stats.infinity.currentAmount==0 ? "0" : (Math.log10(player.stats.infinity.currentAmount)/Math.log10(1.79e308))*100}%,
+            transparent ${player.stats.infinity.currentAmount==0 ? "0" : (Math.log10(player.stats.infinity.currentAmount)/Math.log10(1.79e308))*100}%,
             transparent
         )`)
 
@@ -1919,7 +1926,7 @@ $(()=>{
         $("#currencyBar").css("background-image", `linear-gradient(
             to right, 
             purple,
-            purple ${player.stats.eternity.currentAmount==Infinity ? "100" : (Math.log10(player.stats.eternity.currentAmount)/Math.log10(1.79e308))*100}%,
+            purple ${player.stats.eternity.currentAmount==0 ? "0.01" : (Math.log10(player.stats.eternity.currentAmount)/Math.log10(1.79e308))*100}%,
             transparent ${(Math.log10(player.stats.eternity.currentAmount)/Math.log10(1.79e308))*100}%,
             transparent
         )`)
@@ -2018,10 +2025,10 @@ $(()=>{
     //#endregion
     //#region UpdateEternityBuyablesAfterLoad
     const UpdateEternityBuyablesAfterLoad = ()=>{
-        playerStatsCalculated.eternity.buyables.buyable1.infinityReplicationChancePercentAdder= 1 * player.stats.infinity.buyables.buyable1Amount
-        playerStatsCalculated.eternity.buyables.buyable1.cost= 100*Math.pow(1.15, player.stats.infinity.buyables.buyable1Amount)
-        playerStatsCalculated.eternity.buyables.buyable2.intinityReplicationMultiMultiplier= (0.1 * player.stats.infinity.buyables.buyable2Amount)
-        playerStatsCalculated.eternity.buyables.buyable2.cost= 1000*Math.pow(2, player.stats.infinity.buyables.buyable2Amount)
+        playerStatsCalculated.eternity.buyables.buyable1.eternityReplicationChancePercentAdder= 1 * player.stats.eternity.buyables.buyable1Amount
+        playerStatsCalculated.eternity.buyables.buyable1.cost= 100*Math.pow(1.15, player.stats.eternity.buyables.buyable1Amount)
+        playerStatsCalculated.eternity.buyables.buyable2.eternityReplicationMultiplierAdder= (0.1 * player.stats.eternity.buyables.buyable2Amount)
+        playerStatsCalculated.eternity.buyables.buyable2.cost= 1000*Math.pow(2, player.stats.eternity.buyables.buyable2Amount)
     }
     //#endregion
     //#region UpdateEternityUpgradesAfterLoad
@@ -2281,6 +2288,7 @@ $(()=>{
             ExitEternityChallenge1()
             player.stats.eternity.challenges.challenge1.completed=true
             playerStatsCalculated.eternity.challenges.challenge1.staticEternityGainMultiplier=10
+            CalculateEternityBoosts()
             ShowNotification("Challenge complete", "EC 1", "ECCompletion")
         }
 
@@ -2288,6 +2296,7 @@ $(()=>{
             ExitEternityChallenge2()
             player.stats.eternity.challenges.challenge2.completed=true
             playerStatsCalculated.eternity.challenges.challenge2.eternityReplicationChancePercentAdder=5
+            CalculateEternityBoosts()
             ShowNotification("Challenge complete", "EC 2", "ECCompletion")
         }
 
@@ -2296,6 +2305,11 @@ $(()=>{
             player.stats.eternity.challenges.challenge3.completed=true
             playerStatsCalculated.eternity.challenges.challenge3.eternityReplicationChancePercentAdder=5
             playerStatsCalculated.eternity.challenges.challenge3.infinityReplicationChancePercentAdder=1
+            CalculateEternityBoosts()
+            CalculateInfinityBoosts()
+            if(mainMenuIndex==4){
+                GoToEternity()
+            }
             ShowNotification("Challenge complete", "EC 3", "ECCompletion")
         }
     }

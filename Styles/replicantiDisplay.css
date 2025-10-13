@@ -34,7 +34,7 @@
 .buyable{
   border-radius: 5px;
   max-width: 250px;
-  border: 2px solid gray;
+  border: 3px solid gray;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -66,6 +66,9 @@
 }
 .buyablePurchaseAble:hover{
   background-color: rgba(0, 255, 0, 0.35);
+}
+.maxedBuyable{
+  border-color: rgba(0, 128, 0, 0.5);
 }
 
 #replicanti{
