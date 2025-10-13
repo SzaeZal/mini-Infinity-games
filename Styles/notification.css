@@ -57,3 +57,8 @@
     background-color: rgb(0, 255,0);
     border: 5px rgb(0, 175, 0) solid;
 }
+
+.notificationECCompletion{
+    background-color: purple;
+    border: 5px rgb(128, 0, 128) solid;
+}

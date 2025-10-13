@@ -339,7 +339,6 @@ $(()=>{
     //#endregion
     //#region UI settings
     const GoToUISettings = () =>{
-        console.log(player.options.ui.subMenuShown)
         view.html(`
             <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ''}>
                 <div class="subMenuItem selectedSubMenuItem">
@@ -661,7 +660,7 @@ $(()=>{
         firstInfinity: "",
         infinityBuyablesUnlocked: "eyJzdGF0cyI6eyJyZXBsaWNhbnRpIjp7ImN1cnJlbnRBbW91bnQiOjYuMjYzMjk2NDAxNTE4NzYyZSsyODQsImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50Ijo5LCJidXlhYmxlMkFtb3VudCI6OX19LCJpbmZpbml0eSI6eyJjdXJyZW50QW1vdW50Ijo0NjUsInVubG9ja2VkIjp0cnVlLCJ1cGdyYWRlcyI6eyJ1cGdyYWRlMTFCb3VnaHQiOnRydWUsInVwZ3JhZGUxMkJvdWdodCI6dHJ1ZSwidXBncmFkZTEzQm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTRCb3VnaHQiOnRydWUsInVwZ3JhZGUxNUJvdWdodCI6dHJ1ZX0sImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50IjowLCJidXlhYmxlMkFtb3VudCI6MH19LCJldGVybml0eSI6eyJjdXJyZW50QW1vdW50IjowLCJ1bmxvY2tlZCI6ZmFsc2UsInVwZ3JhZGVzIjp7InVwZ3JhZGUxMUJvdWdodCI6ZmFsc2UsInVwZ3JhZGUxMkJvdWdodCI6ZmFsc2UsInVwZ3JhZGUxM0JvdWdodCI6ZmFsc2UsInVwZ3JhZGUxNEJvdWdodCI6ZmFsc2UsInVwZ3JhZGUxNUJvdWdodCI6ZmFsc2V9LCJidXlhYmxlcyI6eyJidXlhYmxlMUFtb3VudCI6MCwiYnV5YWJsZTJBbW91bnQiOjB9LCJjaGFsbGVuZ2VzIjp7ImNoYWxsZW5nZTEiOnsiZW50ZXJlZCI6ZmFsc2UsImNvbXBsZXRlZCI6ZmFsc2V9LCJjaGFsbGVuZ2UyIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOmZhbHNlfSwiY2hhbGxlbmdlMyI6eyJlbnRlcmVkIjpmYWxzZSwiY29tcGxldGVkIjpmYWxzZX19fX0sIm9wdGlvbnMiOnsidWkiOnsidGhlbWUiOiJEYXJrIiwic3ViTWVudVNob3duIjp0cnVlLCJ1aVVwZGF0ZVJhdGVJbk1zIjoyNX0sInNhdmUiOnsic2F2ZUludGVydmFsSW5NcyI6NTAwMH19fQ==.IkxlYXN0T2J2aW91c1NpZ25hdHVyZSI=",
         firstEternity: "eyJzdGF0cyI6eyJyZXBsaWNhbnRpIjp7ImN1cnJlbnRBbW91bnQiOjEuMDE0MTIwNDgwMTgyNTgzNWUrMzEsImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50IjowLCJidXlhYmxlMkFtb3VudCI6MH19LCJpbmZpbml0eSI6eyJjdXJyZW50QW1vdW50IjowLCJ1bmxvY2tlZCI6dHJ1ZSwidXBncmFkZXMiOnsidXBncmFkZTExQm91Z2h0IjpmYWxzZSwidXBncmFkZTEyQm91Z2h0IjpmYWxzZSwidXBncmFkZTEzQm91Z2h0IjpmYWxzZSwidXBncmFkZTE0Qm91Z2h0IjpmYWxzZSwidXBncmFkZTE1Qm91Z2h0IjpmYWxzZX0sImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50IjowLCJidXlhYmxlMkFtb3VudCI6MH19LCJldGVybml0eSI6eyJjdXJyZW50QW1vdW50IjowLCJ1bmxvY2tlZCI6dHJ1ZSwidXBncmFkZXMiOnsidXBncmFkZTExQm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTJCb3VnaHQiOmZhbHNlLCJ1cGdyYWRlMTNCb3VnaHQiOmZhbHNlLCJ1cGdyYWRlMTRCb3VnaHQiOmZhbHNlLCJ1cGdyYWRlMTVCb3VnaHQiOmZhbHNlfSwiYnV5YWJsZXMiOnsiYnV5YWJsZTFBbW91bnQiOjAsImJ1eWFibGUyQW1vdW50IjowfSwiY2hhbGxlbmdlcyI6eyJjaGFsbGVuZ2UxIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOmZhbHNlfSwiY2hhbGxlbmdlMiI6eyJlbnRlcmVkIjpmYWxzZSwiY29tcGxldGVkIjpmYWxzZX0sImNoYWxsZW5nZTMiOnsiZW50ZXJlZCI6ZmFsc2UsImNvbXBsZXRlZCI6ZmFsc2V9fX19LCJvcHRpb25zIjp7InVpIjp7InRoZW1lIjoiRGFyayIsInN1Yk1lbnVTaG93biI6dHJ1ZSwidWlVcGRhdGVSYXRlSW5NcyI6MjV9LCJzYXZlIjp7InNhdmVJbnRlcnZhbEluTXMiOjUwMDB9fX0=.IkxlYXN0T2J2aW91c1NpZ25hdHVyZSI=",
-        EC1Completed: "",
+        EC1Completed: "eyJzdGF0cyI6eyJyZXBsaWNhbnRpIjp7ImN1cnJlbnRBbW91bnQiOjIuNTU3MzM2NDEyNDE4ODYxZSsxNDgsImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50IjowLCJidXlhYmxlMkFtb3VudCI6MH19LCJpbmZpbml0eSI6eyJjdXJyZW50QW1vdW50IjowLCJ1bmxvY2tlZCI6dHJ1ZSwidXBncmFkZXMiOnsidXBncmFkZTExQm91Z2h0IjpmYWxzZSwidXBncmFkZTEyQm91Z2h0IjpmYWxzZSwidXBncmFkZTEzQm91Z2h0IjpmYWxzZSwidXBncmFkZTE0Qm91Z2h0IjpmYWxzZSwidXBncmFkZTE1Qm91Z2h0IjpmYWxzZX0sImJ1eWFibGVzIjp7ImJ1eWFibGUxQW1vdW50IjowLCJidXlhYmxlMkFtb3VudCI6MH19LCJldGVybml0eSI6eyJjdXJyZW50QW1vdW50IjoyLCJ1bmxvY2tlZCI6dHJ1ZSwidXBncmFkZXMiOnsidXBncmFkZTExQm91Z2h0Ijp0cnVlLCJ1cGdyYWRlMTJCb3VnaHQiOnRydWUsInVwZ3JhZGUxM0JvdWdodCI6ZmFsc2UsInVwZ3JhZGUxNEJvdWdodCI6ZmFsc2UsInVwZ3JhZGUxNUJvdWdodCI6ZmFsc2V9LCJidXlhYmxlcyI6eyJidXlhYmxlMUFtb3VudCI6MCwiYnV5YWJsZTJBbW91bnQiOjB9LCJjaGFsbGVuZ2VzIjp7ImNoYWxsZW5nZTEiOnsiZW50ZXJlZCI6ZmFsc2UsImNvbXBsZXRlZCI6dHJ1ZX0sImNoYWxsZW5nZTIiOnsiZW50ZXJlZCI6ZmFsc2UsImNvbXBsZXRlZCI6ZmFsc2V9LCJjaGFsbGVuZ2UzIjp7ImVudGVyZWQiOmZhbHNlLCJjb21wbGV0ZWQiOmZhbHNlfX19fSwib3B0aW9ucyI6eyJ1aSI6eyJ0aGVtZSI6IkRhcmsiLCJzdWJNZW51U2hvd24iOnRydWUsInVpVXBkYXRlUmF0ZUluTXMiOjI1fSwic2F2ZSI6eyJzYXZlSW50ZXJ2YWxJbk1zIjo1MDAwfX19.IkxlYXN0T2J2aW91c1NpZ25hdHVyZSI=",
         EC2Completed: "",
         EC3Completed: "",
     }
@@ -2101,9 +2100,9 @@ $(()=>{
                         </div>
                         <div class="challengeEnterExit">
                             ${
-                                player.stats.eternity.challenges.challenge3.completed==true
+                                player.stats.eternity.challenges.challenge2.completed==true
                                 ? `<div>Completed</div>`
-                                : player.stats.eternity.challenges.challenge3.entered==true
+                                : player.stats.eternity.challenges.challenge2.entered==true
                                 ? `<div id="eternityChallenge2Exit" class="challengeExit interactable">Exit challenge</div>`
                                 : `<div id="eternityChallenge2Enter" class="challengeEnter interactable">Enter challenge</div>`
                             }
@@ -2279,24 +2278,42 @@ $(()=>{
     //#region CheckForNewEternityChallengeCompletion
     const CheckForNewEternityChallengeCompletion = ()=>{
         if(player.stats.eternity.challenges.challenge1.entered==true){
+            ExitEternityChallenge1()
             player.stats.eternity.challenges.challenge1.completed=true
             playerStatsCalculated.eternity.challenges.challenge1.staticEternityGainMultiplier=10
-            ExitEternityChallenge1()
+            ShowNotification("Challenge complete", "EC 1", "ECCompletion")
         }
 
         if(player.stats.eternity.challenges.challenge2.entered==true){
+            ExitEternityChallenge2()
             player.stats.eternity.challenges.challenge2.completed=true
             playerStatsCalculated.eternity.challenges.challenge2.eternityReplicationChancePercentAdder=5
-            ExitEternityChallenge2()
+            ShowNotification("Challenge complete", "EC 2", "ECCompletion")
         }
 
         if(player.stats.eternity.challenges.challenge3.entered==true){
+            ExitEternityChallenge3()
             player.stats.eternity.challenges.challenge3.completed=true
             playerStatsCalculated.eternity.challenges.challenge3.eternityReplicationChancePercentAdder=5
             playerStatsCalculated.eternity.challenges.challenge3.infinityReplicationChancePercentAdder=1
-            ExitEternityChallenge3()
+            ShowNotification("Challenge complete", "EC 3", "ECCompletion")
         }
     }
+    //#endregion
+    //#region Update EternityChallengesAfterLoad
+    const UpdateEternityChallengesAfterLoad = ()=>{
+        if(player.stats.eternity.challenges.challenge1.completed==true){
+            playerStatsCalculated.eternity.challenges.challenge1.staticEternityGainMultiplier=10
+        }
+        if(player.stats.eternity.challenges.challenge2.completed==true){
+            playerStatsCalculated.eternity.challenges.challenge2.eternityReplicationChancePercentAdder=5
+        }
+        if(player.stats.eternity.challenges.challenge3.completed==true){
+            playerStatsCalculated.eternity.challenges.challenge3.eternityReplicationChancePercentAdder=5
+            playerStatsCalculated.eternity.challenges.challenge3.infinityReplicationChancePercentAdder=1
+        }
+    }
+    //#endregion
     //#region Unlock Eternity
     const UnlockEternity = ()=>{
         player.stats.eternity.unlocked=true
@@ -2470,6 +2487,7 @@ $(()=>{
             UpdateInfinityUpgradesAfterLoad()
             UpdateEternityBuyablesAfterLoad()
             UpdateEternityUpgradesAfterLoad()
+            UpdateEternityChallengesAfterLoad()
 
             CheckForEnteredChallenges()
 
