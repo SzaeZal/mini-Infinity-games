@@ -2264,6 +2264,18 @@ $(()=>{
         }
     }
     //#endregion
+    //#region CheckForEnteredEternityChallenges
+    const CheckForEnteredEternityChallenges = ()=>{
+        if(player.stats.eternity.challenges.challenge1.entered==true || player.stats.eternity.challenges.challenge3.entered==true) {
+            playerStatsCalculated.replicanti.challengeNerfs.replicationTimeNerf=5
+        }
+
+        if(player.stats.eternity.challenges.challenge2.entered==true || player.stats.eternity.challenges.challenge3.entered==true){
+            playerStatsCalculated.replicanti.challengeNerfs.replicationMultiNerf=8192
+            playerStatsCalculated.infinity.challengeNerfs.replicationMultiNerf=16
+        }
+    }
+    //#endregion
     //#region Unlock Eternity
     const UnlockEternity = ()=>{
         player.stats.eternity.unlocked=true
@@ -2437,6 +2449,8 @@ $(()=>{
             UpdateEternityBuyablesAfterLoad()
             UpdateEternityUpgradesAfterLoad()
 
+            CheckForEnteredChallenges()
+
             CalculateReplicantiBoosts();
             CalculateInfinityBoosts();
             CalculateEternityBoosts();
@@ -2458,6 +2472,10 @@ $(()=>{
     const CheckForMissingData = () => {
 
     };
+
+    const CheckForEnteredChallenges = ()=>{
+        CheckForEnteredEternityChallenges()
+    }
 
     const HardReset = () => {
         localStorage.removeItem("replicantiIncSave");
