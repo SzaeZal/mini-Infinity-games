@@ -1,0 +1,108 @@
+.cardsContainer{
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.card, .cardBackside{
+    width: 200px;
+    height: 300px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.cardBackside{
+    border: 5px solid gray;
+}
+.cardInnerCircle{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3em;
+    font-weight: bold;
+}
+
+.cardCornerPieces{
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    top: 10px;
+    left: 10px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+.cardCornerPieceTopLeft{
+    transform: rotate(0deg);
+}
+.cardCornerPieceTopRight{
+    position: absolute;
+    left: 160px;
+    top: 0;
+}
+.cardCornerPieceBottomLeft{
+    position: absolute;
+    top: 260px;
+}
+.cardCornerPieceBottomRight{
+    position: absolute;
+    top: 260px;
+    left: 160px;
+}
+
+.type-redOuter{
+    background-color: #ff4d4d;
+    border: 5px solid #b30000;
+    color: white;
+}
+.type-redOuter .cardCornerPieces{
+    color: #b30000;
+}
+.type-redInner{
+    color: #ff4d4d;
+}
+
+.type-blueOuter{
+    background-color: #4d79ff;
+    border: 5px solid #0039e6;
+    color: white;
+}
+.type-blueOuter .cardCornerPieces{
+    color: #0039e6;
+}
+.type-blueInner{
+    color: #4d79ff;
+}
+
+.type-greenOuter{
+    background-color: #66ff66;
+    border: 5px solid #00b300;
+    color: white;
+}
+.type-greenOuter .cardCornerPieces{
+    color: #00b300;
+}
+.type-greenInner{
+    color: #66ff66;
+}
+
+.type-yellowOuter{
+    background-color: #e6e600;
+    border: 5px solid #b3b300;
+    color: white;
+}
+.type-yellowOuter .cardCornerPieces{
+    color: #b3b300;
+}
+.type-yellowInner{
+    border: none;
+    color: #e6e600;
+}
