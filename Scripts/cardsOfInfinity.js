@@ -347,6 +347,12 @@ $(()=>{
                     <div class="gameAuthor">
                         Made by SzaeZal
                     </div>
+                    <div class="credits">
+                        Credits: <br>
+                        <ul>
+                            <li>Medal images by Trackmania (Trackmania is owned by Nadeo and Ubisoft)</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         `)
@@ -464,7 +470,7 @@ $(()=>{
     //#region  AddGameMenuUIEvents
     const AddGameMenuUIEvents = ()=>{
         $("#easyDifficulty").on("click", ()=>{
-            
+
         })
         $("#mediumDifficulty").on("click", ()=>{
 
