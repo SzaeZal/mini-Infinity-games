@@ -5,89 +5,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cards Of Infinity</title>
     <link rel="stylesheet" href="../Styles/base.css">
+    <link rel="stylesheet" href="../Styles/sidebar.css">
+    <link rel="stylesheet" href="../Styles/content.css">
+    <link rel="stylesheet" href="../Styles/notification.css">
+    <link rel="stylesheet" href="../Styles/dialogBox.css">
+    <link rel="stylesheet" href="../Styles/settings.css">
+    <link rel="stylesheet" href="../Styles/informationTab.css">
     <link rel="stylesheet" href="../Styles/cardsOfInfinity.css">
-    <script src="../Scripts/jquery.min.js" defer></script>
+    <script src="../Scripts/jquery.min.js"></script>
+    <script src="../Scripts/cardsOfInfinity.js"></script>
 </head>
-<body class="theme-light">
-    <div class="cardsContainer">
-        <div class="card type-redOuter">
-            <div class="theme-light cardInnerCircle type-redInner">
-                x2
+<body>
+    <div id="container" class="theme-dark row">
+        <div class="hiddenDialogBox" id="dialogBox"></div>
+        <div id="notifications"></div>
+        <div id="sidebar">
+            <div class="gameTitle">
+                Cards of Infinity
             </div>
-            <div class="cardCornerPieces">
-                <div class="cardCornerPieceTopLeft">
-                    x2
-                </div>
-                <div class="cardCornerPieceTopRight">
-                    x2
-                </div>
-                <div class="cardCornerPieceBottomLeft">
-                    x2
-                </div>
-                <div class="cardCornerPieceBottomRight">
-                    x2
+            <div class="sidebarMenu">
+                <div class="sidebarMenuItem interactable" id="goBackToHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#888"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+                    Return To Hub
                 </div>
             </div>
-        </div>
-        <div class="card type-blueOuter">
-            <div class="theme-light cardInnerCircle type-blueInner">
-                x2
+            <div class="sidebarMenu">
+                <div class="sidebarMenuTitle">
+                    Miscellaneous
+                </div>
+                <div class="sidebarMenuItem interactable" id="options">
+                    Settings
+                </div>
+                <div class="sidebarMenuItem interactable" id="information">
+                    Information
+                </div>
             </div>
-            <div class="cardCornerPieces">
-                <div class="cardCornerPieceTopLeft">
-                    x2
+            <div class="sidebarMenu" id="mainMenu">
+                <div class="sidebarMenuTitle">
+                    Main
                 </div>
-                <div class="cardCornerPieceTopRight">
-                    x2
-                </div>
-                <div class="cardCornerPieceBottomLeft">
-                    x2
-                </div>
-                <div class="cardCornerPieceBottomRight">
-                    x2
+                <div class="sidebarMenuItem interactable" id="replicanti">
+                    Game
                 </div>
             </div>
         </div>
-        <div class="card type-greenOuter">
-            <div class="theme-light cardInnerCircle type-greenInner">
-                x2
+        <div class="content">
+            <div id="close-open" class="interactable">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="49px"
+                    viewBox="0 -960 960 960"
+                    width="49px"
+                    fill="#888"
+                >
+                    <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
+                </svg>
             </div>
-            <div class="cardCornerPieces">
-                <div class="cardCornerPieceTopLeft">
-                    x2
+            <div id="view">
+                <div id="subMenuInView">
+                    <div class="subMenuItem selectedSubMenuItem">
+                        Main
+                    </div>
                 </div>
-                <div class="cardCornerPieceTopRight">
-                    x2
+                <div class="mainView cardsContainer">
+                    <div class="card type-redOuter">
+                        <div class="theme-light cardInnerCircle type-redInner">
+                            x2
+                        </div>
+                        <div class="cardCornerPieces">
+                            <div class="cardCornerPieceTopLeft">
+                                x2
+                            </div>
+                            <div class="cardCornerPieceTopRight">
+                                x2
+                            </div>
+                            <div class="cardCornerPieceBottomLeft">
+                                x2
+                            </div>
+                            <div class="cardCornerPieceBottomRight">
+                                x2
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card type-blueOuter">
+                        <div class="theme-light cardInnerCircle type-blueInner">
+                            x2
+                        </div>
+                        <div class="cardCornerPieces">
+                            <div class="cardCornerPieceTopLeft">
+                                x2
+                            </div>
+                            <div class="cardCornerPieceTopRight">
+                                x2
+                            </div>
+                            <div class="cardCornerPieceBottomLeft">
+                                x2
+                            </div>
+                            <div class="cardCornerPieceBottomRight">
+                                x2
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card type-greenOuter">
+                        <div class="theme-light cardInnerCircle type-greenInner">
+                            x2
+                        </div>
+                        <div class="cardCornerPieces">
+                            <div class="cardCornerPieceTopLeft">
+                                x2
+                            </div>
+                            <div class="cardCornerPieceTopRight">
+                                x2
+                            </div>
+                            <div class="cardCornerPieceBottomLeft">
+                                x2
+                            </div>
+                            <div class="cardCornerPieceBottomRight">
+                                x2
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card type-yellowOuter">
+                        <div class="theme-light cardInnerCircle type-yellowInner">
+                            x2
+                        </div>
+                        <div class="cardCornerPieces">
+                            <div class="cardCornerPieceTopLeft">
+                                x2
+                            </div>
+                            <div class="cardCornerPieceTopRight">
+                                x2
+                            </div>
+                            <div class="cardCornerPieceBottomLeft">
+                                x2
+                            </div>
+                            <div class="cardCornerPieceBottomRight">
+                                x2
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="../Images/CardsOfInfinity/CoICardBackside.png" alt="Cards Of Infinity Card Backside" class="cardBackside">
+                    </div>
                 </div>
-                <div class="cardCornerPieceBottomLeft">
-                    x2
-                </div>
-                <div class="cardCornerPieceBottomRight">
-                    x2
-                </div>
-            </div>
-        </div>
-        <div class="card type-yellowOuter">
-            <div class="theme-light cardInnerCircle type-yellowInner">
-                x2
-            </div>
-            <div class="cardCornerPieces">
-                <div class="cardCornerPieceTopLeft">
-                    x2
-                </div>
-                <div class="cardCornerPieceTopRight">
-                    x2
-                </div>
-                <div class="cardCornerPieceBottomLeft">
-                    x2
-                </div>
-                <div class="cardCornerPieceBottomRight">
-                    x2
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <img src="../Images/CardsOfInfinity/CoICardBackside.png" alt="Cards Of Infinity Card Backside" class="cardBackside">
+                
+            
         </div>
     </div>
     
