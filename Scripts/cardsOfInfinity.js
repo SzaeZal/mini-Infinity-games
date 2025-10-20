@@ -288,12 +288,14 @@ $(()=>{
         player.options.ui.theme=newTheme
         $(newTheme=="Dark" ? "#themeDarkOption" : "#themeLightOption").addClass("selectedOption")
         $("#container").addClass(`theme-${newTheme == "Light" ? "light" : "dark"}`)
+        Save()
     }
     //#endregion
     //#region Set subMenuShown
     const SetSubMenuShown = (newDisplay)=>{
         player.options.ui.subMenuShown=newDisplay
         GoToSettings()
+        Save()
     }
     //#endregion
     //#region Export Save to clipboard
@@ -416,11 +418,68 @@ $(()=>{
     //#region game menu
     const GoToGameMenu=()=>{
         view.html(`
-            <div id="subMenuInView">
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
                 <div class="subMenuItem selectedSubMenuItem">
                     Main
                 </div>
             </div>
+            <div class="mainView">
+                <div class="gameMainMenu">
+                    <div class="gameDifficultySelect">
+                        <div class="gameDifficultySelectTitle">
+                            Select Difficulty
+                        </div>
+                        <div class="difficulties">
+                            <svg height="75" width="200" xmlns="http://www.w3.org/2000/svg" id="easyDifficulty">
+                                <path d="M5 60 L15 0 L190 0  L180 60 Z" style="fill:none;stroke:green;stroke-width:3" />
+                                <text x="50" y="45" fill="green" font-size="45">Easy</text>
+                                Sorry, your browser does not support inline SVG.
+                            </svg>
+                            <svg height="75" width="200" xmlns="http://www.w3.org/2000/svg" id="mediumDifficulty">
+                                <path d="M5 60 L15 0 L190 0  L180 60 Z" style="fill:none;stroke:orange;stroke-width:3" />
+                                <text x="22" y="45" fill="orange" font-size="45">Medium</text>
+                                Sorry, your browser does not support inline SVG.
+                            </svg>
+                            <svg height="75" width="200" xmlns="http://www.w3.org/2000/svg" id="hardDifficulty">
+                                <path d="M5 60 L15 0 L190 0  L180 60 Z" style="fill:none;stroke:red;stroke-width:3" />
+                                <text x="50" y="45" fill="red" font-size="45">Hard</text>
+                                Sorry, your browser does not support inline SVG.
+                            </svg>
+                            <svg height="75" width="200" xmlns="http://www.w3.org/2000/svg" id="customDifficulty">
+                                <path d="M5 60 L15 0 L190 0  L180 60 Z" style="fill:none;stroke:gray;stroke-width:3" />
+                                <text x="25" y="45" fill="gray" font-size="45">Custom</text>
+                                Sorry, your browser does not support inline SVG.
+                            </svg>
+                        </div>
+                    </div>
+                    <div id="currentdifficulty">
+                        alma
+                    </div>
+                </div>
+            </div>  
+        `)
+        AddGameMenuUIEvents()  
+    }
+    //#endregion
+    //#region  AddGameMenuUIEvents
+    const AddGameMenuUIEvents = ()=>{
+        $("#easyDifficulty").on("click", ()=>{
+            
+        })
+        $("#mediumDifficulty").on("click", ()=>{
+
+        })
+        $("#hardDifficulty").on("click", ()=>{
+
+        })
+        $("#customDifficulty").on("click", ()=>{
+
+        })
+    }
+    //#endregion
+    //#region Card stuff
+    /* 
+        
             <div class="mainView cardsContainer">
                 <div class="card type-redOuter">
                     <div class="theme-light cardInnerCircle type-redInner">
@@ -501,16 +560,10 @@ $(()=>{
                 <div class="card">
                     <img src="../Images/CardsOfInfinity/CoICardBackside.png" alt="Cards Of Infinity Card Backside" class="cardBackside">
                 </div>
-            </div>    
-        `)
-        AddGameMenuUIEvents()  
-    }
+            </div>
+    
+    */
     //#endregion
-    //#region  AddGameMenuUIEvents
-    const AddGameMenuUIEvents = ()=>{
-        
-    }
-    mainMenuCallbacks=[GoToSettings, GoToInformation, GoToGameMenu]
     //#region FormatNumber
     const FormatNumber= (numberToFormat)=>{
         let result = Math.floor(numberToFormat).toString();
@@ -598,5 +651,6 @@ $(()=>{
         location.reload()
     }
     //#endregion
+    mainMenuCallbacks=[GoToSettings, GoToInformation, GoToGameMenu] 
     Load()
 })
