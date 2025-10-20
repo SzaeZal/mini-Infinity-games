@@ -53,7 +53,135 @@ $(()=>{
             gold: 90000,
             author: 45000
         }
+    }
+    //#endregion
+    //#region sidebar open-close
+    let sidebar = $("#sidebar")
+    let isSidebarOpen=true
+    $("#close-open").on("click", ()=>{
+        if(isSidebarOpen){
+            sidebar.removeClass("openSidebar")
+            sidebar.addClass("closeSidebar")
+            $("#close-open").html(`
+                <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    height="49px" 
+                    viewBox="0 -960 960 960" 
+                    width="49px" 
+                    fill="#888">
+                        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+                </svg>
+            `)
+        }
+        else{
+            sidebar.removeClass("closeSidebar")
+            sidebar.addClass("openSidebar")
+            $("#close-open").html(`
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="49px"
+                    viewBox="0 -960 960 960"
+                    width="49px"
+                    fill="#888">
+                        <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
+                </svg>
+            `)
+        }
+        isSidebarOpen=!isSidebarOpen
+    })
+    //#endregion
+    //#region notification
+    let notificationIds=[0]
+    let notificationHiders=[]
 
+    const ShowNotification=(notificationTitle, notificationText, notificationType)=>{
+        let currentId=notificationIds[notificationIds.length-1]
+        $("#notifications").append(`
+            <div class="notification notification${notificationType} interactable" id="notification${currentId}">
+                ${  notificationTitle!=""
+                    ? `
+                        <h5>${notificationTitle}</h5>
+                        <hr>
+                    ` : ""
+                }
+                ${notificationText}
+            </div>    
+        `)
+
+        
+        notificationHiders.push(setTimeout(()=>{
+            $(`#notification${currentId}`).addClass("hiddenNotification")
+        }, 4000))
+
+        $("#notification"+currentId).on("click", ()=>{
+            clearTimeout(notificationHiders[currentId])
+            $(`#notification${currentId}`).addClass("hiddenNotification")
+        })
+
+        notificationIds.push(notificationIds.length)
+    }
+    //#endregion
+    //#region dialog box
+    const ShowDialogBox=(dialogTitle, dialogText, dialogType, callbackYes, callbackNo)=>{
+        $("#dialogBox").html(`
+            <div class="dialogBoxContainer dialogBox${dialogType}">
+                <div class="dialogBoxHeader">
+                    ${dialogTitle}
+                    <div id="closeDialogBox" class="closeDialogBox interactable">&#10005;</div>
+                </div>
+                <div class="dialogBoxContent">
+                    ${dialogText}
+                </div>
+                <div class="dialogBoxButtons">
+                    ${callbackYes==undefined 
+                        ? `<div id="dialogBoxCancel" class="dialogBoxButton dialogBoxButton${dialogType} interactable">I understand</div>`
+                        : `
+                            <div id="dialogBoxCancel" class="dialogBoxButton dialogBoxButton${dialogType} interactable">Cancel</div>
+                            <div id="dialogBoxYes" class="dialogBoxButton dialogBoxButton${dialogType} interactable">Yes</div>
+                        `
+                    }
+                </div>
+            </div>
+        `)
+        $("#dialogBox").removeClass("hiddenDialogBox")
+        AddDialogBoxEvents(callbackYes, callbackNo)
+    }
+
+    const AddDialogBoxEvents=(callbackYes, callbackNo)=>{
+        $("#closeDialogBox").on("click", ()=>{
+            $("#dialogBox").addClass("hiddenDialogBox")
+        })
+        $("#dialogBoxCancel").on("click", ()=>{
+            $("#dialogBox").addClass("hiddenDialogBox")
+            if(callbackNo) callbackNo()
+        })
+        if(callbackYes==undefined) return
+        $("#dialogBoxYes").on("click", ()=>{
+            callbackYes()
+            $("#dialogBox").addClass("hiddenDialogBox")
+        })
+    }
+    //#endregion
+    //#region FormatNumber
+    const FormatNumber= (numberToFormat)=>{
+        let result = Math.floor(numberToFormat).toString();
+        if (numberToFormat < 10) {
+        result = (Math.floor(numberToFormat * 100) / 100).toString();
+        }
+        if (numberToFormat > 1000000) {
+        result =
+            Math.floor(
+            Math.pow(
+                10,
+                Math.log10(numberToFormat) -
+                Math.floor(Math.log10(numberToFormat))
+            ) * 100
+            ) /
+            100 +
+            "e" +
+            Math.floor(Math.log10(numberToFormat));
+        }
+        return result; 
     }
     //#endregion
     //#region  saving and loading 
