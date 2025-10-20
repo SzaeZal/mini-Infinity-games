@@ -33,6 +33,15 @@ $(()=>{
         },
     }
     //#endregion
+    //#region CurrentGame
+    currentGame={
+        active:false,
+        points: 1,
+        difficulty:"",
+        startTime: 0,
+        elapsedTime: 0,
+    }
+    //#endregion
     //#region Medals
     let medalTimes={
         easy:{ //TODO: change times
@@ -161,6 +170,38 @@ $(()=>{
             $("#dialogBox").addClass("hiddenDialogBox")
         })
     }
+    //#endregion
+    //#region menu navigation
+    const view = $("#view")
+    let mainMenuIndex=2
+    let subMenuIndexes=[0, 0, 0]
+    let subMenuLimits=[0, 1, 0]
+    $(document).keydown((e)=>{
+        if(currentGame.active){
+            if(e.originalEvent.code=="Space"){
+                //pause game
+            }
+        }
+        else{    
+            if(e.originalEvent.code == "KeyS" || e.originalEvent.code == "ArrowDown"){
+                mainMenuIndex= mainMenuIndex == subMenuLimits.length-1 ? 0 : mainMenuIndex+1
+                mainMenuCallbacks[mainMenuIndex]()
+            }
+            else if(e.originalEvent.code == "KeyW" || e.originalEvent.code == "ArrowUp"){
+                mainMenuIndex= mainMenuIndex == 0 ? subMenuLimits.length-1 : mainMenuIndex-1
+                mainMenuCallbacks[mainMenuIndex]()
+            }
+            else if(e.originalEvent.code == "KeyA" || e.originalEvent.code == "ArrowLeft"){
+                subMenuIndexes[mainMenuIndex] = subMenuIndexes[mainMenuIndex] == 0 ? subMenuLimits[mainMenuIndex] : subMenuIndexes[mainMenuIndex]-1
+                mainMenuCallbacks[mainMenuIndex]()
+            }
+            else if(e.originalEvent.code == "KeyD" || e.originalEvent.code == "ArrowRight"){
+                subMenuIndexes[mainMenuIndex] = subMenuIndexes[mainMenuIndex] == subMenuLimits[mainMenuIndex] ? 0 : subMenuIndexes[mainMenuIndex]+1
+                mainMenuCallbacks[mainMenuIndex]()
+            }
+        }
+    })
+
     //#endregion
     //#region FormatNumber
     const FormatNumber= (numberToFormat)=>{
