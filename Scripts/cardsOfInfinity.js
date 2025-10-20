@@ -413,7 +413,104 @@ $(()=>{
         }
     }
     //#endregion
-    mainMenuCallbacks=[GoToSettings, GoToInformation]
+    //#region game menu
+    const GoToGameMenu=()=>{
+        view.html(`
+            <div id="subMenuInView">
+                <div class="subMenuItem selectedSubMenuItem">
+                    Main
+                </div>
+            </div>
+            <div class="mainView cardsContainer">
+                <div class="card type-redOuter">
+                    <div class="theme-light cardInnerCircle type-redInner">
+                        x2
+                    </div>
+                    <div class="cardCornerPieces">
+                        <div class="cardCornerPieceTopLeft">
+                            x2
+                        </div>
+                        <div class="cardCornerPieceTopRight">
+                            x2
+                        </div>
+                        <div class="cardCornerPieceBottomLeft">
+                            x2
+                        </div>
+                        <div class="cardCornerPieceBottomRight">
+                            x2
+                        </div>
+                    </div>
+                </div>
+                <div class="card type-blueOuter">
+                    <div class="theme-light cardInnerCircle type-blueInner">
+                        x2
+                    </div>
+                    <div class="cardCornerPieces">
+                        <div class="cardCornerPieceTopLeft">
+                            x2
+                        </div>
+                        <div class="cardCornerPieceTopRight">
+                            x2
+                        </div>
+                        <div class="cardCornerPieceBottomLeft">
+                            x2
+                        </div>
+                        <div class="cardCornerPieceBottomRight">
+                            x2
+                        </div>
+                    </div>
+                </div>
+                <div class="card type-greenOuter">
+                    <div class="theme-light cardInnerCircle type-greenInner">
+                        x2
+                    </div>
+                    <div class="cardCornerPieces">
+                        <div class="cardCornerPieceTopLeft">
+                            x2
+                        </div>
+                        <div class="cardCornerPieceTopRight">
+                            x2
+                        </div>
+                        <div class="cardCornerPieceBottomLeft">
+                            x2
+                        </div>
+                        <div class="cardCornerPieceBottomRight">
+                            x2
+                        </div>
+                    </div>
+                </div>
+                <div class="card type-yellowOuter">
+                    <div class="theme-light cardInnerCircle type-yellowInner">
+                        x2
+                    </div>
+                    <div class="cardCornerPieces">
+                        <div class="cardCornerPieceTopLeft">
+                            x2
+                        </div>
+                        <div class="cardCornerPieceTopRight">
+                            x2
+                        </div>
+                        <div class="cardCornerPieceBottomLeft">
+                            x2
+                        </div>
+                        <div class="cardCornerPieceBottomRight">
+                            x2
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="../Images/CardsOfInfinity/CoICardBackside.png" alt="Cards Of Infinity Card Backside" class="cardBackside">
+                </div>
+            </div>    
+        `)
+        AddGameMenuUIEvents()  
+    }
+    //#endregion
+    //#region  AddGameMenuUIEvents
+    const AddGameMenuUIEvents = ()=>{
+        
+    }
+    mainMenuCallbacks=[GoToSettings, GoToInformation, GoToGameMenu]
     //#region FormatNumber
     const FormatNumber= (numberToFormat)=>{
         let result = Math.floor(numberToFormat).toString();
