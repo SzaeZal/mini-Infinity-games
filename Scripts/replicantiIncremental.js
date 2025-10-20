@@ -585,7 +585,7 @@ $(()=>{
     //#region Save bank
     const GoToSaveBank = () =>{
         view.html(`
-            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="hiddenSubMenu"' : ""}>
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
                 <div id="UISettingsSubMenuItem" class="subMenuItem interactable">
                     UI Settings
                 </div>
@@ -777,7 +777,7 @@ $(()=>{
     //#region GoToChangelogInformation
     const GoToChangelogInformation = () =>{
         view.html(`
-            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="hiddenSubMenu"' : ""}>
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
                 <div class="subMenuItem interactable" id="mainInformationSubMenuItem">
                     Main
                 </div>
