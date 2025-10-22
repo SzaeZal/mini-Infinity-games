@@ -36,6 +36,7 @@ $(()=>{
     //#region CurrentGame
     currentGame={
         active:false,
+        luckMultiplier: 1,
         points: 1,
         difficulty:"",
         startTime: 0,
@@ -48,19 +49,19 @@ $(()=>{
             bronze: 60000,
             silver: 45000,
             gold: 30000,
-            author: 15000
+            champion: 15000
         },
         medium:{
             bronze: 120000,
             silver: 90000,
             gold: 60000,
-            author: 30000
+            champion: 30000
         },
         hard:{
             bronze: 180000,
             silver: 135000,
             gold: 90000,
-            author: 45000
+            champion: 45000
         }
     }
     //#endregion
@@ -459,7 +460,17 @@ $(()=>{
                         </div>
                     </div>
                     <div id="currentdifficulty">
-                        alma
+                        <div class="currentDifficultyInfo">
+                            <div class="currentDifficultyInfoTitle">
+                                No difficulty selected
+                            </div>
+                            <div class="currentDifficultyInfoPersonalBest">
+                                
+                            </div>
+                            <div class="currentDifficultyMedal">
+                               
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>  
@@ -470,17 +481,65 @@ $(()=>{
     //#region  AddGameMenuUIEvents
     const AddGameMenuUIEvents = ()=>{
         $("#easyDifficulty").on("click", ()=>{
-
+            ShowDifficultyStats("Easy")
         })
         $("#mediumDifficulty").on("click", ()=>{
-
+            ShowDifficultyStats("Medium")
         })
         $("#hardDifficulty").on("click", ()=>{
-
+            ShowDifficultyStats("Hard")
         })
         $("#customDifficulty").on("click", ()=>{
-
+            ShowCustomDifficultySetup()
         })
+    }
+    //#endregion
+    //#region ShowDifficultyStats
+    const ShowDifficultyStats = (difficulty)=>{
+        $("#currentdifficulty").html(`
+            <div class="currentDifficultyInfo">
+                <div class="currentDifficultyInfoTitle">
+                    ${difficulty} Difficulty
+                </div>
+                <div class="currentDifficultyInfoPersonalBest">
+                    Personal Best:
+                    ${player.personalBests[difficulty.toLowerCase()].timeInMs == 0 
+                        ? " No personal best yet"
+                        : ` ${FormatTime(player.personalBests[difficulty.toLowerCase()].timeInMs)}`
+                    }
+                </div>
+                <div class="currentDifficultyMedal">
+                    ${
+                        playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 4
+                        ? `<img src="../Images/CardsOfInfinity/Medals/ChampionMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
+                        : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 3
+                        ? `<img src="../Images/CardsOfInfinity/Medals/GoldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
+                        : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 2
+                        ? `<img src="../Images/CardsOfInfinity/Medals/SilverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
+                        : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 1
+                        ? `<img src="../Images/CardsOfInfinity/Medals/BronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
+                        : ``
+                    }
+                </div>
+            </div>
+        `)
+    }
+    //#endregion
+    //#region ShowCustomDifficultySetup
+    const ShowCustomDifficultySetup = ()=>{
+        $("#currentdifficulty").html(`
+            <div class="currentDifficultyInfo">
+                <div class="currentDifficultyInfoTitle">
+                    Custom Difficulty
+                </div>
+                <div class="customDifficultySetupInfo">
+                    <label for="customDifficultyCardCountInput">Number of Card pairs (2-20): </label>
+                    <input type="number" id="customDifficultyCardCountInput" class="customDifficultyInput" min="2" max="20" value="5"> <br>
+                    <label for="customLuckMultiplierInput">Number of Card pairs (2-20): </label>
+                    <input type="number" id="customLuckMultiplierInput" class="customDifficultyInput" min="0.01" max="20" value="1" step=".01">
+                </div>
+            </div>
+        `)
     }
     //#endregion
     //#region Card stuff
@@ -592,6 +651,27 @@ $(()=>{
         return result; 
     }
     //#endregion
+    //#region FormatTime
+    const FormatTime= (timeInMs)=>{
+        let totalSeconds=Math.floor(timeInMs/1000)
+        let minutes=Math.floor(totalSeconds/60)
+        let seconds=String(totalSeconds%60)
+        let milliseconds=String(timeInMs%1000)
+        if(minutes>=60){
+            let hours=String(Math.floor(minutes/60))
+            minutes=String(minutes%60)
+            return `${hours}:${minutes<10?"0"+minutes : minutes}:${seconds<10? "0"+seconds : seconds}:${ 
+                milliseconds<10 ? "00"+milliseconds 
+                : milliseconds<100 ? "0"+milliseconds 
+                : milliseconds
+            }`
+        }
+        return `${minutes}:${seconds<10? "0"+seconds : seconds}:${ 
+                milliseconds<10 ? "00"+milliseconds 
+                : milliseconds<100 ? "0"+milliseconds 
+                : milliseconds
+            }`
+    }
     //#region  saving and loading 
     const Save = () => {
         const playerParsedToJson = JSON.stringify(player);
@@ -658,5 +738,6 @@ $(()=>{
     }
     //#endregion
     mainMenuCallbacks=[GoToSettings, GoToInformation, GoToGameMenu] 
+    AddGameMenuUIEvents()
     Load()
 })
