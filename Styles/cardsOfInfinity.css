@@ -3,12 +3,17 @@
     flex-direction: row;
     justify-content: space-around;
     margin-top: 50px;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 .gameDifficultySelect{
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex-wrap: wrap;
+    max-width: 90%;
     gap: 50px;
+    flex: 1;
 }
 
 .gameDifficultySelectTitle{
@@ -19,6 +24,45 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
+}
+
+#currentdifficulty{
+    flex: 2;
+    padding: 25px;
+    margin-right: 25px;
+    border: gray 2px solid;
+    border-radius: 25px;
+    text-align: center;
+    overflow-x: auto;
+}
+
+.currentDifficultyInfo{
+    display: flex;
+    min-height: fit-content;
+    height: 100%;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.difficultyInfoLeftSide{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.currentDifficultyInfoTitle{
+    font-size: xx-large;
+}
+.currentDifficultyInfoPersonalBest{
+    font-size: x-large;
+}
+#playGame{
+    padding: 15px;
+    border-radius: 15px;
+    border: 1px gray solid;
+    font-size: x-large;
 }
 
 

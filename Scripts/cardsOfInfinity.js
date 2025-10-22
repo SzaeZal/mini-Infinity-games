@@ -37,6 +37,7 @@ $(()=>{
     currentGame={
         active:false,
         luckMultiplier: 1,
+        cardPairs: 1,
         points: 1,
         difficulty:"",
         startTime: 0,
@@ -423,6 +424,11 @@ $(()=>{
     }
     //#endregion
     //#region game menu
+    $("#game").on("click", ()=>{
+        mainMenuIndex=2
+        GoToGameMenu()
+    })
+
     const GoToGameMenu=()=>{
         view.html(`
             <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
@@ -498,29 +504,35 @@ $(()=>{
     const ShowDifficultyStats = (difficulty)=>{
         $("#currentdifficulty").html(`
             <div class="currentDifficultyInfo">
-                <div class="currentDifficultyInfoTitle">
-                    ${difficulty} Difficulty
-                </div>
-                <div class="currentDifficultyInfoPersonalBest">
-                    Personal Best:
-                    ${player.personalBests[difficulty.toLowerCase()].timeInMs == 0 
-                        ? " No personal best yet"
-                        : ` ${FormatTime(player.personalBests[difficulty.toLowerCase()].timeInMs)}`
-                    }
+                <div class="difficultyInfoLeftSide">
+                    <div class="currentDifficultyInfoTitle">
+                        ${difficulty} Difficulty
+                    </div>
+                    <div class="currentDifficultyInfoPersonalBest">
+                        Personal Best:
+                        ${player.personalBests[difficulty.toLowerCase()].timeInMs == 0 
+                            ? " No personal best yet"
+                            : ` ${FormatTime(player.personalBests[difficulty.toLowerCase()].timeInMs)}`
+                        }
+                    </div>
+                    <div id="playGame">
+                        Play Game
+                    </div>
                 </div>
                 <div class="currentDifficultyMedal">
                     ${
                         playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 4
-                        ? `<img src="../Images/CardsOfInfinity/Medals/ChampionMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
+                        ? `<img src="../Images/CardsOfInfinity/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
                         : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 3
-                        ? `<img src="../Images/CardsOfInfinity/Medals/GoldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
+                        ? `<img src="../Images/CardsOfInfinity/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
                         : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 2
-                        ? `<img src="../Images/CardsOfInfinity/Medals/SilverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
+                        ? `<img src="../Images/CardsOfInfinity/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
                         : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 1
-                        ? `<img src="../Images/CardsOfInfinity/Medals/BronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
+                        ? `<img src="../Images/CardsOfInfinity/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
                         : ``
                     }
                 </div>
+                
             </div>
         `)
     }
@@ -529,14 +541,19 @@ $(()=>{
     const ShowCustomDifficultySetup = ()=>{
         $("#currentdifficulty").html(`
             <div class="currentDifficultyInfo">
-                <div class="currentDifficultyInfoTitle">
-                    Custom Difficulty
-                </div>
-                <div class="customDifficultySetupInfo">
-                    <label for="customDifficultyCardCountInput">Number of Card pairs (2-20): </label>
-                    <input type="number" id="customDifficultyCardCountInput" class="customDifficultyInput" min="2" max="20" value="5"> <br>
-                    <label for="customLuckMultiplierInput">Number of Card pairs (2-20): </label>
-                    <input type="number" id="customLuckMultiplierInput" class="customDifficultyInput" min="0.01" max="20" value="1" step=".01">
+                <div class="difficultyInfoLeftSide">
+                    <div class="currentDifficultyInfoTitle">
+                        Custom Difficulty
+                    </div>
+                    <div class="customDifficultySetupInfo">
+                        <label for="customDifficultyCardCountInput">Number of Card pairs (2-20): </label>
+                        <input type="number" id="customDifficultyCardCountInput" class="customDifficultyInput" min="2" max="20" value="5"> <br>
+                        <label for="customLuckMultiplierInput">Number of Card pairs (2-20): </label>
+                        <input type="number" id="customLuckMultiplierInput" class="customDifficultyInput" min="0.01" max="20" value="1" step=".01">
+                    </div>
+                    <div id="playGame">
+                        Play Game
+                    </div>
                 </div>
             </div>
         `)
@@ -672,6 +689,59 @@ $(()=>{
                 : milliseconds
             }`
     }
+    //#endregion
+    //#region CheckForAchievedMedals
+    const CheckForAchievedMedals = ()=>{
+        if(player.personalBests.easy.timeInMs>0){
+            if(player.personalBests.easy.timeInMs <= medalTimes.easy.champion){
+                playerStatsCalculated.medals.easyMedals=4
+            }
+            else if(player.personalBests.easy.timeInMs <= medalTimes.easy.gold){
+                playerStatsCalculated.medals.easyMedals=3
+            }
+            else if(player.personalBests.easy.timeInMs <= medalTimes.easy.silver){
+                playerStatsCalculated.medals.easyMedals=2
+            }
+            else if(player.personalBests.easy.timeInMs <= medalTimes.easy.bronze){
+                playerStatsCalculated.medals.easyMedals=1
+            }
+        }
+
+        if(player.personalBests.medium.timeInMs>0){
+            if(player.personalBests.medium.timeInMs <= medalTimes.medium.champion){
+                playerStatsCalculated.medals.mediumMedals=4
+            }
+            else if(player.personalBests.medium.timeInMs <= medalTimes.medium.gold){
+                playerStatsCalculated.medals.mediumMedals=3
+            }
+            else if(player.personalBests.medium.timeInMs <= medalTimes.medium.silver){
+                playerStatsCalculated.medals.mediumMedals=2
+            }
+            else if(player.personalBests.medium.timeInMs <= medalTimes.medium.bronze){
+                playerStatsCalculated.medals.mediumMedals=1
+            }
+        }
+
+        if(player.personalBests.hard.timeInMs>0){
+            if(player.personalBests.hard.timeInMs <= medalTimes.hard.champion){
+                playerStatsCalculated.medals.hardMedals=4
+            }
+            else if(player.personalBests.hard.timeInMs <= medalTimes.hard.gold){
+                playerStatsCalculated.medals.hardMedals=3
+            }
+            else if(player.personalBests.hard.timeInMs <= medalTimes.hard.silver){
+                playerStatsCalculated.medals.hardMedals=2
+            }
+            else if(player.personalBests.hard.timeInMs <= medalTimes.hard.bronze){
+                playerStatsCalculated.medals.hardMedals=1
+            }
+        }
+
+        playerStatsCalculated.totalMedals= playerStatsCalculated.medals.easyMedals
+            + playerStatsCalculated.medals.mediumMedals
+            + playerStatsCalculated.medals.hardMedals
+    }
+    //#endregion
     //#region  saving and loading 
     const Save = () => {
         const playerParsedToJson = JSON.stringify(player);
@@ -707,6 +777,8 @@ $(()=>{
 
             CheckForMissingData();
 
+            CheckForAchievedMedals();
+
             SetTheme(player.options.ui.theme);
         
         }
@@ -740,4 +812,8 @@ $(()=>{
     mainMenuCallbacks=[GoToSettings, GoToInformation, GoToGameMenu] 
     AddGameMenuUIEvents()
     Load()
+
+    if(window.innerWidth<500){
+        ShowDialogBox("Warning", "This game is not optimized for small screens. <br> Please use a device with a larger screen for the best experience. <br> or use landscape orientation", "Warning")
+    }
 })
