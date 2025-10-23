@@ -34,7 +34,7 @@ $(()=>{
     }
     //#endregion
     //#region CurrentGame
-    currentGame={
+    let currentGame={
         active:false,
         luckMultiplier: 1,
         cardPairs: 1,
@@ -42,6 +42,12 @@ $(()=>{
         difficulty:"",
         startTime: 0,
         elapsedTime: 0,
+        medalTimes:{
+          bronze:0,
+          silver:0,
+          gold:0,
+          champion:0
+        }
     }
     //#endregion
     //#region Medals
@@ -443,22 +449,22 @@ $(()=>{
                             Select Difficulty
                         </div>
                         <div class="difficulties">
-                            <svg height="75" width="200" xmlns="http://www.w3.org/2000/svg" id="easyDifficulty">
+                            <svg height="75" width="200" xmlns="http://www.w3.org/2000/svg" id="easyDifficulty" class="interactable difficulty">
                                 <path d="M5 60 L15 0 L190 0  L180 60 Z" style="fill:none;stroke:green;stroke-width:3" />
                                 <text x="50" y="45" fill="green" font-size="45">Easy</text>
                                 Sorry, your browser does not support inline SVG.
                             </svg>
-                            <svg height="75" width="200" xmlns="http://www.w3.org/2000/svg" id="mediumDifficulty">
+                            <svg height="75" width="200" xmlns="http://www.w3.org/2000/svg" id="mediumDifficulty" class="interactable difficulty">
                                 <path d="M5 60 L15 0 L190 0  L180 60 Z" style="fill:none;stroke:orange;stroke-width:3" />
                                 <text x="22" y="45" fill="orange" font-size="45">Medium</text>
                                 Sorry, your browser does not support inline SVG.
                             </svg>
-                            <svg height="75" width="200" xmlns="http://www.w3.org/2000/svg" id="hardDifficulty">
+                            <svg height="75" width="200" xmlns="http://www.w3.org/2000/svg" id="hardDifficulty" class="interactable difficulty">
                                 <path d="M5 60 L15 0 L190 0  L180 60 Z" style="fill:none;stroke:red;stroke-width:3" />
                                 <text x="50" y="45" fill="red" font-size="45">Hard</text>
                                 Sorry, your browser does not support inline SVG.
                             </svg>
-                            <svg height="75" width="200" xmlns="http://www.w3.org/2000/svg" id="customDifficulty">
+                            <svg height="75" width="200" xmlns="http://www.w3.org/2000/svg" id="customDifficulty" class="interactable difficulty">
                                 <path d="M5 60 L15 0 L190 0  L180 60 Z" style="fill:none;stroke:gray;stroke-width:3" />
                                 <text x="25" y="45" fill="gray" font-size="45">Custom</text>
                                 Sorry, your browser does not support inline SVG.
@@ -502,6 +508,33 @@ $(()=>{
     //#endregion
     //#region ShowDifficultyStats
     const ShowDifficultyStats = (difficulty)=>{
+        currentGame.difficulty=difficulty
+
+        if(currentGame.difficulty=="Easy"){
+          currentGame.cardPairs=4
+          currentGame.luckMultiplier=3
+          currentGame.medalTimes.bronze=medalTimes.easy.bronze
+          currentGame.medalTimes.silver=medalTimes.easy.silver
+          currentGame.medalTimes.gold=medalTimes.easy.gold
+          currentGame.medalTimes.champion=medalTimes.easy.champion
+        }
+        else if(currentGame.difficulty=="Medium"){
+          currentGame.cardPairs=5
+          currentGame.luckMultiplier=1
+          currentGame.medalTimes.bronze=medalTimes.medium.bronze
+          currentGame.medalTimes.silver=medalTimes.medium.silver
+          currentGame.medalTimes.gold=medalTimes.medium.gold
+          currentGame.medalTimes.champion=medalTimes.medium.champion
+        }
+        else if(currentGame.difficulty=="Hard"){
+          currentGame.cardPairs=6
+          currentGame.luckMultiplier=0.5
+          currentGame.medalTimes.bronze=medalTimes.hard.bronze
+          currentGame.medalTimes.silver=medalTimes.hard.silver
+          currentGame.medalTimes.gold=medalTimes.hard.gold
+          currentGame.medalTimes.champion=medalTimes.hard.champion
+        }
+
         $("#currentdifficulty").html(`
             <div class="currentDifficultyInfo">
                 <div class="difficultyInfoLeftSide">
@@ -535,6 +568,9 @@ $(()=>{
                 
             </div>
         `)
+        $("#playGame").on("click", ()=>{
+          EnterGame(currentGame.cardPairs,currentGame.luckMultiplier, currentGame.difficulty)
+        })
     }
     //#endregion
     //#region ShowCustomDifficultySetup
@@ -548,7 +584,7 @@ $(()=>{
                     <div class="customDifficultySetupInfo">
                         <label for="customDifficultyCardCountInput">Number of Card pairs (2-20): </label>
                         <input type="number" id="customDifficultyCardCountInput" class="customDifficultyInput" min="2" max="20" value="5"> <br>
-                        <label for="customLuckMultiplierInput">Number of Card pairs (2-20): </label>
+                        <label for="customLuckMultiplierInput">Luck multiplier (2-20): </label>
                         <input type="number" id="customLuckMultiplierInput" class="customDifficultyInput" min="0.01" max="20" value="1" step=".01">
                     </div>
                     <div id="playGame">
@@ -557,6 +593,92 @@ $(()=>{
                 </div>
             </div>
         `)
+    }
+    //#endregion
+    //#region EnterGame
+    const EnterGame = (cardPairs, luckMultiplier, difficulty) =>{
+      currentGame.cardPairs=cardPairs
+      currentGame.luckMultiplier=luckMultiplier
+      currentGame.difficulty=difficulty
+
+      view.html(`
+          <div id="subMenuInView">
+              <div class="subMenuItem selectedSubMenuItem gameStats">
+                  <div>
+                    Points: 1
+                  </div>
+                  <div>
+                    Time: 0:00:000
+                  </div>
+                  <div>
+                    Target: 0:00:000
+                  </div>
+              </div>
+          </div>
+          <div class="mainView">
+            <div id="game">
+              <div class="preGameMenu">
+                <div class="currentDifficultyInfo">
+                  <div class="difficultyInfoLeftSide">
+                      <div class="currentDifficultyInfoTitle">
+                          ${difficulty} Difficulty
+                      </div>
+                      ${
+                        currentGame.difficulty!="Custom"
+                        ? `
+                          <div class="currentDifficultyInfoPersonalBest">
+                              Personal Best:
+                              ${player.personalBests[difficulty.toLowerCase()].timeInMs == 0 
+                                  ? " No personal best yet"
+                                  : ` ${FormatTime(player.personalBests[difficulty.toLowerCase()].timeInMs)}`
+                              }
+                          </div>
+                          <div class="medalInfo">
+                            <div class="currentDifficultyInfoTitle">
+                                Medal times
+                            </div>
+                            <div class="medalTime">
+                              bronze: ${ FormatTime(currentGame.medalTimes.bronze)}
+                            </div>
+                            <div class="medalTime">
+                              silver: ${ FormatTime(currentGame.medalTimes.silver)}
+                            </div>
+                            <div class="medalTime">
+                              gold: ${ FormatTime(currentGame.medalTimes.gold)}
+                            </div>
+                            ${playerStatsCalculated.totalMedals>=9
+                              ?`
+                                <div class="medalTime">
+                                  champion: ${ FormatTime(currentGame.medalTimes.champion)}
+                                </div>
+                              `
+                              :``
+                            }
+                          </div>
+                        `
+                        :``
+                      }
+                  </div>
+                  <div class="currentDifficultyMedal">
+                      ${
+                          playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 4
+                          ? `<img src="../Images/CardsOfInfinity/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
+                          : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 3
+                          ? `<img src="../Images/CardsOfInfinity/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
+                          : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 2
+                          ? `<img src="../Images/CardsOfInfinity/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
+                          : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 1
+                          ? `<img src="../Images/CardsOfInfinity/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
+                          : ``
+                      }
+                  </div>
+                  
+
+              </div>
+
+            </div>
+          </div>
+      `)
     }
     //#endregion
     //#region Card stuff
