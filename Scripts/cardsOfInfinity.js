@@ -542,13 +542,13 @@ $(()=>{
                         ${difficulty} Difficulty
                     </div>
                     <div class="currentDifficultyInfoPersonalBest">
-                        Personal Best:
+                       
                         ${player.personalBests[difficulty.toLowerCase()].timeInMs == 0 
                             ? " No personal best yet"
-                            : ` ${FormatTime(player.personalBests[difficulty.toLowerCase()].timeInMs)}`
+                            : ` Personal Best: ${FormatTime(player.personalBests[difficulty.toLowerCase()].timeInMs)}`
                         }
                     </div>
-                    <div id="playGame">
+                    <div id="playGame" class="interactable">
                         Play Game
                     </div>
                 </div>
@@ -587,7 +587,7 @@ $(()=>{
                         <label for="customLuckMultiplierInput">Luck multiplier (2-20): </label>
                         <input type="number" id="customLuckMultiplierInput" class="customDifficultyInput" min="0.01" max="20" value="1" step=".01">
                     </div>
-                    <div id="playGame">
+                    <div id="playGame" class="interactable">
                         Play Game
                     </div>
                 </div>
@@ -627,10 +627,9 @@ $(()=>{
                         currentGame.difficulty!="Custom"
                         ? `
                           <div class="currentDifficultyInfoPersonalBest">
-                              Personal Best:
                               ${player.personalBests[difficulty.toLowerCase()].timeInMs == 0 
                                   ? " No personal best yet"
-                                  : ` ${FormatTime(player.personalBests[difficulty.toLowerCase()].timeInMs)}`
+                                  : ` Personal Best: ${FormatTime(player.personalBests[difficulty.toLowerCase()].timeInMs)}`
                               }
                           </div>
                           <div class="medalInfo">
@@ -661,13 +660,13 @@ $(()=>{
                   </div>
                   <div class="currentDifficultyMedal">
                       ${
-                          playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 4
+                          playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 4
                           ? `<img src="../Images/CardsOfInfinity/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
-                          : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 3
+                          : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 3
                           ? `<img src="../Images/CardsOfInfinity/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
-                          : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 2
+                          : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 2
                           ? `<img src="../Images/CardsOfInfinity/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
-                          : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 1
+                          : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 1
                           ? `<img src="../Images/CardsOfInfinity/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
                           : ``
                       }

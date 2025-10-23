@@ -63,6 +63,7 @@
 }
 .buyablePurchaseAble{
   background-color: rgba(0, 255, 0, 0.25);
+  transition-duration: 0.25s;
 }
 .buyablePurchaseAble:hover{
   background-color: rgba(0, 255, 0, 0.35);
@@ -73,6 +74,7 @@
 
 #replicanti{
   background-color: rgba(0, 50, 128, 0.5);
+  transition-duration: 0.25s;
 }
 #replicanti:hover{
   background-color: rgba(0, 50, 200, 0.5);
@@ -80,6 +82,7 @@
 
 #infinity{
   background-color: rgba(100, 100, 0, 0.5);
+  transition-duration: 0.25s;
 }
 #infinity:hover{
   background-color: rgba(125, 125, 0, 0.5);
@@ -113,9 +116,12 @@
 .purchaseAbleUpgrade{
   border-color: lime;
   background-color: rgba(0, 255, 0, 0.25);
+  transition-duration: 0.25s;
 }
 .purchaseAbleUpgrade:hover{
   background-color: rgba(0, 255, 0, 0.35);
+  box-shadow: 0px 0px 5px gray;
+  scale: 1.025;
 }
 
 .boughtInfinityUpgrade{
@@ -128,7 +134,8 @@
 }
 
 #eternity{
-    background-color: rgba(128, 0, 128, 0.5);
+  background-color: rgba(128, 0, 128, 0.5);
+  transition-duration: 0.25s;
 }
 #eternity:hover{
   background-color: rgba(180, 0, 180, 0.5);
@@ -167,9 +174,12 @@
   padding: 10px 20px;
   font-size: x-large;
   border-radius: 10px;
-
+  transition-duration: 0.25s;
 }
-
+.challengeEnter:hover, .challengeExit:hover{
+  box-shadow: 0px 0px 5px gray;
+  scale: 1.025;
+}
 
 .boughtEternityUpgrade{
   border-color: purple;

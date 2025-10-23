@@ -30,6 +30,10 @@
   border: 2px gray solid;
   border-left: none;
   position: absolute;
+  transition-duration: 0.25s;
+}
+#close-open:hover{
+  box-shadow: 0 0 5px gray;
 }
 
 #sidebar{
@@ -71,6 +75,7 @@
     padding: 15px;
     font-size: 25px;
     border-bottom: 1px gray solid;
+    transition-duration: 0.25s;
 }
 .sidebarMenuItem:hover{
     background-color: rgba(128, 128, 128, 0.5);

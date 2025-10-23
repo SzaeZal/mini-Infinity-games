@@ -21,4 +21,5 @@
 }
 .interactable{
     cursor: pointer;
+    transition-duration: 0.25s;
 }

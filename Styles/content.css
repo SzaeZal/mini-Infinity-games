@@ -25,6 +25,13 @@
 .subMenuItem:hover{
     border: 2px rgb(160, 160, 160) solid;
 }
+.gameStats{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 25px;
+    
+}
 .subMenuHidden{
     opacity: 0;
 }
