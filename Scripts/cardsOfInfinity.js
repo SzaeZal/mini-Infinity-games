@@ -40,14 +40,17 @@ $(()=>{
         cardPairs: 1,
         points: 1,
         difficulty:"",
-        startTime: 0,
         elapsedTime: 0,
+        targetTimeInMs: 0,
+        personalBestInMs:0,
         medalTimes:{
           bronze:0,
           silver:0,
           gold:0,
           champion:0
-        }
+        },
+        cards:{},
+        cardPairs:{}
     }
     //#endregion
     //#region Medals
@@ -72,6 +75,7 @@ $(()=>{
         }
     }
     //#endregion
+    
     //#region sidebar open-close
     let sidebar = $("#sidebar")
     let isSidebarOpen=true
@@ -430,7 +434,7 @@ $(()=>{
     }
     //#endregion
     //#region game menu
-    $("#game").on("click", ()=>{
+    $("#gameMenuItem").on("click", ()=>{
         mainMenuIndex=2
         GoToGameMenu()
     })
@@ -473,14 +477,8 @@ $(()=>{
                     </div>
                     <div id="currentdifficulty">
                         <div class="currentDifficultyInfo">
-                            <div class="currentDifficultyInfoTitle">
+                            <div class="difficultyInfoLeftSide currentDifficultyInfoTitle"> 
                                 No difficulty selected
-                            </div>
-                            <div class="currentDifficultyInfoPersonalBest">
-                                
-                            </div>
-                            <div class="currentDifficultyMedal">
-                               
                             </div>
                         </div>
                     </div>
@@ -513,6 +511,7 @@ $(()=>{
         if(currentGame.difficulty=="Easy"){
           currentGame.cardPairs=4
           currentGame.luckMultiplier=3
+          currentGame.personalBestInMs=player.personalBests.easy
           currentGame.medalTimes.bronze=medalTimes.easy.bronze
           currentGame.medalTimes.silver=medalTimes.easy.silver
           currentGame.medalTimes.gold=medalTimes.easy.gold
@@ -521,6 +520,7 @@ $(()=>{
         else if(currentGame.difficulty=="Medium"){
           currentGame.cardPairs=5
           currentGame.luckMultiplier=1
+          currentGame.personalBestInMs=player.personalBests.medium
           currentGame.medalTimes.bronze=medalTimes.medium.bronze
           currentGame.medalTimes.silver=medalTimes.medium.silver
           currentGame.medalTimes.gold=medalTimes.medium.gold
@@ -529,6 +529,7 @@ $(()=>{
         else if(currentGame.difficulty=="Hard"){
           currentGame.cardPairs=6
           currentGame.luckMultiplier=0.5
+          currentGame.personalBestInMs=player.personalBests.hard
           currentGame.medalTimes.bronze=medalTimes.hard.bronze
           currentGame.medalTimes.silver=medalTimes.hard.silver
           currentGame.medalTimes.gold=medalTimes.hard.gold
@@ -562,7 +563,7 @@ $(()=>{
                         ? `<img src="../Images/CardsOfInfinity/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
                         : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 1
                         ? `<img src="../Images/CardsOfInfinity/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
-                        : ``
+                        : `<div class="noMedal"></div>`
                     }
                 </div>
                 
@@ -604,14 +605,11 @@ $(()=>{
       view.html(`
           <div id="subMenuInView">
               <div class="subMenuItem selectedSubMenuItem gameStats">
-                  <div>
-                    Points: 1
+                  <div >
+                    Points: <span id="points">1</span>
                   </div>
-                  <div>
-                    Time: 0:00:000
-                  </div>
-                  <div>
-                    Target: 0:00:000
+                  <div >
+                    Picks left: <span id="picksLeft">0 / 0</span>
                   </div>
               </div>
           </div>
@@ -668,16 +666,93 @@ $(()=>{
                           ? `<img src="../Images/CardsOfInfinity/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
                           : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 1
                           ? `<img src="../Images/CardsOfInfinity/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
-                          : ``
+                          : `<div class="noMedal"></div>`
                       }
                   </div>
-                  
-
+                </div>
+                <div class="startOptions">
+                    <div class="startOption interactable" id="startOptionBronze">
+                        Play against Bronze
+                    </div>
+                    <div class="startOption interactable" id="startOptionSilver">
+                        Play against Silver
+                    </div>
+                    <div class="startOption interactable" id="startOptionGold">
+                        Play against Gold
+                    </div>
+                    ${ playerStatsCalculated.totalMedals>=9 
+                        ? `
+                            <div class="startOption interactable" id="startOptionChampion">
+                                Play against Champion
+                            </div>
+                        `
+                        :``
+                    }
+                    <div class="startOption interactable" id="startOptionPB">
+                        Play against Personal best
+                    </div>
+                    <div class="startOption interactable" id="startOptionClose">
+                        Go back to difficulty selection
+                    </div>
+                </div>
               </div>
-
             </div>
           </div>
       `)
+      AddEnterGameUIEvents()
+    }
+    //#endregion
+    //#region AddEnterGameUIEvents
+    const AddEnterGameUIEvents=()=>{
+        $("#startOptionBronze").on("click", ()=>{
+            currentGame.targetTimeInMs=currentGame.medalTimes.bronze
+            CountDown()
+            setTimeout(StartGame, 3000)
+        })
+        $("#startOptionSilver").on("click", ()=>{
+            currentGame.targetTimeInMs=currentGame.medalTimes.silver
+            CountDown()
+            setTimeout(StartGame, 3000)
+        })
+        $("#startOptionGold").on("click", ()=>{
+            currentGame.targetTimeInMs=currentGame.medalTimes.gold
+            CountDown()
+            setTimeout(StartGame, 3000)
+        })
+
+        if(playerStatsCalculated.totalMedals>=9 ){
+            $("#startOptionChampion").on("click", ()=>{
+                currentGame.targetTimeInMs=currentGame.medalTimes.champion
+                CountDown()
+                setTimeout(StartGame, 3000)
+            })
+        }
+
+        $("#startOptionPB").on("click", ()=>{
+            currentGame.targetTimeInMs=currentGame.personalBestInMs
+            CountDown()
+            setTimeout(StartGame, 3000)
+        })
+        
+        $("#startOptionClose").on("click", ()=>{
+            GoToGameMenu()
+        })
+    }
+    //#endregion
+    //#region CountDown
+    const CountDown = ()=>{
+        $("#game").html(`<div class="countDownNumber">3</div>`)
+        setTimeout(()=>{
+            $("#game").html(`<div class="countDownNumber">2</div>`)
+        }, 1000)
+        setTimeout(()=>{
+            $("#game").html(`<div class="countDownNumber">1</div>`)
+        }, 2000)
+    }
+    //#endregion
+    //#region StartGame
+    const StartGame = ()=>{
+        
     }
     //#endregion
     //#region Card stuff
