@@ -949,8 +949,8 @@ $(()=>{
                 : `/${card.value}`
             }`
             cardsHtml+=`
-                <div class="card">
-                    <div class="card openCard type-${card.color}Outer">
+                <div class="card" id="card${card.index}">
+                    <div class="card type-${card.color}Outer">
                         <div class="theme-${player.options.ui.theme=="Dark" ? "dark" : "light"} cardInnerCircle type-${card.color}Inner">
                             ${cardValueText}
                         </div>
