@@ -938,7 +938,46 @@ $(()=>{
     }
     //#region PutCardsOnView
     const PutCardsOnView = ()=>{
-
+        let cardsHtml=``
+        for(i=0; i< currentGame.cards.length; i++){
+            let card=currentGame.cards[i]
+            let cardValueText=`${
+                card.mathOperationType == "Exponential"
+                ? `^${card.value}`
+                : card.mathOperationType == "Multiplicative"
+                ? `x${card.value}`
+                : `/${card.value}`
+            }`
+            cardsHtml+=`
+                <div class="card">
+                    <div class="card openCard type-${card.color}Outer">
+                        <div class="theme-${player.options.ui.theme=="Dark" ? "dark" : "light"} cardInnerCircle type-${card.color}Inner">
+                            ${cardValueText}
+                        </div>
+                        <div class="cardCornerPieces">
+                            <div class="cardCornerPieceTopLeft">
+                                ${cardValueText}
+                            </div>
+                            <div class="cardCornerPieceTopRight">
+                                ${cardValueText}
+                            </div>
+                            <div class="cardCornerPieceBottomLeft">
+                                ${cardValueText}
+                            </div>
+                            <div class="cardCornerPieceBottomRight">
+                                ${cardValueText}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `
+        }
+        /* 
+        <div class="card">
+            <img src="../Images/CardsOfInfinity/CoICardBackside.png" alt="Cards Of Infinity Card Backside" class="cardBackside">
+        </div>
+        */
+        $("#game").html(`<div class="mainView cardsContainer">`+ cardsHtml + `</div>`)
     }
     //#endregion
     //#region GenerateCards
@@ -957,106 +996,15 @@ $(()=>{
             newCardToAdd.index=GenerateCardIndex()
             newPair=[newCardToAdd.index, 0]
             currentGame.cards.push(Object.assign({}, newCardToAdd))
-            newCardToAddPair=Object.assign({}, newCardToAdd)
-
-            console.log(newCardToAdd.color,  newCardToAddPair.color)
-            
+            newCardToAddPair=Object.assign({}, newCardToAdd)            
             newCardToAddPair.index=GenerateCardIndex()
             newPair[1]=newCardToAddPair.index
             currentGame.cards.push(newCardToAddPair)
             currentGame.cardPairs.push(newPair)
         }
-        console.log(currentGame.cards)
-        console.log(currentGame.cardPairs)
+        currentGame.cards.sort((a, b)=> a.index - b.index)
         PutCardsOnView()
     }
-    //#endregion
-    //#region Card stuff
-    /* 
-        
-            <div class="mainView cardsContainer">
-                <div class="card type-redOuter">
-                    <div class="theme-light cardInnerCircle type-redInner">
-                        x2
-                    </div>
-                    <div class="cardCornerPieces">
-                        <div class="cardCornerPieceTopLeft">
-                            x2
-                        </div>
-                        <div class="cardCornerPieceTopRight">
-                            x2
-                        </div>
-                        <div class="cardCornerPieceBottomLeft">
-                            x2
-                        </div>
-                        <div class="cardCornerPieceBottomRight">
-                            x2
-                        </div>
-                    </div>
-                </div>
-                <div class="card type-blueOuter">
-                    <div class="theme-light cardInnerCircle type-blueInner">
-                        x2
-                    </div>
-                    <div class="cardCornerPieces">
-                        <div class="cardCornerPieceTopLeft">
-                            x2
-                        </div>
-                        <div class="cardCornerPieceTopRight">
-                            x2
-                        </div>
-                        <div class="cardCornerPieceBottomLeft">
-                            x2
-                        </div>
-                        <div class="cardCornerPieceBottomRight">
-                            x2
-                        </div>
-                    </div>
-                </div>
-                <div class="card type-greenOuter">
-                    <div class="theme-light cardInnerCircle type-greenInner">
-                        x2
-                    </div>
-                    <div class="cardCornerPieces">
-                        <div class="cardCornerPieceTopLeft">
-                            x2
-                        </div>
-                        <div class="cardCornerPieceTopRight">
-                            x2
-                        </div>
-                        <div class="cardCornerPieceBottomLeft">
-                            x2
-                        </div>
-                        <div class="cardCornerPieceBottomRight">
-                            x2
-                        </div>
-                    </div>
-                </div>
-                <div class="card type-yellowOuter">
-                    <div class="theme-light cardInnerCircle type-yellowInner">
-                        x2
-                    </div>
-                    <div class="cardCornerPieces">
-                        <div class="cardCornerPieceTopLeft">
-                            x2
-                        </div>
-                        <div class="cardCornerPieceTopRight">
-                            x2
-                        </div>
-                        <div class="cardCornerPieceBottomLeft">
-                            x2
-                        </div>
-                        <div class="cardCornerPieceBottomRight">
-                            x2
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="../Images/CardsOfInfinity/CoICardBackside.png" alt="Cards Of Infinity Card Backside" class="cardBackside">
-                </div>
-            </div>
-    
-    */
     //#endregion
     //#region FormatNumber
     const FormatNumber= (numberToFormat)=>{

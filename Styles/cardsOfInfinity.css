@@ -136,6 +136,7 @@
 }
 
 .cardsContainer{
+    margin-top: inherit;
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
@@ -144,8 +145,8 @@
 }
 
 .card, .cardBackside{
-    width: 200px;
-    height: 300px;
+    width: 150px;
+    height: 233px;
     border-radius: 20px;
     display: flex;
     justify-content: center;
@@ -156,8 +157,8 @@
     border: 5px solid gray;
 }
 .cardInnerCircle{
-    width: 100px;
-    height: 100px;
+    width: 125px;
+    height: 75px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -168,8 +169,8 @@
 
 .cardCornerPieces{
     position: absolute;
-    width: 200px;
-    height: 200px;
+    width: 130px;
+    height: 220px;
     border-radius: 10px;
     top: 10px;
     left: 10px;
@@ -181,17 +182,17 @@
 }
 .cardCornerPieceTopRight{
     position: absolute;
-    left: 160px;
     top: 0;
+    right: 5px;
 }
 .cardCornerPieceBottomLeft{
     position: absolute;
-    top: 260px;
+    bottom: 0;
 }
 .cardCornerPieceBottomRight{
     position: absolute;
-    top: 260px;
-    left: 160px;
+    right: 5px;
+    bottom: 0;
 }
 
 
@@ -243,4 +244,34 @@
 .type-yellowInner{
     border: none;
     color: #e6e600;
+}
+
+@keyframes cardClosing{
+    from{
+        width: 150px;
+    }
+    to{
+        width: 0;
+    }
+}
+
+@keyframes cardOpening{
+    from{
+        width: 0;
+    }
+    to{
+        width: 150px;
+    }
+}
+
+.openCard{
+    animation: cardOpening 0.25s ;
+    width: 150px;
+    overflow: hidden;
+}
+
+.closeCard{
+    animation: cardClosing 0.25s;
+    width: 0;
+    overflow: hidden;
 }
