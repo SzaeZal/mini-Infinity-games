@@ -36,8 +36,11 @@ $(()=>{
     //#region CurrentGame
     let currentGame={
         active:false,
-        luckMultiplier: 1,
-        cardPairs: 1,
+        luckMultiplier: {
+            base: 1,
+            current: 1
+        },
+        numberOfCardPairs: 1,
         points: 1,
         difficulty:"",
         elapsedTime: 0,
@@ -49,8 +52,8 @@ $(()=>{
           gold:0,
           champion:0
         },
-        cards:{},
-        cardPairs:{}
+        cards:[],
+        cardPairs:[]
     }
     //#endregion
     //#region Medals
@@ -509,8 +512,8 @@ $(()=>{
         currentGame.difficulty=difficulty
 
         if(currentGame.difficulty=="Easy"){
-          currentGame.cardPairs=4
-          currentGame.luckMultiplier=3
+          currentGame.numberOfCardPairs=4
+          currentGame.luckMultiplier.base=3
           currentGame.personalBestInMs=player.personalBests.easy
           currentGame.medalTimes.bronze=medalTimes.easy.bronze
           currentGame.medalTimes.silver=medalTimes.easy.silver
@@ -518,8 +521,8 @@ $(()=>{
           currentGame.medalTimes.champion=medalTimes.easy.champion
         }
         else if(currentGame.difficulty=="Medium"){
-          currentGame.cardPairs=5
-          currentGame.luckMultiplier=1
+          currentGame.numberOfCardPairs=5
+          currentGame.luckMultiplier.base=1
           currentGame.personalBestInMs=player.personalBests.medium
           currentGame.medalTimes.bronze=medalTimes.medium.bronze
           currentGame.medalTimes.silver=medalTimes.medium.silver
@@ -527,8 +530,8 @@ $(()=>{
           currentGame.medalTimes.champion=medalTimes.medium.champion
         }
         else if(currentGame.difficulty=="Hard"){
-          currentGame.cardPairs=6
-          currentGame.luckMultiplier=0.5
+          currentGame.numberOfCardPairs=6
+          currentGame.luckMultiplier.base=0.5
           currentGame.personalBestInMs=player.personalBests.hard
           currentGame.medalTimes.bronze=medalTimes.hard.bronze
           currentGame.medalTimes.silver=medalTimes.hard.silver
@@ -570,7 +573,7 @@ $(()=>{
             </div>
         `)
         $("#playGame").on("click", ()=>{
-          EnterGame(currentGame.cardPairs,currentGame.luckMultiplier, currentGame.difficulty)
+          EnterGame(currentGame.numberOfCardPairs,currentGame.luckMultiplier.base, currentGame.difficulty)
         })
     }
     //#endregion
@@ -598,8 +601,8 @@ $(()=>{
     //#endregion
     //#region EnterGame
     const EnterGame = (cardPairs, luckMultiplier, difficulty) =>{
-      currentGame.cardPairs=cardPairs
-      currentGame.luckMultiplier=luckMultiplier
+      currentGame.numberOfCardPairs=cardPairs
+      currentGame.luckMultiplier.base=luckMultiplier
       currentGame.difficulty=difficulty
 
       view.html(`
@@ -752,7 +755,220 @@ $(()=>{
     //#endregion
     //#region StartGame
     const StartGame = ()=>{
-        
+        currentGame.active=true
+        currentGame.points=1
+        currentGame.elapsedTime=0
+        GenerateCards()
+    }
+
+    //#endregion
+    //#region CalculateCardChances
+    cardChances={
+        one:{
+            mathOperationType: "Exponential",
+            value: 10,
+            basechance: 0.1,
+            chance:0.1
+        },
+        two:{
+            mathOperationType: "Exponential",
+            value: 5,
+            basechance: 0.25,
+            chance:0.25
+        },
+        three:{
+            mathOperationType: "Exponential",
+            value: 2,
+            basechance: 0.75,
+            chance:0.75
+        },
+        nine:{
+            mathOperationType: "Exponential",
+            value: 0.5,
+            basechance: 0.25,
+            chance:0.25
+        },
+        ten:{
+            mathOperationType: "Exponential",
+            value: 0.1,
+            basechance: 0.05,
+            chance:0.05
+        },
+        four:{
+            mathOperationType: "Multiplicative",
+            value: 50,
+            basechance: 1,
+            chance:1
+        },
+        five:{
+            mathOperationType: "Multiplicative",
+            value: 25,
+            basechance: 2.5,
+            chance:2.5
+        },
+        six:{
+            mathOperationType: "Multiplicative",
+            value: 10,
+            basechance: 7.5,
+            chance:7.5
+        },
+        seven:{
+            mathOperationType: "Multiplicative",
+            value: 5,
+            basechance: 12.5,
+            chance:12.5
+        },
+        eight:{
+            mathOperationType: "Multiplicative",
+            value: 2,
+            basechance: 35,
+            chance:35
+        },
+        fifteen:{
+            mathOperationType: "Multiplicative",
+            value: 1000,
+            basechance: 0.1,
+            chance:0.1
+        },
+        eleven:{
+            mathOperationType: "Divisive",
+            value: 2,
+            basechance: 25,
+            chance:25
+        },
+        twelve:{
+            mathOperationType: "Divisive",
+            value: 5,
+            basechance: 7.5,
+            chance:7.5
+        },
+        thirteen:{
+            mathOperationType: "Divisive",
+            value: 10,
+            basechance: 5,
+            chance:5
+        },
+        fourteen:{
+            mathOperationType: "Divisive",
+            value: 25,
+            basechance: 2.5,
+            chance:2.5
+        },
+    }
+
+    const CalculateCardChances = ()=>{
+        chanceTotal=0
+        for(let key in cardChances){
+            currentCardChance=cardChances[key]
+            switch(currentCardChance.mathOperationType){
+                case "Exponential":
+                    currentCardChance.chance=currentCardChance.basechance * currentGame.luckMultiplier.current
+                    break;
+                case "Multiplicative":
+                    break;
+                case "Divisive":
+                    currentCardChance.chance=currentCardChance.basechance / currentGame.luckMultiplier.current
+                    break;
+                default:
+                    console.log("Card chance calculation broke")
+                    break;
+            }
+            chanceTotal+=currentCardChance.chance
+        }
+        return chanceTotal
+    }
+    //#endregion
+    //#region GetCardToAdd
+    const GetCardToAdd = (maxRng)=>{
+        rng=Math.random()*maxRng
+        chanceAdder=0
+        for(let key in cardChances){
+            currentCard=cardChances[key]
+            chanceAdder+=currentCard.chance
+            if(chanceAdder>=rng){
+                return currentCard
+            }
+        }
+    }
+    //#endregion
+    //#region GenerateCardColor
+    cardColors=["red", "green", "blue", "yellow"]
+    const GenerateCardColor = (card) =>{
+        bannedColors=[]
+        do{
+            color=cardColors[Math.floor(Math.random()*4)]
+            if(color in bannedColors){
+                continue;
+            }
+            if(bannedColors.length>=4){
+                bannedColorsSet=new Set(bannedColors)
+                if(bannedColorsSet.length>=4){
+                    return undefined
+                }
+            }
+            canAddCard=true
+            for(let i=0; i<currentGame.cards.length; i++){
+                if(currentGame.cards[i].mathOperationType == card.mathOperationType 
+                    && currentGame.cards[i].value == card.value
+                    && currentGame.cards[i].color == color
+                ){
+                    bannedColors.push(color)
+                    canAddCard=false
+                    break;
+                }
+            }
+        }while(canAddCard==false);
+        return color
+    }
+    //#endregion
+    setTimeout(()=>{debugger;} , 15000)
+    //#region GenerateCardIndex
+    const GenerateCardIndex = ()=>{
+        do{
+            index=Math.floor(Math.random()*currentGame.numberOfCardPairs*2)
+            canAddCard=true
+            for(let i=0; i<currentGame.cards.length; i++){
+                if(currentGame.cards[i].index == index){
+                    canAddCard=false
+                    break;
+                }
+            }
+        }while(canAddCard==false);
+        return index
+    }
+    //#region PutCardsOnView
+    const PutCardsOnView = ()=>{
+
+    }
+    //#endregion
+    //#region GenerateCards
+    const GenerateCards = ()=>{
+        currentGame.luckMultiplier.current=currentGame.luckMultiplier.base
+            * Math.pow(currentGame.points, 0.1)
+        maxRng= CalculateCardChances()
+        let newCardToAdd
+        while(currentGame.cards.length<currentGame.numberOfCardPairs*2){
+            newCardToAdd={}
+            newCardToAdd=GetCardToAdd(maxRng)
+            newCardToAdd.color=GenerateCardColor(newCardToAdd)
+            if(newCardToAdd.color==undefined){
+                continue
+            }
+            newCardToAdd.index=GenerateCardIndex()
+            newPair=[newCardToAdd.index, 0]
+            currentGame.cards.push(Object.assign({}, newCardToAdd))
+            newCardToAddPair=Object.assign({}, newCardToAdd)
+
+            console.log(newCardToAdd.color,  newCardToAddPair.color)
+            
+            newCardToAddPair.index=GenerateCardIndex()
+            newPair[1]=newCardToAddPair.index
+            currentGame.cards.push(newCardToAddPair)
+            currentGame.cardPairs.push(newPair)
+        }
+        console.log(currentGame.cards)
+        console.log(currentGame.cardPairs)
+        PutCardsOnView()
     }
     //#endregion
     //#region Card stuff
