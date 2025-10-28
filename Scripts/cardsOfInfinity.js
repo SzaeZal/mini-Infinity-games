@@ -42,6 +42,8 @@ $(()=>{
             current: 1
         },
         numberOfCardPairs: 1,
+        cardPairPicks: 0,
+        cardPairPicksLimit: 0,
         points: 1,
         difficulty:"",
         elapsedTime: 0,
@@ -514,6 +516,7 @@ $(()=>{
 
         if(currentGame.difficulty=="Easy"){
           currentGame.numberOfCardPairs=4
+          currentGame.cardPairPicksLimit=2
           currentGame.luckMultiplier.base=3
           currentGame.personalBestInMs=player.personalBests.easy
           currentGame.medalTimes.bronze=medalTimes.easy.bronze
@@ -523,6 +526,7 @@ $(()=>{
         }
         else if(currentGame.difficulty=="Medium"){
           currentGame.numberOfCardPairs=5
+          currentGame.cardPairPicksLimit=3
           currentGame.luckMultiplier.base=1
           currentGame.personalBestInMs=player.personalBests.medium
           currentGame.medalTimes.bronze=medalTimes.medium.bronze
@@ -532,6 +536,7 @@ $(()=>{
         }
         else if(currentGame.difficulty=="Hard"){
           currentGame.numberOfCardPairs=6
+          currentGame.cardPairPicksLimit=3
           currentGame.luckMultiplier.base=0.5
           currentGame.personalBestInMs=player.personalBests.hard
           currentGame.medalTimes.bronze=medalTimes.hard.bronze
@@ -613,7 +618,7 @@ $(()=>{
                     Points: <span id="points">1</span>
                   </div>
                   <div >
-                    Picks left: <span id="picksLeft">0 / 0</span>
+                    Picks left: <span id="picksLeft">0</span> / ${currentGame.cardPairPicksLimit}
                   </div>
               </div>
           </div>
@@ -1101,15 +1106,89 @@ $(()=>{
         }
     }
     //#endregion
+    let selectedPairs=[[]]
     //#region ShowCard
     const ShowCard = (index)=>{
         index=index.currentTarget.id.replace("cardBackside", "")
+        $(`#cardFrontside${index}`).removeClass("closeCard")
+        $(`#cardBackside${index}`).removeClass("openCard")
         $(`#cardBackside${index}`).addClass("closeCard")
         setTimeout(()=>{
             $(`#cardBackside${index}`).addClass("hiddenPart")
             $(`#cardFrontside${index}`).addClass("openCard")
             $(`#cardFrontside${index}`).removeClass("hiddenPart")
-        }, 250)
+        }, 125)
+        selectedPairs[selectedPairs.length-1].push(index)
+        if(selectedPairs[selectedPairs.length-1].length==2){
+            if(FoundPair()){
+                setTimeout(GainPoints, 375, index)
+            }
+            else{
+                setTimeout(HideCardPair, 375, selectedPairs[selectedPairs.length-1])
+            }
+            selectedPairs.push([])
+        }
+    }
+    //#endregion
+    //#region FoundPair
+    const FoundPair = ()=>{
+        pairButNumber=[Number(selectedPairs[selectedPairs.length-1][0]), Number(selectedPairs[selectedPairs.length-1][1])]
+        let foundInPair
+        for (let i=0; i<currentGame.cardPairs.length; i++){
+            foundInPair=0
+            for (let j=0; j<2; j++){
+                if(pairButNumber[j] == currentGame.cardPairs[i][0] || pairButNumber[j] == currentGame.cardPairs[i][1]){
+                    foundInPair++
+                }
+            }
+            if(foundInPair==2){
+                return true
+            }
+        }
+        return false
+    }
+    //#endregion
+    //#region GainPoints
+    const GainPoints = (index)=>{
+        card=currentGame.cards.find(c=>c.index==index)
+        switch(card.mathOperationType){
+            case "Exponential":
+                currentGame.points = Math.pow(currentGame.points, card.value)
+                break;
+            case "Multiplicative":
+                currentGame.points = currentGame.points * card.value
+                break;
+            case "Divisive":
+                currentGame.points = currentGame.points / card.value
+                break;
+            default:
+                console.log("Gain points card mathOperationType is not in switch cases")
+                break;
+        }
+        $("#points").text(`${FormatNumber(currentGame.points)}`)
+        currentGame.cardPairPicks++
+        $("#picksLeft").text(`${currentGame.cardPairPicks}`)
+    }
+    //#endregion
+    //#region HideCardPair
+    const HideCardPair = (selectedPair) =>{
+        $(`#cardFrontside${selectedPair[0]}`).removeClass("openCard")
+        $(`#cardBackside${selectedPair[0]}`).removeClass("closeCard")
+        $(`#cardFrontside${selectedPair[0]}`).addClass("closeCard")
+        setTimeout(()=>{
+            $(`#cardFrontside${selectedPair[0]}`).addClass("hiddenPart")
+            $(`#cardBackside${selectedPair[0]}`).addClass("openCard")
+            $(`#cardBackside${selectedPair[0]}`).removeClass("hiddenPart")
+        }, 125)
+
+        $(`#cardFrontside${selectedPair[1]}`).removeClass("openCard")
+        $(`#cardBackside${selectedPair[1]}`).removeClass("closeCard")
+        $(`#cardFrontside${selectedPair[1]}`).addClass("closeCard")
+        setTimeout(()=>{
+            $(`#cardFrontside${selectedPair[1]}`).addClass("hiddenPart")
+            $(`#cardBackside${selectedPair[1]}`).addClass("openCard")
+            $(`#cardBackside${selectedPair[1]}`).removeClass("hiddenPart")
+        }, 125)
     }
     //#endregion
     //#region GenerateCards
