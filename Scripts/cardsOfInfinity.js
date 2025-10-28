@@ -840,10 +840,8 @@ $(()=>{
         GenerateCards()
         timeTicker=setInterval(Timer, 25)
     }
-
     //#endregion
     //#region Timer
-    
     const Timer = ()=>{
         let currentTime=new Date()
         let timeSinceLastTick=currentTime-lastTickTime
@@ -1091,6 +1089,27 @@ $(()=>{
                     <span id="elapsedTime">${FormatTime(currentGame.elapsedTime)}</span>
                 </div>
             `+ cardsHtml + `</div>`)
+        AddCardsClickEvents()
+    }
+    //#endregion
+    //#region AddCardsClickEvents
+    const AddCardsClickEvents = ()=>{
+        $("#pauseButton").on("click", PauseGame)
+
+        for(i=0; i<currentGame.cards.length; i++){
+            $(`#cardBackside${i}`).on("click", (e)=>ShowCard(e))
+        }
+    }
+    //#endregion
+    //#region ShowCard
+    const ShowCard = (index)=>{
+        index=index.currentTarget.id.replace("cardBackside", "")
+        $(`#cardBackside${index}`).addClass("closeCard")
+        setTimeout(()=>{
+            $(`#cardBackside${index}`).addClass("hiddenPart")
+            $(`#cardFrontside${index}`).addClass("openCard")
+            $(`#cardFrontside${index}`).removeClass("hiddenPart")
+        }, 250)
     }
     //#endregion
     //#region GenerateCards

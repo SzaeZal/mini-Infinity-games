@@ -114,6 +114,7 @@
     justify-content: center;
     align-items: center;
     transition-duration: 0.25s;
+    z-index: 50;
 }
 #pauseButton:hover{
     scale: 1.2;
@@ -125,6 +126,7 @@
     translate: -50% 0;
     font-size: x-large;
     padding: 10px;
+    z-index: 50;
 }
 
 .preGameMenu{
