@@ -96,6 +96,36 @@
     position: relative;
     height: calc(100vh - 120px);
 }
+#pauseMenu{
+    position: absolute;
+    z-index: 100;
+    width: fit-content;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+}
+#pauseButton{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition-duration: 0.25s;
+}
+#pauseButton:hover{
+    scale: 1.2;
+}
+#timer{
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    translate: -50% 0;
+    font-size: x-large;
+    padding: 10px;
+}
 
 .preGameMenu{
     border: 2px solid gray;
@@ -274,4 +304,8 @@
     animation: cardClosing 0.25s;
     width: 0;
     overflow: hidden;
+}
+
+.hiddenPart{
+    display: none;
 }

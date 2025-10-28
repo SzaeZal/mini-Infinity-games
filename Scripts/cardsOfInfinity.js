@@ -36,6 +36,7 @@ $(()=>{
     //#region CurrentGame
     let currentGame={
         active:false,
+        paused:false,
         luckMultiplier: {
             base: 1,
             current: 1
@@ -194,7 +195,7 @@ $(()=>{
     $(document).keydown((e)=>{
         if(currentGame.active){
             if(e.originalEvent.code=="Space"){
-                //pause game
+                PauseGame()
             }
         }
         else{    
@@ -617,6 +618,73 @@ $(()=>{
               </div>
           </div>
           <div class="mainView">
+            <div id="pauseMenu" class="hiddenPart">
+                <div class="preGameMenu theme-${player.options.ui.theme=="Dark" ? "dark" : "light"}">
+                <div class="currentDifficultyInfo">
+                  <div class="difficultyInfoLeftSide">
+                      <div class="currentDifficultyInfoTitle">
+                          Game paused
+                      </div>
+                      ${
+                        currentGame.difficulty!="Custom"
+                        ? `
+                          <div class="currentDifficultyInfoPersonalBest">
+                              ${player.personalBests[difficulty.toLowerCase()].timeInMs == 0 
+                                  ? " No personal best yet"
+                                  : ` Personal Best: ${FormatTime(player.personalBests[difficulty.toLowerCase()].timeInMs)}`
+                              }
+                          </div>
+                          <div class="medalInfo">
+                            <div class="currentDifficultyInfoTitle">
+                                Medal times
+                            </div>
+                            <div class="medalTime">
+                              bronze: ${ FormatTime(currentGame.medalTimes.bronze)}
+                            </div>
+                            <div class="medalTime">
+                              silver: ${ FormatTime(currentGame.medalTimes.silver)}
+                            </div>
+                            <div class="medalTime">
+                              gold: ${ FormatTime(currentGame.medalTimes.gold)}
+                            </div>
+                            ${playerStatsCalculated.totalMedals>=9
+                              ?`
+                                <div class="medalTime">
+                                  champion: ${ FormatTime(currentGame.medalTimes.champion)}
+                                </div>
+                              `
+                              :``
+                            }
+                          </div>
+                        `
+                        :``
+                      }
+                  </div>
+                  <div class="currentDifficultyMedal">
+                      ${
+                          playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 4
+                          ? `<img src="../Images/CardsOfInfinity/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
+                          : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 3
+                          ? `<img src="../Images/CardsOfInfinity/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
+                          : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 2
+                          ? `<img src="../Images/CardsOfInfinity/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
+                          : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 1
+                          ? `<img src="../Images/CardsOfInfinity/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
+                          : `<div class="noMedal"></div>`
+                      }
+                  </div>
+                </div>
+                <div class="startOptions">
+                    <div class="startOption interactable" id="pauseOptionResume">
+                        Resume
+                    </div>
+                    <div class="startOption interactable" id="pauseOptionClose">
+                        Exit to difficulty selection
+                    </div>
+                </div>
+              </div>
+            
+            </div>
             <div id="game">
               <div class="preGameMenu">
                 <div class="currentDifficultyInfo">
@@ -740,6 +808,14 @@ $(()=>{
         $("#startOptionClose").on("click", ()=>{
             GoToGameMenu()
         })
+
+        $("#pauseOptionClose").on("click", ()=>{
+            GoToGameMenu()
+        })
+
+        $("#pauseOptionResume").on("click", ()=>{
+            ResumeGame()
+        })
     }
     //#endregion
     //#region CountDown
@@ -754,13 +830,42 @@ $(()=>{
     }
     //#endregion
     //#region StartGame
+    let lastTickTime
+    let timeTicker
     const StartGame = ()=>{
         currentGame.active=true
         currentGame.points=1
         currentGame.elapsedTime=0
+        lastTickTime=new Date()
         GenerateCards()
+        timeTicker=setInterval(Timer, 25)
     }
 
+    //#endregion
+    //#region Timer
+    
+    const Timer = ()=>{
+        let currentTime=new Date()
+        let timeSinceLastTick=currentTime-lastTickTime
+        lastTickTime=currentTime
+        currentGame.elapsedTime+=timeSinceLastTick
+        $("#timer").text(`${FormatTime(currentGame.elapsedTime)}`)
+    }
+    //#endregion
+    //#region PauseGame
+    const PauseGame = ()=>{
+        currentGame.paused=true
+        clearInterval(timeTicker)
+        $("#pauseMenu").removeClass("hiddenPart")    
+    }
+    //#endregion
+    //#region ResumeGame
+    const ResumeGame = ()=>{
+        currentGame.paused=false
+        lastTickTime=new Date()
+        timeTicker=setInterval(Timer, 25)
+        $("#pauseMenu").addClass("hiddenPart")
+    }
     //#endregion
     //#region CalculateCardChances
     cardChances={
@@ -921,7 +1026,6 @@ $(()=>{
         return color
     }
     //#endregion
-    setTimeout(()=>{debugger;} , 15000)
     //#region GenerateCardIndex
     const GenerateCardIndex = ()=>{
         do{
@@ -936,6 +1040,7 @@ $(()=>{
         }while(canAddCard==false);
         return index
     }
+    //#endregion
     //#region PutCardsOnView
     const PutCardsOnView = ()=>{
         let cardsHtml=``
@@ -950,7 +1055,10 @@ $(()=>{
             }`
             cardsHtml+=`
                 <div class="card" id="card${card.index}">
-                    <div class="card type-${card.color}Outer">
+                    <div class="card" id="cardBackside${card.index}">
+                        <img src="../Images/CardsOfInfinity/CoICardBackside.png" alt="Cards Of Infinity Card Backside" class="cardBackside">
+                    </div>
+                    <div class="card type-${card.color}Outer hiddenPart" id="cardFrontside${card.index}">
                         <div class="theme-${player.options.ui.theme=="Dark" ? "dark" : "light"} cardInnerCircle type-${card.color}Inner">
                             ${cardValueText}
                         </div>
@@ -972,12 +1080,17 @@ $(()=>{
                 </div>
             `
         }
-        /* 
-        <div class="card">
-            <img src="../Images/CardsOfInfinity/CoICardBackside.png" alt="Cards Of Infinity Card Backside" class="cardBackside">
-        </div>
-        */
-        $("#game").html(`<div class="mainView cardsContainer">`+ cardsHtml + `</div>`)
+        $("#game").html(`
+            <div class="mainView cardsContainer">
+                <div id="pauseButton" class="interactable">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3">
+                        <path d="M525-200v-560h235v560H525Zm-325 0v-560h235v560H200Zm385-60h115v-440H585v440Zm-325 0h115v-440H260v440Zm0-440v440-440Zm325 0v440-440Z"/>
+                    </svg>
+                </div>
+                <div id="timer">
+                    <span id="elapsedTime">${FormatTime(currentGame.elapsedTime)}</span>
+                </div>
+            `+ cardsHtml + `</div>`)
     }
     //#endregion
     //#region GenerateCards
@@ -1176,4 +1289,5 @@ $(()=>{
     if(window.innerWidth<500){
         ShowDialogBox("Warning", "This game is not optimized for small screens. <br> Please use a device with a larger screen for the best experience. <br> or use landscape orientation", "Warning")
     }
+    //setTimeout(()=>{debugger;} , 15000)
 })
