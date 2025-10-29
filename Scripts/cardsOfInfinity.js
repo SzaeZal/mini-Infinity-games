@@ -848,7 +848,100 @@ $(()=>{
     //#endregion
     //#region EndGame
     const EndGame = ()=>{
-        
+        clearInterval(timeTicker)
+        $("#game").html(``)
+        let differenceToTargetTimeText="No target time set"
+        if(currentGame.targetTimeInMs!=0){
+            console.log(currentGame.elapsedTime, currentGame.targetTimeInMs.timeInMs)
+            let timeDifference=currentGame.elapsedTime - currentGame.targetTimeInMs
+            if(timeDifference<0){
+                differenceToTargetTimeText= `
+                    <span class="beatTargetTime"> - ${FormatTime(timeDifference)}</span>
+                `
+            }
+            else if (timeDifference>0){
+                differenceToTargetTimeText= `
+                    <span class="failedTargetTime"> + ${FormatTime(timeDifference)}</span>
+                `
+            }
+            else{
+                differenceToTargetTimeText= `
+                    <span class="equaledTargetTime"> + ${FormatTime(timeDifference)}</span>
+                `
+            }
+        }
+        $("#pauseMenu").html(`
+            <div class="preGameMenu theme-${player.options.ui.theme=="Dark" ? "dark" : "light"}">
+                <div class="currentDifficultyInfo">
+                  <div class="difficultyInfoLeftSide">
+                      <div class="currentDifficultyInfoTitle">
+                          Finish
+                      </div>
+                      ${
+                        currentGame.difficulty!="Custom"
+                        ? `
+                          <div class="currentDifficultyInfoPersonalBest">
+                              ${FormatTime(currentGame.elapsedTime)}
+                          </div>
+                          <div class="differenceToTargetTime">
+                            ${differenceToTargetTimeText}
+                          </div>
+                        `
+                        :``
+                      }
+                  </div>
+                  <div class="currentDifficultyMedal">
+                      ${
+                          playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 4
+                          ? `<img src="../Images/CardsOfInfinity/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
+                          : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 3
+                          ? `<img src="../Images/CardsOfInfinity/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
+                          : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 2
+                          ? `<img src="../Images/CardsOfInfinity/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
+                          : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 1
+                          ? `<img src="../Images/CardsOfInfinity/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
+                          : `<div class="noMedal"></div>`
+                      }
+                  </div>
+                </div>
+                <div class="startOptions">
+                    <div class="startOption interactable" id="endGameOptionRestart">
+                        Restart
+                    </div>
+                    <div class="startOption interactable" id="endGameOptionSetNewTargetTime">
+                        Set new target time
+                    </div>
+                    <div class="startOption interactable" id="endGameOptionClose">
+                        Exit to difficulty selection
+                    </div>
+                </div>
+            </div>    
+        `)
+        $("#pauseMenu").removeClass("hiddenPart")
+        GainMedals()
+        AddEndGameUIEvents()
+    }
+    //#endregion
+    //#region GainMedals
+    const GainMedals = ()=>{
+
+    }
+    //#endregion
+    //#region AddEndGameUIEvents
+    const AddEndGameUIEvents= ()=>{
+        $("#endGameOptionRestart").on("click", ()=>{
+            StartGame()
+            $("#pauseMenu").addClass("hiddenPart")
+        })
+
+        $("#endGameOptionSetNewTargetTime").on("click", ()=>{
+            EnterGame(currentGame.numberOfCardPairs, currentGame.luckMultiplier.base, currentGame.difficulty)
+            $("#pauseMenu").addClass("hiddenPart")
+        })
+
+        $("#endGameOptionClose").on("click", ()=>{
+            GoToGameMenu()
+        })
     }
     //#endregion
     //#region Timer

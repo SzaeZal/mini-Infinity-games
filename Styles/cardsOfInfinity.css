@@ -230,8 +230,6 @@
     right: 5px;
     bottom: 0;
 }
-/*TODO: cardBackside border does not appear with wrong pair pick*/
-
 
 .type-redOuter{
     background-color: #ff4d4d;
@@ -313,4 +311,14 @@
 
 .hiddenPart{
     display: none;
+}
+
+.beatTargetTime{
+    color: green;
+}
+.failedTargetTime{
+    color: #b30000;
+}
+.equaledTargetTime{
+    color: gray;
 }
