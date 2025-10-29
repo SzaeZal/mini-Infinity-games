@@ -1058,8 +1058,8 @@ $(()=>{
             }`
             cardsHtml+=`
                 <div class="card" id="card${card.index}">
-                    <div class="card" id="cardBackside${card.index}">
-                        <img src="../Images/CardsOfInfinity/CoICardBackside.png" alt="Cards Of Infinity Card Backside" class="cardBackside">
+                    <div class="card cardBackside" id="cardBackside${card.index}">
+                        <img src="../Images/CardsOfInfinity/CoICardBackside.png" alt="Cards Of Infinity Card Backside">
                     </div>
                     <div class="card type-${card.color}Outer hiddenPart" id="cardFrontside${card.index}">
                         <div class="theme-${player.options.ui.theme=="Dark" ? "dark" : "light"} cardInnerCircle type-${card.color}Inner">

@@ -188,6 +188,10 @@
 .cardBackside{
     border: 5px solid gray;
 }
+.cardBackside>img{
+    width: 150px;
+    height: 233px;
+}
 .cardInnerCircle{
     width: 125px;
     height: 75px;
