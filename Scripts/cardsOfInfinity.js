@@ -846,6 +846,11 @@ $(()=>{
         timeTicker=setInterval(Timer, 25)
     }
     //#endregion
+    //#region EndGame
+    const EndGame = ()=>{
+        
+    }
+    //#endregion
     //#region Timer
     const Timer = ()=>{
         let currentTime=new Date()
@@ -1167,6 +1172,18 @@ $(()=>{
         }
         $("#points").text(`${FormatNumber(currentGame.points)}`)
         currentGame.cardPairPicks++
+        if(currentGame.points==Infinity){
+            EndGame()
+        }
+        else if(currentGame.cardPairPicks == currentGame.cardPairPicksLimit){
+            setTimeout(()=>{
+                currentGame.cardPairPicks=0
+                currentGame.cardPairs=[]
+                currentGame.cards=[]
+                GenerateCards()
+            }, 500)
+        }
+        
         $("#picksLeft").text(`${currentGame.cardPairPicks}`)
     }
     //#endregion
