@@ -322,3 +322,15 @@
 .equaledTargetTime{
     color: gray;
 }
+
+@keyframes newGainedMedal{
+    from{
+        scale: 1.5;
+    }
+    to{
+        scale: 1;
+    }
+}
+.gainMedal{
+    animation: newGainedMedal 1s ;
+}

@@ -62,7 +62,7 @@ $(()=>{
     //#region Medals
     let medalTimes={
         easy:{ //TODO: change times
-            bronze: 60000,
+            bronze: 600000,
             silver: 45000,
             gold: 30000,
             champion: 15000
@@ -518,7 +518,7 @@ $(()=>{
           currentGame.numberOfCardPairs=4
           currentGame.cardPairPicksLimit=2
           currentGame.luckMultiplier.base=3
-          currentGame.personalBestInMs=player.personalBests.easy
+          currentGame.personalBestInMs=player.personalBests.easy.timeInMs
           currentGame.medalTimes.bronze=medalTimes.easy.bronze
           currentGame.medalTimes.silver=medalTimes.easy.silver
           currentGame.medalTimes.gold=medalTimes.easy.gold
@@ -528,7 +528,7 @@ $(()=>{
           currentGame.numberOfCardPairs=5
           currentGame.cardPairPicksLimit=3
           currentGame.luckMultiplier.base=1
-          currentGame.personalBestInMs=player.personalBests.medium
+          currentGame.personalBestInMs=player.personalBests.medium.timeInMs
           currentGame.medalTimes.bronze=medalTimes.medium.bronze
           currentGame.medalTimes.silver=medalTimes.medium.silver
           currentGame.medalTimes.gold=medalTimes.medium.gold
@@ -538,7 +538,7 @@ $(()=>{
           currentGame.numberOfCardPairs=6
           currentGame.cardPairPicksLimit=3
           currentGame.luckMultiplier.base=0.5
-          currentGame.personalBestInMs=player.personalBests.hard
+          currentGame.personalBestInMs=player.personalBests.hard.timeInMs
           currentGame.medalTimes.bronze=medalTimes.hard.bronze
           currentGame.medalTimes.silver=medalTimes.hard.silver
           currentGame.medalTimes.gold=medalTimes.hard.gold
@@ -852,11 +852,11 @@ $(()=>{
         $("#game").html(``)
         let differenceToTargetTimeText="No target time set"
         if(currentGame.targetTimeInMs!=0){
-            console.log(currentGame.elapsedTime, currentGame.targetTimeInMs.timeInMs)
+            console.log(currentGame.elapsedTime)
             let timeDifference=currentGame.elapsedTime - currentGame.targetTimeInMs
             if(timeDifference<0){
                 differenceToTargetTimeText= `
-                    <span class="beatTargetTime"> - ${FormatTime(timeDifference)}</span>
+                    <span class="beatTargetTime"> - ${FormatTime(-1 * timeDifference)}</span>
                 `
             }
             else if (timeDifference>0){
@@ -919,12 +919,36 @@ $(()=>{
         `)
         $("#pauseMenu").removeClass("hiddenPart")
         GainMedals()
+        SetPersonalBest()
         AddEndGameUIEvents()
+        Save()
     }
     //#endregion
     //#region GainMedals
     const GainMedals = ()=>{
 
+    }
+    //#endregion
+    //#region SetPersonalBest
+    const SetPersonalBest = ()=>{
+        if(currentGame.difficulty=="Easy"){
+            player.personalBests.easy.timeInMs = (player.personalBests.easy.timeInMs == 0 
+                || player.personalBests.easy.timeInMs > currentGame.elapsedTime)
+                ? currentGame.elapsedTime
+                : player.personalBests.easy.timeInMs
+        }
+        else if (currentGame.difficulty=="Medium"){
+            player.personalBests.medium.timeInMs = (player.personalBests.medium.timeInMs == 0 
+                || player.personalBests.medium.timeInMs > currentGame.elapsedTime)
+                ? currentGame.elapsedTime
+                : player.personalBests.medium.timeInMs
+        }
+        else if (currentGame.difficulty=="Hard"){
+            player.personalBests.hard.timeInMs = (player.personalBests.hard.timeInMs == 0 
+                || player.personalBests.hard.timeInMs > currentGame.elapsedTime)
+                ? currentGame.elapsedTime
+                : player.personalBests.hard.timeInMs
+        }
     }
     //#endregion
     //#region AddEndGameUIEvents
