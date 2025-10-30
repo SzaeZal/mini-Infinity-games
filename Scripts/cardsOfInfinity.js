@@ -4,6 +4,7 @@ $(()=>{
     })
     //#region player
     let player={
+        unlockedChampionMedals:false,
         personalBests:{
             easy:{
                 timeInMs: 0
@@ -61,7 +62,7 @@ $(()=>{
     //#endregion
     //#region Medals
     let medalTimes={
-        easy:{ //TODO: change times
+        easy:{
             bronze:   600000,
             silver:   450000,
             gold:     240000,
@@ -592,9 +593,9 @@ $(()=>{
                         Custom Difficulty
                     </div>
                     <div class="customDifficultySetupInfo">
-                        <label for="customDifficultyCardCountInput">Number of Card pairs (2-20): </label>
+                        <label for="customDifficultyCardCountInput">Number of Card pairs (2 - 20): </label>
                         <input type="number" id="customDifficultyCardCountInput" class="customDifficultyInput" min="2" max="20" value="5"> <br>
-                        <label for="customLuckMultiplierInput">Luck multiplier (2-20): </label>
+                        <label for="customLuckMultiplierInput">Luck multiplier (0.01 - 20): </label>
                         <input type="number" id="customLuckMultiplierInput" class="customDifficultyInput" min="0.01" max="20" value="1" step=".01">
                     </div>
                     <div id="playGame" class="interactable">
@@ -603,6 +604,14 @@ $(()=>{
                 </div>
             </div>
         `)
+
+        $("#playGame").on("click", ()=>{
+            currentGame.numberOfCardPairs=$("#customDifficultyCardCountInput").val()
+            currentGame.cardPairPicksLimit=Math.ceil(currentGame.numberOfCardPairs/2)
+            currentGame.luckMultiplier.base=$("#customLuckMultiplierInput").val()
+            console.log(currentGame.luckMultiplier.base, currentGame.numberOfCardPairs)
+            EnterGame(currentGame.numberOfCardPairs, currentGame.luckMultiplier.base, "Custom")
+        })
     }
     //#endregion
     //#region EnterGame
@@ -747,25 +756,31 @@ $(()=>{
                   </div>
                 </div>
                 <div class="startOptions">
-                    <div class="startOption interactable" id="startOptionBronze">
-                        Play against Bronze
-                    </div>
-                    <div class="startOption interactable" id="startOptionSilver">
-                        Play against Silver
-                    </div>
-                    <div class="startOption interactable" id="startOptionGold">
-                        Play against Gold
-                    </div>
-                    ${ playerStatsCalculated.totalMedals>=9 
+                    ${
+                        currentGame.difficulty!="Custom"
                         ? `
-                            <div class="startOption interactable" id="startOptionChampion">
-                                Play against Champion
+                            <div class="startOption interactable" id="startOptionBronze">
+                                Play against Bronze
                             </div>
+                            <div class="startOption interactable" id="startOptionSilver">
+                                Play against Silver
+                            </div>
+                            <div class="startOption interactable" id="startOptionGold">
+                                Play against Gold
+                            </div>
+                            ${ playerStatsCalculated.totalMedals>=9 
+                                ? `
+                                    <div class="startOption interactable" id="startOptionChampion">
+                                        Play against Champion
+                                    </div>
+                                `
+                                :``
+                            }
                         `
                         :``
                     }
                     <div class="startOption interactable" id="startOptionPB">
-                        Play against Personal best
+                        Play ${currentGame.difficulty!="Custom" ? "against Personal best" : ""} 
                     </div>
                     <div class="startOption interactable" id="startOptionClose">
                         Go back to difficulty selection
@@ -780,32 +795,35 @@ $(()=>{
     //#endregion
     //#region AddEnterGameUIEvents
     const AddEnterGameUIEvents=()=>{
-        $("#startOptionBronze").on("click", ()=>{
-            currentGame.targetTimeInMs=currentGame.medalTimes.bronze
-            CountDown()
-            setTimeout(StartGame, 3000)
-        })
-        $("#startOptionSilver").on("click", ()=>{
-            currentGame.targetTimeInMs=currentGame.medalTimes.silver
-            CountDown()
-            setTimeout(StartGame, 3000)
-        })
-        $("#startOptionGold").on("click", ()=>{
-            currentGame.targetTimeInMs=currentGame.medalTimes.gold
-            CountDown()
-            setTimeout(StartGame, 3000)
-        })
-
-        if(playerStatsCalculated.totalMedals>=9 ){
-            $("#startOptionChampion").on("click", ()=>{
-                currentGame.targetTimeInMs=currentGame.medalTimes.champion
+        if(currentGame.difficulty!="Custom"){
+            $("#startOptionBronze").on("click", ()=>{
+                currentGame.targetTimeInMs=currentGame.medalTimes.bronze
                 CountDown()
                 setTimeout(StartGame, 3000)
             })
+            $("#startOptionSilver").on("click", ()=>{
+                currentGame.targetTimeInMs=currentGame.medalTimes.silver
+                CountDown()
+                setTimeout(StartGame, 3000)
+            })
+            $("#startOptionGold").on("click", ()=>{
+                currentGame.targetTimeInMs=currentGame.medalTimes.gold
+                CountDown()
+                setTimeout(StartGame, 3000)
+            })
+
+            if(playerStatsCalculated.totalMedals>=9 ){
+                $("#startOptionChampion").on("click", ()=>{
+                    currentGame.targetTimeInMs=currentGame.medalTimes.champion
+                    CountDown()
+                    setTimeout(StartGame, 3000)
+                })
+            }
         }
+        
 
         $("#startOptionPB").on("click", ()=>{
-            currentGame.targetTimeInMs=currentGame.personalBestInMs
+            currentGame.targetTimeInMs=currentGame.difficulty!="Custom" ? currentGame.personalBestInMs : 0
             CountDown()
             setTimeout(StartGame, 3000)
         })
@@ -925,7 +943,8 @@ $(()=>{
         playerStatsCalculated.totalMedals= playerStatsCalculated.medals.easyMedals
             + playerStatsCalculated.medals.mediumMedals
             + playerStatsCalculated.medals.hardMedals
-        if(playerStatsCalculated.totalMedals>=9){
+        if(player.unlockedChampionMedals==false && playerStatsCalculated.totalMedals >=9){
+            player.unlockedChampionMedals=true  
             ShowDialogBox("Champion medal times unlocked", "You can now view Champion medal times when selecting difficulties", "Info")
         }
     }
@@ -937,7 +956,7 @@ $(()=>{
             if(gainedMedals > playerStatsCalculated.medals.easyMedals){
                 ShowGainedMedals(gainedMedals, playerStatsCalculated.medals.easyMedals)
                 playerStatsCalculated.medals.easyMedals = gainedMedals 
-                
+
             }
         }
         else if (currentGame.difficulty=="Medium"){
@@ -945,6 +964,7 @@ $(()=>{
             if(gainedMedals > playerStatsCalculated.medals.mediumMedals){
                 ShowGainedMedals(gainedMedals, playerStatsCalculated.medals.mediumMedals)
                 playerStatsCalculated.medals.mediumMedals = gainedMedals 
+
             }  
         }
         else if (currentGame.difficulty=="Hard"){
@@ -952,6 +972,7 @@ $(()=>{
             if(gainedMedals > playerStatsCalculated.medals.hardMedals){
                 ShowGainedMedals(gainedMedals, playerStatsCalculated.medals.hardMedals)
                 playerStatsCalculated.medals.hardMedals = gainedMedals 
+
             }
         }
     }
@@ -1503,6 +1524,11 @@ $(()=>{
         playerStatsCalculated.totalMedals= playerStatsCalculated.medals.easyMedals
             + playerStatsCalculated.medals.mediumMedals
             + playerStatsCalculated.medals.hardMedals
+        
+        if(player.unlockedChampionMedals==false && playerStatsCalculated.totalMedals >=9){
+            player.unlockedChampionMedals=true
+            ShowDialogBox("Champion medal times unlocked", "You can now view Champion medal times when selecting difficulties", "Info")
+        }
     }
     //#endregion
     //#region  saving and loading 
@@ -1551,7 +1577,9 @@ $(()=>{
     };
     
     const CheckForMissingData = () => {
-        
+        if(player.unlockedChampionMedals==undefined){
+            player.unlockedChampionMedals=false
+        }
     };
 
     const HardReset = () => {

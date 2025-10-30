@@ -81,6 +81,14 @@
     border-radius: 125px;
 }
 
+.customDifficultyInput{
+    background-color: transparent;
+    color: inherit;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
 .currentDifficultyInfoTitle{
     font-size: xx-large;
 }
