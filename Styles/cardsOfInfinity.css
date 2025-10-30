@@ -63,10 +63,16 @@
 }
 .currentDifficultyMedal{
     padding: 25px;
+    position: relative;
+    width: 250px;
+    height: 250px;
 }
 .currentDifficultyMedalImage{
     width: 250px;
-    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
 }
 .noMedal{
     width: 250px;

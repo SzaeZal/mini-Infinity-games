@@ -62,22 +62,22 @@ $(()=>{
     //#region Medals
     let medalTimes={
         easy:{ //TODO: change times
-            bronze: 600000,
-            silver: 45000,
-            gold: 30000,
-            champion: 15000
+            bronze:   600000,
+            silver:   450000,
+            gold:     240000,
+            champion: 120000
         },
         medium:{
-            bronze: 120000,
-            silver: 90000,
-            gold: 60000,
-            champion: 30000
+            bronze:   750000,
+            silver:   450000,
+            gold:     250000,
+            champion: 150000
         },
         hard:{
-            bronze: 180000,
-            silver: 135000,
-            gold: 90000,
-            champion: 45000
+            bronze:   500000,
+            silver:   350000,
+            gold:     250000,
+            champion: 150000
         }
     }
     //#endregion
@@ -890,7 +890,7 @@ $(()=>{
                         :``
                       }
                   </div>
-                  <div class="currentDifficultyMedal">
+                  <div class="currentDifficultyMedal" id="medalContainer">
                       ${
                           playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 4
                           ? `<img src="../Images/CardsOfInfinity/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
@@ -918,15 +918,73 @@ $(()=>{
             </div>    
         `)
         $("#pauseMenu").removeClass("hiddenPart")
-        GainMedals()
         SetPersonalBest()
+        GainMedals()
         AddEndGameUIEvents()
         Save()
+        playerStatsCalculated.totalMedals= playerStatsCalculated.medals.easyMedals
+            + playerStatsCalculated.medals.mediumMedals
+            + playerStatsCalculated.medals.hardMedals
+        if(playerStatsCalculated.totalMedals>=9){
+            ShowDialogBox("Champion medal times unlocked", "You can now view Champion medal times when selecting difficulties", "Info")
+        }
     }
     //#endregion
     //#region GainMedals
     const GainMedals = ()=>{
-
+        if(currentGame.difficulty=="Easy"){
+            let gainedMedals = CalculateNumberOfGainedMedals(player.personalBests.easy.timeInMs, currentGame.medalTimes)
+            if(gainedMedals > playerStatsCalculated.medals.easyMedals){
+                ShowGainedMedals(gainedMedals, playerStatsCalculated.medals.easyMedals)
+                playerStatsCalculated.medals.easyMedals = gainedMedals 
+                
+            }
+        }
+        else if (currentGame.difficulty=="Medium"){
+            let gainedMedals = CalculateNumberOfGainedMedals(player.personalBests.medium.timeInMs, currentGame.medalTimes)
+            if(gainedMedals > playerStatsCalculated.medals.mediumMedals){
+                ShowGainedMedals(gainedMedals, playerStatsCalculated.medals.mediumMedals)
+                playerStatsCalculated.medals.mediumMedals = gainedMedals 
+            }  
+        }
+        else if (currentGame.difficulty=="Hard"){
+            let gainedMedals = CalculateNumberOfGainedMedals(player.personalBests.hard.timeInMs, currentGame.medalTimes)
+            if(gainedMedals > playerStatsCalculated.medals.hardMedals){
+                ShowGainedMedals(gainedMedals, playerStatsCalculated.medals.hardMedals)
+                playerStatsCalculated.medals.hardMedals = gainedMedals 
+            }
+        }
+    }
+    //#endregion
+    //#region CalculateNumberOfGainedMedals
+    const CalculateNumberOfGainedMedals = (pb, currentDifficultyMedalTimes)=>{
+        if(pb <= currentDifficultyMedalTimes.champion){
+            return 4
+        }
+        else if(pb<=currentDifficultyMedalTimes.gold){
+            return 3
+        }
+        else if(pb<=currentDifficultyMedalTimes.silver){
+            return 2
+        }
+        else if(pb<=currentDifficultyMedalTimes.bronze){
+            return 1
+        }
+        return 0
+        
+    }
+    //#endregion
+    //#region ShowGainedMedals
+    let imageSources=["../Images/CardsOfInfinity/bronzeMedal.png", "../Images/CardsOfInfinity/silverMedal.png", "../Images/CardsOfInfinity/goldMedal.png", "../Images/CardsOfInfinity/championMedal.png"]
+    const ShowGainedMedals = (gainedMedals, currentMedals)=>{
+        let gainedMedalsImageSources=imageSources.slice(currentMedals,gainedMedals)
+        for (let i = 0 ; i<gainedMedalsImageSources.length; i++){
+            setTimeout(()=>{
+                $("#medalContainer").html(`
+                    <img src="${gainedMedalsImageSources[i]}" alt="gained medal" class="currentDifficultyMedalImage gainMedal">
+                `)
+            }, i*1000)  
+        }
     }
     //#endregion
     //#region SetPersonalBest
