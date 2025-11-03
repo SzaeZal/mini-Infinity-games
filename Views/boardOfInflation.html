@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../Styles/dialogBox.css">
     <link rel="stylesheet" href="../Styles/settings.css">
     <link rel="stylesheet" href="../Styles/informationTab.css">
+    <link rel="stylesheet" href="../Styles/boardOfInflation.css">
     <script src="../Scripts/jquery.min.js"></script>
     <script src="../Scripts/boardOfInflation.js"></script>
 </head>
@@ -67,15 +68,63 @@
                     </div>
                 </div>
                 <div class="mainView">
-                    <svg viewBox="0 0 1200 500" width="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                    <div class="statDisplays">    
+                        <div class="diceContainer">
+                            <div id="diceResults">-</div>
+                            <div id="rollDice" class="interactable">ROLL DICE</div>
+                        </div>
+                        <div class="playerInfoContainer">
+                            <div id="playerCoins">Points: 1</div>
+                            <div id="playerStars">Stars: 0</div>
+                        </div>
+                        <div class="playerEffects " id="playerEffects">
+                            <div class="playerEffectsColumn">
+                                <div class="effectItem " id="noRedSquareDivisions">
+                                    <div class="effectName">
+                                        No Red Square Divisions
+                                    </div>
+                                    <div class="effectDuration" id="noRedSquareDivisionsDuration">
+                                        3 Turns left
+                                    </div>
+                                </div>
+                                <div class="effectItem " id="keyOfInfinity">
+                                    <div class="effectName">
+                                        Key Of Infinity
+                                    </div>
+                                    <div class="effectDuration" id="keyOfInfinityDuration">
+                                        x turns left
+                                    </div>
+                                </div>    
+                            </div>
+                            <div class="playerEffectsColumn">
+                                <div class="effectItem " id="lockpickKit">
+                                    <div class="effectName">
+                                        lockpick kit
+                                    </div>
+                                    <div class="effectDuration" id="lockpickKitDuration">
+                                        x uses left
+                                    </div>
+                                </div>
+                                <div class="effectItem " id="rerolls">
+                                    <div class="effectName">
+                                        Rerolls
+                                    </div>
+                                    <div class="effectDuration" id="rerollsDuration">
+                                        x uses left
+                                    </div>
+                                </div>    
+                            </div>
+                        </div>
+                    </div>
+                    <svg viewBox="0 0 1200 500" width="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" class="board">
                         <g class="tile-center">
                             <path d="M 550 250 L 600 200 L 650 250 L 600 300" stroke="gray" fill="blue"/>
-                            <text x="570" y="260"  font-size="35">x10</text>
+                            <text x="570" y="260" font-size="35">x10</text>
                         </g>
                         <g class="boardRightSide">
                             <g class="tile-multiplier">
                                 <path d="M 600 200 L 650 150 L 700 200 L 650 250" stroke="gray" fill="green"/>
-                                <text x="630" y="210"  font-size="35">x2</text>
+                                <text x="630" y="210" font-size="35">x2</text>
                             </g>
                             <g class="tile-divider">
                                 <path d="M 650 150 L 700 100 L 750 150 L 700 200" stroke="gray" fill="red"/>
@@ -162,7 +211,7 @@
                             <g class="tile-eyeOfInfinity">
                                 <path d="M 800 200 L 800 300 L 850 275 L 850 225" stroke="black" fill="orange"/>
                                 <text x="806" y="255" font-size="30" fill="black">x</text>
-                                <text x="826" y="240" font-size="30" fill="black" rotate="90deg">8</text>
+                                <text x="826" y="240" font-size="30" fill="black" rotate="90">8</text>
                             </g>
                             <g class="tile-eyeOfInfinity">
                                 <path d="M 1000 210 L 950 225 L 925 200 L 950 150" stroke="black" fill="gray"/>
