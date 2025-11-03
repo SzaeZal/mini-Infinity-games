@@ -952,6 +952,51 @@ $(()=>{
         
     }
     //#endregion
+    //#region RollDice
+    const RollDice = ()=>{
+        let rng=0
+        if(player.stats.upgrades.secondDice.bought==true){
+            let rng2
+            for(let i=0; i<10; i++){
+                setTimeout(()=>{
+                    rng=1 + Math.floor(Math.random() * 6)
+                    rng2=1 + Math.floor(Math.random() * 6)
+                    $("#diceResults").text(`${rng} - ${rng2}`)
+                }, i*50)
+            }
+
+            setTimeout(()=>{
+                player.stats.position+=rng
+                MoveToTile(playerPositions[player.stats.position])
+                playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
+                Save()
+            }, 1000 )
+        }
+        else{
+            for(let i=0; i<10; i++){
+                setTimeout(()=>{
+                    rng=1 + Math.floor(Math.random() * 6)
+                    $("#diceResults").text(`${rng}`)
+                }, i*50)
+            }
+
+            setTimeout(()=>{
+                player.stats.position+=rng
+                MoveToTile(playerPositions[player.stats.position])
+                playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
+                Save()
+            }, 1000 )
+        }
+    }
+    //#endregion
+    //#region MoveToTile
+    const MoveToTile = (position) =>{
+        $("#playerPositionIndicator").html(`
+                <circle r="30" cx="${position.circle.x}" cy="${position.circle.y}" fill="rgba(255, 255, 255, 0.5)" stroke="white"/>
+                <text x="${position.text.x}" y="${position.text.y}" font-size="35">p</text>
+            `)
+    }
+    //#endregion
     //#region FormatNumber
     const FormatNumber= (numberToFormat)=>{
         let result = Math.floor(numberToFormat).toString();
@@ -1047,14 +1092,11 @@ $(()=>{
         ShowDialogBox("Warning", "This game is not optimized for small screens. <br> Please use a device with a larger screen for the best experience. <br> or use landscape orientation", "Warning")
     }
     //setTimeout(()=>{debugger;} , 15000)
-    for(let i=0; i<playerPositions.length; i++){
+    /*for(let i=0; i<playerPositions.length; i++){
         setTimeout(()=>{
-            $("#playerPositionIndicator").html(`
-                <circle r="30" cx="${playerPositions[i].circle.x}" cy="${playerPositions[i].circle.y}" fill="rgba(255, 255, 255, 0.5)" stroke="white"/>
-                <text x="${playerPositions[i].text.x}" y="${playerPositions[i].text.y}" font-size="35">p</text>
-            `)
-            playerPositions[i].callback.name(playerPositions[i].callback.parameter)
+            MoveToTile(playerPositions[i])
         }, i*500)
         
-    }
+    }*/
+   RollDice()
 })
