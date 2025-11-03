@@ -47,6 +47,33 @@ $(()=>{
         }
     }
     //#endregion
+    //#region MultiplyPoints
+    MultiplyPoints = (amount) =>{
+        player.stats.points *= amount
+        $("#playerPoints").text(`Points: ${FormatNumber(player.stats.points)}`)
+        Save() 
+    }
+    //#endregion
+    //#region OpenShop
+    OpenShop = (uselessParameter) =>{
+        console.log("openShop")
+    }
+    //#endregion
+    //#region  OpenSuperShop
+    OpenSuperShop = (uselessParameter) =>{
+        console.log("open super shop")
+    }
+    //#endregion
+    //#region OpenStarShop
+    OpenStarShop = (uselessParameter) =>{
+        console.log("Open star shop")
+    }
+    //#endregion
+    //#region DoBet
+    DoBet = (uselessParameter) =>{
+        console.log("I love gambling")
+    }
+    //#endregion
     //#region playerPositions
     let playerPositions = [
         {
@@ -57,6 +84,10 @@ $(()=>{
             text:{
                 x: 590,
                 y: 260
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 10
             }
         },
         {
@@ -67,6 +98,10 @@ $(()=>{
             text:{
                 x: 540,
                 y: 210
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 2
             }
         },
         {
@@ -77,6 +112,10 @@ $(()=>{
             text:{
                 x: 490,
                 y: 160
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 4
             }
         },
         {
@@ -87,6 +126,10 @@ $(()=>{
             text:{
                 x: 430,
                 y: 115
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 1/4
             }
         },
         {
@@ -97,6 +140,10 @@ $(()=>{
             text:{
                 x: 358,
                 y: 93
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 5
             }
         },
         {
@@ -107,6 +154,10 @@ $(()=>{
             text:{
                 x: 275,
                 y: 85
+            },
+            callback:{
+                name: OpenShop,
+                parameter: undefined
             }
         },
         {
@@ -117,6 +168,10 @@ $(()=>{
             text:{
                 x: 183,
                 y: 93
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 4
             }
         },
         {
@@ -127,6 +182,10 @@ $(()=>{
             text:{
                 x: 113,
                 y: 120
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 1/2
             }
         },
         {
@@ -137,6 +196,10 @@ $(()=>{
             text:{
                 x: 68,
                 y: 175
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 2
             }
         },
         {
@@ -147,6 +210,10 @@ $(()=>{
             text:{
                 x: 50,
                 y: 258
+            },
+            callback:{
+                name: OpenSuperShop,
+                parameter: undefined
             }
         },
         {
@@ -157,6 +224,10 @@ $(()=>{
             text:{
                 x: 68,
                 y: 341
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 2
             }
         },
         {
@@ -167,6 +238,10 @@ $(()=>{
             text:{
                 x: 113,
                 y: 396
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 1/4
             }
         },
         {
@@ -177,6 +252,10 @@ $(()=>{
             text:{
                 x: 183,
                 y: 423
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 4
             }
         },
         {
@@ -187,6 +266,10 @@ $(()=>{
             text:{
                 x: 275,
                 y: 431
+            },
+            callback:{
+                name: DoBet,
+                parameter: undefined
             }
         },
         {
@@ -197,6 +280,10 @@ $(()=>{
             text:{
                 x: 358,
                 y: 423
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 1/5
             }
         },
         {
@@ -207,6 +294,10 @@ $(()=>{
             text:{
                 x: 430,
                 y: 401
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 2
             }
         },
         {
@@ -217,6 +308,10 @@ $(()=>{
             text:{
                 x: 490,
                 y: 358
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 2
             }
         },
         {
@@ -227,6 +322,10 @@ $(()=>{
             text:{
                 x: 540,
                 y: 308
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 1/2
             }
         },
         {
@@ -237,6 +336,10 @@ $(()=>{
             text:{
                 x: 590,
                 y: 260
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 10
             }
         },
         {
@@ -247,6 +350,10 @@ $(()=>{
             text:{
                 x: 640,
                 y: 210
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 2
             }
         },
         {
@@ -257,6 +364,10 @@ $(()=>{
             text:{
                 x: 690,
                 y: 160
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 1/4
             }
         },
         {
@@ -267,6 +378,10 @@ $(()=>{
             text:{
                 x: 750,
                 y: 115
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 2
             }
         },
         {
@@ -277,6 +392,10 @@ $(()=>{
             text:{
                 x: 822,
                 y: 93
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 1/5
             }
         },
         {
@@ -287,6 +406,10 @@ $(()=>{
             text:{
                 x: 905,
                 y: 85
+            },
+            callback:{
+                name: OpenShop,
+                parameter: undefined
             }
         },
         {
@@ -297,6 +420,10 @@ $(()=>{
             text:{
                 x: 997,
                 y: 93
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 4
             }
         },
         {
@@ -307,6 +434,10 @@ $(()=>{
             text:{
                 x: 1067,
                 y: 120
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 1/4
             }
         },
         {
@@ -317,6 +448,10 @@ $(()=>{
             text:{
                 x: 1112,
                 y: 175
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 2
             }
         },
         {
@@ -327,6 +462,10 @@ $(()=>{
             text:{
                 x: 1130,
                 y: 258
+            },
+            callback:{
+                name: OpenStarShop,
+                parameter: undefined
             }
         },
         {
@@ -337,6 +476,10 @@ $(()=>{
             text:{
                 x: 1112,
                 y: 341
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 2
             }
         },
         {
@@ -347,6 +490,10 @@ $(()=>{
             text:{
                 x: 1067,
                 y: 396
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 1/2
             }
         },
         {
@@ -357,6 +504,10 @@ $(()=>{
             text:{
                 x: 997,
                 y: 423
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 4
             }
         },
         {
@@ -367,6 +518,10 @@ $(()=>{
             text:{
                 x: 905,
                 y: 431
+            },
+            callback:{
+                name: DoBet,
+                parameter: undefined
             }
         },
         {
@@ -377,6 +532,10 @@ $(()=>{
             text:{
                 x: 822,
                 y: 423
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 5
             }
         },
         {
@@ -387,6 +546,10 @@ $(()=>{
             text:{
                 x: 750,
                 y: 401
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 1/4
             }
         },
         {
@@ -397,6 +560,10 @@ $(()=>{
             text:{
                 x: 690,
                 y: 358
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 2
             }
         },
         {
@@ -407,9 +574,14 @@ $(()=>{
             text:{
                 x: 640,
                 y: 308
+            },
+            callback:{
+                name: MultiplyPoints,
+                parameter: 4
             }
         },
     ]
+    //#endregion
     //#region playerStatsCalculated
     let playerStatsCalculated={
         //idk if I need this
@@ -777,18 +949,29 @@ $(()=>{
     //#endregion
     //#region  AddGameMenuUIEvents
     const AddGameMenuUIEvents = ()=>{
-        $("#easyDifficulty").on("click", ()=>{
-            ShowDifficultyStats("Easy")
-        })
-        $("#mediumDifficulty").on("click", ()=>{
-            ShowDifficultyStats("Medium")
-        })
-        $("#hardDifficulty").on("click", ()=>{
-            ShowDifficultyStats("Hard")
-        })
-        $("#customDifficulty").on("click", ()=>{
-            ShowCustomDifficultySetup()
-        })
+        
+    }
+    //#endregion
+    //#region FormatNumber
+    const FormatNumber= (numberToFormat)=>{
+        let result = Math.floor(numberToFormat).toString();
+        if (numberToFormat < 10) {
+        result = (Math.floor(numberToFormat * 100) / 100).toString();
+        }
+        if (numberToFormat > 1000000) {
+        result =
+            Math.floor(
+            Math.pow(
+                10,
+                Math.log10(numberToFormat) -
+                Math.floor(Math.log10(numberToFormat))
+            ) * 100
+            ) /
+            100 +
+            "e" +
+            Math.floor(Math.log10(numberToFormat));
+        }
+        return result; 
     }
     //#endregion
     //#region  saving and loading 
@@ -870,6 +1053,7 @@ $(()=>{
                 <circle r="30" cx="${playerPositions[i].circle.x}" cy="${playerPositions[i].circle.y}" fill="rgba(255, 255, 255, 0.5)" stroke="white"/>
                 <text x="${playerPositions[i].text.x}" y="${playerPositions[i].text.y}" font-size="35">p</text>
             `)
+            playerPositions[i].callback.name(playerPositions[i].callback.parameter)
         }, i*500)
         
     }
