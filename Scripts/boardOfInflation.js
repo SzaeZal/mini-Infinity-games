@@ -1249,6 +1249,7 @@ $(()=>{
             </div>
         `)
         MoveToTile(playerPositions[player.stats.position])
+        $("#rollDice").on("click", RollDice)
     }
     //#endregion
     //#region RollDice
@@ -1265,7 +1266,7 @@ $(()=>{
             }
 
             setTimeout(()=>{
-                player.stats.position+=rng
+                player.stats.position+=rng 
                 MoveToTile(playerPositions[player.stats.position])
                 playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
                 Save()
@@ -1281,6 +1282,9 @@ $(()=>{
 
             setTimeout(()=>{
                 player.stats.position+=rng
+                if( player.stats.position>=playerPositions.length){
+                    player.stats.position -=playerPositions.length
+                }
                 MoveToTile(playerPositions[player.stats.position])
                 playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
                 Save()
