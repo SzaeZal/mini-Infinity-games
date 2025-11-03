@@ -934,22 +934,73 @@ $(()=>{
     })
 
     const GoToGameMenu=()=>{
-        view.html(`
-            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
-                <div class="subMenuItem selectedSubMenuItem">
-                    Main
+        if(player.stats.points==1 && player.stats.stars==0 && player.stats.position==0){
+            StartGame()
+        }
+        else{
+            view.html(`
+                <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
+                    <div class="subMenuItem selectedSubMenuItem">
+                        Main
+                    </div>
                 </div>
-            </div>
-            <div class="mainView">
-                
-            </div>  
-        `)
-        AddGameMenuUIEvents()  
+                <div class="mainView">
+                    <div class="preGameMenu">
+                        <div class="playerStats">
+                            <div id="playerPoints" class="playerStat">
+                                Points: ${FormatNumber(player.stats.points)}
+                            </div>
+                            <div id="playerStars" class="playerStat">
+                                Stars: ${FormatNumber(player.stats.stars)}
+                            </div>
+                        </div>
+                        <div class="upgradesBought">
+                            Upgrades bought:
+                            <ul>
+                                <li>Green Base Doubler: ${player.stats.upgrades.greenBaseDoubler.bought ? "Bought" : "Not bought"}</li>
+                                <li>Second Dice: ${player.stats.upgrades.secondDice.bought ? "Bought" : "Not bought"}</li>
+                                <li>Anti Dice: ${player.stats.upgrades.antiDice.bought ? "Bought" : "Not bought"}</li>
+                            </ul>
+                        </div>
+                        ${player.stats.effects.noRedSquareDivisions.turnsLeft>0
+                            || player.stats.effects.keyOfInfinity.turnsLeft!=-1
+                            || player.stats.effects.lockpickKit.turnsLeft>0
+                            ||  player.stats.effects.rerolls.turnsLeft>0 
+                        ? `
+                            <div class="effectsActive">
+                                Effects active:
+                                <ul>
+                                    ${player.stats.effects.noRedSquareDivisions.turnsLeft>0 ? ` <li>No Red Square Divisions: ${player.stats.effects.noRedSquareDivisions.turnsLeft} turns left </li>` : ""}
+                                    ${player.stats.effects.keyOfInfinity.turnsLeft!=-1 ? `<li>Key of Infinity:  ${player.stats.effects.keyOfInfinity.turnsLeft} turns left </li>` : ""}
+                                    ${player.stats.effects.lockpickKit.turnsLeft>0 ? ` <li>Lockpick Kit: ${player.stats.effects.lockpickKit.turnsLeft} uses left </li>` : ""}
+                                    ${player.stats.effects.rerolls.turnsLeft>0 ? ` <li>Rerolls: ${player.stats.effects.rerolls.turnsLeft} uses left </li>` : ""}
+                                </ul>
+                            </div>
+                        ` : ""}
+                        <div class="startGameSection">
+                            <div id="continueGame" class="interactable startGameButton">
+                                Continue Game
+                            </div>
+                            <div id="resetSave" class="interactable startGameButton">
+                                Reset save
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            `)
+            AddGameMenuUIEvents()
+    }  
     }
     //#endregion
     //#region  AddGameMenuUIEvents
     const AddGameMenuUIEvents = ()=>{
-        
+        $("#continueGame").on("click", ()=>{
+            StartGame()
+        })
+
+        $("#resetSave").on("click", ()=>{
+            ShowDialogBox("Reset Save", "Are you sure you want to reset your save? This action is irreversible.", "Danger", HardReset)
+        })
     }
     //#endregion
     //#region RollDice
@@ -1056,6 +1107,7 @@ $(()=>{
 
             SetTheme(player.options.ui.theme);
         
+            GoToGameMenu()
         }
         catch (e) {
             console.log(e);
@@ -1098,5 +1150,4 @@ $(()=>{
         }, i*500)
         
     }*/
-   RollDice()
 })

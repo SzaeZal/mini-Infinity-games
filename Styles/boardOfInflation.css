@@ -1,3 +1,50 @@
+.preGameMenu{
+    border: 2px solid gray;
+    border-radius: 15px;
+    max-width: fit-content;
+    margin: auto;
+    font-size: x-large;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+    min-width: 400px;
+}
+.playerStats, .effectsActive, .upgradesBought{
+    padding: 10px;
+}
+.upgradesBought>ul{
+    list-style-type: none;
+}
+.playerStats{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.startGameSection{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-top: gray 2px solid;
+}
+.startGameButton{
+    padding: 10px;
+    transition-duration: 0.3s;
+    text-align: center;
+    flex: 1;
+}
+.startGameButton:hover{
+    background-color: rgba(128, 128, 128, 0.5);
+}
+#continueGame{
+    border-bottom-left-radius: 15px;
+    border-right: 2px solid gray;
+}
+#resetSave{
+    border-bottom-right-radius: 15px;
+}
+
 .board{
     bottom: 0;
     width: 98%;
