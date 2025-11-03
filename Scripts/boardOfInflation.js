@@ -47,6 +47,369 @@ $(()=>{
         }
     }
     //#endregion
+    //#region playerPositions
+    let playerPositions = [
+        {
+            circle:{
+                x:600,
+                y:250
+            },
+            text:{
+                x: 590,
+                y: 260
+            }
+        },
+        {
+            circle:{
+                x:550,
+                y:200
+            },
+            text:{
+                x: 540,
+                y: 210
+            }
+        },
+        {
+            circle:{
+                x:500,
+                y:150
+            },
+            text:{
+                x: 490,
+                y: 160
+            }
+        },
+        {
+            circle:{
+                x:440,
+                y:107
+            },
+            text:{
+                x: 430,
+                y: 115
+            }
+        },
+        {
+            circle:{
+                x:368,
+                y:85
+            },
+            text:{
+                x: 358,
+                y: 93
+            }
+        },
+        {
+            circle:{
+                x:285,
+                y:77
+            },
+            text:{
+                x: 275,
+                y: 85
+            }
+        },
+        {
+            circle:{
+                x:193,
+                y:85
+            },
+            text:{
+                x: 183,
+                y: 93
+            }
+        },
+        {
+            circle:{
+                x:123,
+                y:112
+            },
+            text:{
+                x: 113,
+                y: 120
+            }
+        },
+        {
+            circle:{
+                x:78,
+                y:167
+            },
+            text:{
+                x: 68,
+                y: 175
+            }
+        },
+        {
+            circle:{
+                x:60,
+                y:250
+            },
+            text:{
+                x: 50,
+                y: 258
+            }
+        },
+        {
+            circle:{
+                x:78,
+                y:333
+            },
+            text:{
+                x: 68,
+                y: 341
+            }
+        },
+        {
+            circle:{
+                x:123,
+                y:388
+            },
+            text:{
+                x: 113,
+                y: 396
+            }
+        },
+        {
+            circle:{
+                x:193,
+                y:415
+            },
+            text:{
+                x: 183,
+                y: 423
+            }
+        },
+        {
+            circle:{
+                x:285,
+                y:423
+            },
+            text:{
+                x: 275,
+                y: 431
+            }
+        },
+        {
+            circle:{
+                x:368,
+                y:415
+            },
+            text:{
+                x: 358,
+                y: 423
+            }
+        },
+        {
+            circle:{
+                x:440,
+                y:393
+            },
+            text:{
+                x: 430,
+                y: 401
+            }
+        },
+        {
+            circle:{
+                x:500,
+                y:350
+            },
+            text:{
+                x: 490,
+                y: 358
+            }
+        },
+        {
+            circle:{
+                x:550,
+                y:300
+            },
+            text:{
+                x: 540,
+                y: 308
+            }
+        },
+        {
+            circle:{
+                x:600,
+                y:250
+            },
+            text:{
+                x: 590,
+                y: 260
+            }
+        },
+        {
+            circle:{
+                x:650,
+                y:200
+            },
+            text:{
+                x: 640,
+                y: 210
+            }
+        },
+        {
+            circle:{
+                x:700,
+                y:150
+            },
+            text:{
+                x: 690,
+                y: 160
+            }
+        },
+        {
+            circle:{
+                x:760,
+                y:107
+            },
+            text:{
+                x: 750,
+                y: 115
+            }
+        },
+        {
+            circle:{
+                x:832,
+                y:85
+            },
+            text:{
+                x: 822,
+                y: 93
+            }
+        },
+        {
+            circle:{
+                x:915,
+                y:77
+            },
+            text:{
+                x: 905,
+                y: 85
+            }
+        },
+        {
+            circle:{
+                x:1007,
+                y:85
+            },
+            text:{
+                x: 997,
+                y: 93
+            }
+        },
+        {
+            circle:{
+                x:1077,
+                y:112
+            },
+            text:{
+                x: 1067,
+                y: 120
+            }
+        },
+        {
+            circle:{
+                x:1122,
+                y:167
+            },
+            text:{
+                x: 1112,
+                y: 175
+            }
+        },
+        {
+            circle:{
+                x:1140,
+                y:250
+            },
+            text:{
+                x: 1130,
+                y: 258
+            }
+        },
+        {
+            circle:{
+                x:1122,
+                y:333
+            },
+            text:{
+                x: 1112,
+                y: 341
+            }
+        },
+        {
+            circle:{
+                x:1077,
+                y:388
+            },
+            text:{
+                x: 1067,
+                y: 396
+            }
+        },
+        {
+            circle:{
+                x:1007,
+                y:415
+            },
+            text:{
+                x: 997,
+                y: 423
+            }
+        },
+        {
+            circle:{
+                x:915,
+                y:423
+            },
+            text:{
+                x: 905,
+                y: 431
+            }
+        },
+        {
+            circle:{
+                x:832,
+                y:415
+            },
+            text:{
+                x: 822,
+                y: 423
+            }
+        },
+        {
+            circle:{
+                x:760,
+                y:393
+            },
+            text:{
+                x: 750,
+                y: 401
+            }
+        },
+        {
+            circle:{
+                x:700,
+                y:350
+            },
+            text:{
+                x: 690,
+                y: 358
+            }
+        },
+        {
+            circle:{
+                x:650,
+                y:300
+            },
+            text:{
+                x: 640,
+                y: 308
+            }
+        },
+    ]
     //#region playerStatsCalculated
     let playerStatsCalculated={
         //idk if I need this
@@ -501,4 +864,13 @@ $(()=>{
         ShowDialogBox("Warning", "This game is not optimized for small screens. <br> Please use a device with a larger screen for the best experience. <br> or use landscape orientation", "Warning")
     }
     //setTimeout(()=>{debugger;} , 15000)
+    for(let i=0; i<playerPositions.length; i++){
+        setTimeout(()=>{
+            $("#playerPositionIndicator").html(`
+                <circle r="30" cx="${playerPositions[i].circle.x}" cy="${playerPositions[i].circle.y}" fill="rgba(255, 255, 255, 0.5)" stroke="white"/>
+                <text x="${playerPositions[i].text.x}" y="${playerPositions[i].text.y}" font-size="35">p</text>
+            `)
+        }, i*500)
+        
+    }
 })
