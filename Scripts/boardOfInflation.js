@@ -1367,15 +1367,21 @@ $(()=>{
                     player.shadowClone.position -=playerPositions.length
                 }
                 MoveShadowToTile(playerPositions[player.shadowClone.position])
+
+                if(player.shadowClone.position == player.stats.position){
+                    player.stats.points=1
+                }
                 
                 /*TODO: Gonna need another method for selecting  */
                 RollDoubleDice("dice")
+            }, 750)
+            setTimeout(() => {
                 
                 MoveToTile(playerPositions[player.stats.position])
                 playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
                 CheckForSpecialTiles()
                 Save()
-            }, 750)
+            }, 1500);
         }
     }
     //#endregion
