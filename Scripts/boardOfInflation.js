@@ -989,21 +989,21 @@ $(()=>{
                                 <li>Anti Dice: ${player.stats.upgrades.antiDice.bought ? "Bought" : "Not bought"}</li>
                             </ul>
                         </div>
-                        ${player.stats.effects.noRedSquareDivisions.turnsLeft>0
-                            || player.stats.effects.keyOfInfinity.turnsLeft!=-1
-                            || player.stats.effects.lockpickKit.turnsLeft>0
-                            ||  player.stats.effects.rerolls.turnsLeft>0 
-                        ? `
-                            <div class="effectsActive">
-                                Effects active:
+                        <div class="effectsActive">
+                            Effects active:
+                            ${player.stats.effects.noRedSquareDivisions.turnsLeft>0
+                                || player.stats.effects.keyOfInfinity.turnsLeft!=-1
+                                || player.stats.effects.lockpickKit.turnsLeft>0
+                                ||  player.stats.effects.rerolls.turnsLeft>0 
+                            ? `
                                 <ul>
                                     ${player.stats.effects.noRedSquareDivisions.turnsLeft>0 ? ` <li>No Red Square Divisions: ${player.stats.effects.noRedSquareDivisions.turnsLeft} turns left </li>` : ""}
                                     ${player.stats.effects.keyOfInfinity.turnsLeft!=-1 ? `<li>Key of Infinity:  ${player.stats.effects.keyOfInfinity.turnsLeft} turns left </li>` : ""}
                                     ${player.stats.effects.lockpickKit.turnsLeft>0 ? ` <li>Lockpick Kit: ${player.stats.effects.lockpickKit.turnsLeft} uses left </li>` : ""}
                                     ${player.stats.effects.rerolls.turnsLeft>0 ? ` <li>Rerolls: ${player.stats.effects.rerolls.turnsLeft} uses left </li>` : ""}
                                 </ul>
-                            </div>
-                        ` : ""}
+                            ` : "None"}
+                        </div>
                         <div class="startGameSection">
                             <div id="continueGame" class="interactable startGameButton">
                                 Continue Game
@@ -1282,41 +1282,16 @@ $(()=>{
             </div>
         `)
         MoveToTile(playerPositions[player.stats.position])
-        $("#rollDice").on("click", RollDice)
+        $("#rollDice").on("click", DoTurn)
         CheckForSpecialTiles()
     }
     //#endregion
-    //#region RollDice
-    const RollDice = ()=>{
-        let rng=0
-        if(player.stats.upgrades.secondDice.bought==true){
-            let rng2
-            for(let i=0; i<10; i++){
-                setTimeout(()=>{
-                    rng=1 + Math.floor(Math.random() * 6)
-                    rng2=1 + Math.floor(Math.random() * 6)
-                    $("#diceResults").text(`${rng} - ${rng2}`)
-                }, i*50)
-            }
-
+    //#region DoTurn
+    const DoTurn = ()=>{
+        if(player.stats.upgrades.secondDice.bought==false){
+            let rolledNumber= RollSingleDice()     
             setTimeout(()=>{
-                player.stats.position+=rng 
-                MoveToTile(playerPositions[player.stats.position])
-                playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
-                CheckForSpecialTiles()
-                Save()
-            }, 1000 )
-        }
-        else{
-            for(let i=0; i<10; i++){
-                setTimeout(()=>{
-                    rng=1 + Math.floor(Math.random() * 6)
-                    $("#diceResults").text(`${rng}`)
-                }, i*50)
-            }
-
-            setTimeout(()=>{
-                player.stats.position+=rng
+                player.stats.position+=rolledNumber
                 if( player.stats.position>=playerPositions.length){
                     player.stats.position -=playerPositions.length
                 }
@@ -1326,12 +1301,64 @@ $(()=>{
                 Save()
             }, 1000 )
         }
+        else{
+            let rolledNumbers = RollDoubleDice()
+            setTimeout( ()=>{
+                player.shadowClone.position += rolledNumbers[0] + rolledNumbers[1]
+                if( player.shadowClone.position>=playerPositions.length){
+                    player.shadowClone.position -=playerPositions.length
+                }
+                MoveShadowToTile(playerPositions[player.shadowClone.position])
+                
+                /*TODO: Gonna need another method for selecting  */
+                rolledNumbers=
+                
+                MoveToTile(playerPositions[player.stats.position])
+                playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
+                CheckForSpecialTiles()
+                Save()
+            }, 750)
+        }
+    }
+    //#endregion
+    //#region RollDice
+    const RollSingleDice = ()=>{
+        let rng=0
+        for(let i=0; i<10; i++){
+            setTimeout(()=>{
+                rng=1 + Math.floor(Math.random() * 6)
+                $("#diceResults").text(`${rng}`)
+            }, i*50)
+        }
+        return rng;
+    }
+
+    const RollDoubleDice = async ()=>{
+        let rng=0
+        let rng2=0
+        for(let i=0; i<10; i++){
+            setTimeout(()=>{
+                rng=1 + Math.floor(Math.random() * 6)
+                rng2=1 + Math.floor(Math.random() * 6)
+                $("#diceResults").text(`${rng} - ${rng2}`)
+            }, i*50)
+        }
+        return [rng, rng2]
     }
     //#endregion
     //#region MoveToTile
     const MoveToTile = (position) =>{
         $("#playerPositionIndicator").html(`
                 <circle r="30" cx="${position.circle.x}" cy="${position.circle.y}" fill="rgba(255, 255, 255, 0.5)" stroke="white"/>
+                <text x="${position.text.x}" y="${position.text.y}" font-size="35">p</text>
+            `)
+    }
+    //#endregion
+    //#region MoveShadowToTile
+    const MoveShadowToTile = (position) =>{
+        $("#shadowPositionIndicator").removeClass("hiddenPart")
+        $("#shadowPositionIndicator").html(`
+                <circle r="30" cx="${position.circle.x}" cy="${position.circle.y}" fill="rgba(0, 0, 0, 0.5)" stroke="black"/>
                 <text x="${position.text.x}" y="${position.text.y}" font-size="35">p</text>
             `)
     }
