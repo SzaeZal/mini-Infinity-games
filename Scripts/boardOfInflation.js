@@ -56,7 +56,34 @@ $(()=>{
     //#endregion
     //#region OpenShop
     OpenShop = (uselessParameter) =>{
-        console.log("openShop")
+        $("#shopBox").html(`
+            <div class="shopHeader">
+                <div class="shopTitle">
+                    Shop
+                    <div id="closeShop" class="closeDialogBox interactable">&#10005;</div>
+                </div>
+            </div>
+                <div class="shopItems">
+                    <div class="shopItem">
+                        <div class="itemTitle">
+                            Green base doubler
+                        </div>
+                        <div class="itemDescription">
+                            Doubles the base of all green tiles (2 -> 4 ; 4 -> 8 ; 5 -> 10)
+                        </div>
+                        <div class="itemCost ${player.stats.points>=1000 ? 'interactable purchaseableItem' : ''}">
+                            Cost : 1000 points
+                        </div>
+                    </div>
+                </div>
+        `)
+        $("#shopBox").removeClass("hiddenPart")
+        $("#shopBox").css("border","5px solid gray")
+        $("#closeShop").on("click", ()=>{
+            console.log("here")
+            $("#shopBox").html(``)
+            $("#shopBox").css("border", "none")
+        })
     }
     //#endregion
     //#region  OpenSuperShop
@@ -1012,6 +1039,8 @@ $(()=>{
                 </div>
             </div>
             <div class="mainView">
+                <div id="shopBox" class="hiddenPart">
+                </div>
                 <div class="statDisplays">    
                     <div class="diceContainer">
                         <div id="diceResults">-</div>
@@ -1245,11 +1274,16 @@ $(()=>{
                         <circle r="30" cx="600" cy="250" fill="rgba(0, 0, 0, 0.5)" stroke="black"/>
                         <text x="590" y="260" font-size="35">s</text>
                     </g>
+                    <g id="openShopButton" class="hiddenPart">
+                        <rect width="200" height="100" x="200" y="200" rx="20" ry="20" stroke="gray" fill="rgba(128, 128, 128, 0.5)"/>
+                        <text x="225" y="260" font-size="35">Open shop</text>
+                    </g>
                 </svg>
             </div>
         `)
         MoveToTile(playerPositions[player.stats.position])
         $("#rollDice").on("click", RollDice)
+        CheckForSpecialTiles()
     }
     //#endregion
     //#region RollDice
@@ -1269,6 +1303,7 @@ $(()=>{
                 player.stats.position+=rng 
                 MoveToTile(playerPositions[player.stats.position])
                 playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
+                CheckForSpecialTiles()
                 Save()
             }, 1000 )
         }
@@ -1287,6 +1322,7 @@ $(()=>{
                 }
                 MoveToTile(playerPositions[player.stats.position])
                 playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
+                CheckForSpecialTiles()
                 Save()
             }, 1000 )
         }
@@ -1298,6 +1334,37 @@ $(()=>{
                 <circle r="30" cx="${position.circle.x}" cy="${position.circle.y}" fill="rgba(255, 255, 255, 0.5)" stroke="white"/>
                 <text x="${position.text.x}" y="${position.text.y}" font-size="35">p</text>
             `)
+    }
+    //#endregion
+    //#region CheckForSpecialTiles
+    const CheckForSpecialTiles = ()=>{
+        if(player.stats.position == 5 || player.stats.position == 23){
+            $("#openShopButton").removeClass("hiddenPart")
+            $("#openShopButton").html(`
+                <rect width="200" height="100" x="200" y="200" rx="20" ry="20" stroke="gray" fill="rgba(128, 128, 128, 0.5)"/>
+                <text x="225" y="260" font-size="35">Open shop</text>
+            `)
+            $("#openShopButton").on("click", OpenShop)
+        }
+        else if(player.stats.position == 9){
+            $("#openShopButton").removeClass("hiddenPart")
+            $("#openShopButton").html(`
+                <rect width="200" height="100" x="200" y="200" rx="20" ry="20" stroke="gray" fill="rgba(128, 128, 128, 0.5)"/>
+                <text x="225" y="260" font-size="35">Open super shop</text>
+            `)
+            $("#openShopButton").on("click", OpenSuperShop)
+        }
+        else if(player.stats.position == 27){
+            $("#openShopButton").removeClass("hiddenPart")
+            $("#openShopButton").html(`
+                <rect width="200" height="100" x="200" y="200" rx="20" ry="20" stroke="gray" fill="rgba(128, 128, 128, 0.5)"/>
+                <text x="225" y="260" font-size="35">Open star shop</text>
+            `)
+            $("#openShopButton").on("click", OpenStarShop)
+        }
+        else{
+            $("#openShopButton").addClass("hiddenPart")
+        }
     }
     //#endregion
     //#region FormatNumber
