@@ -63,29 +63,54 @@ $(()=>{
                     <div id="closeShop" class="closeDialogBox interactable">&#10005;</div>
                 </div>
             </div>
-                <div class="shopItems">
-                    <div class="shopItem">
-                        <div class="itemTitle">
-                            Green base doubler
-                        </div>
-                        <div class="itemDescription">
-                            Doubles the base of all green tiles (2 -> 4 ; 4 -> 8 ; 5 -> 10)
-                        </div>
-                        <div class="itemCost ${player.stats.points>=1000 ? 'interactable purchaseableItem' : ''}">
-                            Cost : 1000 points
-                        </div>
+            <div class="shopItems">
+                <div class="shopItem">
+                    <div class="itemTitle">
+                        Green base doubler
+                    </div>
+                    <div class="itemDescription">
+                        Doubles the base of all green tiles (2 -> 4 ; 4 -> 8 ; 5 -> 10)
+                    </div>
+                    <div class="itemCost ${player.stats.points>=1000 ? 'interactable purchaseableItem' : ''}">
+                        Cost : 1000 points
                     </div>
                 </div>
+                <div class="shopItem">
+                    <div class="itemTitle">
+                        No red divisions
+                    </div>
+                    <div class="itemDescription">
+                       for 10 turns red tiles don't divide your points
+                    </div>
+                    <div class="itemCost ${player.stats.points>=10000 ? 'interactable purchaseableItem' : ''}">
+                        Cost : 10000 points
+                    </div>
+                </div>
+                <div class="shopItem">
+                    <div class="itemTitle">
+                        Second dice
+                    </div>
+                    <div class="itemDescription">
+                        Unlock the second dice but with a twist
+                    </div>
+                    <div class="itemCost ${player.stats.points>=100000 ? 'interactable purchaseableItem' : ''}">
+                        Cost : 100000 points
+                    </div>
+                </div>
+            </div>
         `)
         $("#shopBox").removeClass("hiddenPart")
         $("#shopBox").css("border","5px solid gray")
+        AddShopUIEvents()
+    }
+    //#endregion
+    //#region AddShopUIEvents
+    const AddShopUIEvents = ()=>{
         $("#closeShop").on("click", ()=>{
-            console.log("here")
             $("#shopBox").html(``)
             $("#shopBox").css("border", "none")
         })
     }
-    //#endregion
     //#region  OpenSuperShop
     OpenSuperShop = (uselessParameter) =>{
         console.log("open super shop")
@@ -98,7 +123,40 @@ $(()=>{
     //#endregion
     //#region DoBet
     DoBet = (uselessParameter) =>{
-        console.log("I love gambling")
+        $("#shopBox").html(`
+            <div class="betContainer">
+                <div class="diceContainer">
+                    <div id="betResults">-</div>
+                    <div id="gamble" class="interactable">ROLL DICE</div>
+                </div>
+                <div id="betResult">
+                </div>
+            </div>
+        `)
+        $("#shopBox").removeClass("hiddenPart")
+        $("#shopBox").css("border","5px solid green")
+        $("#gamble").on("click", ()=>{
+            if(player.stats.upgrades.secondDice.bought==true){
+                RollDoubleDice("bet")
+                setTimeout(()=>{    
+                    let betMultiplier = (rolledNumbers[0] + rolledNumbers[1]) / 4
+                    $("#betResult").text(`Your points were multiplies by (${rolledNumbers[0]} + ${rolledNumbers[1]}) / 4`)
+                    MultiplyPoints(betMultiplier)
+                }, 750)
+            }
+            else{
+                RollSingleDice("bet")
+                setTimeout(()=>{    
+                    let betMultiplier = rolledNumbers[0] / 4
+                    $("#betResult").text(`Your points were multiplies by ${rolledNumbers[0]} / 4`)
+                    MultiplyPoints(betMultiplier)
+                }, 750)
+            }
+            setTimeout(()=>{    
+                $("#shopBox").html(``)
+                $("#shopBox").css("border","none")
+            }, 2000)            
+        })
     }
     //#endregion
     //#region playerPositions
@@ -609,10 +667,8 @@ $(()=>{
         },
     ]
     //#endregion
-    //#region playerStatsCalculated
-    let playerStatsCalculated={
-        //idk if I need this
-    }
+    //#region rolledNumbers
+    let rolledNumbers=[0, 0]
     //#endregion   
     //#region sidebar open-close
     let sidebar = $("#sidebar")
@@ -1044,7 +1100,7 @@ $(()=>{
                 <div class="statDisplays">    
                     <div class="diceContainer">
                         <div id="diceResults">-</div>
-                        <div id="rollDice" class="interactable">ROLL DICE</div>
+                        <div id="rollDice" class="interactable">Next Turn</div>
                     </div>
                     <div class="playerInfoContainer">
                         <div id="playerPoints">Points: 1</div>
@@ -1288,10 +1344,12 @@ $(()=>{
     //#endregion
     //#region DoTurn
     const DoTurn = ()=>{
+        $("#shopBox").html(``)
+        $("#shopBox").css("border", "none")
         if(player.stats.upgrades.secondDice.bought==false){
-            let rolledNumber= RollSingleDice()     
+            RollSingleDice("dice")     
             setTimeout(()=>{
-                player.stats.position+=rolledNumber
+                player.stats.position+=rolledNumbers[0]
                 if( player.stats.position>=playerPositions.length){
                     player.stats.position -=playerPositions.length
                 }
@@ -1302,7 +1360,7 @@ $(()=>{
             }, 1000 )
         }
         else{
-            let rolledNumbers = RollDoubleDice()
+            RollDoubleDice("dice")
             setTimeout( ()=>{
                 player.shadowClone.position += rolledNumbers[0] + rolledNumbers[1]
                 if( player.shadowClone.position>=playerPositions.length){
@@ -1311,7 +1369,7 @@ $(()=>{
                 MoveShadowToTile(playerPositions[player.shadowClone.position])
                 
                 /*TODO: Gonna need another method for selecting  */
-                rolledNumbers=
+                RollDoubleDice("dice")
                 
                 MoveToTile(playerPositions[player.stats.position])
                 playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
@@ -1322,28 +1380,23 @@ $(()=>{
     }
     //#endregion
     //#region RollDice
-    const RollSingleDice = ()=>{
-        let rng=0
+    const RollSingleDice = (divName)=>{
         for(let i=0; i<10; i++){
             setTimeout(()=>{
-                rng=1 + Math.floor(Math.random() * 6)
-                $("#diceResults").text(`${rng}`)
+                rolledNumbers[0]=1 + Math.floor(Math.random() * 6)
+                $(`#${divName}Results`).text(`${rolledNumbers[0]}`)
             }, i*50)
         }
-        return rng;
     }
 
-    const RollDoubleDice = async ()=>{
-        let rng=0
-        let rng2=0
+    const RollDoubleDice = (divName)=>{
         for(let i=0; i<10; i++){
             setTimeout(()=>{
-                rng=1 + Math.floor(Math.random() * 6)
-                rng2=1 + Math.floor(Math.random() * 6)
-                $("#diceResults").text(`${rng} - ${rng2}`)
+                rolledNumbers[0]=1 + Math.floor(Math.random() * 6)
+                rolledNumbers[1]=1 + Math.floor(Math.random() * 6)
+                $(`#${divName}Results`).text(`${rolledNumbers[0]} - ${rolledNumbers[1]}`)
             }, i*50)
         }
-        return [rng, rng2]
     }
     //#endregion
     //#region MoveToTile
