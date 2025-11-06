@@ -63,38 +63,32 @@ $(()=>{
                     <div id="closeShop" class="closeDialogBox interactable">&#10005;</div>
                 </div>
             </div>
-            <div class="shopItems">
-                <div class="shopItem">
+            <div id="shopItems">
+                <div class="shopItem interactable" id="greenBaseDoublerOpen">
+                    <img class="itemImage" alt="green base doubler icon" src="../Images/BoardOfInflation/greenBaseDoublerIcon.png"/>
                     <div class="itemTitle">
                         Green base doubler
                     </div>
-                    <div class="itemDescription">
-                        Doubles the base of all green tiles (2 -> 4 ; 4 -> 8 ; 5 -> 10)
-                    </div>
-                    <div class="itemCost ${player.stats.points>=1000 ? 'interactable purchaseableItem' : ''}">
-                        Cost : 1000 points
+                    <div id="greenBaseDoublerBought">
+                        ${player.stats.upgrades.greenBaseDoubler.bought==true ? 'Bought' : 'Not bought'} 
                     </div>
                 </div>
-                <div class="shopItem">
+                <div class="shopItem interactable" id="noRedDivisionsOpen">
+                    <img class="itemImage" alt="no red divisions icon" src="../Images/BoardOfInflation/noRedDivisionsIcon.png"/>
                     <div class="itemTitle">
                         No red divisions
                     </div>
-                    <div class="itemDescription">
-                       for 10 turns red tiles don't divide your points
-                    </div>
-                    <div class="itemCost ${player.stats.points>=10000 ? 'interactable purchaseableItem' : ''}">
-                        Cost : 10000 points
+                    <div id="noRedDivisionsActive">
+                        ${player.stats.effects.noRedSquareDivisions.turnsLeft>0 ? `${player.stats.effects.noRedSquareDivisions.turnsLeft} turns left` : 'Not bought'} 
                     </div>
                 </div>
-                <div class="shopItem">
+                <div class="shopItem interactable" id="secondDiceOpen">
+                    <img class="itemImage" alt="second dice icon" src="../Images/BoardOfInflation/secondDiceIcon.png"/>
                     <div class="itemTitle">
                         Second dice
                     </div>
-                    <div class="itemDescription">
-                        Unlock the second dice but with a twist
-                    </div>
-                    <div class="itemCost ${player.stats.points>=100000 ? 'interactable purchaseableItem' : ''}">
-                        Cost : 100000 points
+                    <div id="secondDiceBought">
+                        ${player.stats.upgrades.secondDice.bought==true ? 'Bought' : 'Not bought'} 
                     </div>
                 </div>
             </div>
@@ -109,6 +103,14 @@ $(()=>{
         $("#closeShop").on("click", ()=>{
             $("#shopBox").html(``)
             $("#shopBox").css("border", "none")
+        })
+        $("#greenBaseDoublerOpen").on("mousedown", (e)=>{
+            if(e.button==2){
+
+            }
+            else{
+                
+            }
         })
     }
     //#region  OpenSuperShop
@@ -155,7 +157,7 @@ $(()=>{
             setTimeout(()=>{    
                 $("#shopBox").html(``)
                 $("#shopBox").css("border","none")
-            }, 2000)            
+            }, 3000)            
         })
     }
     //#endregion
@@ -1098,13 +1100,13 @@ $(()=>{
                 <div id="shopBox" class="hiddenPart">
                 </div>
                 <div class="statDisplays">    
-                    <div class="diceContainer">
+                    <div class="diceContainer interactable" id="rollDice">
                         <div id="diceResults">-</div>
-                        <div id="rollDice" class="interactable">Next Turn</div>
+                        <div>Next Turn</div>
                     </div>
                     <div class="playerInfoContainer">
-                        <div id="playerPoints">Points: 1</div>
-                        <div id="playerStars">Stars: 0</div>
+                        <div id="playerPoints">Points: ${FormatNumber(player.stats.points)}</div>
+                        <div id="playerStars">Stars: ${FormatNumber(player.stats.stars)}</div>
                     </div>
                     <div class="playerEffects hiddenPart" id="playerEffects">
                         <div class="playerEffectsColumn">
@@ -1427,24 +1429,24 @@ $(()=>{
         if(player.stats.position == 5 || player.stats.position == 23){
             $("#openShopButton").removeClass("hiddenPart")
             $("#openShopButton").html(`
-                <rect width="200" height="100" x="200" y="200" rx="20" ry="20" stroke="gray" fill="rgba(128, 128, 128, 0.5)"/>
-                <text x="225" y="260" font-size="35">Open shop</text>
+                <rect width="200" height="100" x="200" y="200" rx="20" ry="20" stroke="gray" fill="rgba(128, 128, 128, 0.5)" class="interactable"/>
+                <text x="225" y="260" font-size="35" class="interactable">Open shop</text>
             `)
             $("#openShopButton").on("click", OpenShop)
         }
         else if(player.stats.position == 9){
             $("#openShopButton").removeClass("hiddenPart")
             $("#openShopButton").html(`
-                <rect width="200" height="100" x="200" y="200" rx="20" ry="20" stroke="gray" fill="rgba(128, 128, 128, 0.5)"/>
-                <text x="225" y="260" font-size="35">Open super shop</text>
+                <rect width="200" height="100" x="200" y="200" rx="20" ry="20" stroke="gray" fill="rgba(128, 128, 128, 0.5)" class="interactable"/>
+                <text x="225" y="260" font-size="35" class="interactable">Open super shop</text>
             `)
             $("#openShopButton").on("click", OpenSuperShop)
         }
         else if(player.stats.position == 27){
             $("#openShopButton").removeClass("hiddenPart")
             $("#openShopButton").html(`
-                <rect width="200" height="100" x="200" y="200" rx="20" ry="20" stroke="gray" fill="rgba(128, 128, 128, 0.5)"/>
-                <text x="225" y="260" font-size="35">Open star shop</text>
+                <rect width="200" height="100" x="200" y="200" rx="20" ry="20" stroke="gray" fill="rgba(128, 128, 128, 0.5)" class="interactable"/>
+                <text x="225" y="260" font-size="35" class="interactable">Open star shop</text>
             `)
             $("#openShopButton").on("click", OpenStarShop)
         }

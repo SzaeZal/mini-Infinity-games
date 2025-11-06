@@ -1,3 +1,7 @@
+.mainView{
+    height: calc(100vh - 100px);
+}
+
 .preGameMenu{
     border: 2px solid gray;
     border-radius: 15px;
@@ -50,15 +54,24 @@
 
 #shopBox{
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     translate: -50% -50%;
     display: flex;
+    width: 50%;
+    max-height: 75%;
+    overflow-y: auto;
     flex-direction: column;
-    background-color: rgba(0, 0, 128, 0.75);
+    background-color: rgba(0, 0, 128, 1);
     border-radius: 15px;
+    z-index: 100;
+}
+.shopHeader{
+    position: sticky;
+    top: 0;
 }
 .shopTitle{
+    
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -68,10 +81,38 @@
     margin-bottom: 0.5em;
     text-indent: 10px;
 }
-.shopItem{
+#shopItems{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 25px;
+    margin: 25px;
 }
+.shopItem{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: x-large;
+}
+.itemImage{
+    width: 180px;
+    height: 180px;
+    border-radius: 100px;
+    border: 5px solid gray; 
+    line-height: 180px;
+    font-size: small;
+    text-align: center;
+    transition-duration: 0.5s;
+}
+.shopItem:hover>.itemImage{
+    box-shadow: 0 0 10px gray;
+}
+.itemTitle{
+    margin-bottom: 15px;
+}
+
+
 .betContainer{
     background-color: rgba(0, 255, 0, 0.5);
 }
@@ -100,6 +141,13 @@
     padding: 10px;
     font-size: x-large;
     min-width: 200px;
+}
+.diceContainer{
+    transition-duration: 0.3s;
+}
+.diceContainer:hover{
+    background-color: rgba(128, 128, 128, 0.5);
+    box-shadow: 0 0 5px gray;
 }
 
 #playerEffects{

@@ -30,10 +30,12 @@
   border: 2px gray solid;
   border-left: none;
   position: absolute;
-  transition-duration: 0.25s;
 }
-#close-open:hover{
-  box-shadow: 0 0 5px gray;
+#close-open>svg{
+  transition-duration: 0.5s;
+}
+#close-open:hover>svg{
+  transform: scale(1.25);
 }
 
 #sidebar{
