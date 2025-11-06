@@ -49,7 +49,12 @@ $(()=>{
     //#endregion
     //#region MultiplyPoints
     MultiplyPoints = (amount) =>{
-        player.stats.points *= amount
+        if(amount > 1 && amount<10 && player.stats.upgrades.greenBaseDoubler.bought==true){
+            player.stats.points *= amount * 2
+        }
+        else if(!(amount < 1 && player.stats.effects.noRedSquareDivisions.turnsLeft>0)){
+            player.stats.points *= amount
+        }
         $("#playerPoints").text(`Points: ${FormatNumber(player.stats.points)}`)
         Save() 
     }
@@ -70,7 +75,7 @@ $(()=>{
                         Green base doubler
                     </div>
                     <div id="greenBaseDoublerBought">
-                        ${player.stats.upgrades.greenBaseDoubler.bought==true ? 'Bought' : 'Not bought'} 
+                        ${player.stats.upgrades.greenBaseDoubler.bought==true ? 'Bought' : '1000 points'} 
                     </div>
                 </div>
                 <div class="shopItem interactable" id="noRedDivisionsOpen">
@@ -79,7 +84,7 @@ $(()=>{
                         No red divisions
                     </div>
                     <div id="noRedDivisionsActive">
-                        ${player.stats.effects.noRedSquareDivisions.turnsLeft>0 ? `${player.stats.effects.noRedSquareDivisions.turnsLeft} turns left` : 'Not bought'} 
+                        ${player.stats.effects.noRedSquareDivisions.turnsLeft>0 ? `${player.stats.effects.noRedSquareDivisions.turnsLeft} turns left` : '10000 points'} 
                     </div>
                 </div>
                 <div class="shopItem interactable" id="secondDiceOpen">
@@ -88,7 +93,7 @@ $(()=>{
                         Second dice
                     </div>
                     <div id="secondDiceBought">
-                        ${player.stats.upgrades.secondDice.bought==true ? 'Bought' : 'Not bought'} 
+                        ${player.stats.upgrades.secondDice.bought==true ? 'Bought' : '100000 points'} 
                     </div>
                 </div>
             </div>
@@ -105,14 +110,157 @@ $(()=>{
             $("#shopBox").css("border", "none")
         })
         $("#greenBaseDoublerOpen").on("mousedown", (e)=>{
-            if(e.button==2){
-
+            if(e.button==2 && player.stats.points>=1000){
+                PurchaseGreenBaseDoubler()
+                $("#greenBaseDoublerBought").text("Bought")
             }
             else{
-                
+                ShowGreenBaseDoublerInfo()
+            }
+        })
+        $("#noRedDivisionsOpen").on("mousedown", (e)=>{
+            if(e.button==2 && player.stats.points>=10000){
+                PurchaseNoRedDivisions()
+                $("#noRedDivisionsActive").text("10 turns left")             
+            }
+            else{
+                ShowNoRedDivisionsInfo()
+            }
+        })
+        $("#secondDiceOpen").on("mousedown", (e)=>{
+            if(e.button==2 && player.stats.points>=100000){
+                PurchaseSecondDice()
+                $("#secondDiceBought").text("Bought")             
+            }
+            else{
+                ShowSecondDiceInfo()
             }
         })
     }
+    //#endregion
+    //#region ShowGreenBaseDoublerInfo
+    const ShowGreenBaseDoublerInfo = ()=>{
+        $("#shopItems").html(`
+            <div class="shopItemDetailed">
+                <svg xmlns="http://www.w3.org/2000/svg" height="50px" width="50px" viewBox="0 -960 960 960"  fill="#e3e3e3" id="shopGoBack">
+                    <path d="M400-240 160-480l241-241 43 42-169 169h526v60H275l168 168-43 42Z"/>
+                </svg>
+                <div class="shopItem">
+                    <div class="itemTitle">
+                        Green base doubler
+                    </div>
+                    <div class="itemDescription">
+                        Doubles the base of all green tiles (2 - 4, 4 - 8, 5 - 10)
+                    </div>
+                    <div id="greenBaseDoublerBought">
+                        ${player.stats.upgrades.greenBaseDoubler.bought==true ? 'Bought' : 'Cost: 1000 points'} 
+                    </div>
+                    <div id="greenBaseDoublerBuy" class="itemBuy">
+                        Buy
+                    </div>
+                </div>
+            </div>
+        `)
+        $("#shopGoBack").on("click", OpenShop)
+        $("#greenBaseDoublerBuy").on("click", ()=>{
+            if(player.stats.points>=1000 && player.stats.upgrades.greenBaseDoubler.bought==false){
+                PurchaseGreenBaseDoubler()
+                $("#greenBaseDoublerBought").text("Bought")
+            }
+        })
+    }
+    //#endregion
+    //#region PurchaseGreenBaseDoubler
+    const PurchaseGreenBaseDoubler = ()=>{
+        player.stats.points-=1e3
+        player.stats.upgrades.greenBaseDoubler.bought=true
+        Save()
+    }
+    //#endregion
+    //#region ShowNoRedDivisionsInfo
+    const ShowNoRedDivisionsInfo = ()=>{
+        $("#shopItems").html(`
+            <div class="shopItemDetailed">
+                <svg xmlns="http://www.w3.org/2000/svg" height="50px" width="50px" viewBox="0 -960 960 960"  fill="#e3e3e3" id="shopGoBack">
+                    <path d="M400-240 160-480l241-241 43 42-169 169h526v60H275l168 168-43 42Z"/>
+                </svg>
+                <div class="shopItem">
+                    <div class="itemTitle">
+                        No red divisions
+                    </div>
+                    <div class="itemDescription">
+                        Red tiles don't divide your points for 10 turns
+                    </div>
+                    <div id="noRedDivisionsActive">
+                        ${player.stats.effects.noRedSquareDivisions.turnsLeft>0 ? `${player.stats.effects.noRedSquareDivisions.turnsLeft} turns left<br>Replenish cost: 10000 points` : 'Cost: 10000 points'} 
+                    </div>
+                    <div id="noRedDivisionsBuy" class="itemBuy">
+                        Buy
+                    </div>
+                </div>
+            </div>
+        `)
+        $("#shopGoBack").on("click", OpenShop)
+        $("#noRedDivisionsBuy").on("click", ()=>{
+            if(player.stats.points>=10000 && player.stats.effects.noRedSquareDivisions.turnsLeft!=10){
+                PurchaseNoRedDivisions()
+                $("#noRedDivisionsActive").text("10 turns left")
+            }
+        })
+    }
+    //#endregion
+    //#region PurchaseNoRedDivisions
+    const PurchaseNoRedDivisions = ()=>{
+        player.stats.points-=1e4
+        player.stats.effects.noRedSquareDivisions.turnsLeft=10
+        Save()
+    }
+    //#endregion
+    //#region ShowSecondDiceInfo
+    const ShowSecondDiceInfo = ()=>{
+        $("#shopItems").html(`
+            <div class="shopItemDetailed">
+                <svg xmlns="http://www.w3.org/2000/svg" height="50px" width="50px" viewBox="0 -960 960 960"  fill="#e3e3e3" id="shopGoBack">
+                    <path d="M400-240 160-480l241-241 43 42-169 169h526v60H275l168 168-43 42Z"/>
+                </svg>
+                <div class="shopItem">
+                    <div class="itemTitle">
+                        Second Dice
+                    </div>
+                    <div class="itemDescription">
+                        Unlock a second dice, after rolling you can
+                        <ul>
+                            <li> add the 2 rolled numbers together to move more squares </li>
+                            <li> only use 1 of the 2 rolled numbers (so if you roll a 1 and 6 you can move 1 or 6 or 7 squares) </li>
+                        </ul>
+                        BUT a shadow clone of you will appear on the blue square and will move in the same direction as you are and if it lands/goes past the square you are on your points will be set to 1. (the blue square is a safe square) <br>
+                        every turn your dice will roll again and the shadow clone will move the total rolled minus 2 squares (so if it rolls 2 it won’t move)
+                    </div>
+                    <div id="secondDiceBought">
+                        ${player.stats.upgrades.secondDice.bought==true ? 'Bought' : 'Cost: 100000 points'} 
+                    </div>
+                    <div id="secondDiceBuy" class="itemBuy">
+                        Buy
+                    </div>
+                </div>
+            </div>
+        `)
+        $("#shopGoBack").on("click", OpenShop)
+        $("#secondDiceBuy").on("click", ()=>{
+            if(player.stats.points>=1e5 && player.stats.upgrades.secondDice.bought==false){
+                PurchaseSecondDice()
+                $("#secondDiceBought").text("Bought")
+            }
+        })
+    }
+    //#endregion
+    //#region PurchaseSecondDice
+    const PurchaseSecondDice = ()=>{
+        player.stats.points-=1e5
+        player.stats.upgrades.secondDice.bought=true
+        Save()
+    }
+    //#endregion
     //#region  OpenSuperShop
     OpenSuperShop = (uselessParameter) =>{
         console.log("open super shop")
@@ -161,6 +309,7 @@ $(()=>{
         })
     }
     //#endregion
+
     //#region playerPositions
     let playerPositions = [
         {
@@ -1363,8 +1512,12 @@ $(()=>{
         }
         else{
             RollDoubleDice("dice")
-            setTimeout( ()=>{
-                player.shadowClone.position += rolledNumbers[0] + rolledNumbers[1]
+            setTimeout(() => {
+                /*TODO: Gonna need another method for selecting  */
+                MoveToTile(playerPositions[player.stats.position])
+                playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
+
+                player.shadowClone.position += rolledNumbers[0] + rolledNumbers[1] - 2
                 if( player.shadowClone.position>=playerPositions.length){
                     player.shadowClone.position -=playerPositions.length
                 }
@@ -1373,17 +1526,10 @@ $(()=>{
                 if(player.shadowClone.position == player.stats.position){
                     player.stats.points=1
                 }
-                
-                /*TODO: Gonna need another method for selecting  */
-                RollDoubleDice("dice")
-            }, 750)
-            setTimeout(() => {
-                
-                MoveToTile(playerPositions[player.stats.position])
-                playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
+
                 CheckForSpecialTiles()
                 Save()
-            }, 1500);
+            }, 750);     
         }
     }
     //#endregion
