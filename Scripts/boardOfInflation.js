@@ -1558,7 +1558,6 @@ $(()=>{
 
                 $("#selectNumbers").on("click", ()=>{
                     if(rolledNumber0Selected || rolledNumber1Selected){
-                        console.log("here")
                         let positionsToMove=0
                         positionsToMove += rolledNumber0Selected ? rolledNumbers[0] : 0
                         positionsToMove += rolledNumber1Selected ? rolledNumbers[1] : 0
@@ -1644,7 +1643,8 @@ $(()=>{
             $("#openShopButton").removeClass("hiddenPart")
             $("#openShopButton").html(`
                 <rect width="200" height="100" x="200" y="200" rx="20" ry="20" stroke="gray" fill="rgba(128, 128, 128, 0.5)" class="interactable"/>
-                <text x="225" y="260" font-size="35" class="interactable">Open super shop</text>
+                <text x="220" y="240" font-size="35" class="interactable">Open super </text>
+                <text x="260" y="280" font-size="35" class="interactable">shop</text>
             `)
             $("#openShopButton").on("click", OpenSuperShop)
         }
@@ -1652,7 +1652,8 @@ $(()=>{
             $("#openShopButton").removeClass("hiddenPart")
             $("#openShopButton").html(`
                 <rect width="200" height="100" x="200" y="200" rx="20" ry="20" stroke="gray" fill="rgba(128, 128, 128, 0.5)" class="interactable"/>
-                <text x="225" y="260" font-size="35" class="interactable">Open star shop</text>
+                <text x="220" y="240" font-size="35" class="interactable">Open star</text>
+                <text x="260" y="280" font-size="35" class="interactable">shop</text>
             `)
             $("#openShopButton").on("click", OpenStarShop)
         }
