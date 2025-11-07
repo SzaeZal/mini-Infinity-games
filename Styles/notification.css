@@ -62,3 +62,9 @@
     background-color: purple;
     border: 5px rgb(128, 0, 128) solid;
 }
+
+.notificationShadowClone{
+    background-color: rgb(50, 50, 50);
+    border: 5px rgb(0, 0, 0) solid;
+    color: white;
+}

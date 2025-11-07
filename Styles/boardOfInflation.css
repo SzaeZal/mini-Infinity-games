@@ -163,7 +163,7 @@ ul>li::before{
     gap: 20px;
     z-index: 10;
 }
-.diceContainer, .playerInfoContainer, .playerEffects{
+.diceContainer,.diceResultsContainer , .playerInfoContainer, .playerEffects{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -182,6 +182,38 @@ ul>li::before{
 .diceContainer:hover{
     background-color: rgba(128, 128, 128, 0.5);
     box-shadow: 0 0 5px gray;
+}
+
+.rolledNumberSelect{
+    display: inline-block;
+    margin-bottom: 5px;
+    border: 2px solid gray;
+    border-radius: 5px;
+    padding: 5px;
+    transition-duration: 0.3s;
+}
+.rolledNumberSelect:hover{
+    background-color: rgba(0, 200, 0, 0.25);
+    font-size: larger;
+}
+.selectedRolledNumber{
+    background-color: rgba(0, 200, 0, 0.5);
+}
+.selectedRolledNumber:hover{
+    background-color: rgba(0, 200, 0, 0.4);
+    font-size: larger;
+}
+#selectNumbers{
+    margin: auto;
+    border: 2px solid gray;
+    border-radius: 5px;
+    padding: 5px;
+    transition-duration: 0.3s;
+    text-align: center;
+}
+#selectNumbers:hover{
+    background-color: rgba(128, 128, 128, 0.25);
+    font-size: larger;
 }
 
 #playerEffects{

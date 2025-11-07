@@ -186,7 +186,7 @@ $(()=>{
                 </svg>
                 <div class="shopItem">
                     <div class="itemTitle">
-                        No red divisions
+                        No red tile divisions
                     </div>
                     <div class="itemDescription">
                         Red tiles don't divide your points for 10 turns
@@ -230,11 +230,11 @@ $(()=>{
                     <div class="itemDescription">
                         Unlock a second dice, after rolling you can
                         <ul>
-                            <li> add the 2 rolled numbers together to move more squares </li>
-                            <li> only use 1 of the 2 rolled numbers (so if you roll a 1 and 6 you can move 1 or 6 or 7 squares) </li>
+                            <li> add the 2 rolled numbers together to move more tiles </li>
+                            <li> only use 1 of the 2 rolled numbers (so if you roll a 1 and 6 you can move 1 or 6 or 7 tiles) </li>
                         </ul>
-                        BUT a shadow clone of you will appear on the blue square and will move in the same direction as you are and if it lands/goes past the square you are on your points will be set to 1. (the blue square is a safe square) <br>
-                        every turn your dice will roll again and the shadow clone will move the total rolled minus 2 squares (so if it rolls 2 it won’t move)
+                        BUT a shadow clone of you will appear on the blue tile and will move in the same direction as you are and if it lands on the tile you are on your points will be set to 1. (the blue tile is a safe tile) <br>
+                        every turn your dice will roll again and the shadow clone will move the total rolled minus 2 tiles (so if it rolls 2 it won’t move)
                     </div>
                     <div id="secondDiceBought">
                         ${player.stats.upgrades.secondDice.bought==true ? 'Bought' : 'Cost: 100000 points'} 
@@ -1204,7 +1204,7 @@ $(()=>{
                                 ||  player.stats.effects.rerolls.turnsLeft>0 
                             ? `
                                 <ul>
-                                    ${player.stats.effects.noRedSquareDivisions.turnsLeft>0 ? ` <li>No Red Square Divisions: ${player.stats.effects.noRedSquareDivisions.turnsLeft} turns left </li>` : ""}
+                                    ${player.stats.effects.noRedSquareDivisions.turnsLeft>0 ? ` <li>No Red Tile Divisions: ${player.stats.effects.noRedSquareDivisions.turnsLeft} turns left </li>` : ""}
                                     ${player.stats.effects.keyOfInfinity.turnsLeft!=-1 ? `<li>Key of Infinity:  ${player.stats.effects.keyOfInfinity.turnsLeft} turns left </li>` : ""}
                                     ${player.stats.effects.lockpickKit.turnsLeft>0 ? ` <li>Lockpick Kit: ${player.stats.effects.lockpickKit.turnsLeft} uses left </li>` : ""}
                                     ${player.stats.effects.rerolls.turnsLeft>0 ? ` <li>Rerolls: ${player.stats.effects.rerolls.turnsLeft} uses left </li>` : ""}
@@ -1249,19 +1249,19 @@ $(()=>{
                 <div id="shopBox" class="hiddenPart">
                 </div>
                 <div class="statDisplays">    
-                    <div class="diceContainer interactable" id="rollDice">
+                    <div class="diceResultsContainer">
                         <div id="diceResults">-</div>
-                        <div>Next Turn</div>
                     </div>
                     <div class="playerInfoContainer">
                         <div id="playerPoints">Points: ${FormatNumber(player.stats.points)}</div>
                         <div id="playerStars">Stars: ${FormatNumber(player.stats.stars)}</div>
                     </div>
+                    <div id="rollDice" class="diceContainer interactable">Next Turn</div>
                     <div class="playerEffects hiddenPart" id="playerEffects">
                         <div class="playerEffectsColumn">
                             <div class="effectItem hiddenPart id="noRedSquareDivisions">
                                 <div class="effectName">
-                                    No Red Square Divisions
+                                    No Red Tile Divisions
                                 </div>
                                 <div class="effectDuration" id="noRedSquareDivisionsDuration">
                                     3 Turns left
@@ -1489,6 +1489,10 @@ $(()=>{
             </div>
         `)
         MoveToTile(playerPositions[player.stats.position])
+        if(player.stats.upgrades.secondDice.bought==true){
+            $("#shadowPositionIndicator").removeClass("hiddenPart")
+            MoveShadowToTile(playerPositions[player.shadowClone.position])
+        }
         $("#rollDice").on("click", DoTurn)
         CheckForSpecialTiles()
     }
@@ -1514,22 +1518,78 @@ $(()=>{
             RollDoubleDice("dice")
             setTimeout(() => {
                 /*TODO: Gonna need another method for selecting  */
-                MoveToTile(playerPositions[player.stats.position])
-                playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
+                let rolledNumber0Selected=true
+                let rolledNumber1Selected=true
+                $(`#diceResults`).html(`
+                    <div id="rolledNumber0" class="interactable rolledNumberSelect selectedRolledNumber">
+                        ${rolledNumbers[0]} 
+                    </div>
+                    - 
+                    <div id="rolledNumber1" class="interactable rolledNumberSelect selectedRolledNumber">
+                        ${rolledNumbers[1]}
+                    </div>
+                    <br>
+                    <div id="selectNumbers" class="interactable">
+                        Select
+                    </div>
+                `)
 
-                player.shadowClone.position += rolledNumbers[0] + rolledNumbers[1] - 2
-                if( player.shadowClone.position>=playerPositions.length){
-                    player.shadowClone.position -=playerPositions.length
-                }
-                MoveShadowToTile(playerPositions[player.shadowClone.position])
+                $("#rolledNumber0").on("click", ()=>{
+                    if(rolledNumber0Selected == true){
+                        rolledNumber0Selected = false
+                        $("#rolledNumber0").removeClass("selectedRolledNumber")
+                    }
+                    else{
+                        rolledNumber0Selected = true
+                        $("#rolledNumber0").addClass("selectedRolledNumber")    
+                    }
+                })
 
-                if(player.shadowClone.position == player.stats.position){
-                    player.stats.points=1
-                }
+                $("#rolledNumber1").on("click", ()=>{
+                    if(rolledNumber1Selected == true){
+                        rolledNumber1Selected = false
+                        $("#rolledNumber1").removeClass("selectedRolledNumber")
+                    }
+                    else{
+                        rolledNumber1Selected = true
+                        $("#rolledNumber1").addClass("selectedRolledNumber")    
+                    }
+                })
 
-                CheckForSpecialTiles()
-                Save()
-            }, 750);     
+                $("#selectNumbers").on("click", ()=>{
+                    if(rolledNumber0Selected || rolledNumber1Selected){
+                        console.log("here")
+                        let positionsToMove=0
+                        positionsToMove += rolledNumber0Selected ? rolledNumbers[0] : 0
+                        positionsToMove += rolledNumber1Selected ? rolledNumbers[1] : 0
+
+                        player.stats.position +=positionsToMove
+                        if( player.stats.position>=playerPositions.length){
+                            player.stats.position -=playerPositions.length
+                        }
+                        MoveToTile(playerPositions[player.stats.position])
+
+                        RollDoubleDice("dice")
+                        setTimeout(() => {
+                            player.shadowClone.position += rolledNumbers[0] + rolledNumbers[1] - 2
+                            if( player.shadowClone.position>=playerPositions.length){
+                                player.shadowClone.position -=playerPositions.length
+                            }
+                            MoveShadowToTile(playerPositions[player.shadowClone.position])
+                            if(player.stats.position == player.shadowClone.position && player.stats.position != 0 && player.stats.position != 18){
+                                player.stats.points=1
+                                ShowNotification("Shadow clone", "Shadow clone reset your points", "ShadowClone")
+                            }
+                            playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
+                            CheckForSpecialTiles()
+                            Save() 
+                        }, 750);
+                    }
+                    else{
+                        ShowNotification("warning", "Please Select at least 1 number", "Warning")
+                    }
+                })
+            }, 600);     
         }
     }
     //#endregion
