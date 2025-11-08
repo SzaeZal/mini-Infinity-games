@@ -263,7 +263,296 @@ $(()=>{
     //#endregion
     //#region  OpenSuperShop
     OpenSuperShop = (uselessParameter) =>{
-        console.log("open super shop")
+        $("#shopBox").html(`
+            <div class="shopHeader">
+                <div class="shopTitle">
+                    Super Shop
+                    <div id="closeShop" class="closeDialogBox interactable">&#10005;</div>
+                </div>
+            </div>
+            <div id="shopItems">
+                <div class="shopItem interactable" id="lockpickKitOpen">
+                    <img class="itemImage" alt="lockpick kit icon" src="../Images/BoardOfInflation/lockpickKitIcon.png"/>
+                    <div class="itemTitle">
+                        Lockpick kit
+                    </div>
+                    <div id="lockpickKitActive">
+                        ${player.stats.effects.lockpickKit.turnsLeft>0 ? `${player.stats.effects.lockpickKit.turnsLeft} uses left` : '100000 points'} 
+                    </div>
+                </div>
+                <div class="shopItem interactable" id="rerollsOpen">
+                    ${
+                        player.stats.upgrades.secondDice.bought==true 
+                        ? `
+                            <img class="itemImage" alt="rerolls icon" src="../Images/BoardOfInflation/rerollsIcon.png"/>
+                            <div class="itemTitle">
+                                Rerolls
+                            </div>
+                            <div id="rerollsActive">
+                                ${player.stats.effects.rerolls.turnsLeft>0 ? `${player.stats.effects.rerolls.turnsLeft} uses left` : '1 star'} 
+                            </div>
+                        `
+                        :`
+                            <img class="itemImage" alt="upgrade locked" src="../Images/BoardOfInflation/lock.png"/>
+                            <div class="itemTitle">
+                                Locked
+                            </div>
+                            <div>
+                                Buy second dice first 
+                            </div>
+                        `
+                    }
+                </div>
+                <div class="shopItem interactable" id="antiDiceOpen">
+                    ${
+                        player.stats.upgrades.secondDice.bought==true 
+                        ? `
+                            <img class="itemImage" alt="anti dice icon" src="../Images/BoardOfInflation/antiDiceIcon.png"/>
+                            <div class="itemTitle">
+                                Anti dice
+                            </div>
+                            <div id="antiDiceBought">
+                                ${player.stats.upgrades.antiDice.bought==true ? `Bought` : '3 stars'} 
+                            </div>
+                        `
+                        :`
+                            <img class="itemImage" alt="upgrade locked" src="../Images/BoardOfInflation/lock.png"/>
+                            <div class="itemTitle">
+                                Locked
+                            </div>
+                            <div>
+                                Buy second dice first 
+                            </div>
+                        `
+                    }
+                </div>
+                <div class="shopItem interactable" id="keyOfInfinityOpen">
+                    <img class="itemImage" alt="key of Infinity icon" src="../Images/BoardOfInflation/keyOfInfinityIcon.png"/>
+                    <div class="itemTitle">
+                        Key of Infinity
+                    </div>
+                    <div id="keyOfInfinityBought">
+                        ${player.stats.effects.keyOfInfinity.turnsLeft>-1 ? 'Escape' : '10 stars'} 
+                    </div>
+                </div>
+            </div>
+        `)
+        $("#shopBox").removeClass("hiddenPart")
+        $("#shopBox").css("border","5px solid gray")
+        AddSuperShopUIEvents()
+    }
+    //#endregion
+    //#region AddSuperShopUIEvents
+    const AddSuperShopUIEvents = ()=>{
+        $("#closeShop").on("click", ()=>{
+            $("#shopBox").html(``)
+            $("#shopBox").css("border", "none")
+        })
+
+        $("#lockpickKitOpen").on("mousedown", (e)=>{
+            if(e.button==2 && player.stats.points>=1e5){
+                PurchaseLockpickKit()
+                $("#lockpickKitActive").text("3 uses left")
+            }
+            else{
+                ShowLockpickKitInfo()
+            }
+        })
+
+        if(player.stats.upgrades.secondDice.bought==true){
+            $("#rerollsOpen").on("mousedown", (e)=>{
+                if(e.button==2 && player.stats.stars>=1){
+                    PurchaseRerolls()
+                    $("#rerollsActive").text("5 uses left")             
+                }
+                else{
+                    ShowRerollsInfo()
+                }
+            })
+
+            $("#antiDiceOpen").on("mousedown", (e)=>{
+                if(e.button==2 && player.stats.stars>=3){
+                    PurchaseAntiDice()
+                    $("#antiDiceBought").text("Bought")             
+                }
+                else{
+                    ShowAntiDiceInfo()
+                }
+            })
+        }
+
+        $("#keyOfInfinityOpen").on("mousedown", (e)=>{
+            if(e.button==2 && player.stats.stars>=10){
+                PurchaseKeyOfInfinity()
+                $("#keyOfInfinityBought").text("Escape")             
+            }
+            else{
+                ShowKeyOfInfinityInfo()
+            }
+        })
+    }
+    //#endregion
+    //#region ShowLockpickKitInfo
+    const ShowLockpickKitInfo = ()=>{
+        $("#shopItems").html(`
+            <div class="shopItemDetailed">
+                <svg xmlns="http://www.w3.org/2000/svg" height="50px" width="50px" viewBox="0 -960 960 960"  fill="#e3e3e3" id="shopGoBack">
+                    <path d="M400-240 160-480l241-241 43 42-169 169h526v60H275l168 168-43 42Z"/>
+                </svg>
+                <div class="shopItem">
+                    <div class="itemTitle">
+                        Lockpick Kit
+                    </div>
+                    <div class="itemDescription">
+                        you can attempt to lockpick the lock on the board if you are on the star shop tile <br>
+                        roll your dice and if you roll a 12 the picking is successful <br>
+                        3 uses
+                    </div>
+                    <div id="lockpickKitActive">
+                        ${player.stats.effects.lockpickKit.turnsLeft>0 ? `${player.stats.effects.lockpickKit.turnsLeft} / 3 uses left<br>Replenish cost: 100000 points` : '100000 points'} 
+                    </div>
+                    <div id="lockpickKitBuy" class="itemBuy">
+                        Buy
+                    </div>
+                </div>
+            </div>
+        `)
+        $("#shopGoBack").on("click", OpenSuperShop)
+        $("#lockpickKitBuy").on("click", ()=>{
+            if(player.stats.points>=1e5){
+                PurchaseLockpickKit()
+                $("#lockpickKitActive").html("3 / 3 uses left<br>Replenish cost: 100000 points")
+            }
+        })
+    }
+    //#endregion
+    //#region PurchaseLockpickKit
+    const PurchaseLockpickKit = ()=>{
+        player.stats.points-=1e5
+        player.stats.effects.lockpickKit.turnsLeft=3
+        Save()
+    }
+    //#endregion
+    //#region ShowRerollsInfo
+    const ShowRerollsInfo = ()=>{
+        $("#shopItems").html(`
+            <div class="shopItemDetailed">
+                <svg xmlns="http://www.w3.org/2000/svg" height="50px" width="50px" viewBox="0 -960 960 960"  fill="#e3e3e3" id="shopGoBack">
+                    <path d="M400-240 160-480l241-241 43 42-169 169h526v60H275l168 168-43 42Z"/>
+                </svg>
+                <div class="shopItem">
+                    <div class="itemTitle">
+                        Rerolls
+                    </div>
+                    <div class="itemDescription">
+                        every turn allows you to reroll 1 dice <br>
+                        5 uses
+                    </div>
+                    <div id="rerollsActive">
+                        ${player.stats.effects.rerolls.turnsLeft>0 ? `${player.stats.effects.rerolls.turnsLeft} / 5 uses left<br>Replenish cost: 1 star` : '1 star'} 
+                    </div>
+                    <div id="rerollsBuy" class="itemBuy">
+                        Buy
+                    </div>
+                </div>
+            </div>
+        `)
+        $("#shopGoBack").on("click", OpenSuperShop)
+        $("#rerollsBuy").on("click", ()=>{
+            if(player.stats.stars>=1){
+                PurchaseRerolls()
+                $("#rerollsActive").html("5 / 5 uses left<br>Replenish cost: 1 star")
+            }
+        })
+    }
+    //#endregion
+    //#region PurchaseRerolls
+    const PurchaseRerolls = ()=>{
+        player.stats.stars-=1
+        player.stats.effects.rerolls.turnsLeft=5
+        Save()
+    }
+    //#endregion
+    //#region ShowAntiDiceInfo
+    const ShowAntiDiceInfo = ()=>{
+        $("#shopItems").html(`
+            <div class="shopItemDetailed">
+                <svg xmlns="http://www.w3.org/2000/svg" height="50px" width="50px" viewBox="0 -960 960 960"  fill="#e3e3e3" id="shopGoBack">
+                    <path d="M400-240 160-480l241-241 43 42-169 169h526v60H275l168 168-43 42Z"/>
+                </svg>
+                <div class="shopItem">
+                    <div class="itemTitle">
+                        Anti dice
+                    </div>
+                    <div class="itemDescription">
+                        if you choose to only use 1 rolled number     
+                        move back the shadow clone by the other dice number (if you roll 3 and 5 and only want to move 3 squares the shadow clone will move back 5 squares)
+                    </div>
+                    <div id="antiDiceBought">
+                        ${player.stats.upgrades.antiDice.bought==true ? `Bought` : '3 stars'} 
+                    </div>
+                    <div id="antiDiceBuy" class="itemBuy">
+                        Buy
+                    </div>
+                </div>
+            </div>
+        `)
+        $("#shopGoBack").on("click", OpenSuperShop)
+        $("#antiDiceBuy").on("click", ()=>{
+            if(player.stats.stars>=3){
+                PurchaseAntiDice()
+                $("#antiDiceBought").text("Bought")
+            }
+        })
+    }
+    //#endregion
+    //#region PurchaseAntiDice
+    const PurchaseAntiDice = ()=>{
+        player.stats.stars-=3
+        player.stats.upgrades.antiDice.bought=true
+        Save()
+    }
+    //#endregion
+    //#region ShowKeyOfInfinityInfo
+    const ShowKeyOfInfinityInfo = ()=>{
+        $("#shopItems").html(`
+            <div class="shopItemDetailed">
+                <svg xmlns="http://www.w3.org/2000/svg" height="50px" width="50px" viewBox="0 -960 960 960"  fill="#e3e3e3" id="shopGoBack">
+                    <path d="M400-240 160-480l241-241 43 42-169 169h526v60H275l168 168-43 42Z"/>
+                </svg>
+                <div class="shopItem">
+                    <div class="itemTitle">
+                        Key of Infinity
+                    </div>
+                    <div class="itemDescription">
+                        unlocks the lock next to the star shop <br>
+                        but you have 10 turns to land the tile of infinity before the board destroys itself
+                    </div>
+                    <div id="keyOfInfinityBought">
+                        ${player.stats.effects.keyOfInfinity.turnsLeft>-1 ? `Escape` : '10 stars'} 
+                    </div>
+                    <div id="keyOfInfinityBuy" class="itemBuy">
+                        Buy
+                    </div>
+                </div>
+            </div>
+        `)
+        $("#shopGoBack").on("click", OpenSuperShop)
+        $("#keyOfInfinityBuy").on("click", ()=>{
+            if(player.stats.stars>=10 && player.stats.effects.keyOfInfinity.turnsLeft==-1){
+                PurchaseKeyOfInfinity()
+                $("#keyOfInfinityBought").text("Escape")
+            }
+        })
+    }
+    //#endregion
+    //#region PurchaseKeyOfInfinity
+    const PurchaseKeyOfInfinity = ()=>{
+        player.stats.stars-=10
+        player.stats.effects.keyOfInfinity.turnsLeft=10
+        player.stats.eyeOfInfinityUnlocked=true
+        $("#eyeOfInfinityLock").addClass("hiddenPart")
+        Save()
     }
     //#endregion
     //#region OpenStarShop
@@ -1374,7 +1663,7 @@ $(()=>{
                     <g class="eyeOfInfinity">
                         <g class="tile-eyeOfInfinity">
                             <path d="M 1100 210 L 1100 290 L 1000 290 L 1000 210" stroke="black" fill="gray"/>
-                            <image x="1012" y="215" width="72px" height="72px" href="../Images/BoardOfInflation/lock.png"/>
+                            <image x="1012" y="215" width="72px" height="72px" href="../Images/BoardOfInflation/lock.png" id="eyeOfInfinityLock"/>
                         </g>
                         <g class="tile-eyeOfInfinity">
                             <path d="M 1000 210 L 1000 290 L 950 275 L 950 225" stroke="black" fill="gray"/>
