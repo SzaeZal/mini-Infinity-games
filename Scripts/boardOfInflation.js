@@ -48,7 +48,7 @@ $(()=>{
     }
     //#endregion
     //#region MultiplyPoints
-    MultiplyPoints = (amount) =>{
+    const MultiplyPoints = (amount) =>{
         if(amount > 1 && amount<10 && player.stats.upgrades.greenBaseDoubler.bought==true){
             player.stats.points *= amount * 2
         }
@@ -60,7 +60,7 @@ $(()=>{
     }
     //#endregion
     //#region OpenShop
-    OpenShop = (uselessParameter) =>{
+    const OpenShop = (uselessParameter) =>{
         $("#shopBox").html(`
             <div class="shopHeader">
                 <div class="shopTitle">
@@ -262,7 +262,7 @@ $(()=>{
     }
     //#endregion
     //#region  OpenSuperShop
-    OpenSuperShop = (uselessParameter) =>{
+    const OpenSuperShop = (uselessParameter) =>{
         $("#shopBox").html(`
             <div class="shopHeader">
                 <div class="shopTitle">
@@ -556,12 +556,67 @@ $(()=>{
     }
     //#endregion
     //#region OpenStarShop
-    OpenStarShop = (uselessParameter) =>{
-        console.log("Open star shop")
+    const OpenStarShop = (uselessParameter) =>{
+        $("#shopBox").html(`
+            <div class="shopHeader">
+                <div class="shopTitle">
+                    Super Shop
+                    <div id="closeShop" class="closeDialogBox interactable">&#10005;</div>
+                </div>
+            </div>
+            <div id="shopItems">
+                <div class="shopItem">
+                    <div class="itemTitle">
+                        Star
+                    </div>
+                    <div class="itemDescription">
+                        requires 10000 points <br>
+                        buying a star will divide your points by 50
+                    </div>
+                    <div class="starShopRow">
+                        <div id="starBuy1" class="itemBuy">
+                            Buy 1
+                        </div>
+                        <div id="starBuyMax" class="itemBuy">
+                            Buy Max
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `)
+        $("#shopBox").removeClass("hiddenPart")
+        $("#shopBox").css("border","5px solid gray")
+        AddStarShopUIEvents()
+    }
+    //#endregion
+    //#region AddStarShopUIEvents
+    const AddStarShopUIEvents = ()=>{
+        $("#closeShop").on("click", ()=>{
+            $("#shopBox").html(``)
+            $("#shopBox").css("border", "none")
+        })
+
+        $("#starBuy1").on("mousedown", (e)=>{
+            if(player.stats.points>=1e4){
+                PurchaseStar()
+            }
+        })
+
+        $("#starBuyMax").on("mousedown", (e)=>{
+            while(player.stats.points>=1e4){
+                PurchaseStar()
+            }
+        })
+    }
+    //#endregion
+    //#region PurchaseStar
+    const PurchaseStar = ()=>{
+        player.stats.stars++
+        player.stats.points /= 50
     }
     //#endregion
     //#region DoBet
-    DoBet = (uselessParameter) =>{
+    const DoBet = (uselessParameter) =>{
         $("#shopBox").html(`
             <div class="betContainer">
                 <div class="diceContainer">

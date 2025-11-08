@@ -146,7 +146,11 @@ ul{
 ul>li::before{
     content: "- ";
 }
-
+.starShopRow{
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+}
 
 .betContainer{
     background-color: rgba(0, 255, 0, 0.5);
