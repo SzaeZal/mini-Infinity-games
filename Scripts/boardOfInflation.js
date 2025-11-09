@@ -49,7 +49,8 @@ $(()=>{
     //#endregion
     //#region playerStatsCalculated
     let playerStatsCalculated = {
-        inTheMiddleOfTurn: false
+        inTheMiddleOfTurn: false,
+        rerolling: false
     }
     //#endregion
     //#region MultiplyPoints
@@ -454,7 +455,8 @@ $(()=>{
                         Rerolls
                     </div>
                     <div class="itemDescription">
-                        every turn allows you to reroll 1 dice <br>
+                        every turn allows you to reroll a single selected dice <br>
+                        if both numbers are selected it will reroll the 1st <br>
                         5 uses
                     </div>
                     <div id="rerollsActive">
@@ -1877,81 +1879,132 @@ $(()=>{
             else{
                 RollDoubleDice("dice")
                 setTimeout(() => {
-                    /*TODO: Gonna need another method for selecting  */
                     let rolledNumber0Selected=true
                     let rolledNumber1Selected=true
                     $(`#diceResults`).html(`
-                        <div id="rolledNumber0" class="interactable rolledNumberSelect selectedRolledNumber">
+                        <div id="rolledNumber0Results" class="interactable rolledNumberSelect selectedRolledNumber">
                             ${rolledNumbers[0]} 
                         </div>
                         - 
-                        <div id="rolledNumber1" class="interactable rolledNumberSelect selectedRolledNumber">
+                        <div id="rolledNumber1Results" class="interactable rolledNumberSelect selectedRolledNumber">
                             ${rolledNumbers[1]}
                         </div>
                         <br>
                         <div id="selectNumbers" class="interactable">
                             Select
                         </div>
+                        ${player.stats.effects.rerolls.turnsLeft>0
+                            ? `
+                                <div id="reroll" class="interactable">
+                                    Reroll
+                                </div>
+                            `
+                            : ""
+                        }
                     `)
 
-                    $("#rolledNumber0").on("click", ()=>{
-                        if(rolledNumber0Selected == true){
-                            rolledNumber0Selected = false
-                            $("#rolledNumber0").removeClass("selectedRolledNumber")
-                        }
-                        else{
-                            rolledNumber0Selected = true
-                            $("#rolledNumber0").addClass("selectedRolledNumber")    
-                        }
-                    })
+                    AddNumberSelectingUIEvents()
 
-                    $("#rolledNumber1").on("click", ()=>{
-                        if(rolledNumber1Selected == true){
-                            rolledNumber1Selected = false
-                            $("#rolledNumber1").removeClass("selectedRolledNumber")
-                        }
-                        else{
-                            rolledNumber1Selected = true
-                            $("#rolledNumber1").addClass("selectedRolledNumber")    
-                        }
-                    })
+                    AddSelectNumbersUIEvent()                    
 
-                    $("#selectNumbers").on("click", ()=>{
-                        if(rolledNumber0Selected || rolledNumber1Selected){
-                            let positionsToMove=0
-                            positionsToMove += rolledNumber0Selected ? rolledNumbers[0] : 0
-                            positionsToMove += rolledNumber1Selected ? rolledNumbers[1] : 0
-
-                            player.stats.position +=positionsToMove
-                            if( player.stats.position>=playerPositions.length){
-                                player.stats.position -=playerPositions.length
+                    if(player.stats.effects.rerolls.turnsLeft>0){
+                        $("#reroll").on("click", ()=>{
+                            if(rolledNumber0Selected){
+                                player.stats.effects.rerolls.turnsLeft--
+                                playerStatsCalculated.rerolling=true
+                                $("#reroll").addClass("hiddenPart")
+                                RollSingleDice("rolledNumber0")
+                                setTimeout(()=>{playerStatsCalculated.rerolling=false}, 600)
                             }
-                            MoveToTile(playerPositions[player.stats.position])
-
-                            RollDoubleDice("dice")
-                            setTimeout(() => {
-                                player.shadowClone.position += rolledNumbers[0] + rolledNumbers[1] - 2
-                                if( player.shadowClone.position>=playerPositions.length){
-                                    player.shadowClone.position -=playerPositions.length
-                                }
-                                MoveShadowToTile(playerPositions[player.shadowClone.position])
-                                if(player.stats.position == player.shadowClone.position && player.stats.position != 0 && player.stats.position != 18){
-                                    player.stats.points=1
-                                    ShowNotification("Shadow clone", "Shadow clone reset your points", "ShadowClone")
-                                }
-                                playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
-                                CheckForSpecialTiles()
-                                Save() 
-                                playerStatsCalculated.inTheMiddleOfTurn=false
-                            }, 750);
-                        }
-                        else{
-                            ShowNotification("warning", "Please Select at least 1 number", "Warning")
-                        }
-                    })
+                            else if (rolledNumber1Selected){
+                                player.stats.effects.rerolls.turnsLeft--
+                                playerStatsCalculated.rerolling=true
+                                $("#reroll").addClass("hiddenPart")
+                                RollOnlySecondDice()
+                                setTimeout(()=>{playerStatsCalculated.rerolling=false}, 600)
+                            }
+                            else{
+                                ShowNotification("warning", "Please Select at least 1 number", "Warning")
+                            }
+                        })
+                    }
                 }, 600);     
             }
         }
+    }
+    //#endregion
+    //#region AddNumberSelectingUIEvents
+    const AddNumberSelectingUIEvents = ()=>{
+        $("#rolledNumber0Results").on("click", ()=>{
+            if(rolledNumber0Selected == true){
+                rolledNumber0Selected = false
+                $("#rolledNumber0Results").removeClass("selectedRolledNumber")
+            }
+            else{
+                rolledNumber0Selected = true
+                $("#rolledNumber0Results").addClass("selectedRolledNumber")    
+            }
+        })
+
+        $("#rolledNumber1Results").on("click", ()=>{
+            if(rolledNumber1Selected == true){
+                rolledNumber1Selected = false
+                $("#rolledNumber1Results").removeClass("selectedRolledNumber")
+            }
+            else{
+                rolledNumber1Selected = true
+                $("#rolledNumber1Results").addClass("selectedRolledNumber")    
+            }
+        })
+    }
+    //#endregion
+    //#region AddSelectNumbersUIEvent
+    const AddSelectNumbersUIEvent = ()=>{
+        $("#selectNumbers").on("click", ()=>{
+            if((rolledNumber0Selected || rolledNumber1Selected) && !playerStatsCalculated.rerolling){
+                let positionsToMove=0
+                let shadowPositionsToMove=0
+                positionsToMove += rolledNumber0Selected ? rolledNumbers[0] : 0
+                shadowPositionsToMove += rolledNumber0Selected ? 0 : rolledNumbers[0]
+                positionsToMove += rolledNumber1Selected ? rolledNumbers[1] : 0
+                shadowPositionsToMove += rolledNumber1Selected ? 0 : rolledNumbers[1]
+                player.stats.position +=positionsToMove
+                if( player.stats.position>=playerPositions.length){
+                    player.stats.position -=playerPositions.length
+                }
+                if(player.stats.upgrades.antiDice.bought==true){
+                    player.shadowClone.position-=shadowPositionsToMove
+                    if( player.shadowClone.position<0){
+                        player.shadowClone.position +=playerPositions.length
+                    }
+                    MoveShadowToTile(playerPositions[player.shadowClone.position])
+                    if(player.stats.position == player.shadowClone.position && player.stats.position != 0 && player.stats.position != 18){
+                        player.stats.points=1
+                        ShowNotification("Shadow clone", "Shadow clone reset your points", "ShadowClone")
+                    }
+                }
+                MoveToTile(playerPositions[player.stats.position])
+                RollDoubleDice("dice")
+                setTimeout(() => {
+                    player.shadowClone.position += rolledNumbers[0] + rolledNumbers[1] - 2
+                    if( player.shadowClone.position>=playerPositions.length){
+                        player.shadowClone.position -=playerPositions.length
+                    }
+                    MoveShadowToTile(playerPositions[player.shadowClone.position])
+                    if(player.stats.position == player.shadowClone.position && player.stats.position != 0 && player.stats.position != 18){
+                        player.stats.points=1
+                        ShowNotification("Shadow clone", "Shadow clone reset your points", "ShadowClone")
+                    }
+                    playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
+                    CheckForSpecialTiles()
+                    Save() 
+                    playerStatsCalculated.inTheMiddleOfTurn=false
+                }, 750);
+            }
+            else{
+                ShowNotification("warning", "Please Select at least 1 number", "Warning")
+            }
+        })
     }
     //#endregion
     //#region RollDice
@@ -1960,6 +2013,15 @@ $(()=>{
             setTimeout(()=>{
                 rolledNumbers[0]=1 + Math.floor(Math.random() * 6)
                 $(`#${divName}Results`).text(`${rolledNumbers[0]}`)
+            }, i*50)
+        }
+    }
+
+    const RollOnlySecondDice = (divName)=>{
+        for(let i=0; i<10; i++){
+            setTimeout(()=>{
+                rolledNumbers[1]=1 + Math.floor(Math.random() * 6)
+                $(`#rolledNumber1Results`).text(`${rolledNumbers[1]}`)
             }, i*50)
         }
     }
@@ -2022,6 +2084,11 @@ $(()=>{
         else{
             $("#openShopButton").addClass("hiddenPart")
         }
+    }
+    //#endregion
+    //#region CheckForActiveEffects
+    const CheckForActiveEffects = ()=>{
+
     }
     //#endregion
     //#region FormatNumber
