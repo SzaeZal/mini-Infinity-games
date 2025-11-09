@@ -47,6 +47,11 @@ $(()=>{
         }
     }
     //#endregion
+    //#region playerStatsCalculated
+    let playerStatsCalculated = {
+        inTheMiddleOfTurn: false
+    }
+    //#endregion
     //#region MultiplyPoints
     const MultiplyPoints = (amount) =>{
         if(amount > 1 && amount<10 && player.stats.upgrades.greenBaseDoubler.bought==true){
@@ -174,6 +179,7 @@ $(()=>{
     const PurchaseGreenBaseDoubler = ()=>{
         player.stats.points-=1e3
         player.stats.upgrades.greenBaseDoubler.bought=true
+        $("#playerPoints").text(`Points: ${FormatNumber(player.stats.points)}`)
         Save()
     }
     //#endregion
@@ -213,6 +219,7 @@ $(()=>{
     const PurchaseNoRedDivisions = ()=>{
         player.stats.points-=1e4
         player.stats.effects.noRedSquareDivisions.turnsLeft=10
+        $("#playerPoints").text(`Points: ${FormatNumber(player.stats.points)}`)
         Save()
     }
     //#endregion
@@ -258,6 +265,7 @@ $(()=>{
     const PurchaseSecondDice = ()=>{
         player.stats.points-=1e5
         player.stats.upgrades.secondDice.bought=true
+        $("#playerPoints").text(`Points: ${FormatNumber(player.stats.points)}`)
         Save()
     }
     //#endregion
@@ -430,6 +438,7 @@ $(()=>{
     const PurchaseLockpickKit = ()=>{
         player.stats.points-=1e5
         player.stats.effects.lockpickKit.turnsLeft=3
+        $("#playerPoints").text(`Points: ${FormatNumber(player.stats.points)}`)
         Save()
     }
     //#endregion
@@ -470,6 +479,7 @@ $(()=>{
     const PurchaseRerolls = ()=>{
         player.stats.stars-=1
         player.stats.effects.rerolls.turnsLeft=5
+        $("#playerStars").text(`Stars: ${FormatNumber(player.stats.stars)}`)
         Save()
     }
     //#endregion
@@ -510,6 +520,7 @@ $(()=>{
     const PurchaseAntiDice = ()=>{
         player.stats.stars-=3
         player.stats.upgrades.antiDice.bought=true
+        $("#playerStars").text(`Stars: ${FormatNumber(player.stats.stars)}`)
         Save()
     }
     //#endregion
@@ -552,6 +563,7 @@ $(()=>{
         player.stats.effects.keyOfInfinity.turnsLeft=10
         player.stats.eyeOfInfinityUnlocked=true
         $("#eyeOfInfinityLock").addClass("hiddenPart")
+        $("#playerStars").text(`Stars: ${FormatNumber(player.stats.stars)}`)
         Save()
     }
     //#endregion
@@ -613,6 +625,7 @@ $(()=>{
     const PurchaseStar = ()=>{
         player.stats.stars++
         player.stats.points /= 50
+        $("#playerPoints").text(`Points: ${FormatNumber(player.stats.points)}`)
     }
     //#endregion
     //#region DoBet
@@ -1843,96 +1856,101 @@ $(()=>{
     //#endregion
     //#region DoTurn
     const DoTurn = ()=>{
-        $("#shopBox").html(``)
-        $("#shopBox").css("border", "none")
-        if(player.stats.upgrades.secondDice.bought==false){
-            RollSingleDice("dice")     
-            setTimeout(()=>{
-                player.stats.position+=rolledNumbers[0]
-                if( player.stats.position>=playerPositions.length){
-                    player.stats.position -=playerPositions.length
-                }
-                MoveToTile(playerPositions[player.stats.position])
-                playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
-                CheckForSpecialTiles()
-                Save()
-            }, 1000 )
-        }
-        else{
-            RollDoubleDice("dice")
-            setTimeout(() => {
-                /*TODO: Gonna need another method for selecting  */
-                let rolledNumber0Selected=true
-                let rolledNumber1Selected=true
-                $(`#diceResults`).html(`
-                    <div id="rolledNumber0" class="interactable rolledNumberSelect selectedRolledNumber">
-                        ${rolledNumbers[0]} 
-                    </div>
-                    - 
-                    <div id="rolledNumber1" class="interactable rolledNumberSelect selectedRolledNumber">
-                        ${rolledNumbers[1]}
-                    </div>
-                    <br>
-                    <div id="selectNumbers" class="interactable">
-                        Select
-                    </div>
-                `)
-
-                $("#rolledNumber0").on("click", ()=>{
-                    if(rolledNumber0Selected == true){
-                        rolledNumber0Selected = false
-                        $("#rolledNumber0").removeClass("selectedRolledNumber")
+        if(playerStatsCalculated.inTheMiddleOfTurn==false){
+            playerStatsCalculated.inTheMiddleOfTurn=true
+            $("#shopBox").html(``)
+            $("#shopBox").css("border", "none")
+            if(player.stats.upgrades.secondDice.bought==false){
+                RollSingleDice("dice")     
+                setTimeout(()=>{
+                    player.stats.position+=rolledNumbers[0]
+                    if( player.stats.position>=playerPositions.length){
+                        player.stats.position -=playerPositions.length
                     }
-                    else{
-                        rolledNumber0Selected = true
-                        $("#rolledNumber0").addClass("selectedRolledNumber")    
-                    }
-                })
+                    MoveToTile(playerPositions[player.stats.position])
+                    playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
+                    CheckForSpecialTiles()
+                    Save()
+                    playerStatsCalculated.inTheMiddleOfTurn=false
+                }, 1000 )
+            }
+            else{
+                RollDoubleDice("dice")
+                setTimeout(() => {
+                    /*TODO: Gonna need another method for selecting  */
+                    let rolledNumber0Selected=true
+                    let rolledNumber1Selected=true
+                    $(`#diceResults`).html(`
+                        <div id="rolledNumber0" class="interactable rolledNumberSelect selectedRolledNumber">
+                            ${rolledNumbers[0]} 
+                        </div>
+                        - 
+                        <div id="rolledNumber1" class="interactable rolledNumberSelect selectedRolledNumber">
+                            ${rolledNumbers[1]}
+                        </div>
+                        <br>
+                        <div id="selectNumbers" class="interactable">
+                            Select
+                        </div>
+                    `)
 
-                $("#rolledNumber1").on("click", ()=>{
-                    if(rolledNumber1Selected == true){
-                        rolledNumber1Selected = false
-                        $("#rolledNumber1").removeClass("selectedRolledNumber")
-                    }
-                    else{
-                        rolledNumber1Selected = true
-                        $("#rolledNumber1").addClass("selectedRolledNumber")    
-                    }
-                })
-
-                $("#selectNumbers").on("click", ()=>{
-                    if(rolledNumber0Selected || rolledNumber1Selected){
-                        let positionsToMove=0
-                        positionsToMove += rolledNumber0Selected ? rolledNumbers[0] : 0
-                        positionsToMove += rolledNumber1Selected ? rolledNumbers[1] : 0
-
-                        player.stats.position +=positionsToMove
-                        if( player.stats.position>=playerPositions.length){
-                            player.stats.position -=playerPositions.length
+                    $("#rolledNumber0").on("click", ()=>{
+                        if(rolledNumber0Selected == true){
+                            rolledNumber0Selected = false
+                            $("#rolledNumber0").removeClass("selectedRolledNumber")
                         }
-                        MoveToTile(playerPositions[player.stats.position])
+                        else{
+                            rolledNumber0Selected = true
+                            $("#rolledNumber0").addClass("selectedRolledNumber")    
+                        }
+                    })
 
-                        RollDoubleDice("dice")
-                        setTimeout(() => {
-                            player.shadowClone.position += rolledNumbers[0] + rolledNumbers[1] - 2
-                            if( player.shadowClone.position>=playerPositions.length){
-                                player.shadowClone.position -=playerPositions.length
+                    $("#rolledNumber1").on("click", ()=>{
+                        if(rolledNumber1Selected == true){
+                            rolledNumber1Selected = false
+                            $("#rolledNumber1").removeClass("selectedRolledNumber")
+                        }
+                        else{
+                            rolledNumber1Selected = true
+                            $("#rolledNumber1").addClass("selectedRolledNumber")    
+                        }
+                    })
+
+                    $("#selectNumbers").on("click", ()=>{
+                        if(rolledNumber0Selected || rolledNumber1Selected){
+                            let positionsToMove=0
+                            positionsToMove += rolledNumber0Selected ? rolledNumbers[0] : 0
+                            positionsToMove += rolledNumber1Selected ? rolledNumbers[1] : 0
+
+                            player.stats.position +=positionsToMove
+                            if( player.stats.position>=playerPositions.length){
+                                player.stats.position -=playerPositions.length
                             }
-                            MoveShadowToTile(playerPositions[player.shadowClone.position])
-                            if(player.stats.position == player.shadowClone.position && player.stats.position != 0 && player.stats.position != 18){
-                                player.stats.points=1
-                                ShowNotification("Shadow clone", "Shadow clone reset your points", "ShadowClone")
-                            }
-                            playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
-                            CheckForSpecialTiles()
-                            Save() 
-                        }, 750);
-                    }
-                    else{
-                        ShowNotification("warning", "Please Select at least 1 number", "Warning")
-                    }
-                })
-            }, 600);     
+                            MoveToTile(playerPositions[player.stats.position])
+
+                            RollDoubleDice("dice")
+                            setTimeout(() => {
+                                player.shadowClone.position += rolledNumbers[0] + rolledNumbers[1] - 2
+                                if( player.shadowClone.position>=playerPositions.length){
+                                    player.shadowClone.position -=playerPositions.length
+                                }
+                                MoveShadowToTile(playerPositions[player.shadowClone.position])
+                                if(player.stats.position == player.shadowClone.position && player.stats.position != 0 && player.stats.position != 18){
+                                    player.stats.points=1
+                                    ShowNotification("Shadow clone", "Shadow clone reset your points", "ShadowClone")
+                                }
+                                playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
+                                CheckForSpecialTiles()
+                                Save() 
+                                playerStatsCalculated.inTheMiddleOfTurn=false
+                            }, 750);
+                        }
+                        else{
+                            ShowNotification("warning", "Please Select at least 1 number", "Warning")
+                        }
+                    })
+                }, 600);     
+            }
         }
     }
     //#endregion
