@@ -1873,6 +1873,8 @@ $(()=>{
                     MoveToTile(playerPositions[player.stats.position])
                     playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
                     CheckForSpecialTiles()
+                    SubtractTurnFromActiveEffects()
+                    CheckForActiveEffects()
                     Save()
                     playerStatsCalculated.inTheMiddleOfTurn=false
                 }, 1000 )
@@ -1912,6 +1914,7 @@ $(()=>{
                         $("#reroll").on("click", ()=>{
                             if(rolledNumber0Selected){
                                 player.stats.effects.rerolls.turnsLeft--
+                                $("#rerollsDuration").text(`${player.stats.effects.rerolls.turnsLeft} uses left`)
                                 playerStatsCalculated.rerolling=true
                                 $("#reroll").addClass("hiddenPart")
                                 RollSingleDice("rolledNumber0")
@@ -1919,6 +1922,7 @@ $(()=>{
                             }
                             else if (rolledNumber1Selected){
                                 player.stats.effects.rerolls.turnsLeft--
+                                $("#rerollsDuration").text(`${player.stats.effects.rerolls.turnsLeft} uses left`)
                                 playerStatsCalculated.rerolling=true
                                 $("#reroll").addClass("hiddenPart")
                                 RollOnlySecondDice()
@@ -1998,6 +2002,8 @@ $(()=>{
                     }
                     playerPositions[player.stats.position].callback.name(playerPositions[player.stats.position].callback.parameter)
                     CheckForSpecialTiles()
+                    SubtractTurnFromActiveEffects()
+                    CheckForActiveEffects()
                     Save() 
                     playerStatsCalculated.inTheMiddleOfTurn=false
                 }, 750);
@@ -2126,6 +2132,20 @@ $(()=>{
         }
         else{
             $("#playerEffects").addClass("hiddenPart")
+        }
+    }
+    //#endregion
+    //#region SubtractTurnFromActiveEffects
+    const SubtractTurnFromActiveEffects = ()=>{
+        if(player.stats.effects.noRedSquareDivisions.turnsLeft>0){
+            player.stats.effects.noRedSquareDivisions.turnsLeft--
+        }
+
+        if(player.stats.effects.keyOfInfinity.turnsLeft!=-1){
+            player.stats.effects.keyOfInfinity.turnsLeft--
+            if(player.stats.effects.keyOfInfinity.turnsLeft==0){
+                HardReset()
+            }
         }
     }
     //#endregion
