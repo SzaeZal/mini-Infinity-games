@@ -1618,7 +1618,7 @@ $(()=>{
                     <div id="rollDice" class="diceContainer interactable">Next Turn</div>
                     <div class="playerEffects hiddenPart" id="playerEffects">
                         <div class="playerEffectsColumn">
-                            <div class="effectItem hiddenPart id="noRedSquareDivisions">
+                            <div class="effectItem hiddenPart" id="noRedSquareDivisions">
                                 <div class="effectName">
                                     No Red Tile Divisions
                                 </div>
@@ -1854,6 +1854,7 @@ $(()=>{
         }
         $("#rollDice").on("click", DoTurn)
         CheckForSpecialTiles()
+        CheckForActiveEffects()
     }
     //#endregion
     //#region DoTurn
@@ -2088,7 +2089,44 @@ $(()=>{
     //#endregion
     //#region CheckForActiveEffects
     const CheckForActiveEffects = ()=>{
+        if(player.stats.effects.noRedSquareDivisions.turnsLeft>0
+            || player.stats.effects.keyOfInfinity.turnsLeft!=-1
+            || player.stats.effects.lockpickKit.turnsLeft>0
+            ||  player.stats.effects.rerolls.turnsLeft>0 )
+        {
+            $("#playerEffects").removeClass("hiddenPart")
+            if(player.stats.effects.noRedSquareDivisions.turnsLeft>0){
+                $("#noRedSquareDivisions").removeClass("hiddenPart")
+                $("#noRedSquareDivisionsDuration").text(`${player.stats.effects.noRedSquareDivisions.turnsLeft} turns left`)
+            }
+            else{
+                $("#noRedSquareDivisions").addClass("hiddenPart")
+            }
 
+            if(player.stats.effects.keyOfInfinity.turnsLeft!=-1){
+                $("#keyOfInfinity").removeClass("hiddenPart")
+                $("#keyOfInfinityDuration").text(`${player.stats.effects.noRedSquareDivisions.turnsLeft} turns left`)
+            }
+
+            if(player.stats.effects.lockpickKit.turnsLeft>0){
+                $("#lockpickKit").removeClass("hiddenPart")
+                $("#lockpickKitDuration").text(`${player.stats.effects.lockpickKit.turnsLeft} uses left`)
+            }
+            else{
+                $("#lockpickKit").addClass("hiddenPart")
+            }
+
+            if(player.stats.effects.rerolls.turnsLeft>0){
+                $("#rerolls").removeClass("hiddenPart")
+                $("#rerollsDuration").text(`${player.stats.effects.rerolls.turnsLeft} uses left`)
+            }
+            else{
+                $("#rerolls").addClass("hiddenPart")
+            }
+        }
+        else{
+            $("#playerEffects").addClass("hiddenPart")
+        }
     }
     //#endregion
     //#region FormatNumber
