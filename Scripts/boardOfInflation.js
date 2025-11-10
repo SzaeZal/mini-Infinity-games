@@ -2060,6 +2060,39 @@ $(()=>{
             `)
     }
     //#endregion
+    //#region AttemptLockpick
+    const AttemptLockpick = ()=>{
+        if(player.stats.upgrades.secondDice.bought==true){
+            RollDoubleDice("lockpick")
+            setTimeout(()=>{
+                if(rolledNumbers[0] + rolledNumbers[1] == 12){
+                    $("#lockpickText").text(`Success!`)
+                    player.stats.eyeOfInfinityUnlocked=true
+                    $("#eyeOfInfinityLock").addClass("hiddenPart")
+                    setTimeout(()=>{
+                        $("#lockpickAttempt").addClass(`hiddenPart`)
+                    }, 1000)
+                }
+                else{
+                    player.stats.effects.lockpickKit.turnsLeft--
+                    CheckForActiveEffects()
+                    $("#lockpickResults").text(`Failed`)
+                    setTimeout(()=>{
+                        $("#lockpickAttempt").addClass(`hiddenPart`)
+                    }, 1000)
+                }   
+            }, 600);
+        }
+        else{
+            player.stats.effects.lockpickKit.turnsLeft--
+            CheckForActiveEffects()
+            $("#lockpickResults").text(`Critical Fail`)
+            setTimeout(()=>{
+                $("#lockpickAttempt").addClass(`hiddenPart`)
+            }, 1000)
+        }
+    }
+    //#endregion
     //#region CheckForSpecialTiles
     const CheckForSpecialTiles = ()=>{
         if(player.stats.position == 5 || player.stats.position == 23){
@@ -2085,8 +2118,13 @@ $(()=>{
                 <rect width="200" height="100" x="200" y="200" rx="20" ry="20" stroke="gray" fill="rgba(128, 128, 128, 0.5)" class="interactable"/>
                 <text x="220" y="240" font-size="35" class="interactable">Open star</text>
                 <text x="260" y="280" font-size="35" class="interactable">shop</text>
+                <g id="lockpickAttempt" class="interactable">
+                    <rect width="200" height="25" x="200" y="310" rx="20" ry="20" stroke="gray" fill="rgba(128, 128, 128, 0.5)" class="interactable"/>
+                    <text x="220" y="317" font-size="35" class="interactable" id="lockpickResults">Lockpick</text>
+                </g>
             `)
             $("#openShopButton").on("click", OpenStarShop)
+            $("#lockpickAttempt").on("click", AttemptLockpick)
         }
         else{
             $("#openShopButton").addClass("hiddenPart")
