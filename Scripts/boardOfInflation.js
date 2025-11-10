@@ -8,6 +8,7 @@ $(()=>{
             points: 1,
             stars: 0,
             position: 0,
+            eyeOfInfinityPosition: -1,
             eyeOfInfinityUnlocked: false,
             effects:{
                 noRedSquareDivisions:{
@@ -1177,6 +1178,99 @@ $(()=>{
         },
     ]
     //#endregion
+    //#region Eye of Infinity Positions
+    let eyeOfInfinityPositions = [
+        {
+            circle:{
+                x:1048,
+                y:250
+            },
+            text:{
+                x: 1040,
+                y: 260
+            },
+        },
+        {
+            circle:{
+                x:973,
+                y:250
+            },
+            text:{
+                x: 965,
+                y: 260
+            },
+        },
+        {
+            circle:{
+                x:958,
+                y:305
+            },
+            text:{
+                x: 950,
+                y: 315
+            },
+        },
+        {
+            circle:{
+                x:900,
+                y:325
+            },
+            text:{
+                x: 892,
+                y: 335
+            },
+        },
+        {
+            circle:{
+                x:842,
+                y:305
+            },
+            text:{
+                x: 834,
+                y: 315
+            },
+        },
+        {
+            circle:{
+                x:825,
+                y:250
+            },
+            text:{
+                x: 817,
+                y: 260
+            },
+        },
+        {
+            circle:{
+                x:842,
+                y:195
+            },
+            text:{
+                x: 834,
+                y: 205
+            },
+        },
+        {
+            circle:{
+                x:900,
+                y:175
+            },
+            text:{
+                x: 892,
+                y: 185
+            },
+        },
+        {
+            circle:{
+                x:958,
+                y:195
+            },
+            text:{
+                x: 950,
+                y: 205
+            },
+        }
+    ]
     //#region rolledNumbers
     let rolledNumbers=[0, 0]
     //#endregion   
@@ -2254,7 +2348,7 @@ $(()=>{
     };
     
     const CheckForMissingData = () => {
-
+        player.stats.eyeOfInfinityPosition=-1
     };
 
     const HardReset = () => {
@@ -2283,10 +2377,4 @@ $(()=>{
         ShowDialogBox("Warning", "This game is not optimized for small screens. <br> Please use a device with a larger screen for the best experience. <br> or use landscape orientation", "Warning")
     }
     //setTimeout(()=>{debugger;} , 15000)
-    /*for(let i=0; i<playerPositions.length; i++){
-        setTimeout(()=>{
-            MoveToTile(playerPositions[i])
-        }, i*500)
-        
-    }*/
 })
