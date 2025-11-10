@@ -202,6 +202,12 @@ $(()=>{
             if(e.originalEvent.code=="Space"){
                 PauseGame()
             }
+            else if(e.originalEvent.code == "KeyA" || e.originalEvent.code == "ArrowLeft"){
+                MovePlayerLeft()
+            }
+            else if(e.originalEvent.code == "KeyD" || e.originalEvent.code == "ArrowRight"){
+                MovePlayerRight()
+            }
         }
         else{    
             if(e.originalEvent.code == "KeyS" || e.originalEvent.code == "ArrowDown"){
