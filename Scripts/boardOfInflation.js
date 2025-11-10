@@ -2139,10 +2139,29 @@ $(()=>{
     //#endregion
     //#region MoveToTile
     const MoveToTile = (position) =>{
-        $("#playerPositionIndicator").html(`
+        if((player.stats.eyeOfInfinityUnlocked==true && player.stats.position > 27) || player.stats.eyeOfInfinityPosition>=0){
+            if(player.stats.eyeOfInfinityPosition==-1){
+                player.stats.eyeOfInfinityPosition=player.stats.position - 28
+            }
+            player.stats.eyeOfInfinityPosition += player.stats.position
+            if(player.stats.eyeOfInfinityPosition >= eyeOfInfinityPositions.length){
+                player.stats.eyeOfInfinityPosition -= eyeOfInfinityPositions.length -1
+            }
+            position = eyeOfInfinityPositions[player.stats.eyeOfInfinityPosition]
+            $("#playerPositionIndicator").html(`
                 <circle r="30" cx="${position.circle.x}" cy="${position.circle.y}" fill="rgba(255, 255, 255, 0.5)" stroke="white"/>
                 <text x="${position.text.x}" y="${position.text.y}" font-size="35">p</text>
             `)
+            if(player.stats.eyeOfInfinityPosition == 5){
+                ShowDialogBox("Eye of Infinity", "You have reached the Eye of Infinity's special tile!", "EyeOfInfinity")
+            }
+        }
+        else{      
+            $("#playerPositionIndicator").html(`
+                <circle r="30" cx="${position.circle.x}" cy="${position.circle.y}" fill="rgba(255, 255, 255, 0.5)" stroke="white"/>
+                <text x="${position.text.x}" y="${position.text.y}" font-size="35">p</text>
+            `)
+        }
     }
     //#endregion
     //#region MoveShadowToTile
