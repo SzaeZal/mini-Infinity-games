@@ -136,7 +136,7 @@
     scale: 1.05;
     box-shadow: 0 0 10px gray;
 }
-.itemDescription{
+.shopItem>div{
     text-align: center;
 }
 ul{
@@ -154,6 +154,13 @@ ul>li::before{
 
 .betContainer{
     background-color: rgba(0, 255, 0, 0.5);
+    padding: 20px;
+}
+#betResult{
+    margin-top: 15px;
+    font-size: x-large;
+    font-weight: bold;
+    text-align: center;
 }
 
 .board{
@@ -171,7 +178,7 @@ ul>li::before{
 .diceContainer,.diceResultsContainer , .playerInfoContainer, .playerEffects{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     gap: 10px;
     z-index: 10;
@@ -191,6 +198,8 @@ ul>li::before{
 
 .rolledNumberSelect{
     display: inline-block;
+    width: 33%;
+    text-align: center;
     margin-bottom: 5px;
     border: 2px solid gray;
     border-radius: 5px;
@@ -208,7 +217,8 @@ ul>li::before{
     background-color: rgba(0, 200, 0, 0.4);
     font-size: larger;
 }
-#selectNumbers{
+#selectNumbers, #reroll{
+    display: inline-block;
     margin: auto;
     border: 2px solid gray;
     border-radius: 5px;
@@ -216,7 +226,7 @@ ul>li::before{
     transition-duration: 0.3s;
     text-align: center;
 }
-#selectNumbers:hover{
+#selectNumbers:hover, #reroll:hover{
     background-color: rgba(128, 128, 128, 0.25);
     font-size: larger;
 }

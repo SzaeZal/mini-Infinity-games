@@ -222,6 +222,8 @@ $(()=>{
         player.stats.points-=1e4
         player.stats.effects.noRedSquareDivisions.turnsLeft=10
         $("#playerPoints").text(`Points: ${FormatNumber(player.stats.points)}`)
+        $("#noRedSquareDivisions").removeClass("hiddenPart")
+        $("#noRedSquareDivisionsDuration").text(`${player.stats.effects.noRedSquareDivisions.turnsLeft} turns left`)
         Save()
     }
     //#endregion
@@ -441,6 +443,8 @@ $(()=>{
         player.stats.points-=1e5
         player.stats.effects.lockpickKit.turnsLeft=3
         $("#playerPoints").text(`Points: ${FormatNumber(player.stats.points)}`)
+        $("#lockpickKit").removeClass("hiddenPart")
+        $("#lockpickKitDuration").text(`${player.stats.effects.lockpickKit.turnsLeft} uses left`)
         Save()
     }
     //#endregion
@@ -483,6 +487,8 @@ $(()=>{
         player.stats.stars-=1
         player.stats.effects.rerolls.turnsLeft=5
         $("#playerStars").text(`Stars: ${FormatNumber(player.stats.stars)}`)
+        $("#rerolls").removeClass("hiddenPart")
+        $("#rerollsDuration").text(`${player.stats.effects.rerolls.turnsLeft} uses left`)
         Save()
     }
     //#endregion
@@ -567,6 +573,8 @@ $(()=>{
         player.stats.eyeOfInfinityUnlocked=true
         $("#eyeOfInfinityLock").addClass("hiddenPart")
         $("#playerStars").text(`Stars: ${FormatNumber(player.stats.stars)}`)
+        $("#keyOfInfinity").removeClass("hiddenPart")
+        $("#keyOfInfinityDuration").text(`${player.stats.effects.keyOfInfinity.turnsLeft} turns left`)
         Save()
     }
     //#endregion
@@ -629,15 +637,17 @@ $(()=>{
         player.stats.stars++
         player.stats.points /= 50
         $("#playerPoints").text(`Points: ${FormatNumber(player.stats.points)}`)
+        $("#playerStars").text(`Stars: ${FormatNumber(player.stats.stars)}`)
+        Save()
     }
     //#endregion
     //#region DoBet
-    const DoBet = (uselessParameter) =>{
+    DoBet = (uselessParameter) =>{
         $("#shopBox").html(`
             <div class="betContainer">
-                <div class="diceContainer">
+                <div class="diceContainer" id="gamble">
                     <div id="betResults">-</div>
-                    <div id="gamble" class="interactable">ROLL DICE</div>
+                    <div class="interactable">ROLL DICE</div>
                 </div>
                 <div id="betResult">
                 </div>
@@ -1827,8 +1837,11 @@ $(()=>{
                     <g class="eyeOfInfinity">
                         <g class="tile-eyeOfInfinity">
                             <path d="M 1100 210 L 1100 290 L 1000 290 L 1000 210" stroke="black" fill="gray"/>
-                            <image x="1012" y="215" width="72px" height="72px" href="../Images/BoardOfInflation/lock.png" id="eyeOfInfinityLock"/>
-                        </g>
+                            ${player.stats.eyeOfInfinityUnlocked==false ? `
+                                <image x="1012" y="215" width="72px" height="72px" href="../Images/BoardOfInflation/lock.png" id="eyeOfInfinityLock"/>
+                                ` : ``
+                            }
+                            </g>
                         <g class="tile-eyeOfInfinity">
                             <path d="M 1000 210 L 1000 290 L 950 275 L 950 225" stroke="black" fill="gray"/>
                         </g>
@@ -1951,6 +1964,8 @@ $(()=>{
         CheckForActiveEffects()
     }
     //#endregion
+    let rolledNumber0Selected=true
+    let rolledNumber1Selected=true
     //#region DoTurn
     const DoTurn = ()=>{
         if(playerStatsCalculated.inTheMiddleOfTurn==false){
@@ -1976,8 +1991,8 @@ $(()=>{
             else{
                 RollDoubleDice("dice")
                 setTimeout(() => {
-                    let rolledNumber0Selected=true
-                    let rolledNumber1Selected=true
+                    rolledNumber0Selected=true
+                    rolledNumber1Selected=true
                     $(`#diceResults`).html(`
                         <div id="rolledNumber0Results" class="interactable rolledNumberSelect selectedRolledNumber">
                             ${rolledNumbers[0]} 
@@ -2142,8 +2157,13 @@ $(()=>{
         if((player.stats.eyeOfInfinityUnlocked==true && player.stats.position > 27) || player.stats.eyeOfInfinityPosition>=0){
             if(player.stats.eyeOfInfinityPosition==-1){
                 player.stats.eyeOfInfinityPosition=player.stats.position - 28
+                player.stats.position=0
             }
-            player.stats.eyeOfInfinityPosition += player.stats.position
+            else{
+                player.stats.eyeOfInfinityPosition += player.stats.position
+                player.stats.position=0
+            }
+
             if(player.stats.eyeOfInfinityPosition >= eyeOfInfinityPositions.length){
                 player.stats.eyeOfInfinityPosition -= eyeOfInfinityPositions.length -1
             }
@@ -2153,7 +2173,7 @@ $(()=>{
                 <text x="${position.text.x}" y="${position.text.y}" font-size="35">p</text>
             `)
             if(player.stats.eyeOfInfinityPosition == 5){
-                ShowDialogBox("Eye of Infinity", "You have reached the Eye of Infinity's special tile!", "EyeOfInfinity")
+                ShowDialogBox("Eye of Infinity", "You have reached the Eye of Infinity's special tile!", "Warning")
             }
         }
         else{      
@@ -2178,13 +2198,17 @@ $(()=>{
         if(player.stats.upgrades.secondDice.bought==true){
             RollDoubleDice("lockpick")
             setTimeout(()=>{
+                //temp
+                rolledNumbers[0]=6
+                rolledNumbers[1]=6
                 if(rolledNumbers[0] + rolledNumbers[1] == 12){
-                    $("#lockpickText").text(`Success!`)
+                    $("#lockpickResults").text(`Success!`)
                     player.stats.eyeOfInfinityUnlocked=true
                     $("#eyeOfInfinityLock").addClass("hiddenPart")
                     setTimeout(()=>{
                         $("#lockpickAttempt").addClass(`hiddenPart`)
-                    }, 1000)
+                    }, 2000)
+                    Save()
                 }
                 else{
                     player.stats.effects.lockpickKit.turnsLeft--
@@ -2193,8 +2217,9 @@ $(()=>{
                     setTimeout(()=>{
                         $("#lockpickAttempt").addClass(`hiddenPart`)
                     }, 1000)
+                    Save()
                 }   
-            }, 600);
+            }, 1500);
         }
         else{
             player.stats.effects.lockpickKit.turnsLeft--
@@ -2203,6 +2228,7 @@ $(()=>{
             setTimeout(()=>{
                 $("#lockpickAttempt").addClass(`hiddenPart`)
             }, 1000)
+            Save()
         }
     }
     //#endregion
@@ -2228,15 +2254,22 @@ $(()=>{
         else if(player.stats.position == 27){
             $("#openShopButton").removeClass("hiddenPart")
             $("#openShopButton").html(`
-                <rect width="200" height="100" x="200" y="200" rx="20" ry="20" stroke="gray" fill="rgba(128, 128, 128, 0.5)" class="interactable"/>
-                <text x="220" y="240" font-size="35" class="interactable">Open star</text>
-                <text x="260" y="280" font-size="35" class="interactable">shop</text>
-                <g id="lockpickAttempt" class="interactable">
-                    <rect width="200" height="25" x="200" y="310" rx="20" ry="20" stroke="gray" fill="rgba(128, 128, 128, 0.5)" class="interactable"/>
-                    <text x="220" y="317" font-size="35" class="interactable" id="lockpickResults">Lockpick</text>
+                <g id="openStarShopButton" class="interactable">
+                    <rect width="200" height="100" x="200" y="175" rx="20" ry="20" stroke="gray" fill="rgba(128, 128, 128, 0.5)" class="interactable"/>
+                    <text x="230" y="215" font-size="35" class="interactable">Open star</text>
+                    <text x="260" y="260" font-size="35" class="interactable">shop</text>
                 </g>
+                ${player.stats.effects.lockpickKit.turnsLeft>0 && player.stats.eyeOfInfinityUnlocked==false
+                    ? `
+                    <g id="lockpickAttempt" class="interactable">
+                        <rect width="200" height="50" x="200" y="285" rx="20" ry="20" stroke="gray" fill="rgba(128, 128, 128, 0.5)" class="interactable"/>
+                        <text x="240" y="322" font-size="35" class="interactable" id="lockpickResults">Lockpick</text>
+                    </g>
+                    `
+                    : ""
+                }
             `)
-            $("#openShopButton").on("click", OpenStarShop)
+            $("#openStarShopButton").on("click", OpenStarShop)
             $("#lockpickAttempt").on("click", AttemptLockpick)
         }
         else{
@@ -2262,7 +2295,7 @@ $(()=>{
 
             if(player.stats.effects.keyOfInfinity.turnsLeft!=-1){
                 $("#keyOfInfinity").removeClass("hiddenPart")
-                $("#keyOfInfinityDuration").text(`${player.stats.effects.noRedSquareDivisions.turnsLeft} turns left`)
+                $("#keyOfInfinityDuration").text(`${player.stats.effects.keyOfInfinity.turnsLeft} turns left`)
             }
 
             if(player.stats.effects.lockpickKit.turnsLeft>0){
@@ -2368,6 +2401,7 @@ $(()=>{
     
     const CheckForMissingData = () => {
         player.stats.eyeOfInfinityPosition=-1
+        player.stats.effects.lockpickKit.turnsLeft=3
     };
 
     const HardReset = () => {
