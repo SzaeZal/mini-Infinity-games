@@ -2400,8 +2400,7 @@ $(()=>{
     };
     
     const CheckForMissingData = () => {
-        player.stats.eyeOfInfinityPosition=-1
-        player.stats.effects.lockpickKit.turnsLeft=3
+
     };
 
     const HardReset = () => {

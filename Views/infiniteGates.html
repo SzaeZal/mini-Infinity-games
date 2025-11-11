@@ -64,41 +64,76 @@
             <div id="view">
                 <div id="subMenuInView">
                     <div class="subMenuItem selectedSubMenuItem">
-                        Main
+                        Difficulty Select
                     </div>
                 </div>
                 <div class="mainView">
-                    <div class="gameMainMenu">
-                        <div class="gameDifficultySelect">
-                            <div class="gameDifficultySelectTitle">
-                                Select Difficulty
-                            </div>
-                            <div class="difficulties">
-                                <svg height="75" width="200" xmlns="http://www.w3.org/2000/svg" id="easyDifficulty" class="interactable difficulty">
-                                    <path d="M5 60 L15 0 L190 0  L180 60 Z" style="fill:none;stroke:green;stroke-width:3" />
-                                    <text x="50" y="45" fill="green" font-size="45">Easy</text>
-                                </svg>
-                                <svg height="75" width="200" xmlns="http://www.w3.org/2000/svg" id="mediumDifficulty" class="interactable difficulty">
-                                    <path d="M5 60 L15 0 L190 0  L180 60 Z" style="fill:none;stroke:orange;stroke-width:3" />
-                                    <text x="22" y="45" fill="orange" font-size="45">Medium</text>
-                                </svg>
-                                <svg height="75" width="200" xmlns="http://www.w3.org/2000/svg" id="hardDifficulty" class="interactable difficulty">
-                                    <path d="M5 60 L15 0 L190 0  L180 60 Z" style="fill:none;stroke:red;stroke-width:3" />
-                                    <text x="50" y="45" fill="red" font-size="45">Hard</text>
-                                </svg>
-                                <svg height="75" width="200" xmlns="http://www.w3.org/2000/svg" id="customDifficulty" class="interactable difficulty">
-                                    <path d="M5 60 L15 0 L190 0  L180 60 Z" style="fill:none;stroke:purple;stroke-width:3" />
-                                    <text x="35" y="45" fill="purple" font-size="45">Limbo</text>
-                                    Sorry, your browser does not support inline SVG.
-                                </svg>
-                            </div>
+                    <div class="gameDifficultySelect">
+                        <div id="difficultySelectLeft">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="100%"
+                                viewBox="0 0 100 300"
+                                width="10%"
+                                fill="#888"
+                            >
+                                <polygon points="100 0 0 150 100 300"/>
+                            </svg>
                         </div>
-                        <div id="currentdifficulty">
-                            <div class="currentDifficultyInfo">
-                                <div class="difficultyInfoLeftSide currentDifficultyInfoTitle">
-                                    No difficulty selected
+                        <div id="difficulties">
+                            <div class="difficultyOption hardDifficulty previouslySelectedDifficulty">
+                                <div class="difficultyTitle"> 
+                                    Hard
+                                </div>       
+                                <ul class="difficultyDescription">
+                                    <li>Gate speed: 3 seconds</li>
+                                    <li>Gate count: 4</li>
+                                    <li>Gate types: logarythm, trigonometric methods</li>
+                                    <li>Gates are not colored</li>
+                                </ul>
+                                <div class="selectDifficultyButton">
+                                    Select
+                                </div>
+                            </div> 
+                            <div class="difficultyOption interactable easyDifficulty highlightedDifficulty">
+                                <div class="difficultyTitle"> 
+                                    Easy
+                                </div>       
+                                <ul class="difficultyDescription">
+                                    <li>Gate speed: 5 seconds</li>
+                                    <li>Gate count: 2</li>
+                                    <li>Gate types: multiplication, division, exponential</li>
+                                    <li>Colored gates</li>
+                                </ul>
+                                <div class="selectDifficultyButton">
+                                    Select
                                 </div>
                             </div>
+                            <div class="difficultyOption mediumDifficulty nextSelectedDifficulty">
+                                <div class="difficultyTitle"> 
+                                    Medium
+                                </div>       
+                                <ul class="difficultyDescription">
+                                    <li>Gate speed: 4 seconds</li>
+                                    <li>Gate count: 3</li>
+                                    <li>Gate types: idk</li>
+                                    <li>Some Gates are colored</li>
+                                </ul>
+                                <div class="selectDifficultyButton">
+                                    Select
+                                </div>
+                            </div> 
+                        </div>
+                        <div id="difficultySelectRight">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="25%"
+                                viewBox="0 0 100 300"
+                                width="10%"
+                                fill="#888"
+                            >
+                                <polygon points="0 0 100 150 0 300" />
+                            </svg>
                         </div>
                     </div>
                 </div>

@@ -43,18 +43,14 @@ $(()=>{
     let currentGame={
         active:false,
         paused:false,
-        luckMultiplier: {
-            base: 1,
-            current: 1
-        },
         numberOfGates: 1,
         points: 1,
         playerPosition:0,
         difficulty:"",
-        elapsedTime: 0,
-        targetTimeInMs: 0,
-        personalBestInMs:0,
-        medalTimes:{
+        nextGateCountdown: 0,
+        targetGates: 0,
+        personalBest:0,
+        medalGates:{
           bronze:0,
           silver:0,
           gold:0,
