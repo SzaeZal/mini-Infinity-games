@@ -214,14 +214,25 @@ $(()=>{
                 mainMenuIndex= mainMenuIndex == 0 ? subMenuLimits.length-1 : mainMenuIndex-1
                 mainMenuCallbacks[mainMenuIndex]()
             }
-            else if(e.originalEvent.code == "KeyA" || e.originalEvent.code == "ArrowLeft"){
-                subMenuIndexes[mainMenuIndex] = subMenuIndexes[mainMenuIndex] == 0 ? subMenuLimits[mainMenuIndex] : subMenuIndexes[mainMenuIndex]-1
-                mainMenuCallbacks[mainMenuIndex]()
+            if(mainMenuIndex==2){
+                if(e.originalEvent.code == "KeyA" || e.originalEvent.code == "ArrowLeft"){
+                    ChosePreviousDifficulty()
+                }
+                else if(e.originalEvent.code == "KeyD" || e.originalEvent.code == "ArrowRight"){
+                    ChoseNextDifficulty()
+                }
             }
-            else if(e.originalEvent.code == "KeyD" || e.originalEvent.code == "ArrowRight"){
-                subMenuIndexes[mainMenuIndex] = subMenuIndexes[mainMenuIndex] == subMenuLimits[mainMenuIndex] ? 0 : subMenuIndexes[mainMenuIndex]+1
-                mainMenuCallbacks[mainMenuIndex]()
+            else{
+                if(e.originalEvent.code == "KeyA" || e.originalEvent.code == "ArrowLeft"){
+                    subMenuIndexes[mainMenuIndex] = subMenuIndexes[mainMenuIndex] == 0 ? subMenuLimits[mainMenuIndex] : subMenuIndexes[mainMenuIndex]-1
+                    mainMenuCallbacks[mainMenuIndex]()
+                }
+                else if(e.originalEvent.code == "KeyD" || e.originalEvent.code == "ArrowRight"){
+                    subMenuIndexes[mainMenuIndex] = subMenuIndexes[mainMenuIndex] == subMenuLimits[mainMenuIndex] ? 0 : subMenuIndexes[mainMenuIndex]+1
+                    mainMenuCallbacks[mainMenuIndex]()
+                }
             }
+            
         }
     })
 
@@ -436,6 +447,28 @@ $(()=>{
         }
     }
     //#endregion
+    highlightedDifficultyIndex=0
+    
+    //#region ChosePreviousDifficulty
+    const ChosePreviousDifficulty = ()=>{
+        highlightedDifficultyIndex--
+        if(highlightedDifficultyIndex<0){
+            highlightedDifficultyIndex = difficultyBoxes.length-1
+        }
+
+        AddDifficultyBoxes()
+    }
+    //#endregion
+    //#region ChoseNextDifficulty
+    const ChoseNextDifficulty = ()=>{
+        highlightedDifficultyIndex++
+        if(highlightedDifficultyIndex>=difficultyBoxes.length){
+            highlightedDifficultyIndex = 0
+        }
+
+        AddDifficultyBoxes()
+    }
+    //#endregion
     //#region game menu
     $("#gameMenuItem").on("click", ()=>{
         mainMenuIndex=2
@@ -450,28 +483,210 @@ $(()=>{
                 </div>
             </div>
             <div class="mainView">
-                
+                <div class="gameDifficultySelect">
+                    <div id="difficultySelectLeft">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="100%"
+                            viewBox="0 0 100 300"
+                            width="10%"
+                            fill="#888"
+                        >
+                            <polygon points="100 0 0 150 100 300"/>
+                        </svg>
+                    </div>
+                    <div id="difficulties">
+                         
+                    </div>
+                    <div id="difficultySelectRight">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="25%"
+                            viewBox="0 0 100 300"
+                            width="10%"
+                            fill="#888"
+                        >
+                            <polygon points="0 0 100 150 0 300" />
+                        </svg>
+                    </div>
+                </div>
             </div>  
         `)
-        AddGameMenuUIEvents()  
+        AddDifficultyBoxes()
+        AddGameMenuUIEvents()
     }
     //#endregion
-    //#region  AddGameMenuUIEvents
+    //#region ShowDifficultyStats
+    const ShowDifficultyStats = (difficulty)=>{
+        currentGame.difficulty=difficulty
+
+       /* TODO: change this
+        if(currentGame.difficulty=="Easy"){
+          currentGame.numberOfCardPairs=4
+          currentGame.cardPairPicksLimit=2
+          currentGame.luckMultiplier.base=3
+          currentGame.personalBestInMs=player.personalBests.easy.timeInMs
+          currentGame.medalTimes.bronze=medalTimes.easy.bronze
+          currentGame.medalTimes.silver=medalTimes.easy.silver
+          currentGame.medalTimes.gold=medalTimes.easy.gold
+          currentGame.medalTimes.champion=medalTimes.easy.champion
+        }
+        else if(currentGame.difficulty=="Medium"){
+          currentGame.numberOfCardPairs=5
+          currentGame.cardPairPicksLimit=3
+          currentGame.luckMultiplier.base=1
+          currentGame.personalBestInMs=player.personalBests.medium.timeInMs
+          currentGame.medalTimes.bronze=medalTimes.medium.bronze
+          currentGame.medalTimes.silver=medalTimes.medium.silver
+          currentGame.medalTimes.gold=medalTimes.medium.gold
+          currentGame.medalTimes.champion=medalTimes.medium.champion
+        }
+        else if(currentGame.difficulty=="Hard"){
+          currentGame.numberOfCardPairs=6
+          currentGame.cardPairPicksLimit=3
+          currentGame.luckMultiplier.base=0.5
+          currentGame.personalBestInMs=player.personalBests.hard.timeInMs
+          currentGame.medalTimes.bronze=medalTimes.hard.bronze
+          currentGame.medalTimes.silver=medalTimes.hard.silver
+          currentGame.medalTimes.gold=medalTimes.hard.gold
+          currentGame.medalTimes.champion=medalTimes.hard.champion
+        }
+
+        $("#currentdifficulty").html(`
+            <div class="currentDifficultyInfo">
+                <div class="difficultyInfoLeftSide">
+                    <div class="currentDifficultyInfoTitle">
+                        ${difficulty} Difficulty
+                    </div>
+                    <div class="currentDifficultyInfoPersonalBest">
+                       
+                        ${player.personalBests[difficulty.toLowerCase()].timeInMs == 0 
+                            ? " No personal best yet"
+                            : ` Personal Best: ${FormatTime(player.personalBests[difficulty.toLowerCase()].timeInMs)}`
+                        }
+                    </div>
+                    <div id="playGame" class="interactable">
+                        Play Game
+                    </div>
+                </div>
+                <div class="currentDifficultyMedal">
+                    ${
+                        playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 4
+                        ? `<img src="../Images/CardsOfInfinity/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
+                        : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 3
+                        ? `<img src="../Images/CardsOfInfinity/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
+                        : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 2
+                        ? `<img src="../Images/CardsOfInfinity/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
+                        : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 1
+                        ? `<img src="../Images/CardsOfInfinity/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
+                        : `<div class="noMedal"></div>`
+                    }
+                </div>
+                
+            </div>
+        `)
+        $("#playGame").on("click", ()=>{
+          EnterGame(currentGame.numberOfCardPairs,currentGame.luckMultiplier.base, currentGame.difficulty)
+        }) */
+    }
+    //#endregion
+    //#region difficultyBoxes
+    // previouslySelectedDifficulty, highlightedDifficulty, nextSelectedDifficulty
+    let difficultyBoxes=[
+        {
+            html: `
+                <div class="difficultyOption interactable easyDifficulty " id="difficulty0">
+                    <div class="difficultyTitle"> 
+                        Easy
+                    </div>       
+                    <ul class="difficultyDescription">
+                        <li>Gate speed: 5 seconds</li>
+                        <li>Gate count: 2</li>
+                        <li>Gate types: multiplication, division, exponential</li>
+                        <li>Colored gates</li>
+                    </ul>
+                    <div class="selectDifficultyButton">
+                        Select
+                    </div>
+                </div>
+            `,
+            callback: ShowDifficultyStats,
+            callbackParameter: "Easy"
+        },
+        {
+            html: `
+                <div class="difficultyOption mediumDifficulty " id="difficulty1">
+                    <div class="difficultyTitle"> 
+                        Medium
+                    </div>       
+                    <ul class="difficultyDescription">
+                        <li>Gate speed: 4 seconds</li>
+                        <li>Gate count: 3</li>
+                        <li>Gate types: idk</li>
+                        <li>Some Gates are colored</li>
+                    </ul>
+                    <div class="selectDifficultyButton">
+                        Select
+                    </div>
+                </div> 
+            `,
+            callback: ShowDifficultyStats,
+            callbackParameter: "Medium"
+        },
+        {
+            html: `
+                <div class="difficultyOption hardDifficulty" id="difficulty2">
+                    <div class="difficultyTitle"> 
+                        Hard
+                    </div>       
+                    <ul class="difficultyDescription">
+                        <li>Gate speed: 3 seconds</li>
+                        <li>Gate count: 4</li>
+                        <li>Gate types: logarythm, trigonometric methods</li>
+                        <li>Gates are not colored</li>
+                    </ul>
+                    <div class="selectDifficultyButton">
+                        Select
+                    </div>
+                </div>
+            `,
+            callback: ShowDifficultyStats,
+            callbackParameter: "Hard"
+        },
+    ]
+    //#endregion
+    //#region AddDifficultyBoxes
+    const AddDifficultyBoxes = ()=>{
+        let previouslySelectedDifficulty = highlightedDifficultyIndex == 0 ? difficultyBoxes.length-1 : highlightedDifficultyIndex - 1
+        let nextSelectedDifficulty = highlightedDifficultyIndex == difficultyBoxes.length -1 ? 0 : highlightedDifficultyIndex + 1
+        $("#difficulties").html(
+            difficultyBoxes[previouslySelectedDifficulty].html 
+            + difficultyBoxes[highlightedDifficultyIndex].html
+            + difficultyBoxes[nextSelectedDifficulty].html
+        )
+        $(`#difficulty${previouslySelectedDifficulty}`).addClass("previouslySelectedDifficulty")
+        $(`#difficulty${highlightedDifficultyIndex}`).addClass("highlightedDifficulty")
+        $(`#difficulty${nextSelectedDifficulty}`).addClass("nextSelectedDifficulty")
+        AddDifficultyBoxesUIEvents(previouslySelectedDifficulty, highlightedDifficultyIndex ,nextSelectedDifficulty)
+    }
+    //#endregion
+    //#region AddDifficultyBoxesUIEvents
+    const AddDifficultyBoxesUIEvents = (prev, current, next)=>{
+        $(`#difficulty${prev}`).on("click", ChosePreviousDifficulty)
+
+        $(`#difficulty${current}`).on("click", ()=>{difficultyBoxes[current].callback(difficultyBoxes[current].callbackParameter)})
+
+        $(`#difficulty${next}`).on("click", ChoseNextDifficulty)
+    }
+    //#endregion
+    //#region AddGameMenuUIEvents
     const AddGameMenuUIEvents = ()=>{
-        $("#easyDifficulty").on("click", ()=>{
-            ShowDifficultyStats("Easy")
-        })
-        $("#mediumDifficulty").on("click", ()=>{
-            ShowDifficultyStats("Medium")
-        })
-        $("#hardDifficulty").on("click", ()=>{
-            ShowDifficultyStats("Hard")
-        })
-        $("#limboDifficulty").on("click", ()=>{
-            ShowLimboDifficultyStats()
-        })
+        $("#difficultySelectLeft").on("click", ChosePreviousDifficulty)
+
+        $(`#difficultySelectRight`).on("click", ChoseNextDifficulty)
     }
     //#endregion
+    
     //#region  saving and loading 
     const Save = () => {
         const playerParsedToJson = JSON.stringify(player);
