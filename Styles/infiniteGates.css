@@ -112,7 +112,7 @@
     background-color: rgb(200, 0, 0);
     border: 5px solid rgb(150, 0, 0);
 }
-.mediumDifficulty .selectDifficultyButton{
+.hardDifficulty .selectDifficultyButton{
     border-color: rgb(150, 0, 0);
 }
 
@@ -136,4 +136,80 @@
     .gameDifficultySelect{
         top: 50%;
     }
+}
+
+@keyframes previouslySelectedDifficultyMoveToHighlighted {
+    from{
+        z-index: 1;
+        opacity: 0.5;
+        left: 15%;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    to{
+        z-index: 5;
+        opacity: 1;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1.15);
+    }
+}
+
+.previouslySelectedDifficultyMoveToHighlightedClass{
+    animation: previouslySelectedDifficultyMoveToHighlighted 0.5s linear;
+}
+
+@keyframes nextSelectedDifficultyMoveToHighlighted {
+    from{
+        z-index: 1;
+        opacity: 0.5;
+        left: 85%;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    to{
+        z-index: 5;
+        opacity: 1;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1.15);
+    }
+}
+
+.nextSelectedDifficultyMoveToHighlightedClass{
+    animation: nextSelectedDifficultyMoveToHighlighted 0.5s linear;
+}
+
+@keyframes highlightedDifficultyMoveToPrevious {
+    from{
+        z-index: 5;
+        opacity: 1;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1.15); 
+    }
+    to{
+        z-index: 1;
+        opacity: 0.5;
+        left: 15%;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.highlightedDifficultyMoveToPreviousClass{
+    animation: highlightedDifficultyMoveToPrevious 0.5s linear;
+}
+
+@keyframes highlightedDifficultyMoveToNext {
+    from{
+        z-index: 5;
+        opacity: 1;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1.15);
+    }
+    to{
+        z-index: 1;
+        opacity: 0.5;
+        left: 85%;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.highlightedDifficultyMoveToNextClass{
+    animation: highlightedDifficultyMoveToNext 0.5s linear;
 }

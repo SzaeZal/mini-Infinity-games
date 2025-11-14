@@ -457,6 +457,10 @@ $(()=>{
         }
 
         AddDifficultyBoxes()
+        
+        let nextSelectedDifficulty = highlightedDifficultyIndex == difficultyBoxes.length -1 ? 0 : highlightedDifficultyIndex + 1
+        $(`#difficulty${highlightedDifficultyIndex}`).addClass("previouslySelectedDifficultyMoveToHighlightedClass")
+        $(`#difficulty${nextSelectedDifficulty}`).addClass("highlightedDifficultyMoveToNextClass")
     }
     //#endregion
     //#region ChoseNextDifficulty
@@ -467,6 +471,10 @@ $(()=>{
         }
 
         AddDifficultyBoxes()
+        
+        let previouslySelectedDifficulty = highlightedDifficultyIndex == 0 ? difficultyBoxes.length-1 : highlightedDifficultyIndex - 1
+        $(`#difficulty${highlightedDifficultyIndex}`).addClass("nextSelectedDifficultyMoveToHighlightedClass")
+        $(`#difficulty${previouslySelectedDifficulty}`).addClass("highlightedDifficultyMoveToPreviousClass")
     }
     //#endregion
     //#region game menu
