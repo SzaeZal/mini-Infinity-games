@@ -44,6 +44,7 @@ $(()=>{
         active:false,
         paused:false,
         numberOfGates: 1,
+        timeForGateInMs: 0,
         points: 1,
         playerPosition:0,
         difficulty:"",
@@ -381,7 +382,14 @@ $(()=>{
                     <div class="gameAuthor">
                         Made by SzaeZal
                     </div>
+                    <div class="credits">
+                        Credits: <br>
+                        <ul>
+                            <li>Medal images by Trackmania (Trackmania is owned by Nadeo and Ubisoft)</li>
+                        </ul>
+                    </div>
                 </div>
+                
             </div>
         `)
 
@@ -526,76 +534,81 @@ $(()=>{
     //#endregion
     //#region ShowDifficultyStats
     const ShowDifficultyStats = (difficulty)=>{
+        console.log("here")
         currentGame.difficulty=difficulty
 
-       /* TODO: change this
+       
         if(currentGame.difficulty=="Easy"){
-          currentGame.numberOfCardPairs=4
-          currentGame.cardPairPicksLimit=2
-          currentGame.luckMultiplier.base=3
-          currentGame.personalBestInMs=player.personalBests.easy.timeInMs
-          currentGame.medalTimes.bronze=medalTimes.easy.bronze
-          currentGame.medalTimes.silver=medalTimes.easy.silver
-          currentGame.medalTimes.gold=medalTimes.easy.gold
-          currentGame.medalTimes.champion=medalTimes.easy.champion
+            currentGame.numberOfGates=2
+            currentGame.timeForGateInMs=5000
+            currentGame.personalBest=player.personalBests.easy.gates
+            currentGame.medalGates.bronze=medalGates.easy.bronze
+            currentGame.medalGates.silver=medalGates.easy.silver
+            currentGame.medalGates.gold=medalGates.easy.gold
+            currentGame.medalGates.champion=medalGates.easy.champion
         }
         else if(currentGame.difficulty=="Medium"){
-          currentGame.numberOfCardPairs=5
-          currentGame.cardPairPicksLimit=3
-          currentGame.luckMultiplier.base=1
-          currentGame.personalBestInMs=player.personalBests.medium.timeInMs
-          currentGame.medalTimes.bronze=medalTimes.medium.bronze
-          currentGame.medalTimes.silver=medalTimes.medium.silver
-          currentGame.medalTimes.gold=medalTimes.medium.gold
-          currentGame.medalTimes.champion=medalTimes.medium.champion
+            currentGame.numberOfGates=3
+            currentGame.timeForGateInMs=4000
+            currentGame.personalBest=player.personalBests.medium.gates
+            currentGame.medalGates.bronze=medalGates.medium.bronze
+            currentGame.medalGates.silver=medalGates.medium.silver
+            currentGame.medalGates.gold=medalGates.medium.gold
+            currentGame.medalGates.champion=medalGates.medium.champion
         }
         else if(currentGame.difficulty=="Hard"){
-          currentGame.numberOfCardPairs=6
-          currentGame.cardPairPicksLimit=3
-          currentGame.luckMultiplier.base=0.5
-          currentGame.personalBestInMs=player.personalBests.hard.timeInMs
-          currentGame.medalTimes.bronze=medalTimes.hard.bronze
-          currentGame.medalTimes.silver=medalTimes.hard.silver
-          currentGame.medalTimes.gold=medalTimes.hard.gold
-          currentGame.medalTimes.champion=medalTimes.hard.champion
+            currentGame.numberOfGates=4
+            currentGame.timeForGateInMs=3000
+            currentGame.personalBest=player.personalBests.hard.gates
+            currentGame.medalGates.bronze=medalGates.hard.bronze
+            currentGame.medalGates.silver=medalGates.hard.silver
+            currentGame.medalGates.gold=medalGates.hard.gold
+            currentGame.medalGates.champion=medalGates.hard.champion
         }
 
-        $("#currentdifficulty").html(`
-            <div class="currentDifficultyInfo">
-                <div class="difficultyInfoLeftSide">
-                    <div class="currentDifficultyInfoTitle">
-                        ${difficulty} Difficulty
-                    </div>
-                    <div class="currentDifficultyInfoPersonalBest">
-                       
-                        ${player.personalBests[difficulty.toLowerCase()].timeInMs == 0 
-                            ? " No personal best yet"
-                            : ` Personal Best: ${FormatTime(player.personalBests[difficulty.toLowerCase()].timeInMs)}`
-                        }
-                    </div>
-                    <div id="playGame" class="interactable">
-                        Play Game
-                    </div>
+        view.html(`
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
+                <div class="subMenuItem">
+                    Main
                 </div>
-                <div class="currentDifficultyMedal">
-                    ${
-                        playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 4
-                        ? `<img src="../Images/CardsOfInfinity/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
-                        : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 3
-                        ? `<img src="../Images/CardsOfInfinity/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
-                        : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 2
-                        ? `<img src="../Images/CardsOfInfinity/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
-                        : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 1
-                        ? `<img src="../Images/CardsOfInfinity/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
-                        : `<div class="noMedal"></div>`
-                    }
-                </div>
-                
             </div>
+            <div class="mainView">
+                <div id="game">
+                    <div class="currentDifficultyInfo">
+                        <div class="difficultyInfoLeftSide">
+                            <div class="currentDifficultyInfoTitle">
+                                ${difficulty} Difficulty
+                            </div>
+                            <div class="currentDifficultyInfoPersonalBest">
+                            
+                                ${player.personalBests[difficulty.toLowerCase()].gates == 0 
+                                    ? " No personal best yet"
+                                    : ` Personal Best: ${FormatTime(player.personalBests[difficulty.toLowerCase()].gates)}`
+                                }
+                            </div>
+                            
+                        </div>
+                        <div class="currentDifficultyMedal">
+                            ${
+                                playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 4
+                                ? `<img src="../Images/MedalImages/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
+                                : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 3
+                                ? `<img src="../Images/MedalImages/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
+                                : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 2
+                                ? `<img src="../Images/MedalImages/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
+                                : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 1
+                                ? `<img src="../Images/MedalImages/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
+                                : `<div class="noMedal"></div>`
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         `)
         $("#playGame").on("click", ()=>{
-          EnterGame(currentGame.numberOfCardPairs,currentGame.luckMultiplier.base, currentGame.difficulty)
-        }) */
+          EnterGame(currentGame.numberOfGates,currentGame.timeForGateInMs, currentGame.difficulty)
+        }) 
     }
     //#endregion
     //#region difficultyBoxes
@@ -768,4 +781,5 @@ $(()=>{
         ShowDialogBox("Warning", "This game is not optimized for small screens. <br> Please use a device with a larger screen for the best experience. <br> or use landscape orientation", "Warning")
     }
     //setTimeout(()=>{debugger;} , 15000)
+    GoToGameMenu()
 })

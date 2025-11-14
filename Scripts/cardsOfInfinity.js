@@ -740,13 +740,13 @@ $(()=>{
                   <div class="currentDifficultyMedal">
                       ${
                           playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 4
-                          ? `<img src="../Images/CardsOfInfinity/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
+                          ? `<img src="../Images/MedalImages/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
                           : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 3
-                          ? `<img src="../Images/CardsOfInfinity/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
+                          ? `<img src="../Images/MedalImages/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
                           : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 2
-                          ? `<img src="../Images/CardsOfInfinity/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
+                          ? `<img src="../Images/MedalImages/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
                           : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 1
-                          ? `<img src="../Images/CardsOfInfinity/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
+                          ? `<img src="../Images/MedalImages/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
                           : `<div class="noMedal"></div>`
                       }
                   </div>
@@ -907,13 +907,13 @@ $(()=>{
                   <div class="currentDifficultyMedal" id="medalContainer">
                       ${
                           playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 4
-                          ? `<img src="../Images/CardsOfInfinity/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
+                          ? `<img src="../Images/MedalImages/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
                           : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 3
-                          ? `<img src="../Images/CardsOfInfinity/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
+                          ? `<img src="../Images/MedalImages/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
                           : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 2
-                          ? `<img src="../Images/CardsOfInfinity/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
+                          ? `<img src="../Images/MedalImages/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
                           : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 1
-                          ? `<img src="../Images/CardsOfInfinity/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
+                          ? `<img src="../Images/MedalImages/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
                           : `<div class="noMedal"></div>`
                       }
                   </div>
@@ -992,7 +992,7 @@ $(()=>{
     }
     //#endregion
     //#region ShowGainedMedals
-    let imageSources=["../Images/CardsOfInfinity/bronzeMedal.png", "../Images/CardsOfInfinity/silverMedal.png", "../Images/CardsOfInfinity/goldMedal.png", "../Images/CardsOfInfinity/championMedal.png"]
+    let imageSources=["../Images/MedalImages/bronzeMedal.png", "../Images/MedalImages/silverMedal.png", "../Images/MedalImages/goldMedal.png", "../Images/MedalImages/championMedal.png"]
     const ShowGainedMedals = (gainedMedals, currentMedals)=>{
         let gainedMedalsImageSources=imageSources.slice(currentMedals,gainedMedals)
         for (let i = 0 ; i<gainedMedalsImageSources.length; i++){
