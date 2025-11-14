@@ -4,7 +4,7 @@
 }
 .gameDifficultySelect{
     position: absolute;
-    top: max(50%, 60px);
+    top: calc(50% - 60px);
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
@@ -20,6 +20,8 @@
 }
 #difficultySelectLeft, #difficultySelectRight{
     flex: 1;
+    z-index: 10;
+    margin-top: 60px;
 }
 #difficultySelectLeft>svg, #difficultySelectRight>svg{
     transform: scale(2);
@@ -56,9 +58,21 @@
     margin: 10px 0 0 0;
     text-align: center;
 }
+.difficultyOption>ul>li{
+    margin-bottom: 5px;
+}
+.selectDifficultyButton{
+    border: 5px solid gray;
+    border-radius: 10px;
+    padding: 10px 30px;
+    transition-duration: 0.5s;
+}
+.selectDifficultyButton:hover{
+    transform: scale(1.15);
+}
 .highlightedDifficulty{
     position: absolute;
-    top: 50%;
+    top: 75px;
     left: 50%;
     transform: translate(-50%, -50%) scale(1.15);
     z-index: 5;
@@ -69,13 +83,13 @@
 }
 .previouslySelectedDifficulty{
     position: absolute;
-    top: 50%;
+    top: 75px;
     left: 15%;
     transform: translate(-50%, -50%)
 }
 .nextSelectedDifficulty{
     position: absolute;
-    top: 50%;
+    top: 75px;
     left: 85%;
     transform: translate(-50%, -50%)
 }
@@ -84,11 +98,42 @@
     background-color: rgb(0, 150, 0);
     border: 5px solid rgb(0, 100, 0);
 }
+.easyDifficulty .selectDifficultyButton{
+    border-color: rgb(0, 100, 0);
+}
 .mediumDifficulty{
     background-color: rgb(200, 200, 0);
     border: 5px solid rgb(150, 150, 0);
 }
+.mediumDifficulty .selectDifficultyButton{
+    border-color: rgb(150, 150, 0);
+}
 .hardDifficulty{
     background-color: rgb(200, 0, 0);
     border: 5px solid rgb(150, 0, 0);
+}
+.mediumDifficulty .selectDifficultyButton{
+    border-color: rgb(150, 0, 0);
+}
+
+@media screen and (max-width: 800px) {
+    .difficultyOption{
+        font-size: x-large;
+        padding: 10px;
+        border-radius: 15px;
+        max-height: 350px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        width: 100%;
+        z-index: 1;
+        transition-duration: 0.5s;
+    }
+    .highlightedDifficulty{
+        position: absolute;
+        z-index: 5;
+        opacity: 1;
+    }
+    .gameDifficultySelect{
+        top: 50%;
+    }
 }
