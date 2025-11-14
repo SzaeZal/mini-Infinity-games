@@ -213,3 +213,88 @@
 .highlightedDifficultyMoveToNextClass{
     animation: highlightedDifficultyMoveToNext 0.5s linear;
 }
+
+#game{
+    position: relative;
+    height: calc(100vh - 120px);
+}
+.currentDifficultyInfo{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 15px;
+    border: 5px solid gray;
+    font-size: x-large;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+.currentDifficultyInfoTitle{
+    padding: 25px;
+    max-width: fit-content;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 25px;
+}
+.currentDifficultyMedal{
+    width: 50px;
+    height: 50px;
+}
+.noMedal{
+    height: 50px;
+    border: 2px dashed gray;
+    border-radius: 25px;
+}
+.difficultyInfo{
+    padding: 25px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 25px;
+}
+.currentDifficultyInfoPersonalBest{
+    align-self: center;
+}
+.medalInfo{
+    list-style-type: none;
+}
+.startOption{
+    text-align: center;
+    font-size: x-large;
+    padding: 5px;
+    border-top: 2px solid gray;
+    transition-duration: 0.25s;
+}
+.startOption:hover{
+    background-color: rgba(128, 128, 128, 0.5);
+}
+
+@keyframes countDown {
+    from{
+        scale: 10;
+    }
+    to{
+        scale: 1;
+    }
+}
+.countDownNumber{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    animation: countDown 950ms;
+    font-size: large;
+}
+
+@media screen and (max-width: 800px) {
+    .currentDifficultyInfo{
+        top: calc(50% + 150px);
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+    }
+}

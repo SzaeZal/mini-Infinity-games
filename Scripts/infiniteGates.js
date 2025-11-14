@@ -575,40 +575,90 @@ $(()=>{
             <div class="mainView">
                 <div id="game">
                     <div class="currentDifficultyInfo">
-                        <div class="difficultyInfoLeftSide">
-                            <div class="currentDifficultyInfoTitle">
-                                ${difficulty} Difficulty
-                            </div>
-                            <div class="currentDifficultyInfoPersonalBest">
-                            
-                                ${player.personalBests[difficulty.toLowerCase()].gates == 0 
-                                    ? " No personal best yet"
-                                    : ` Personal Best: ${FormatTime(player.personalBests[difficulty.toLowerCase()].gates)}`
+                        <div class="currentDifficultyInfoTitle">
+                            ${difficulty} Difficulty
+                            <div class="currentDifficultyMedal">
+                                ${
+                                    playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 4
+                                    ? `<img src="../Images/MedalImages/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
+                                    : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 3
+                                    ? `<img src="../Images/MedalImages/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
+                                    : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 2
+                                    ? `<img src="../Images/MedalImages/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
+                                    : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 1
+                                    ? `<img src="../Images/MedalImages/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
+                                    : `<div class="noMedal"></div>`
                                 }
                             </div>
-                            
                         </div>
-                        <div class="currentDifficultyMedal">
-                            ${
-                                playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 4
-                                ? `<img src="../Images/MedalImages/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
-                                : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 3
-                                ? `<img src="../Images/MedalImages/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
-                                : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 2
-                                ? `<img src="../Images/MedalImages/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
-                                : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 1
-                                ? `<img src="../Images/MedalImages/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
-                                : `<div class="noMedal"></div>`
+                        <div class="difficultyInfo">
+                            <div class="currentDifficultyInfoPersonalBest">
+                                ${player.personalBests[difficulty.toLowerCase()].gates == 0 
+                                    ? " No personal best yet"
+                                    : ` Personal Best: ${player.personalBests[difficulty.toLowerCase()].gates} gates`
+                                }
+                            </div>
+                            <ul class="medalInfo">
+                                <li>Bronze: ${currentGame.medalGates.bronze} gates</li>
+                                <li>Silver: ${currentGame.medalGates.silver} gates</li>
+                                <li>Gold: ${currentGame.medalGates.gold} gates</li>
+                                ${
+                                    player.unlockedChampionMedals==true
+                                    ?`
+                                        <li>Champion: ${currentGame.medalGates.champion} gates</li>
+                                    `
+                                    :""
+                                }
+                                
+                            </ul>
+                        </div>
+                        <div class="startOptions">
+                            <div class="startOption interactable" id="startOptionBronze">
+                                Play against Bronze
+                            </div>
+                            <div class="startOption interactable" id="startOptionSilver">
+                                Play against Silver
+                            </div>
+                            <div class="startOption interactable" id="startOptionGold">
+                                Play against Gold
+                            </div>
+                            ${ player.unlockedChampionMedals==true
+                                ? `
+                                    <div class="startOption interactable" id="startOptionChampion">
+                                        Play against Champion
+                                    </div>
+                                `
+                                :``
                             }
+                            <div class="startOption interactable" id="startOptionPB">
+                                Play against Personal best
+                            </div>
+                            <div class="startOption interactable" id="startOptionClose">
+                                Go back to difficulty selection
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             
         `)
-        $("#playGame").on("click", ()=>{
-          EnterGame(currentGame.numberOfGates,currentGame.timeForGateInMs, currentGame.difficulty)
-        }) 
+        AddDifficultyStatsUIEvents()
+    }
+    //#endregion
+    //#region AddDifficultyStatsUIEvents
+    const AddDifficultyStatsUIEvents = ()=>{
+        $("#startOptionClose").on("click", GoToGameMenu)
+    }
+    //#endregion
+    //#region CountDown
+    const CountDown = ()=>{
+        $("#game").html(`<div class="countDownNumber">3</div>`)
+        setTimeout(()=>{
+            $("#game").html(`<div class="countDownNumber">2</div>`)
+        }, 1000)
+        setTimeout(()=>{
+            $("#game").html(`<div class="countDownNumber">1</div>`)
+        }, 2000)
     }
     //#endregion
     //#region difficultyBoxes
@@ -707,7 +757,6 @@ $(()=>{
         $(`#difficultySelectRight`).on("click", ChoseNextDifficulty)
     }
     //#endregion
-    
     //#region  saving and loading 
     const Save = () => {
         const playerParsedToJson = JSON.stringify(player);
