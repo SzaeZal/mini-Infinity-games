@@ -62,7 +62,7 @@ $(()=>{
     //#endregion
     //#region Medals
     let medalGates={
-        easy:{
+        easy:{ //TODO: change this
             bronze:   600000,
             silver:   450000,
             gold:     240000,
@@ -753,9 +753,30 @@ $(()=>{
         currentGame.active=true
         currentGame.points=1
         currentGame.gates=0
+        currentGame.nextGateCountdown=currentGame.timeForGateInMs
         currentGame.playerPosition=Math.floor(currentGame.numberOfGates/2)
         lastTickTime=new Date()
+        GenerateGateColumns()
         timeTicker=setInterval(Timer, 25)
+    }
+    //#endregion
+    //#region GenerateGateColumns
+    const GenerateGateColumns = ()=>{
+        $("#game").html(`
+            <div id="pauseButton" class="interactable">
+                <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3">
+                    <path d="M525-200v-560h235v560H525Zm-325 0v-560h235v560H200Zm385-60h115v-440H585v440Zm-325 0h115v-440H260v440Zm0-440v440-440Zm325 0v440-440Z"/>
+                </svg>
+            </div>
+            <div id="timer">
+                ${FormatTime(currentGame.nextGateCountdown)}
+            </div>
+            <div class="gateColumns">
+
+            </div>
+        `)
+
+        $("#pauseButton").on("click", PauseGame)
     }
     //#endregion
     //#region Timer
@@ -764,11 +785,14 @@ $(()=>{
         let timeSinceLastTick=currentTime-lastTickTime
         lastTickTime=currentTime
         currentGame.nextGateCountdown-=timeSinceLastTick
-        $("#timer").text(`${FormatTime(currentGame.elapsedTime)}`)
+        if(currentGame.nextGateCountdown<=0){
+            currentGame.nextGateCountdown=currentGame.timeForGateInMs
+        }
+        $("#timer").text(`${FormatTime(currentGame.nextGateCountdown)}`)
     }
     //#endregion
     //#region PauseGame
-    PauseGame = ()=>{
+    const PauseGame = ()=>{
         currentGame.paused=true
         clearInterval(timeTicker)
         $("#pauseMenu").removeClass("hiddenPart")    
@@ -907,16 +931,14 @@ $(()=>{
         let minutes=Math.floor(totalSeconds/60)
         let seconds=String(totalSeconds%60)
         let milliseconds=String(timeInMs%1000)
-        if(minutes>=60){
-            let hours=String(Math.floor(minutes/60))
-            minutes=String(minutes%60)
-            return `${hours}:${minutes<10?"0"+minutes : minutes}:${seconds<10? "0"+seconds : seconds}:${ 
+        if(minutes>0){
+            return `${minutes}:${seconds<10? "0"+seconds : seconds}:${ 
                 milliseconds<10 ? "00"+milliseconds 
                 : milliseconds<100 ? "0"+milliseconds 
                 : milliseconds
             }`
         }
-        return `${minutes}:${seconds<10? "0"+seconds : seconds}:${ 
+        return `${seconds}:${ 
                 milliseconds<10 ? "00"+milliseconds 
                 : milliseconds<100 ? "0"+milliseconds 
                 : milliseconds
