@@ -499,31 +499,33 @@ $(()=>{
                 </div>
             </div>
             <div class="mainView">
-                <div class="gameDifficultySelect">
-                    <div id="difficultySelectLeft">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            height="100%"
-                            viewBox="0 0 100 300"
-                            width="10%"
-                            fill="#888"
-                        >
-                            <polygon points="100 0 0 150 100 300"/>
-                        </svg>
-                    </div>
-                    <div id="difficulties">
-                         
-                    </div>
-                    <div id="difficultySelectRight">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            height="25%"
-                            viewBox="0 0 100 300"
-                            width="10%"
-                            fill="#888"
-                        >
-                            <polygon points="0 0 100 150 0 300" />
-                        </svg>
+                <div id="game">
+                    <div class="gameDifficultySelect">
+                        <div id="difficultySelectLeft">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="100%"
+                                viewBox="0 0 100 300"
+                                width="10%"
+                                fill="#888"
+                            >
+                                <polygon points="100 0 0 150 100 300"/>
+                            </svg>
+                        </div>
+                        <div id="difficulties">
+                            
+                        </div>
+                        <div id="difficultySelectRight">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="25%"
+                                viewBox="0 0 100 300"
+                                width="10%"
+                                fill="#888"
+                            >
+                                <polygon points="0 0 100 150 0 300" />
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>  
@@ -534,9 +536,7 @@ $(()=>{
     //#endregion
     //#region ShowDifficultyStats
     const ShowDifficultyStats = (difficulty)=>{
-        console.log("here")
         currentGame.difficulty=difficulty
-
        
         if(currentGame.difficulty=="Easy"){
             currentGame.numberOfGates=2
@@ -573,6 +573,54 @@ $(()=>{
                 </div>
             </div>
             <div class="mainView">
+                <div id="pauseMenu" class="hiddenPart">
+                    <div class="currentDifficultyInfo theme-${player.options.ui.theme=="Dark" ? "dark" : "light"}"">
+                        <div class="currentDifficultyInfoTitle">
+                            ${difficulty} Difficulty
+                            <div class="currentDifficultyMedal">
+                                ${
+                                    playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 4
+                                    ? `<img src="../Images/MedalImages/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
+                                    : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 3
+                                    ? `<img src="../Images/MedalImages/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
+                                    : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 2
+                                    ? `<img src="../Images/MedalImages/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
+                                    : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 1
+                                    ? `<img src="../Images/MedalImages/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
+                                    : `<div class="noMedal"></div>`
+                                }
+                            </div>
+                        </div>
+                        <div class="difficultyInfo">
+                            <div class="currentDifficultyInfoPersonalBest">
+                                ${player.personalBests[difficulty.toLowerCase()].gates == 0 
+                                    ? " No personal best yet"
+                                    : ` Personal Best: ${player.personalBests[difficulty.toLowerCase()].gates} gates`
+                                }
+                            </div>
+                            <ul class="medalInfo">
+                                <li>Bronze: ${currentGame.medalGates.bronze} gates</li>
+                                <li>Silver: ${currentGame.medalGates.silver} gates</li>
+                                <li>Gold: ${currentGame.medalGates.gold} gates</li>
+                                ${
+                                    player.unlockedChampionMedals==true
+                                    ?`
+                                        <li>Champion: ${currentGame.medalGates.champion} gates</li>
+                                    `
+                                    :""
+                                }
+                            </ul>
+                        </div>
+                        <div class="startOptions">
+                            <div class="startOption interactable" id="pauseOptionResume">
+                                Resume
+                            </div>
+                            <div class="startOption interactable" id="pauseOptionClose">
+                                Exit to difficulty selection
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div id="game">
                     <div class="currentDifficultyInfo">
                         <div class="currentDifficultyInfoTitle">
@@ -648,6 +696,43 @@ $(()=>{
     //#region AddDifficultyStatsUIEvents
     const AddDifficultyStatsUIEvents = ()=>{
         $("#startOptionClose").on("click", GoToGameMenu)
+
+        $("#startOptionBronze").on("click", ()=>{
+            currentGame.targetGates=currentGame.medalGates.bronze
+            CountDown()
+            setTimeout(StartGame, 3000)
+        })
+        $("#startOptionSilver").on("click", ()=>{
+            currentGame.targetGates=currentGame.medalGates.silver
+            CountDown()
+            setTimeout(StartGame, 3000)
+        })
+        $("#startOptionGold").on("click", ()=>{
+            currentGame.targetGates=currentGame.medalGates.gold
+            CountDown()
+            setTimeout(StartGame, 3000)
+        })
+        if(playerStatsCalculated.totalMedals>=9 ){
+            $("#startOptionChampion").on("click", ()=>{
+                currentGame.targetGates=currentGame.medalGates.champion
+                CountDown()
+                setTimeout(StartGame, 3000)
+            })
+        }
+
+        $("#startOptionPB").on("click", ()=>{
+            currentGame.targetTimeInMs=currentGame.difficulty!="Custom" ? currentGame.personalBestInMs : 0
+            CountDown()
+            setTimeout(StartGame, 3000)
+        })
+
+        $("#pauseOptionClose").on("click", ()=>{
+            GoToGameMenu()
+        })
+
+        $("#pauseOptionResume").on("click", ()=>{
+            ResumeGame()
+        })
     }
     //#endregion
     //#region CountDown
@@ -661,6 +746,43 @@ $(()=>{
         }, 2000)
     }
     //#endregion
+    //#region StartGame
+    let lastTickTime
+    let timeTicker
+    const StartGame = ()=>{
+        currentGame.active=true
+        currentGame.points=1
+        currentGame.gates=0
+        currentGame.playerPosition=Math.floor(currentGame.numberOfGates/2)
+        lastTickTime=new Date()
+        timeTicker=setInterval(Timer, 25)
+    }
+    //#endregion
+    //#region Timer
+    const Timer = ()=>{
+        let currentTime=new Date()
+        let timeSinceLastTick=currentTime-lastTickTime
+        lastTickTime=currentTime
+        currentGame.nextGateCountdown-=timeSinceLastTick
+        $("#timer").text(`${FormatTime(currentGame.elapsedTime)}`)
+    }
+    //#endregion
+    //#region PauseGame
+    PauseGame = ()=>{
+        currentGame.paused=true
+        clearInterval(timeTicker)
+        $("#pauseMenu").removeClass("hiddenPart")    
+    }
+    //#endregion
+    //#region ResumeGame
+    const ResumeGame = ()=>{
+        currentGame.paused=false
+        lastTickTime=new Date()
+        timeTicker=setInterval(Timer, 25)
+        $("#pauseMenu").addClass("hiddenPart")
+    }
+    //#endregion
+    
     //#region difficultyBoxes
     // previouslySelectedDifficulty, highlightedDifficulty, nextSelectedDifficulty
     let difficultyBoxes=[
@@ -755,6 +877,50 @@ $(()=>{
         $("#difficultySelectLeft").on("click", ChosePreviousDifficulty)
 
         $(`#difficultySelectRight`).on("click", ChoseNextDifficulty)
+    }
+    //#endregion
+    //#region FormatNumber
+    const FormatNumber= (numberToFormat)=>{
+        let result = Math.floor(numberToFormat).toString();
+        if (numberToFormat < 10) {
+        result = (Math.floor(numberToFormat * 100) / 100).toString();
+        }
+        if (numberToFormat > 1000000) {
+        result =
+            Math.floor(
+            Math.pow(
+                10,
+                Math.log10(numberToFormat) -
+                Math.floor(Math.log10(numberToFormat))
+            ) * 100
+            ) /
+            100 +
+            "e" +
+            Math.floor(Math.log10(numberToFormat));
+        }
+        return result; 
+    }
+    //#endregion
+    //#region FormatTime
+    const FormatTime= (timeInMs)=>{
+        let totalSeconds=Math.floor(timeInMs/1000)
+        let minutes=Math.floor(totalSeconds/60)
+        let seconds=String(totalSeconds%60)
+        let milliseconds=String(timeInMs%1000)
+        if(minutes>=60){
+            let hours=String(Math.floor(minutes/60))
+            minutes=String(minutes%60)
+            return `${hours}:${minutes<10?"0"+minutes : minutes}:${seconds<10? "0"+seconds : seconds}:${ 
+                milliseconds<10 ? "00"+milliseconds 
+                : milliseconds<100 ? "0"+milliseconds 
+                : milliseconds
+            }`
+        }
+        return `${minutes}:${seconds<10? "0"+seconds : seconds}:${ 
+                milliseconds<10 ? "00"+milliseconds 
+                : milliseconds<100 ? "0"+milliseconds 
+                : milliseconds
+            }`
     }
     //#endregion
     //#region  saving and loading 
