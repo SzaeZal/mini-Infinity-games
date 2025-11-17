@@ -802,7 +802,6 @@ $(()=>{
     //#endregion
     //#region AddGates
     const AddGates = ()=>{
-        console.log("Adding gates")
         for (let i=0; i<currentGame.numberOfGates; i++){
             let gateData=GenerateGateData()
             currentGame.gates[i]=gateData
@@ -810,11 +809,14 @@ $(()=>{
             if(gateData.colored){
                 $(`#gate${i}`).addClass(`gateColor${gateData.color}`)
             }
-            
-            $(`#gate${i}`).animate({bottom: "0px"}, currentGame.timeForGateInMs, "linear")
+            $(`#gate${i}`).css({bottom:"100%"})
         }
     }
     //#endregion
+    const loop = (index)=>{
+        console.log("loop")
+        $(`#gate${index}`).animate({bottom: `${100*(currentGame.nextGateCountdown / currentGame.timeForGateInMs)}%`}, 10)
+    }
     //#region GenerateGateData
     const GenerateGateData = ()=>{
         let gateTypes= currentGame.difficulty=="Easy"
@@ -823,12 +825,13 @@ $(()=>{
             ? ["multiplication", "division", "exponential"]
             : ["multiplication", "division", "exponential", "logarithm", "sine", "cosine", "tangent"]
         let selectedGateType=gateTypes[Math.floor(Math.random()*gateTypes.length)]
+        let val=Math.random()*2
         let colored=false, color=0
         if(Math.random()<=currentGame.gateColoredChance){
             colored=true
         }
         return {
-            html: `x10`,
+            html: `x${val}`,
             colored: true,
             color: "Negative"
         }
@@ -843,6 +846,10 @@ $(()=>{
         if(currentGame.nextGateCountdown<=0){
             currentGame.nextGateCountdown=currentGame.timeForGateInMs
             AddGates()
+        }
+        for (let i=0; i<currentGame.numberOfGates; i++){
+            console.log("here")
+            loop(i)
         }
         $("#timer").text(`${FormatTime(currentGame.nextGateCountdown)}`)
     }
