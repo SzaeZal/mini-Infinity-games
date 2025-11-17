@@ -51,6 +51,7 @@ $(()=>{
         difficulty:"",
         nextGateCountdown: 0,
         targetGates: 0,
+        gatesPassed:0,
         personalBest:0,
         medalGates:{
           bronze:0,
@@ -572,9 +573,14 @@ $(()=>{
 
         view.html(`
             <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
-                <div class="subMenuItem">
-                    Main
-                </div>
+                <div class="subMenuItem selectedSubMenuItem gameStats">
+                  <div >
+                    Points: <span id="points">1</span>
+                  </div>
+                  <div >
+                    Gates: <span id="gatesPassed">0</span>
+                  </div>
+              </div>
             </div>
             <div class="mainView">
                 <div id="pauseMenu" class="hiddenPart">
@@ -756,7 +762,7 @@ $(()=>{
     const StartGame = ()=>{
         currentGame.active=true
         currentGame.points=1
-        currentGame.gates=0
+        currentGame.gatesPassed=0
         currentGame.nextGateCountdown=currentGame.timeForGateInMs
         currentGame.playerPosition=Math.floor(currentGame.numberOfGates/2)
         lastTickTime=new Date()
@@ -804,39 +810,102 @@ $(()=>{
     const AddGates = ()=>{
         for (let i=0; i<currentGame.numberOfGates; i++){
             let gateData=GenerateGateData()
-            currentGame.gates[i]=gateData
+            if(currentGame.gates.length<currentGame.numberOfGates){
+                currentGame.gates.push(gateData)
+            }
+            else{
+                currentGame.gates[i]=gateData
+            }
+
             $(`#gate${i}`).html(gateData.html)
             if(gateData.colored){
                 $(`#gate${i}`).addClass(`gateColor${gateData.color}`)
+            }
+            else{
+                $(`#gate${i}`).addClass("gateColorNotColored")
             }
             $(`#gate${i}`).css({bottom:"100%"})
         }
     }
     //#endregion
     const loop = (index)=>{
-        console.log("loop")
         $(`#gate${index}`).animate({bottom: `${100*(currentGame.nextGateCountdown / currentGame.timeForGateInMs)}%`}, 10)
     }
     //#region GenerateGateData
     const GenerateGateData = ()=>{
-        let gateTypes= currentGame.difficulty=="Easy"
-            ? ["multiplication", "division", "exponential"]
-            : currentGame.difficulty=="Medium"
-            ? ["multiplication", "division", "exponential"]
-            : ["multiplication", "division", "exponential", "logarithm", "sine", "cosine", "tangent"]
-        let selectedGateType=gateTypes[Math.floor(Math.random()*gateTypes.length)]
-        let val=Math.random()*2
-        let colored=false, color=0
-        if(Math.random()<=currentGame.gateColoredChance){
-            colored=true
+        let gateData
+        if(currentGame.difficulty=="Easy"){
+            gateData=GenerateEasyGate()
         }
-        return {
-            html: `x${val}`,
-            colored: true,
-            color: "Negative"
+        else if(currentGame.difficulty=="Medium"){
+            let rng=Math.random()
+            if(rng<0.5){
+                gateData=GenerateEasyGate()
+            }
+            else{
+                gateData=GenerateMediumGate()
+            }
         }
+        else if(currentGame.difficulty=="Hard"){
+            let rng=Math.random()
+            if(rng<0.33){
+                gateData=GenerateMediumGate()
+            }
+            else{
+                gateData=GenerateHardGate()
+            }
+        }
+        return gateData
     }
     //#endregion
+    //#region GenerateEasyGate
+    const GenerateEasyGate = ()=>{
+        let operations=["multiplication", "division", "exponential"]
+        let operation=operations[Math.floor(Math.random()*operations.length)]
+        let gateData={
+            html:"",
+            operation:"",
+            amount:0,
+            color:"",
+            colored: true
+        }
+        if(operation=="multiplication"){
+            let multiplyAmount=(1 + Math.floor(Math.random()*9)) * currentGame.points / 2
+            let text=`x${FormatNumber(multiplyAmount)}`
+            gateData.html=`<div class="gateText">${text}</div>`
+            gateData.operation="multiplication"
+            gateData.amount=multiplyAmount
+            gateData.color="Positive"
+        }
+        else if(operation=="division"){
+            let divideAmount=(1 + Math.floor(Math.random()*9)) * currentGame.points / 50
+            let text=`÷${FormatNumber(divideAmount)}`
+            gateData.html=`<div class="gateText">${text}</div>`
+            gateData.operation="division"
+            gateData.amount=divideAmount
+            gateData.color="Negative"
+        }
+        else if(operation=="exponential"){
+            let exponentAmount=1 + Math.floor(Math.random()*2) * Math.pow(currentGame.points, 0.1)
+            let text=`^${FormatNumber(exponentAmount)}`
+            gateData.html=`<div class="gateText">${text}</div>`
+            gateData.operation="exponential"
+            gateData.amount=exponentAmount
+            gateData.color="Positive"
+        }
+        return gateData
+    }
+    //#endregion
+    //#region GenerateMediumGate
+    const GenerateMediumGate = ()=>{
+        let gateText=""
+        let addBracket=Math.random()<0.5
+        let operations=["multiplication", "division", "exponential"]
+        if(addBracket){
+
+        }
+        let 
+    }
     //#region Timer
     const Timer = ()=>{
         let currentTime=new Date()
@@ -845,15 +914,36 @@ $(()=>{
         currentGame.nextGateCountdown-=timeSinceLastTick
         if(currentGame.nextGateCountdown<=0){
             currentGame.nextGateCountdown=currentGame.timeForGateInMs
+            GainPoints()
             AddGates()
         }
         for (let i=0; i<currentGame.numberOfGates; i++){
-            console.log("here")
             loop(i)
         }
         $("#timer").text(`${FormatTime(currentGame.nextGateCountdown)}`)
     }
     //#endregion
+    //#region GainPoints
+    const GainPoints = ()=>{
+        console.log(currentGame.playerPosition);
+        
+        let gateData=currentGame.gates[currentGame.playerPosition]
+        if(gateData.operation=="multiplication"){
+            currentGame.points*=gateData.amount
+        }
+        else if(gateData.operation=="division"){
+            currentGame.points/=gateData.amount
+            if(currentGame.points<1){
+                currentGame.points=1
+            }
+        }
+        else if(gateData.operation=="exponential"){
+            currentGame.points=Math.pow(currentGame.points, gateData.amount)
+        }
+        currentGame.gatesPassed++
+        $("#points").text(FormatNumber(currentGame.points))
+        $("#gatesPassed").text(currentGame.gatesPassed)
+    }
     //#region PauseGame
     const PauseGame = ()=>{
         currentGame.paused=true
