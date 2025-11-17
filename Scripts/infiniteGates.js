@@ -44,6 +44,7 @@ $(()=>{
         active:false,
         paused:false,
         numberOfGates: 1,
+        gateColoredChance: 0,
         timeForGateInMs: 0,
         points: 1,
         playerPosition:0,
@@ -541,6 +542,7 @@ $(()=>{
         if(currentGame.difficulty=="Easy"){
             currentGame.numberOfGates=2
             currentGame.timeForGateInMs=5000
+            currentGame.gateColoredChance=1
             currentGame.personalBest=player.personalBests.easy.gates
             currentGame.medalGates.bronze=medalGates.easy.bronze
             currentGame.medalGates.silver=medalGates.easy.silver
@@ -550,6 +552,7 @@ $(()=>{
         else if(currentGame.difficulty=="Medium"){
             currentGame.numberOfGates=3
             currentGame.timeForGateInMs=4000
+            currentGame.gateColoredChance=0.5
             currentGame.personalBest=player.personalBests.medium.gates
             currentGame.medalGates.bronze=medalGates.medium.bronze
             currentGame.medalGates.silver=medalGates.medium.silver
@@ -559,6 +562,7 @@ $(()=>{
         else if(currentGame.difficulty=="Hard"){
             currentGame.numberOfGates=4
             currentGame.timeForGateInMs=3000
+            currentGame.gateColoredChance=0
             currentGame.personalBest=player.personalBests.hard.gates
             currentGame.medalGates.bronze=medalGates.hard.bronze
             currentGame.medalGates.silver=medalGates.hard.silver
@@ -762,6 +766,17 @@ $(()=>{
     //#endregion
     //#region GenerateGateColumns
     const GenerateGateColumns = ()=>{
+        let columnsHtml=``
+        for (let i=0; i<currentGame.numberOfGates; i++){
+            columnsHtml+=`
+                <div class="gateColumn interactable" id="gateColumn${i}">
+                    <div class="playerPosition hiddenPlayerPosition" id="playerPosition${i}">
+                        P
+                    </div>
+                </div>
+            `
+        }
+        
         $("#game").html(`
             <div id="pauseButton" class="interactable">
                 <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3">
@@ -772,13 +787,17 @@ $(()=>{
                 ${FormatTime(currentGame.nextGateCountdown)}
             </div>
             <div class="gateColumns">
-
+                ${columnsHtml}
+                
             </div>
         `)
 
+        
+        $("#playerPosition"+currentGame.playerPosition).removeClass("hiddenPlayerPosition")
         $("#pauseButton").on("click", PauseGame)
     }
     //#endregion
+
     //#region Timer
     const Timer = ()=>{
         let currentTime=new Date()
