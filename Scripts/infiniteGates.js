@@ -773,6 +773,7 @@ $(()=>{
     //#region EndGame
     const EndGame = ()=>{
         clearInterval(timeTicker)
+        currentGame.active=false
         $("#game").html(``)
         let differenceToTargetGatesText="No target gates set"
         if(currentGame.targetGates!=0){
