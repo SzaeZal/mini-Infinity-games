@@ -770,6 +770,184 @@ $(()=>{
         timeTicker=setInterval(Timer, 25)
     }
     //#endregion
+    //#region EndGame
+    const EndGame = ()=>{
+        clearInterval(timeTicker)
+        $("#game").html(``)
+        let differenceToTargetGatesText="No target gates set"
+        if(currentGame.targetGates!=0){
+            let gateDifference=currentGame.gatesPassed - currentGame.targetGates
+            if(gateDifference<0){
+                differenceToTargetGatesText= `
+                    <span class="beatTargetGates"> - ${-1 * gateDifference}</span>
+                `
+            }
+            else if (gateDifference>0){
+                differenceToTargetGatesText= `
+                    <span class="failedTargetGates"> + ${gateDifference}</span>
+                `
+            }
+            else{
+                differenceToTargetGatesText= `
+                    <span class="equaledTargetGates"> + ${gateDifference}</span>
+                `
+            }
+        }
+        $("#pauseMenu").html(`
+            <div class="preGameMenu theme-${player.options.ui.theme=="Dark" ? "dark" : "light"}">
+                <div class="currentDifficultyInfo">
+                    <div class="difficultyInfoLeftSide">
+                        <div class="currentDifficultyInfoTitle">
+                            Finish
+                        </div>
+                        <div class="currentDifficultyInfoPersonalBest">
+                            Personal best: ${currentGame.personalBest}
+                        </div>
+                        <div class="differenceToTargetTime">
+                            ${differenceToTargetGatesText}
+                        </div>
+                    </div>
+                    <div class="currentDifficultyMedal" id="medalContainer">
+                      ${
+                          playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 4
+                          ? `<img src="../Images/MedalImages/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
+                          : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 3
+                          ? `<img src="../Images/MedalImages/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
+                          : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 2
+                          ? `<img src="../Images/MedalImages/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
+                          : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 1
+                          ? `<img src="../Images/MedalImages/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
+                          : `<div class="noMedal"></div>`
+                      }
+                    </div>
+                </div>
+                <div class="startOptions">
+                    <div class="startOption interactable" id="endGameOptionRestart">
+                        Restart
+                    </div>
+                    <div class="startOption interactable" id="endGameOptionSetNewTargetTime">
+                        Set new target time
+                    </div>
+                    <div class="startOption interactable" id="endGameOptionClose">
+                        Exit to difficulty selection
+                    </div>
+                </div>
+            </div>    
+        `)
+        $("#pauseMenu").removeClass("hiddenPart")
+        SetPersonalBest()
+        GainMedals()
+        AddEndGameUIEvents()
+        playerStatsCalculated.totalMedals= playerStatsCalculated.medals.easyMedals
+            + playerStatsCalculated.medals.mediumMedals
+            + playerStatsCalculated.medals.hardMedals
+            + playerStatsCalculated.medals.limboMedals
+        if(player.unlockedChampionMedals==false && playerStatsCalculated.totalMedals >=9){
+            player.unlockedChampionMedals=true  
+            ShowDialogBox("Champion medal times unlocked", "You can now view Champion medal times when selecting difficulties", "Info")
+        }
+        if(player.limboUnlocked==false && playerStatsCalculated.totalMedals>=12){
+            player.limboUnlocked=true  
+            ShowDialogBox("New difficulty unlocked", "You have unlocked new difficulty Limbo (NYI)", "Info")    
+        }
+        Save()
+    }
+    //#endregion
+    //#region GainMedals
+    const GainMedals = ()=>{
+        if(currentGame.difficulty=="Easy"){
+            let gainedMedals = CalculateNumberOfGainedMedals(player.personalBests.easy.gates, currentGame.medalGates)
+            if(gainedMedals > playerStatsCalculated.medals.easyMedals){
+                ShowGainedMedals(gainedMedals, playerStatsCalculated.medals.easyMedals)
+                playerStatsCalculated.medals.easyMedals = gainedMedals 
+            }
+        }
+        else if (currentGame.difficulty=="Medium"){
+            let gainedMedals = CalculateNumberOfGainedMedals(player.personalBests.medium.gates, currentGame.medalGates)
+            if(gainedMedals > playerStatsCalculated.medals.mediumMedals){
+                ShowGainedMedals(gainedMedals, playerStatsCalculated.medals.mediumMedals)
+                playerStatsCalculated.medals.mediumMedals = gainedMedals 
+            }  
+        }
+        else if (currentGame.difficulty=="Hard"){
+            let gainedMedals = CalculateNumberOfGainedMedals(player.personalBests.hard.gates, currentGame.medalGates)
+            if(gainedMedals > playerStatsCalculated.medals.hardMedals){
+                ShowGainedMedals(gainedMedals, playerStatsCalculated.medals.hardMedals)
+                playerStatsCalculated.medals.hardMedals = gainedMedals 
+            }
+        }
+    }
+    //#endregion
+    //#region CalculateNumberOfGainedMedals
+    const CalculateNumberOfGainedMedals = (pb, currentDifficultyMedalTimes)=>{
+        if(pb <= currentDifficultyMedalTimes.champion){
+            return 4
+        }
+        else if(pb<=currentDifficultyMedalTimes.gold){
+            return 3
+        }
+        else if(pb<=currentDifficultyMedalTimes.silver){
+            return 2
+        }
+        else if(pb<=currentDifficultyMedalTimes.bronze){
+            return 1
+        }
+        return 0
+        
+    }
+    //#endregion
+    //#region ShowGainedMedals
+    let imageSources=["../Images/MedalImages/bronzeMedal.png", "../Images/MedalImages/silverMedal.png", "../Images/MedalImages/goldMedal.png", "../Images/MedalImages/championMedal.png"]
+    const ShowGainedMedals = (gainedMedals, currentMedals)=>{
+        let gainedMedalsImageSources=imageSources.slice(currentMedals,gainedMedals)
+        for (let i = 0 ; i<gainedMedalsImageSources.length; i++){
+            setTimeout(()=>{
+                $("#medalContainer").html(`
+                    <img src="${gainedMedalsImageSources[i]}" alt="gained medal" class="currentDifficultyMedalImage gainMedal">
+                `)
+            }, i*1000)  
+        }
+    }
+    //#endregion
+    //#region SetPersonalBest
+    const SetPersonalBest = ()=>{
+        if(currentGame.difficulty=="Easy"){
+            player.personalBests.easy.gates = (player.personalBests.easy.gates == 0 
+                || player.personalBests.easy.gates > currentGame.gatesPassed)
+                ? currentGame.gatesPassed
+                : player.personalBests.easy.gates
+        }
+        else if (currentGame.difficulty=="Medium"){
+            player.personalBests.medium.gates = (player.personalBests.medium.gates == 0 
+                || player.personalBests.medium.gates > currentGame.gatesPassed)
+                ? currentGame.gatesPassed
+                : player.personalBests.medium.gates
+        }
+        else if (currentGame.difficulty=="Hard"){
+            player.personalBests.hard.gates = (player.personalBests.hard.gates == 0 
+                || player.personalBests.hard.gates > currentGame.gatesPassed)
+                ? currentGame.gatesPassed
+                : player.personalBests.hard.gates
+        }
+    }
+    //#endregion
+    //#region AddEndGameUIEvents
+    const AddEndGameUIEvents= ()=>{
+        $("#endGameOptionRestart").on("click", ()=>{
+            StartGame()
+            $("#pauseMenu").addClass("hiddenPart")
+        })
+
+        $("#endGameOptionSetNewTargetTime").on("click", ()=>{
+            EnterGame(currentGame.numberOfCardPairs, currentGame.luckMultiplier.base, currentGame.difficulty)
+            $("#pauseMenu").addClass("hiddenPart")
+        })
+
+        $("#endGameOptionClose").on("click", ()=>{
+            GoToGameMenu()
+        })
+    }
+    //#endregion
     //#region GenerateGateColumns
     const GenerateGateColumns = ()=>{
         let columnsHtml=``
@@ -937,6 +1115,7 @@ $(()=>{
         currentGame.playerPosition=index
         $(`#playerPosition${index}`).removeClass("hiddenPlayerPosition")
     }
+    //#endregion
     //#region Timer
     const Timer = ()=>{
         let currentTime=new Date()
@@ -946,7 +1125,12 @@ $(()=>{
         if(currentGame.nextGateCountdown<=0){
             currentGame.nextGateCountdown=currentGame.timeForGateInMs
             GainPoints()
-            AddGates()
+            if(currentGame.points==Infinity){
+                EndGame()
+            }
+            else{
+                AddGates()
+            }
         }
         for (let i=0; i<currentGame.numberOfGates; i++){
             loop(i)
@@ -956,7 +1140,6 @@ $(()=>{
     //#endregion
     //#region GainPoints
     const GainPoints = ()=>{
-        console.log(currentGame.playerPosition);
         
         let gateData=currentGame.gates[currentGame.playerPosition]
         if(gateData.operation=="multiplication"){
@@ -1129,6 +1312,64 @@ $(()=>{
             }`
     }
     //#endregion
+    //#region CheckForAchievedMedals
+    const CheckForAchievedMedals = ()=>{
+        if(player.personalBests.easy.gates>0){
+            if(player.personalBests.easy.gates <= medalGates.easy.champion){
+                playerStatsCalculated.medals.easyMedals=4
+            }
+            else if(player.personalBests.easy.gates <= medalGates.easy.gold){
+                playerStatsCalculated.medals.easyMedals=3
+            }
+            else if(player.personalBests.easy.gates <= medalGates.easy.silver){
+                playerStatsCalculated.medals.easyMedals=2
+            }
+            else if(player.personalBests.easy.gates <= medalGates.easy.bronze){
+                playerStatsCalculated.medals.easyMedals=1
+            }
+        }
+
+        if(player.personalBests.medium.gates>0){
+            if(player.personalBests.medium.gates <= medalGates.medium.champion){
+                playerStatsCalculated.medals.mediumMedals=4
+            }
+            else if(player.personalBests.medium.gates <= medalGates.medium.gold){
+                playerStatsCalculated.medals.mediumMedals=3
+            }
+            else if(player.personalBests.medium.gates <= medalGates.medium.silver){
+                playerStatsCalculated.medals.mediumMedals=2
+            }
+            else if(player.personalBests.medium.gates <= medalGates.medium.bronze){
+                playerStatsCalculated.medals.mediumMedals=1
+            }
+        }
+
+        if(player.personalBests.hard.gates>0){
+            if(player.personalBests.hard.gates <= medalGates.hard.champion){
+                playerStatsCalculated.medals.hardMedals=4
+            }
+            else if(player.personalBests.hard.gates <= medalGates.hard.gold){
+                playerStatsCalculated.medals.hardMedals=3
+            }
+            else if(player.personalBests.hard.gates <= medalGates.hard.silver){
+                playerStatsCalculated.medals.hardMedals=2
+            }
+            else if(player.personalBests.hard.gates <= medalGates.hard.bronze){
+                playerStatsCalculated.medals.hardMedals=1
+            }
+        }
+
+        playerStatsCalculated.totalMedals= playerStatsCalculated.medals.easyMedals
+            + playerStatsCalculated.medals.mediumMedals
+            + playerStatsCalculated.medals.hardMedals
+            + playerStatsCalculated.medals.limboMedals
+        
+        if(player.unlockedChampionMedals==false && playerStatsCalculated.totalMedals >=9){
+            player.unlockedChampionMedals=true
+            ShowDialogBox("Champion medal times unlocked", "You can now view Champion medal times when selecting difficulties", "Info")
+        }
+    }
+    //#endregion
     //#region  saving and loading 
     const Save = () => {
         const playerParsedToJson = JSON.stringify(player);
@@ -1165,6 +1406,8 @@ $(()=>{
             CheckForMissingData();
 
             SetTheme(player.options.ui.theme);
+
+            CheckForAchievedMedals();
         
         }
         catch (e) {

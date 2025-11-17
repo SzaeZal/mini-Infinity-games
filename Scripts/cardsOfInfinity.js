@@ -935,7 +935,6 @@ $(()=>{
         SetPersonalBest()
         GainMedals()
         AddEndGameUIEvents()
-        Save()
         playerStatsCalculated.totalMedals= playerStatsCalculated.medals.easyMedals
             + playerStatsCalculated.medals.mediumMedals
             + playerStatsCalculated.medals.hardMedals
