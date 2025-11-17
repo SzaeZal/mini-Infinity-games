@@ -2336,6 +2336,9 @@ $(()=>{
     //#region FormatNumber
     const FormatNumber= (numberToFormat)=>{
         let result = Math.floor(numberToFormat).toString();
+        if(numberToFormat==Infinity){
+            return "Infinity"
+        }
         if (numberToFormat < 10) {
         result = (Math.floor(numberToFormat * 100) / 100).toString();
         }

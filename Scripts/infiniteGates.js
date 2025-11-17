@@ -1000,9 +1000,14 @@ $(()=>{
 
             $(`#gate${i}`).html(gateData.html)
             if(gateData.colored){
+                $(`#gate${i}`).removeClass(`gateColorPositive`)
+                $(`#gate${i}`).removeClass(`gateColorNegative`)
+                $(`#gate${i}`).removeClass(`gateColorNotColored`)
                 $(`#gate${i}`).addClass(`gateColor${gateData.color}`)
             }
             else{
+                $(`#gate${i}`).removeClass(`gateColorPositive`)
+                $(`#gate${i}`).removeClass(`gateColorNegative`)
                 $(`#gate${i}`).addClass("gateColorNotColored")
             }
             $(`#gate${i}`).css({bottom:"100%"})
@@ -1051,7 +1056,7 @@ $(()=>{
             colored: true
         }
         if(operation=="multiplication"){
-            let multiplyAmount=(1 + Math.floor(Math.random()*9)) * currentGame.points / 2
+            let multiplyAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 2
             let text=`x${FormatNumber(multiplyAmount)}`
             gateData.html=`<div class="gateText">${text}</div>`
             gateData.operation="multiplication"
@@ -1059,15 +1064,15 @@ $(()=>{
             gateData.color="Positive"
         }
         else if(operation=="division"){
-            let divideAmount=(1 + Math.floor(Math.random()*9)) * currentGame.points / 50
-            let text=`÷${FormatNumber(divideAmount)}`
+            let divideAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 50
+            let text=`/${FormatNumber(divideAmount)}`
             gateData.html=`<div class="gateText">${text}</div>`
             gateData.operation="division"
             gateData.amount=divideAmount
             gateData.color="Negative"
         }
         else if(operation=="exponential"){
-            let exponentAmount=1 + Math.floor(Math.random()*2) * Math.pow(currentGame.points, 0.1)
+            let exponentAmount=1 + Math.floor(Math.random()*2) * Math.pow(currentGame.points, 0.02)
             let text=`^${FormatNumber(exponentAmount)}`
             gateData.html=`<div class="gateText">${text}</div>`
             gateData.operation="exponential"
@@ -1273,6 +1278,9 @@ $(()=>{
     //#region FormatNumber
     const FormatNumber= (numberToFormat)=>{
         let result = Math.floor(numberToFormat).toString();
+        if(numberToFormat==Infinity){
+            return "Infinity"
+        }
         if (numberToFormat < 10) {
         result = (Math.floor(numberToFormat * 100) / 100).toString();
         }
