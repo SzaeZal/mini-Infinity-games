@@ -769,9 +769,12 @@ $(()=>{
         let columnsHtml=``
         for (let i=0; i<currentGame.numberOfGates; i++){
             columnsHtml+=`
-                <div class="gateColumn interactable" id="gateColumn${i}">
+                <div class="gateColumn interactable">
                     <div class="playerPosition hiddenPlayerPosition" id="playerPosition${i}">
                         P
+                    </div>
+                    <div class="gate" id="gate${i}">
+                    
                     </div>
                 </div>
             `
@@ -792,12 +795,45 @@ $(()=>{
             </div>
         `)
 
-        
+        AddGates()
         $("#playerPosition"+currentGame.playerPosition).removeClass("hiddenPlayerPosition")
         $("#pauseButton").on("click", PauseGame)
     }
     //#endregion
-
+    //#region AddGates
+    const AddGates = ()=>{
+        console.log("Adding gates")
+        for (let i=0; i<currentGame.numberOfGates; i++){
+            let gateData=GenerateGateData()
+            currentGame.gates[i]=gateData
+            $(`#gate${i}`).html(gateData.html)
+            if(gateData.colored){
+                $(`#gate${i}`).addClass(`gateColor${gateData.color}`)
+            }
+            
+            $(`#gate${i}`).animate({bottom: "0px"}, currentGame.timeForGateInMs, "linear")
+        }
+    }
+    //#endregion
+    //#region GenerateGateData
+    const GenerateGateData = ()=>{
+        let gateTypes= currentGame.difficulty=="Easy"
+            ? ["multiplication", "division", "exponential"]
+            : currentGame.difficulty=="Medium"
+            ? ["multiplication", "division", "exponential"]
+            : ["multiplication", "division", "exponential", "logarithm", "sine", "cosine", "tangent"]
+        let selectedGateType=gateTypes[Math.floor(Math.random()*gateTypes.length)]
+        let colored=false, color=0
+        if(Math.random()<=currentGame.gateColoredChance){
+            colored=true
+        }
+        return {
+            html: `x10`,
+            colored: true,
+            color: "Negative"
+        }
+    }
+    //#endregion
     //#region Timer
     const Timer = ()=>{
         let currentTime=new Date()
@@ -806,6 +842,7 @@ $(()=>{
         currentGame.nextGateCountdown-=timeSinceLastTick
         if(currentGame.nextGateCountdown<=0){
             currentGame.nextGateCountdown=currentGame.timeForGateInMs
+            AddGates()
         }
         $("#timer").text(`${FormatTime(currentGame.nextGateCountdown)}`)
     }

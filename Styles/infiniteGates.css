@@ -393,6 +393,16 @@
     max-height: 50px;
     padding: 5px 0;
     width: 100%;
+    text-align: center;
+}
+.gateColorNegative{
+    background-color: rgba(255, 0, 0, 0.5);
+}
+.gateColorPositive{
+    background-color: rgba(0, 255, 0, 0.5);
+}
+.gateNotColored{
+    background-color: rgba(128, 128, 128, 0.5);
 }
 .playerPosition{
     position: absolute;
@@ -407,6 +417,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 5;
 }
 .hiddenPlayerPosition{
     display: none;
