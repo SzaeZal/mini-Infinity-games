@@ -902,7 +902,7 @@ $(()=>{
                     <ul class="difficultyDescription">
                         <li>Gate speed: 4 seconds</li>
                         <li>Gate count: 3</li>
-                        <li>Gate types: idk</li>
+                        <li>Gate types: easy + brackets</li>
                         <li>Some Gates are colored</li>
                     </ul>
                     <div class="selectDifficultyButton">
@@ -922,7 +922,7 @@ $(()=>{
                     <ul class="difficultyDescription">
                         <li>Gate speed: 3 seconds</li>
                         <li>Gate count: 4</li>
-                        <li>Gate types: logarythm, trigonometric methods</li>
+                        <li>Gate types: medium + logarythm, trigonometric methods</li>
                         <li>Gates are not colored</li>
                     </ul>
                     <div class="selectDifficultyButton">
