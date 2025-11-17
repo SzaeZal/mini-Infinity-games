@@ -775,7 +775,7 @@ $(()=>{
         let columnsHtml=``
         for (let i=0; i<currentGame.numberOfGates; i++){
             columnsHtml+=`
-                <div class="gateColumn interactable">
+                <div class="gateColumn interactable" id="column${i}">
                     <div class="playerPosition hiddenPlayerPosition" id="playerPosition${i}">
                         P
                     </div>
@@ -804,6 +804,9 @@ $(()=>{
         AddGates()
         $("#playerPosition"+currentGame.playerPosition).removeClass("hiddenPlayerPosition")
         $("#pauseButton").on("click", PauseGame)
+        for (let i = 0; i<currentGame.numberOfGates; i++){
+            $(`#column${i}`).on("click", ()=>{MovePlayerToPosition(i)})
+        }
     }
     //#endregion
     //#region AddGates
@@ -905,6 +908,34 @@ $(()=>{
 
         }
         let 
+    }
+    //#endregion
+    //#region GenerateHardGate
+    const GenerateHardGate= ()=>{
+
+    }
+    //#endregion
+    //#region MovePlayerLeft
+    const MovePlayerLeft = ()=>{
+        MovePlayerToPosition(currentGame.playerPosition-1)
+    }
+    //#endregion
+    //#region MovePlayerRight
+    const MovePlayerRight = ()=>{
+        MovePlayerToPosition(currentGame.playerPosition+1)
+    }
+    //#endregion
+    //#region MovePlayerToPosition
+    const MovePlayerToPosition = (index)=>{
+        $(`#playerPosition${currentGame.playerPosition}`).addClass("hiddenPlayerPosition")
+        if(index<0){
+            index=currentGame.numberOfGates-1
+        }
+        else if (index>=currentGame.numberOfGates){
+            index=0
+        }
+        currentGame.playerPosition=index
+        $(`#playerPosition${index}`).removeClass("hiddenPlayerPosition")
     }
     //#region Timer
     const Timer = ()=>{

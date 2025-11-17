@@ -412,7 +412,10 @@
     max-height: 50px;
     padding: 5px 0;
     width: 100%;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
 }
 .gateColorNegative{
     background-color: rgba(255, 0, 0, 0.5);
