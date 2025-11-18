@@ -625,6 +625,9 @@ $(()=>{
                             <div class="startOption interactable" id="pauseOptionResume">
                                 Resume
                             </div>
+                            <div class="startOption interactable" id="pauseOptionRestart">
+                                Restart
+                            </div>
                             <div class="startOption interactable" id="pauseOptionClose">
                                 Exit to difficulty selection
                             </div>
@@ -731,17 +734,24 @@ $(()=>{
         }
 
         $("#startOptionPB").on("click", ()=>{
-            currentGame.targetTimeInMs=currentGame.difficulty!="Custom" ? currentGame.personalBestInMs : 0
+            currentGame.targetGates=currentGame.personalBest
             CountDown()
             setTimeout(StartGame, 3000)
         })
 
         $("#pauseOptionClose").on("click", ()=>{
+            currentGame.active=false
             GoToGameMenu()
         })
 
         $("#pauseOptionResume").on("click", ()=>{
             ResumeGame()
+        })
+
+        $("#pauseOptionRestart").on("click", ()=>{
+            $("#pauseMenu").addClass("hiddenPart")
+            CountDown()
+            setTimeout(StartGame, 3000)
         })
     }
     //#endregion
@@ -795,19 +805,9 @@ $(()=>{
             }
         }
         $("#pauseMenu").html(`
-            <div class="preGameMenu theme-${player.options.ui.theme=="Dark" ? "dark" : "light"}">
-                <div class="currentDifficultyInfo">
-                    <div class="difficultyInfoLeftSide">
-                        <div class="currentDifficultyInfoTitle">
-                            Finish
-                        </div>
-                        <div class="currentDifficultyInfoPersonalBest">
-                            Personal best: ${currentGame.personalBest}
-                        </div>
-                        <div class="differenceToTargetTime">
-                            ${differenceToTargetGatesText}
-                        </div>
-                    </div>
+            <div class="currentDifficultyInfo theme-${player.options.ui.theme=="Dark" ? "dark" : "light"}"">
+                <div class="currentDifficultyInfoTitle">
+                    Finish
                     <div class="currentDifficultyMedal" id="medalContainer">
                       ${
                           playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 4
@@ -822,6 +822,17 @@ $(()=>{
                       }
                     </div>
                 </div>
+                <div class="difficultyInfo">
+                    <div class="currentDifficultyInfoPersonalBest">
+                        ${currentGame.personalBest == 0 
+                            ? "No personal best yet"
+                            : ` Personal Best: ${player.personalBests[currentGame.difficulty.toLowerCase()].gates} gates`
+                        }
+                    </div>
+                    <div class="differenceToTargetTime">
+                        ${differenceToTargetGatesText}
+                    </div>
+                </div>
                 <div class="startOptions">
                     <div class="startOption interactable" id="endGameOptionRestart">
                         Restart
@@ -833,7 +844,7 @@ $(()=>{
                         Exit to difficulty selection
                     </div>
                 </div>
-            </div>    
+            </div>
         `)
         $("#pauseMenu").removeClass("hiddenPart")
         SetPersonalBest()
@@ -940,7 +951,7 @@ $(()=>{
         })
 
         $("#endGameOptionSetNewTargetTime").on("click", ()=>{
-            EnterGame(currentGame.numberOfCardPairs, currentGame.luckMultiplier.base, currentGame.difficulty)
+            ShowDifficultyStats(currentGame.difficulty)
             $("#pauseMenu").addClass("hiddenPart")
         })
 

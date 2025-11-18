@@ -448,3 +448,13 @@
 .hiddenPlayerPosition{
     display: none;
 }
+
+.beatTargetGates{
+    color: green;
+}
+.failedTargetGates{
+    color: #b30000;
+}
+.equaledTargetGates{
+    color: gray;
+}

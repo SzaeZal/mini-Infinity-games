@@ -829,6 +829,7 @@ $(()=>{
         })
 
         $("#pauseOptionClose").on("click", ()=>{
+            currentGame.active=false
             GoToGameMenu()
         })
 
@@ -864,6 +865,7 @@ $(()=>{
     const EndGame = ()=>{
         clearInterval(timeTicker)
         $("#game").html(``)
+        currentGame.active=false
         let differenceToTargetTimeText="No target time set"
         if(currentGame.targetTimeInMs!=0){
             console.log(currentGame.elapsedTime)
