@@ -1014,13 +1014,13 @@ $(()=>{
             if(gateData.colored){
                 $(`#gate${i}`).removeClass(`gateColorPositive`)
                 $(`#gate${i}`).removeClass(`gateColorNegative`)
-                $(`#gate${i}`).removeClass(`gateColorNotColored`)
+                $(`#gate${i}`).removeClass(`gateNotColored`)
                 $(`#gate${i}`).addClass(`gateColor${gateData.color}`)
             }
             else{
                 $(`#gate${i}`).removeClass(`gateColorPositive`)
                 $(`#gate${i}`).removeClass(`gateColorNegative`)
-                $(`#gate${i}`).addClass("gateColorNotColored")
+                $(`#gate${i}`).addClass("gateNotColored")
             }
             $(`#gate${i}`).css({bottom:"100%"})
         }
@@ -1061,6 +1061,7 @@ $(()=>{
         let operations=["multiplication", "division", "exponential"]
         let operation=operations[Math.floor(Math.random()*operations.length)]
         let gateData={
+            difficulty: "Easy",
             html:"",
             operation:"",
             amount:0,
@@ -1097,12 +1098,60 @@ $(()=>{
     //#region GenerateMediumGate
     const GenerateMediumGate = ()=>{
         let gateText=""
-        let addBracket=Math.random()<0.5
         let operations=["multiplication", "division", "exponential"]
-        if(addBracket){
-
+        let gateData={
+            difficulty: "Medium",
+            html:"",
+            operations:["", ""],
+            amounts:[0, 0],
+            color:undefined,
+            colored: false
         }
-        let 
+        let firstOperation=operations[Math.floor(Math.random()*operations.length)]
+        if(firstOperation=="multiplication"){
+            let multiplyAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 2
+            let text=`x${FormatNumber(multiplyAmount)}`
+            gateData.html=`<div class="gateText">(${text})`
+            gateData.operations[0]="multiplication"
+            gateData.amounts[0]=multiplyAmount
+        }
+        else if(firstOperation=="division"){
+            let divideAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 50
+            let text=`/${FormatNumber(divideAmount)}`
+            gateData.html=`<div class="gateText">(${text})`
+            gateData.operations[0]="division"
+            gateData.amounts[0]=divideAmount
+        }
+        else if(firstOperation=="exponential"){
+            let exponentAmount=1 + Math.floor(Math.random()*2) * Math.pow(currentGame.points, 0.02)
+            let text=`^${FormatNumber(exponentAmount)}`
+            gateData.html=`<div class="gateText">(${text})`
+            gateData.operations[0]="exponential"
+            gateData.amounts[0]=exponentAmount
+        }
+        let secondOperation=operations[Math.floor(Math.random()*operations.length)]
+        if(secondOperation=="multiplication"){
+            let multiplyAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 2
+            let text=`x${FormatNumber(multiplyAmount)}`
+            gateData.html+=`${text}</div>`
+            gateData.operations[1]="multiplication"
+            gateData.amounts[1]=multiplyAmount
+        }
+        else if(secondOperation=="division"){
+            let divideAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 50
+            let text=`/${FormatNumber(divideAmount)}`
+            gateData.html+=`${text}</div>`
+            gateData.operations[1]="division"
+            gateData.amounts[1]=divideAmount
+        }
+        else if(secondOperation=="exponential"){
+            let exponentAmount=1 + Math.floor(Math.random()*2) * Math.pow(currentGame.points, 0.02)
+            let text=`^${FormatNumber(exponentAmount)}`
+            gateData.html+=`${text}</div>`
+            gateData.operations[1]="exponential"
+            gateData.amounts[1]=exponentAmount
+        }
+        return gateData 
     }
     //#endregion
     //#region GenerateHardGate
@@ -1157,8 +1206,20 @@ $(()=>{
     //#endregion
     //#region GainPoints
     const GainPoints = ()=>{
-        
         let gateData=currentGame.gates[currentGame.playerPosition]
+        if(gateData.difficulty=="Easy"){
+            GainPointsFromEasyGate(gateData)
+        }
+        else if(gateData.difficulty=="Medium"){
+            GainPointsFromMediumGate(gateData)
+        }
+        currentGame.gatesPassed++
+        $("#points").text(FormatNumber(currentGame.points))
+        $("#gatesPassed").text(currentGame.gatesPassed)
+    }
+    //#endregion
+    //#region GainPointsFromEasyGate
+    const GainPointsFromEasyGate = (gateData)=>{
         if(gateData.operation=="multiplication"){
             currentGame.points*=gateData.amount
         }
@@ -1171,10 +1232,37 @@ $(()=>{
         else if(gateData.operation=="exponential"){
             currentGame.points=Math.pow(currentGame.points, gateData.amount)
         }
-        currentGame.gatesPassed++
-        $("#points").text(FormatNumber(currentGame.points))
-        $("#gatesPassed").text(currentGame.gatesPassed)
     }
+    //#endregion
+    //#region GainPointsFromMediumGate
+    const GainPointsFromMediumGate = (gateData)=>{
+        if(gateData.operations[0]=="multiplication"){
+            currentGame.points*=gateData.amounts[0]
+        }
+        else if(gateData.operations[0]=="division"){
+            currentGame.points/=gateData.amounts[0]
+            if(currentGame.points<1){
+                currentGame.points=1
+            }
+        }
+        else if(gateData.operations[0]=="exponential"){
+            currentGame.points=Math.pow(currentGame.points, gateData.amounts[0])
+        }
+
+        if(gateData.operations[1]=="multiplication"){
+            currentGame.points*=gateData.amounts[1]
+        }
+        else if(gateData.operations[1]=="division"){
+            currentGame.points/=gateData.amounts[1]
+            if(currentGame.points<1){
+                currentGame.points=1
+            }
+        }
+        else if(gateData.operations[1]=="exponential"){
+            currentGame.points=Math.pow(currentGame.points, gateData.amounts[1])
+        }
+    }
+    //#endregion
     //#region PauseGame
     const PauseGame = ()=>{
         currentGame.paused=true
