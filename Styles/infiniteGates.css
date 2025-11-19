@@ -412,8 +412,8 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    height: 50px;
-    max-height: 50px;
+    height: fit-content;
+    min-height: 50px;
     padding: 5px 0;
     width: 100%;
     display: flex;
@@ -447,6 +447,10 @@
 }
 .hiddenPlayerPosition{
     display: none;
+}
+.gateText{
+    font-size: auto;
+    word-break: break-all;
 }
 
 .beatTargetGates{

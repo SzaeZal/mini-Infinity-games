@@ -201,10 +201,10 @@ $(()=>{
             if(e.originalEvent.code=="Space"){
                 PauseGame()
             }
-            else if(e.originalEvent.code == "KeyA" || e.originalEvent.code == "ArrowLeft"){
+            else if((e.originalEvent.code == "KeyA" || e.originalEvent.code == "ArrowLeft") && currentGame.paused==false){
                 MovePlayerLeft()
             }
-            else if(e.originalEvent.code == "KeyD" || e.originalEvent.code == "ArrowRight"){
+            else if((e.originalEvent.code == "KeyD" || e.originalEvent.code == "ArrowRight") && currentGame.paused==false){
                 MovePlayerRight()
             }
         }
@@ -1157,10 +1157,10 @@ $(()=>{
     //#region GenerateHardGate
     const GenerateHardGate= ()=>{
         let gateText=""
-        let operations=["multiplication", "division", "exponential"]
+        let operations=["multiplication", "division", "exponential", "log10"]
         let amounts=["constant", "sin", "cos", "tan"]
         let gateData={
-            difficulty: "Medium",
+            difficulty: "Hard",
             html:"",
             operations:["", ""],
             amounts:[0, 0],
@@ -1170,46 +1170,109 @@ $(()=>{
         let firstOperation=operations[Math.floor(Math.random()*operations.length)]
         let firstAmount=amounts[Math.floor(Math.random()*amounts.length)]
         if(firstOperation=="multiplication"){
-            let multiplyAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 2
-            let text=`x${FormatNumber(multiplyAmount)}`
+            let text
+            let multiplyAmount
+            if (firstAmount=="constant"){
+                multiplyAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 2
+                text=`x${FormatNumber(multiplyAmount)}`
+            }
+            else{
+                multiplyAmount=firstAmount
+                text=`x${firstAmount}(points°)`
+            }
             gateData.html=`<div class="gateText">(${text})`
             gateData.operations[0]="multiplication"
             gateData.amounts[0]=multiplyAmount
         }
         else if(firstOperation=="division"){
-            let divideAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 50
-            let text=`/${FormatNumber(divideAmount)}`
+            let divideAmount
+            let text
+            if (firstAmount=="constant"){
+                divideAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 50
+                text=`/${FormatNumber(divideAmount)}`
+            }
+            else{
+                divideAmount=firstAmount
+                text=`/${firstAmount}(points°)`
+            }
             gateData.html=`<div class="gateText">(${text})`
             gateData.operations[0]="division"
             gateData.amounts[0]=divideAmount
         }
         else if(firstOperation=="exponential"){
-            let exponentAmount=1 + Math.floor(Math.random()*2) * Math.pow(currentGame.points, 0.02)
-            let text=`^${FormatNumber(exponentAmount)}`
+            let exponentAmount
+            let text
+            if (firstAmount=="constant"){
+                exponentAmount=1 + Math.floor(Math.random()*2) * Math.pow(currentGame.points, 0.02)
+                text=`^${FormatNumber(exponentAmount)}`
+            }
+            else{
+                exponentAmount=firstAmount !="tan" ? firstAmount : "sin"
+                text=`^${firstAmount}(points°)`
+            }
             gateData.html=`<div class="gateText">(${text})`
             gateData.operations[0]="exponential"
             gateData.amounts[0]=exponentAmount
         }
+        else if(firstOperation=="log10"){
+            let exponentAmount="log10"
+            let text=`log10(points)`
+            gateData.html=`<div class="gateText">(${text})`
+            gateData.operations[0]="log10"
+            gateData.amounts[0]=exponentAmount
+        }
+
         let secondOperation=operations[Math.floor(Math.random()*operations.length)]
+        let secondAmount=amounts[Math.floor(Math.random()*amounts.length)]
         if(secondOperation=="multiplication"){
-            let multiplyAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 2
-            let text=`x${FormatNumber(multiplyAmount)}`
+            let text
+            let multiplyAmount
+            if (secondAmount=="constant"){
+                multiplyAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 2
+                text=`x${FormatNumber(multiplyAmount)}`
+            }
+            else{
+                multiplyAmount=secondAmount
+                text=`x${secondAmount}(points°)`
+            }
             gateData.html+=`${text}</div>`
             gateData.operations[1]="multiplication"
             gateData.amounts[1]=multiplyAmount
         }
         else if(secondOperation=="division"){
-            let divideAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 50
-            let text=`/${FormatNumber(divideAmount)}`
+            let divideAmount
+            let text
+            if (secondAmount=="constant"){
+                divideAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 50
+                text=`/${FormatNumber(divideAmount)}`
+            }
+            else{
+                divideAmount=secondAmount
+                text=`/${secondAmount}(points°)`
+            }
             gateData.html+=`${text}</div>`
             gateData.operations[1]="division"
             gateData.amounts[1]=divideAmount
         }
         else if(secondOperation=="exponential"){
-            let exponentAmount=1 + Math.floor(Math.random()*2) * Math.pow(currentGame.points, 0.02)
-            let text=`^${FormatNumber(exponentAmount)}`
+            let exponentAmount
+            let text
+            if (secondAmount=="constant"){
+                exponentAmount=1 + Math.floor(Math.random()*2) * Math.pow(currentGame.points, 0.02)
+                text=`^${FormatNumber(exponentAmount)}`
+            }
+            else{
+                exponentAmount=secondAmount
+                text=`^${secondAmount}(points°)`
+            }
             gateData.html+=`${text}</div>`
             gateData.operations[1]="exponential"
+            gateData.amounts[1]=exponentAmount
+        }
+        else if(secondOperation=="log10"){
+            let exponentAmount="log10"
+            gateData.html=`<div class="gateText">log10(${gateData.html})</div>`
+            gateData.operations[1]="log10"
             gateData.amounts[1]=exponentAmount
         }
         return gateData
@@ -1300,9 +1363,6 @@ $(()=>{
         }
         else if(gateData.operations[0]=="division"){
             currentGame.points/=gateData.amounts[0]
-            if(currentGame.points<1){
-                currentGame.points=1
-            }
         }
         else if(gateData.operations[0]=="exponential"){
             currentGame.points=Math.pow(currentGame.points, gateData.amounts[0])
@@ -1313,41 +1373,163 @@ $(()=>{
         }
         else if(gateData.operations[1]=="division"){
             currentGame.points/=gateData.amounts[1]
-            if(currentGame.points<1){
-                currentGame.points=1
-            }
         }
         else if(gateData.operations[1]=="exponential"){
             currentGame.points=Math.pow(currentGame.points, gateData.amounts[1])
+        }
+
+        if(currentGame.points<1 && currentGame.points>-1){
+            currentGame.points=1
         }
     }
     //#endregion
     //#region GainPointsFromHardGate
     const GainPointsFromHardGate = (gateData)=>{
+        console.log(gateData)
         if(gateData.operations[0]=="multiplication"){
-            currentGame.points*=gateData.amounts[0]
-        }
-        else if(gateData.operations[0]=="division"){
-            currentGame.points/=gateData.amounts[0]
-            if(currentGame.points<1){
-                currentGame.points=1
+            if(gateData.amounts[0]=="sin"){
+                let sinAmount=Math.sin(currentGame.points * Math.PI / 180)
+                currentGame.points*=sinAmount
+                console.log(sinAmount, currentGame.points)
+            }
+            else if(gateData.amounts[0]=="cos"){
+                let cosAmount=Math.cos(currentGame.points * Math.PI / 180)
+                currentGame.points*=cosAmount
+                console.log(cosAmount, currentGame.points)
+            }
+            else if(gateData.amounts[0]=="tan"){
+                let tanAmount
+                try{
+                    tanAmount=Math.tan(currentGame.points * Math.PI / 180)
+                }
+                catch{
+                    tanAmount=1
+                }
+                currentGame.points*=tanAmount
+                console.log(tanAmount, currentGame.points)
+            }
+            else{
+                currentGame.points*=gateData.amounts[0]
             }
         }
+        else if(gateData.operations[0]=="division"){
+            if(gateData.amounts[0]=="sin"){
+                let sinAmount=Math.sin(currentGame.points * Math.PI / 180)
+                currentGame.points/=sinAmount
+                console.log(sinAmount, currentGame.points)
+            }
+            else if(gateData.amounts[0]=="cos"){
+                let cosAmount=Math.cos(currentGame.points * Math.PI / 180)
+                currentGame.points/=cosAmount
+                console.log(cosAmount, currentGame.points)
+            }
+            else if(gateData.amounts[0]=="tan"){
+                let tanAmount
+                try{
+                    tanAmount=Math.tan(currentGame.points * Math.PI / 180)
+                }
+                catch{
+                    tanAmount=1
+                }
+                currentGame.points/=tanAmount
+                console.log(tanAmount, currentGame.points)
+            }
+            else{
+                currentGame.points/=gateData.amounts[0]
+            }        
+        }
         else if(gateData.operations[0]=="exponential"){
-            currentGame.points=Math.pow(currentGame.points, gateData.amounts[0])
+            if(gateData.amounts[0]=="sin"){
+                let sinAmount=Math.sin(currentGame.points * Math.PI / 180)
+                currentGame.points=Math.pow(currentGame.points, sinAmount)
+                console.log(sinAmount, currentGame.points)
+            }
+            else if(gateData.amounts[0]=="cos"){
+                let cosAmount=Math.cos(currentGame.points * Math.PI / 180)
+                currentGame.points=Math.pow(currentGame.points, cosAmount)
+                console.log(cosAmount, currentGame.points)
+            }
+            else{
+                currentGame.points=Math.pow(currentGame.points, gateData.amounts[0])
+            } 
+        }
+        else if(gateData.operations[0]=="log10"){
+            currentGame.points=Math.log10(currentGame.points)
         }
 
         if(gateData.operations[1]=="multiplication"){
-            currentGame.points*=gateData.amounts[1]
-        }
-        else if(gateData.operations[1]=="division"){
-            currentGame.points/=gateData.amounts[1]
-            if(currentGame.points<1){
-                currentGame.points=1
+            if(gateData.amounts[1]=="sin"){
+                let sinAmount=Math.sin(currentGame.points * Math.PI / 180)
+                currentGame.points*=sinAmount
+                console.log(sinAmount, currentGame.points)
+            }
+            else if(gateData.amounts[1]=="cos"){
+                let cosAmount=Math.cos(currentGame.points * Math.PI / 180)
+                currentGame.points*=cosAmount
+                console.log(cosAmount, currentGame.points)
+            }
+            else if(gateData.amounts[1]=="tan"){
+                let tanAmount
+                try{
+                    tanAmount=Math.tan(currentGame.points * Math.PI / 180)
+                }
+                catch{
+                    tanAmount=1
+                }
+                currentGame.points*=tanAmount
+                console.log(tanAmount, currentGame.points)
+            }
+            else{
+                currentGame.points*=gateData.amounts[1]
             }
         }
+        else if(gateData.operations[1]=="division"){
+            if(gateData.amounts[1]=="sin"){
+                let sinAmount=Math.sin(currentGame.points * Math.PI / 180)
+                currentGame.points/=sinAmount
+                console.log(sinAmount, currentGame.points)
+            }
+            else if(gateData.amounts[1]=="cos"){
+                let cosAmount=Math.cos(currentGame.points * Math.PI / 180)
+                currentGame.points/=cosAmount
+                console.log(cosAmount, currentGame.points)
+            }
+            else if(gateData.amounts[1]=="tan"){
+                let tanAmount
+                try{
+                    tanAmount=Math.tan(currentGame.points * Math.PI / 180)
+                }
+                catch{
+                    tanAmount=1
+                }
+                currentGame.points/=tanAmount
+                console.log(tanAmount, currentGame.points)
+            }
+            else{
+                currentGame.points/=gateData.amounts[1]
+            } 
+        }
         else if(gateData.operations[1]=="exponential"){
-            currentGame.points=Math.pow(currentGame.points, gateData.amounts[1])
+            if(gateData.amounts[1]=="sin"){
+                let sinAmount=Math.sin(currentGame.points * Math.PI / 180)
+                currentGame.points=Math.pow(currentGame.points, sinAmount)
+                console.log(sinAmount, currentGame.points)
+            }
+            else if(gateData.amounts[1]=="cos"){
+                let cosAmount=Math.cos(currentGame.points * Math.PI / 180)
+                currentGame.points=Math.pow(currentGame.points, cosAmount)
+                console.log(cosAmount, currentGame.points)
+            }
+            else{
+                currentGame.points=Math.pow(currentGame.points, gateData.amounts[1])
+            } 
+        }
+        else if(gateData.operations[1]=="log10"){
+            currentGame.points=Math.log10(currentGame.points)
+        }
+
+        if(currentGame.points<1 && currentGame.points>-1){
+            currentGame.points=1
         }
     }
     //#endregion
