@@ -192,7 +192,7 @@ $(()=>{
         }
     }
     //#endregion
-    
+    gameSpeed=1
     //#region sidebar open-close
     let sidebar = $("#sidebar")
     let isSidebarOpen=true
@@ -808,7 +808,15 @@ $(()=>{
                             </ul>
                         </div>
                     </div>
+                    <div id="gameSpeedChanger" class="interactable">
+                        ${
+                            gameSpeed!=1
+                            ? "Change game speed back to 1x"
+                            : "Change game speed to 10x"
+                        }
+                    </div>
                 </div>
+
             </div>    
         `)
         AddChangelogInformationUIEvents()
@@ -825,6 +833,12 @@ $(()=>{
         else{
             $("#mainInformationSubMenuItem").removeClass("interactable")
         }
+
+        $("#gameSpeedChanger").on("click", ()=>{
+            gameSpeed = gameSpeed != 1 ? 1 : 10
+            buttonText= gameSpeed == 1 ? "Change game speed to 10x" : "Change game speed back to 1x"
+            $("#gameSpeedChanger").text(buttonText)
+        })
     }
     //#endregion
     //#region Replicanti nav
@@ -850,6 +864,9 @@ $(()=>{
                     </div>
                     <div id="replicantiReplicationMulti">
                         Replication multi: x${FormatNumber(playerStatsCalculated.replicanti.replicationMulti)}
+                    </div>
+                    <div id="gameSpeed">
+                        Game speed: x${FormatNumber(gameSpeed)}
                     </div>
                 </div>
                 <div class="buyables">
@@ -1070,6 +1087,7 @@ $(()=>{
 
         $("#replicantiReplicationTime").text(`Replication time: ${FormatNumber(playerStatsCalculated.replicanti.replicationTimeInMs)} ms`)
         $("#replicantiReplicationMulti").text(`Replication multi: x${FormatNumber(playerStatsCalculated.replicanti.replicationMulti)}`)
+        $("#gameSpeed").text(`Game speed: x${FormatNumber(gameSpeed)}`)
 
         if(player.stats.replicanti.currentAmount>=playerStatsCalculated.replicanti.buyables.buyable1.cost && player.stats.replicanti.buyables.buyable1Amount<9){
             $("#replicantiBuyable1BuyOne").addClass("buyablePurchaseAble")
@@ -2490,7 +2508,7 @@ $(()=>{
     //#region tick
     let totalTimeSinceReplicationInMs=0
     const DoTick = (ms)=>{
-        totalTimeSinceReplicationInMs+=ms
+        totalTimeSinceReplicationInMs+=ms * gameSpeed
 
         while(totalTimeSinceReplicationInMs>=playerStatsCalculated.replicanti.replicationTimeInMs){
             totalTimeSinceReplicationInMs-=playerStatsCalculated.replicanti.replicationTimeInMs
