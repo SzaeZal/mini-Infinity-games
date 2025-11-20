@@ -562,13 +562,13 @@ $(()=>{
                 <div class="currentDifficultyMedal">
                     ${
                         playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 4
-                        ? `<img src="../Images/CardsOfInfinity/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
+                        ? `<img src="../Images/MedalImages/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
                         : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 3
-                        ? `<img src="../Images/CardsOfInfinity/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
+                        ? `<img src="../Images/MedalImages/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
                         : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 2
-                        ? `<img src="../Images/CardsOfInfinity/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
+                        ? `<img src="../Images/MedalImages/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
                         : playerStatsCalculated.medals[difficulty.toLowerCase()+"Medals"] == 1
-                        ? `<img src="../Images/CardsOfInfinity/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
+                        ? `<img src="../Images/MedalImages/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
                         : `<div class="noMedal"></div>`
                     }
                 </div>
@@ -673,13 +673,13 @@ $(()=>{
                   <div class="currentDifficultyMedal">
                       ${
                           playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 4
-                          ? `<img src="../Images/CardsOfInfinity/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
+                          ? `<img src="../Images/MedalImages/championMedal.png" alt="Champion Medal" class="currentDifficultyMedalImage">`
                           : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 3
-                          ? `<img src="../Images/CardsOfInfinity/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
+                          ? `<img src="../Images/MedalImages/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">`
                           : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 2
-                          ? `<img src="../Images/CardsOfInfinity/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
+                          ? `<img src="../Images/MedalImages/silverMedal.png" alt="Silver Medal" class="currentDifficultyMedalImage">`
                           : playerStatsCalculated.medals[currentGame.difficulty.toLowerCase()+"Medals"] == 1
-                          ? `<img src="../Images/CardsOfInfinity/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
+                          ? `<img src="../Images/MedalImages/bronzeMedal.png" alt="Bronze Medal" class="currentDifficultyMedalImage">`
                           : `<div class="noMedal"></div>`
                       }
                   </div>
@@ -853,6 +853,7 @@ $(()=>{
     let lastTickTime
     let timeTicker
     const StartGame = ()=>{
+        currentGame.paused=false
         currentGame.active=true
         currentGame.points=1
         currentGame.elapsedTime=0
@@ -1300,7 +1301,11 @@ $(()=>{
         $("#pauseButton").on("click", PauseGame)
 
         for(i=0; i<currentGame.cards.length; i++){
-            $(`#cardBackside${i}`).on("click", (e)=>ShowCard(e))
+            $(`#cardBackside${i}`).on("click", (e)=>{
+                if(!currentGame.paused){
+                    ShowCard(e)
+                }
+            })
         }
     }
     //#endregion
