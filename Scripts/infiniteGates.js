@@ -64,23 +64,23 @@ $(()=>{
     //#endregion
     //#region Medals
     let medalGates={
-        easy:{ //TODO: change this
-            bronze:   600000,
-            silver:   450000,
-            gold:     240000,
-            champion: 120000
+        easy:{ 
+            bronze:   50,
+            silver:   40,
+            gold:     25,
+            champion: 15
         },
         medium:{
-            bronze:   750000,
-            silver:   450000,
-            gold:     250000,
-            champion: 150000
+            bronze:   45,
+            silver:   30,
+            gold:     20,
+            champion: 12
         },
         hard:{
-            bronze:   500000,
-            silver:   350000,
-            gold:     250000,
-            champion: 150000
+            bronze:   100,
+            silver:   80,
+            gold:     65,
+            champion: 50 //idk whether this is actually possible
         }
     }
     //#endregion
@@ -562,7 +562,7 @@ $(()=>{
         }
         else if(currentGame.difficulty=="Hard"){
             currentGame.numberOfGates=4
-            currentGame.timeForGateInMs=3000
+            currentGame.timeForGateInMs=6000
             currentGame.gateColoredChance=0
             currentGame.personalBest=player.personalBests.hard.gates
             currentGame.medalGates.bronze=medalGates.hard.bronze
@@ -835,7 +835,7 @@ $(()=>{
                 </div>
                 <div class="startOptions">
                     <div class="startOption interactable" id="endGameOptionRestart">
-                        Restart
+                        Improve
                     </div>
                     <div class="startOption interactable" id="endGameOptionSetNewTargetTime">
                         Set new target time
@@ -946,7 +946,9 @@ $(()=>{
     //#region AddEndGameUIEvents
     const AddEndGameUIEvents= ()=>{
         $("#endGameOptionRestart").on("click", ()=>{
-            StartGame()
+            ShowDifficultyStats(currentGame.difficulty)
+            CountDown()
+            setTimeout(StartGame, 3000)
             $("#pauseMenu").addClass("hiddenPart")
         })
 
@@ -995,7 +997,11 @@ $(()=>{
         $("#playerPosition"+currentGame.playerPosition).removeClass("hiddenPlayerPosition")
         $("#pauseButton").on("click", PauseGame)
         for (let i = 0; i<currentGame.numberOfGates; i++){
-            $(`#column${i}`).on("click", ()=>{MovePlayerToPosition(i)})
+            $(`#column${i}`).on("click", ()=>{
+                if(!currentGame.paused){
+                    MovePlayerToPosition(i)
+                }
+            })
         }
     }
     //#endregion
@@ -1109,14 +1115,14 @@ $(()=>{
         }
         let firstOperation=operations[Math.floor(Math.random()*operations.length)]
         if(firstOperation=="multiplication"){
-            let multiplyAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 2
+            let multiplyAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 10
             let text=`x${FormatNumber(multiplyAmount)}`
             gateData.html=`<div class="gateText">(${text})`
             gateData.operations[0]="multiplication"
             gateData.amounts[0]=multiplyAmount
         }
         else if(firstOperation=="division"){
-            let divideAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 50
+            let divideAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 25
             let text=`/${FormatNumber(divideAmount)}`
             gateData.html=`<div class="gateText">(${text})`
             gateData.operations[0]="division"
@@ -1131,14 +1137,14 @@ $(()=>{
         }
         let secondOperation=operations[Math.floor(Math.random()*operations.length)]
         if(secondOperation=="multiplication"){
-            let multiplyAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 2
+            let multiplyAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 10
             let text=`x${FormatNumber(multiplyAmount)}`
             gateData.html+=`${text}</div>`
             gateData.operations[1]="multiplication"
             gateData.amounts[1]=multiplyAmount
         }
         else if(secondOperation=="division"){
-            let divideAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 50
+            let divideAmount=1 + (1 + Math.floor(Math.random()*9)) * Math.pow(currentGame.points, 0.1) / 25
             let text=`/${FormatNumber(divideAmount)}`
             gateData.html+=`${text}</div>`
             gateData.operations[1]="division"
@@ -1208,7 +1214,7 @@ $(()=>{
             }
             else{
                 exponentAmount=firstAmount !="tan" ? firstAmount : "sin"
-                text=`^${firstAmount}(points°)`
+                text=`^${exponentAmount}(points°)`
             }
             gateData.html=`<div class="gateText">(${text})`
             gateData.operations[0]="exponential"
@@ -1262,8 +1268,8 @@ $(()=>{
                 text=`^${FormatNumber(exponentAmount)}`
             }
             else{
-                exponentAmount=secondAmount
-                text=`^${secondAmount}(points°)`
+                exponentAmount=secondAmount !="tan" ? secondAmount : "sin"
+                text=`^${exponentAmount}(points°)`
             }
             gateData.html+=`${text}</div>`
             gateData.operations[1]="exponential"
@@ -1390,12 +1396,10 @@ $(()=>{
             if(gateData.amounts[0]=="sin"){
                 let sinAmount=Math.sin(currentGame.points * Math.PI / 180)
                 currentGame.points*=sinAmount
-                console.log(sinAmount, currentGame.points)
             }
             else if(gateData.amounts[0]=="cos"){
                 let cosAmount=Math.cos(currentGame.points * Math.PI / 180)
                 currentGame.points*=cosAmount
-                console.log(cosAmount, currentGame.points)
             }
             else if(gateData.amounts[0]=="tan"){
                 let tanAmount
@@ -1406,7 +1410,6 @@ $(()=>{
                     tanAmount=1
                 }
                 currentGame.points*=tanAmount
-                console.log(tanAmount, currentGame.points)
             }
             else{
                 currentGame.points*=gateData.amounts[0]
@@ -1416,12 +1419,10 @@ $(()=>{
             if(gateData.amounts[0]=="sin"){
                 let sinAmount=Math.sin(currentGame.points * Math.PI / 180)
                 currentGame.points/=sinAmount
-                console.log(sinAmount, currentGame.points)
             }
             else if(gateData.amounts[0]=="cos"){
                 let cosAmount=Math.cos(currentGame.points * Math.PI / 180)
                 currentGame.points/=cosAmount
-                console.log(cosAmount, currentGame.points)
             }
             else if(gateData.amounts[0]=="tan"){
                 let tanAmount
@@ -1432,7 +1433,6 @@ $(()=>{
                     tanAmount=1
                 }
                 currentGame.points/=tanAmount
-                console.log(tanAmount, currentGame.points)
             }
             else{
                 currentGame.points/=gateData.amounts[0]
@@ -1442,12 +1442,10 @@ $(()=>{
             if(gateData.amounts[0]=="sin"){
                 let sinAmount=Math.sin(currentGame.points * Math.PI / 180)
                 currentGame.points=Math.pow(currentGame.points, sinAmount)
-                console.log(sinAmount, currentGame.points)
             }
             else if(gateData.amounts[0]=="cos"){
                 let cosAmount=Math.cos(currentGame.points * Math.PI / 180)
                 currentGame.points=Math.pow(currentGame.points, cosAmount)
-                console.log(cosAmount, currentGame.points)
             }
             else{
                 currentGame.points=Math.pow(currentGame.points, gateData.amounts[0])
@@ -1461,12 +1459,10 @@ $(()=>{
             if(gateData.amounts[1]=="sin"){
                 let sinAmount=Math.sin(currentGame.points * Math.PI / 180)
                 currentGame.points*=sinAmount
-                console.log(sinAmount, currentGame.points)
             }
             else if(gateData.amounts[1]=="cos"){
                 let cosAmount=Math.cos(currentGame.points * Math.PI / 180)
                 currentGame.points*=cosAmount
-                console.log(cosAmount, currentGame.points)
             }
             else if(gateData.amounts[1]=="tan"){
                 let tanAmount
@@ -1477,7 +1473,6 @@ $(()=>{
                     tanAmount=1
                 }
                 currentGame.points*=tanAmount
-                console.log(tanAmount, currentGame.points)
             }
             else{
                 currentGame.points*=gateData.amounts[1]
@@ -1487,12 +1482,10 @@ $(()=>{
             if(gateData.amounts[1]=="sin"){
                 let sinAmount=Math.sin(currentGame.points * Math.PI / 180)
                 currentGame.points/=sinAmount
-                console.log(sinAmount, currentGame.points)
             }
             else if(gateData.amounts[1]=="cos"){
                 let cosAmount=Math.cos(currentGame.points * Math.PI / 180)
                 currentGame.points/=cosAmount
-                console.log(cosAmount, currentGame.points)
             }
             else if(gateData.amounts[1]=="tan"){
                 let tanAmount
@@ -1503,7 +1496,6 @@ $(()=>{
                     tanAmount=1
                 }
                 currentGame.points/=tanAmount
-                console.log(tanAmount, currentGame.points)
             }
             else{
                 currentGame.points/=gateData.amounts[1]
@@ -1513,12 +1505,10 @@ $(()=>{
             if(gateData.amounts[1]=="sin"){
                 let sinAmount=Math.sin(currentGame.points * Math.PI / 180)
                 currentGame.points=Math.pow(currentGame.points, sinAmount)
-                console.log(sinAmount, currentGame.points)
             }
             else if(gateData.amounts[1]=="cos"){
                 let cosAmount=Math.cos(currentGame.points * Math.PI / 180)
                 currentGame.points=Math.pow(currentGame.points, cosAmount)
-                console.log(cosAmount, currentGame.points)
             }
             else{
                 currentGame.points=Math.pow(currentGame.points, gateData.amounts[1])
@@ -1528,9 +1518,11 @@ $(()=>{
             currentGame.points=Math.log10(currentGame.points)
         }
 
+        currentGame.points=Math.abs(currentGame.points)
         if(currentGame.points<1 && currentGame.points>-1){
             currentGame.points=1
         }
+
     }
     //#endregion
     //#region PauseGame
@@ -1599,7 +1591,7 @@ $(()=>{
                         Hard
                     </div>       
                     <ul class="difficultyDescription">
-                        <li>Gate speed: 3 seconds</li>
+                        <li>Gate speed: 6 seconds</li>
                         <li>Gate count: 4</li>
                         <li>Gate types: medium + logarythm, trigonometric methods</li>
                         <li>Gates are not colored</li>
