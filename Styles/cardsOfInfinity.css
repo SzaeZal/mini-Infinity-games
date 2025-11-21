@@ -184,6 +184,7 @@
 .cardsContainer{
     margin-top: inherit;
     display: flex;
+    height: 90%;
     gap: 20px;
     flex-wrap: wrap;
     justify-content: center;
