@@ -336,34 +336,55 @@ $(()=>{
 
     const GoToGamesMenu=()=>{
         view.html(`
-            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
+            <div id="subMenuInView">
                 <div class="subMenuItem selectedSubMenuItem">
                     Main
                 </div>
             </div>
-            <div class="mainView">
-                <nav>
-                    <a href="Views/boardOfInflation.html">
-                        Board of Inflation
-                    </a>
-                    <a href="Views/cardsOfInfinity.html">
-                        Cards of Infinity
-                    </a>
-                    <a href="Views/infiniteMobs.html">
-                        Infinite mobs
-                    </a>
-                    <a href="Views/replicantiIncremental.html">
-                        Replicanti Incremental
-                    </a>
-                    <a href="Views/infiniteGates.html">
-                        Infinite Gates
-                    </a>
-                </nav>
-            </div>  
+            <div class="mainView gamesContainer">
+                <div class="gameBox">
+                    
+                </div>
+                <div class="scrollBar">
+                    <div class="scrollBarItem interactable" id="scrollUpOnce">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 -960 960 960" width="25px" fill="#e3e3e3"><path d="M480-525 291-336l-51-51 240-240 240 240-51 51-189-189Z"/></svg>
+                    </div>
+                    <div class="scrollBarItem currentScrollItem interactable" id="scrollBarItemGame0">
+                    </div>
+                    <div class="scrollBarItem interactable" id="scrollBarItemGame1">
+                    </div>
+                    <div class="scrollBarItem interactable" id="scrollBarItemGame2">
+                    </div>
+                    <div class="scrollBarItem interactable" id="scrollBarItemGame3">
+                    </div>
+                    <div class="scrollBarItem interactable" id="scrollBarItemGame4">
+                    </div>
+                    <div class="scrollBarItem interactable" id="scrollBarItemGame5">
+                    </div>
+                    <div class="scrollBarItem interactable" id="scrollDownOnce">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 -960 960 960" width="25px" fill="#e3e3e3"><path d="M480-333 240-573l51-51 189 189 189-189 51 51-240 240Z"/></svg>                        
+                    </div>
+                </div>
+            </div>
         `)
         AddGamesMenuUIEvents()  
     }
     //#endregion
+    /* scroll event
+        var lastScrollTop = 0;
+        $(document).ready(function(){
+        $("div").scroll(function(){
+            var st = $(this).scrollTop();
+            if (st > lastScrollTop){
+                $("span").text( x+= 1);
+            } else {
+                $("span").text( x-= 1);
+            }
+            lastScrollTop = st;
+            
+        });
+        });
+    */
     //#region  AddGamesMenuUIEvents
     const AddGamesMenuUIEvents = ()=>{
         

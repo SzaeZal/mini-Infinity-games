@@ -1,3 +1,39 @@
-a{
-    margin-right: 15px;
+.gamesContainer{
+    height: calc(100vh - 100px);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+}
+.gameBox{
+    flex: 1;
+    max-width: fit-content;
+    position: relative;
+    padding: 25px;
+    border: 3px solid gray;
+    border-radius: 15px;
+    margin: auto;
+}
+.scrollBar{
+    width: 25px;
+    height: 90%;
+    border: 1px solid gray;
+    display: flex;
+    flex-direction: column;
+}
+.scrollBarItem{
+    flex: 1;
+    transition-duration: 0.25s;
+    border-bottom: 1px solid gray;
+}
+.scrollBarItem:hover{
+    background-color: rgba(128, 128, 128, 0.5);
+}
+#scrollUpOnce, #scrollDownOnce{
+    flex: 0;
+    height: 25px;
+}
+.currentScrollItem{
+    background-color: rgba(128, 128, 128, 0.5);
 }
