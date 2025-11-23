@@ -52,14 +52,25 @@
     font-size: larger;
     text-align: justify;
     max-width: 50%;
+    min-width: 500px;
+}
+
+@media screen and (max-width:865px) {
+    .gameDescription{
+        min-width: 90%;
+        max-width: 90%;
+        height: 70%;
+        overflow: auto;
+    }
+    .gameImages{display: none;}
 }
 .gameDescription>a{
-    position: absolute;
-    bottom: -100px;
-    left: 50%;
-    transform: translateX(-50%);
+    display: block;
     text-decoration: none;
     color: inherit;
+    width: fit-content;
+    margin: auto;
+    margin-top: 15px;
     font-size: x-large;
     padding: 15px;
     border: 2px solid gray;
@@ -68,7 +79,7 @@
 }
 .gameDescription>a:hover{
     background-color: rgba(128, 128, 128, 0.5);
-    transform: translateX(-50%) scale(1.15);
+    transform: scale(1.15);
     box-shadow: 0 0 5px rgba(128, 128, 128, 0.5);
 }
 .gameImages{

@@ -2508,6 +2508,9 @@ $(()=>{
     //#region tick
     let totalTimeSinceReplicationInMs=0
     const DoTick = (ms)=>{
+        if(gameSpeed>1000 || gameSpeed<0){
+            gameSpeed=1
+        }
         totalTimeSinceReplicationInMs+=ms * gameSpeed
 
         while(totalTimeSinceReplicationInMs>=playerStatsCalculated.replicanti.replicationTimeInMs){
