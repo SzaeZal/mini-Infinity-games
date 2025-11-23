@@ -487,25 +487,21 @@ $(()=>{
         $(`#game${currentGame}`).addClass("currentGame")
     }
     //#endregion
-    /* scroll event
-        var lastScrollTop = 0;
-        $(document).ready(function(){
-        $("div").scroll(function(){
-            var st = $(this).scrollTop();
-            if (st > lastScrollTop){
-                $("span").text( x+= 1);
-            } else {
-                $("span").text( x-= 1);
-            }
-            lastScrollTop = st;
-            
-        });
-        });
-    */
     //#region  AddGamesMenuUIEvents
     const AddGamesMenuUIEvents = ()=>{
         $("#scrollUpOnce").on("click", ScrollUpOnce)
         $("#scrollDownOnce").on("click", ScrollDownOnce)
+
+        for (let i=0 ; i<games.length; i++){
+            $(`#scrollBarItemGame${i}`).on("click", ()=>{ScrollBarItemGameClick(i)})
+        }
+    }
+    //#endregion
+    //#region ScrollBarItemGameClick
+    const ScrollBarItemGameClick = (index)=>{
+        let previous=currentGame
+        currentGame=index
+        ShowNextGame(previous, currentGame)
     }
     //#endregion
     //#region ScrollUpOnce
@@ -533,6 +529,8 @@ $(()=>{
         $(`#games`).html(games[prev]+games[next])
         $(`#game${prev}`).addClass("previousGame")
         $(`#game${next}`).addClass("nextGame")
+        $(`#scrollBarItemGame${prev}`).removeClass("currentScrollItem")
+        $(`#scrollBarItemGame${next}`).addClass("currentScrollItem")
     }
     //#endregion
     //#region  saving and loading 
