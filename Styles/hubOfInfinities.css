@@ -106,3 +106,38 @@
 .currentScrollItem{
     background-color: rgba(128, 128, 128, 0.5);
 }
+
+@keyframes previousGameMoveUp {
+    from{
+        top: 50%;
+        opacity: 1;
+        display: block;
+    }
+    to{
+        top: -50%;
+        opacity: 0;
+        display: block;
+    }
+}
+
+.previousGame{
+    animation: previousGameMoveUp 0.75s;
+}
+
+@keyframes nextGameMoveUp {
+    from{
+        top: 150%;
+        opacity: 0;
+        display: block;
+    }
+    to{
+        top: 50%;
+        opacity: 1;
+        display: block;
+    }
+}
+
+.nextGame{
+    animation: nextGameMoveUp 0.75s;
+    top: 50%;
+}

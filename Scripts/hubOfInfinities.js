@@ -328,6 +328,122 @@ $(()=>{
         }
     }
     //#endregion
+    //#region games
+    const games=[
+        `
+            <div class="game" id="game0">
+                <h2 class="gameTitle">
+                    Hub of Infinities
+                </h2>
+                <div class="gameContent">        
+                    <p class="gameDescription">
+                        Welcome to the Hub of Infinities! This is the lobby for all 5 minigames that I've made as a university project
+                        I call mini - Infinity - games. Every single minigame and this hub were made with the Integer limit (2<sup>1024</sup>)
+                        having some sort of role, mostly it being the goal, while also making the gameplays different. This hub and the 5 minigames
+                        were made in 2.5 months with progress every / every-other day being made. In this time I've done many experimental features
+                        - that I hope to reuse in my future larger scale projects - that you will see in all 5 games. I hope you like the minigames
+                        and most importantly, have fun. 
+                    </p>
+                </div>
+            </div>
+        `,
+        `
+            <div class="game" id="game1">
+                <h2 class="gameTitle">
+                    Replicanti Incremental
+                </h2>
+                <div class="gameContent">        
+                    <p class="gameDescription">
+                        The first minigame in the project. Every second your replicanti doubles that can be spent on 2 buyables:
+                        speeding up replicanti gain or higher replicanti multiplier. When your replicanti reaches infinity the 2 
+                        buyables reset and your replicanti is set to 1, but you gain a new currency that can be spent on new buyables
+                        and upgrades. There is one more layer with new challenges that I won't spoil<br>
+                        Endgame: 1e10 eternity
+                        <a href="Views/replicantiIncremental.html">Play game</a>
+                    </p>
+                    <div class="gameImages">
+                        <img src="./Images/HubOfInfinities/replicantiIncrementalInfinityTabImage.png" alt="replicanti incremental infinity layer" class="gameImage">
+                    </div>
+                </div>
+            </div>
+        `,
+        `
+            <div class="game" id="game2">
+                <h2 class="gameTitle">
+                    Cards of Infinity
+                </h2>
+                <div class="gameContent">        
+                    <p class="gameDescription">
+                        The second minigame in the project. A memory card game where the cards multiply, divide or raise your points
+                        the goal being reaching infinity the fastest. Every time cards appear you can only choose a part of those pairs so be strategic about the choices.
+                        Currently there are 3 main difficulties each with 3 medals that are revealed from the beginning 
+                        (there could be more medals), and a custom difficulty so you can have a harder experience.
+                        <a href="Views/cardsOfInfinity.html">Play game</a>
+                    </p>
+                    <div class="gameImages">
+                        <img src="./Images/HubOfInfinities/cardsOfInfinityMain.png" alt="cards of infinity game" class="gameImage">
+                    </div>
+                </div>
+            </div>
+        `,
+        `
+            <div class="game" id="game3">
+                <h2 class="gameTitle">
+                    Board of Inflation
+                </h2>
+                <div class="gameContent">        
+                    <p class="gameDescription">
+                        The third minigame in the project. A single player board game where the goal being landing on the infinity marked tile. 
+                        The normal tiles multiply or divide your points, and there are a couple of special tiles: shop and super shop allows you 
+                        to purchase permanent and temporary upgrades, bet rolls your dice and multiplies your points by the rolled amount divided by 4,
+                        star shop allows you to purchase another currency called stars that are used for powerful upgrades.
+                        <a href="Views/boardOfInflation.html">Play game</a>
+                    </p>
+                    <div class="gameImages">
+                        <img src="./Images/HubOfInfinities/boardOfInflationMain.png" alt="board of Inflation board" class="gameImage">
+                    </div>
+                </div>
+            </div>
+        `,
+        `
+            <div class="game" id="game4">
+                <h2 class="gameTitle">
+                    Infinite gates
+                </h2>
+                <div class="gameContent">        
+                    <p class="gameDescription">
+                        The fourth minigame in the project. Remember the phone game ads where gates come towards the player and you have to beat the enemies at the end?
+                        I made a game with that idea and made it insanely hard. As in Cards of Infinity the goal is to reach Infinity in the least amount of gates
+                        with 3 difficulties and 1 more planned to be added later. Each difficulty adds harder math problems with the last difficulty having 
+                        trigonometric methods appearing on the gates. Good luck with this you'll need it
+                        <a href="Views/infiniteGates.html">Play game</a>
+                    </p>
+                    <div class="gameImages">
+                        <img src="./Images/HubOfInfinities/infiniteGatesMain.png" alt="Infinite gates game" class="gameImage">
+                    </div>
+                </div>
+            </div>
+        `,
+        `
+            <div class="game" id="game5">
+                <h2 class="gameTitle">
+                    Tower of Infinite enemies (currently under development)
+                </h2>
+                <div class="gameContent">        
+                    <p class="gameDescription">
+                        The fifth and last minigame in the project. Every floor there are infinite enemies, but the goal is to reach the top floor and open the door.
+                        The floors have a boss that unlocks the next floor. The game has a very complex stat system with different damage types, elements, absolute and 
+                        relative defense, elemental defense.
+                        <a href="Views/towerOfInfiniteEnemies.html">Play game</a>
+                    </p>
+                    <div class="gameImages">
+                        <img src="./Images/HubOfInfinities/towerOfInfiniteEnemiesMain.png" alt="Tower of Infinite Infinite enemies fight" class="gameImage">
+                    </div>
+                </div>
+            </div>
+        `
+    ]
+    //#endregion
     //#region games menu
     $("#gameMenuItem").on("click", ()=>{
         mainMenuIndex=2
@@ -342,107 +458,8 @@ $(()=>{
                 </div>
             </div>
             <div class="mainView gamesContainer">
-                <div class="gameBox">
-                    <div class="game" id="game0">
-                        <h2 class="gameTitle currentGame">
-                            Hub of Infinities
-                        </h2>
-                        <div class="gameContent">        
-                            <p class="gameDescription">
-                                Welcome to the Hub of Infinities! This is the lobby for all 5 minigames that I've made as a university project
-                                I call mini - Infinity - games. Every single minigame and this hub were made with the Integer limit (2<sup>1024</sup>)
-                                having some sort of role, mostly it being the goal, while also making the gameplays different. This hub and the 5 minigames
-                                were made in 2.5 months with progress every / every-other day being made. In this time I've done many experimental features
-                                - that I hope to reuse in my future larger scale projects - that you will see in all 5 games. I hope you like the minigames
-                                and most importantly, have fun. 
-                            </p>
-                        </div>
-                    </div>
-                    <div class="game" id="game1">
-                        <h2 class="gameTitle">
-                            Replicanti Incremental
-                        </h2>
-                        <div class="gameContent">        
-                            <p class="gameDescription">
-                                The first minigame in the project. Every second your replicanti doubles that can be spent on 2 buyables:
-                                speeding up replicanti gain or higher replicanti multiplier. When your replicanti reaches infinity the 2 
-                                buyables reset and your replicanti is set to 1, but you gain a new currency that can be spent on new buyables
-                                and upgrades. There is one more layer with new challenges that I won't spoil<br>
-                                Endgame: 1e10 eternity
-                                <a href="Views/replicantiIncremental.html">Play game</a>
-                            </p>
-                            <div class="gameImages">
-                                <img src="./Images/HubOfInfinities/replicantiIncrementalInfinityTabImage.png" alt="replicanti incremental infinity layer" class="gameImage">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="game" id="game2">
-                        <h2 class="gameTitle">
-                            Cards of Infinity
-                        </h2>
-                        <div class="gameContent">        
-                            <p class="gameDescription">
-                                The second minigame in the project. A memory card game where the cards multiply, divide or raise your points
-                                the goal being reaching infinity the fastest. Every time cards appear you can only choose a part of those pairs so be strategic about the choices.
-                                Currently there are 3 main difficulties each with 3 medals that are revealed from the beginning 
-                                (there could be more medals), and a custom difficulty so you can have a harder experience.
-                                <a href="Views/cardsOfInfinity.html">Play game</a>
-                            </p>
-                            <div class="gameImages">
-                                <img src="./Images/HubOfInfinities/cardsOfInfinityMain.png" alt="cards of infinity game" class="gameImage">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="game" id="game3">
-                        <h2 class="gameTitle">
-                            Board of Inflation
-                        </h2>
-                        <div class="gameContent">        
-                            <p class="gameDescription">
-                                The third minigame in the project. A single player board game where the goal being landing on the infinity marked tile. 
-                                The normal tiles multiply or divide your points, and there are a couple of special tiles: shop and super shop allows you 
-                                to purchase permanent and temporary upgrades, bet rolls your dice and multiplies your points by the rolled amount divided by 4,
-                                star shop allows you to purchase another currency called stars that are used for powerful upgrades.
-                                <a href="Views/boardOfInflation.html">Play game</a>
-                            </p>
-                            <div class="gameImages">
-                                <img src="./Images/HubOfInfinities/boardOfInflationMain.png" alt="board of Inflation board" class="gameImage">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="game" id="game4">
-                        <h2 class="gameTitle">
-                            Infinite gates
-                        </h2>
-                        <div class="gameContent">        
-                            <p class="gameDescription">
-                                The fourth minigame in the project. Remember the phone game ads where gates come towards the player and you have to beat the enemies at the end?
-                                I made a game with that idea and made it insanely hard. As in Cards of Infinity the goal is to reach Infinity in the least amount of gates
-                                with 3 difficulties and 1 more planned to be added later. Each difficulty adds harder math problems with the last difficulty having 
-                                trigonometric methods appearing on the gates. Good luck with this you'll need it
-                                <a href="Views/infiniteGates.html">Play game</a>
-                            </p>
-                            <div class="gameImages">
-                                <img src="./Images/HubOfInfinities/infiniteGatesMain.png" alt="Infinite gates game" class="gameImage">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="game" id="game5">
-                        <h2 class="gameTitle">
-                            Tower of Infinite enemies (currently under development)
-                        </h2>
-                        <div class="gameContent">        
-                            <p class="gameDescription">
-                                The fifth and last minigame in the project. Every floor there are infinite enemies, but the goal is to reach the top floor and open the door.
-                                The floors have a boss that unlocks the next floor. The game has a very complex stat system with different damage types, elements, absolute and 
-                                relative defense, elemental defense.
-                                <a href="Views/towerOfInfiniteEnemies.html">Play game</a>
-                            </p>
-                            <div class="gameImages">
-                                <img src="./Images/HubOfInfinities/towerOfInfiniteEnemiesMain.png" alt="Tower of Infinite Infinite enemies fight" class="gameImage">
-                            </div>
-                        </div>
-                    </div>
+                <div class="gameBox" id="games">
+                    ${games[currentGame]}
                 </div>
                 <div class="scrollBar">
                     <div class="scrollBarItem interactable" id="scrollUpOnce">
@@ -467,6 +484,7 @@ $(()=>{
             </div>
         `)
         AddGamesMenuUIEvents()  
+        $(`#game${currentGame}`).addClass("currentGame")
     }
     //#endregion
     /* scroll event
@@ -486,7 +504,35 @@ $(()=>{
     */
     //#region  AddGamesMenuUIEvents
     const AddGamesMenuUIEvents = ()=>{
-        
+        $("#scrollUpOnce").on("click", ScrollUpOnce)
+        $("#scrollDownOnce").on("click", ScrollDownOnce)
+    }
+    //#endregion
+    //#region ScrollUpOnce
+    const ScrollUpOnce = ()=>{
+        let previous=currentGame
+        currentGame--
+        if(currentGame<0){
+            currentGame=games.length-1
+        }
+        ShowNextGame(previous, currentGame)
+    }
+    //#endregion
+    //#region ScrollDownOnce
+    const ScrollDownOnce = ()=>{
+        let previous=currentGame
+        currentGame++
+        if(currentGame>=games.length){
+            currentGame=0
+        }
+        ShowNextGame(previous, currentGame)
+    }
+    //#endregion
+    //#region ShowNextGame
+    const ShowNextGame=(prev, next)=>{
+        $(`#games`).html(games[prev]+games[next])
+        $(`#game${prev}`).addClass("previousGame")
+        $(`#game${next}`).addClass("nextGame")
     }
     //#endregion
     //#region  saving and loading 
