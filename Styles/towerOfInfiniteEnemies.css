@@ -1,0 +1,12 @@
+#gameSpeedChanger{
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  padding: 15px;
+  border: 2px solid gray;
+  border-radius: 25px;
+  transition-duration: 0.25s;
+}
+#gameSpeedChanger:hover{
+  background-color: rgba(128, 128, 128, 0.25);
+}
