@@ -11,7 +11,27 @@ $(()=>{
 
             ],
             gear:{
+                weapon:{
+                    name:"stick",
+                    attack:{
+                        type:{
+                            physical:1,
+                            magic:0
+                        },
+                        element:{
+                            fire:0,
+                            earth:0,
+                            water:0,
+                            air:0
+                        }
+                    }
+                },
+                offhand:{
 
+                },
+                armor:{
+
+                }
             }
         },
         options:{
@@ -28,6 +48,9 @@ $(()=>{
     //#endregion
     //#region playerStatsCalculated 
     let playerStatsCalculated = {
+        health: 100,
+        maxHealth: 100,
+        attacking:false,
         attack:{
             type:{
                 physical:1,
@@ -66,6 +89,60 @@ $(()=>{
         },
         misc:{
             attackSpeed:1,
+            accuracy:100,
+            evasion: 0,
+            dodgeChance:0,
+            criticalChance:0,
+            criticalDamageMult: 2
+        }
+    }
+    //#endregion
+    //#region enemyStats 
+    let enemyStats = {
+        name: "",
+        health: 100,
+        maxHealth: 100,
+        attacking:false,
+        attack:{
+            type:{
+                physical:1,
+                magic:0
+            },
+            element:{
+                fire:0,
+                earth:0,
+                water:0,
+                air:0
+            }
+        },
+        defense:{
+            type:{
+                absolute:0,
+                relative:0
+            },
+            element:{
+                fire:{
+                    absolute:0,
+                    relative:0
+                },
+                earth:{
+                    absolute:0,
+                    relative:0
+                },
+                water:{
+                    absolute:0,
+                    relative:0
+                },
+                air:{
+                    absolute:0,
+                    relative:0
+                }
+            }
+        },
+        misc:{
+            attackSpeed:1,
+            accuracy:100,
+            evasion: 0,
             dodgeChance:0,
             criticalChance:0,
             criticalDamageMult: 2
@@ -183,8 +260,8 @@ $(()=>{
     //#region menu navigation
     const view = $("#view")
     let mainMenuIndex=2
-    let subMenuIndexes=[0, 0, 0]
-    let subMenuLimits=[2, 1, 0]
+    let subMenuIndexes=[0, 0, 0, 0]
+    let subMenuLimits=[2, 1, 0, 0]
     $(document).keydown((e)=>{
         if(e.originalEvent.code == "KeyS" || e.originalEvent.code == "ArrowDown"){
             mainMenuIndex= mainMenuIndex == subMenuLimits.length-1 ? 0 : mainMenuIndex+1
@@ -628,13 +705,13 @@ $(()=>{
         })
     }
     //#endregion
-    //#region Replicanti nav
-    $("#replicanti").on("click", ()=>{
+    //#region Tower nav
+    $("#tower").on("click", ()=>{
         mainMenuIndex=2
-        GoToReplicanti()
+        GoToTower()
     })
 
-    const GoToReplicanti = () =>{
+    const GoToTower = () =>{
         view.html(`
             <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
                 <div class="subMenuItem selectedSubMenuItem">
@@ -645,66 +722,126 @@ $(()=>{
                 
             </div>
         `)
-        AddReplicantiUIEvents()
+        AddTowerUIEvents()
     }
     //#endregion
     //#region replicanti ui events
-    const AddReplicantiUIEvents=()=>{
+    const AddTowerUIEvents=()=>{
         
     }
     //#endregion
-    //#region Replicanti UI update
-    const UpdateReplicantiView= ()=>{
-        $("#replicationTimer").text(`${FormatNumber(totalTimeSinceReplicationInMs)} / ${FormatNumber(playerStatsCalculated.replicanti.replicationTimeInMs)} ms`)
-        $("#replicationTimer").css("background-image", `linear-gradient(
+    //#region Tower UI update
+    const UpdateTowerView= ()=>{
+        $("#playerHealthBar").text(`${FormatNumber(playerStatsCalculated.health)} / ${FormatNumber(playerStatsCalculated.maxHealth)} Hp`)
+        $("#playerHealthBar").css("background-image", `linear-gradient(
             to right, 
-            grey,
-            grey ${totalTimeSinceReplicationInMs/playerStatsCalculated.replicanti.replicationTimeInMs*100}%,
-            transparent ${totalTimeSinceReplicationInMs/playerStatsCalculated.replicanti.replicationTimeInMs*100}%,
+            red,
+            red ${playerStatsCalculated.health/playerStatsCalculated.maxHealth*100}%,
+            transparent ${playerStatsCalculated.health/playerStatsCalculated.maxHealth*100}%,
             transparent
         )`)
 
-        $("#currencyBar").text(`${FormatNumber(player.stats.replicanti.currentAmount)} / 1.79e308 replicanti`)
-        $("#currencyBar").css("background-image", `linear-gradient(
+        $("#playerAttackBar").text(`${FormatNumber(totalTimeSincePlayerAttackInMs)} / ${FormatNumber(1000 / playerStatsCalculated.misc.attackSpeed)} ms`)
+        $("#playerAttackBar").css("background-image", `linear-gradient(
             to right, 
             blue,
-            blue ${(Math.log10(player.stats.replicanti.currentAmount)/Math.log10(1.79e308))*100}%,
-            transparent ${(Math.log10(player.stats.replicanti.currentAmount)/Math.log10(1.79e308))*100}%,
+            blue ${totalTimeSincePlayerAttackInMs/(1000 / playerStatsCalculated.misc.attackSpeed)*100}%,
+            transparent ${totalTimeSincePlayerAttackInMs/(1000 / playerStatsCalculated.misc.attackSpeed)*100}%,
+            transparent
+        )`)
+
+        $("#enemyHealthBar").text(`${FormatNumber(enemyStats.health)} / ${FormatNumber(enemyStats.maxHealth)} Hp`)
+        $("#enemyHealthBar").css("background-image", `linear-gradient(
+            to right, 
+            red,
+            red ${enemyStats.health/enemyStats.maxHealth*100}%,
+            transparent ${enemyStats.health/enemyStats.maxHealth*100}%,
+            transparent
+        )`)
+
+        $("#playerAttackBar").text(`${FormatNumber(totalTimeSincePlayerAttackInMs)} / ${FormatNumber(1000 / playerStatsCalculated.misc.attackSpeed)} ms`)
+        $("#playerAttackBar").css("background-image", `linear-gradient(
+            to right, 
+            blue,
+            blue ${totalTimeSincePlayerAttackInMs/ (1000 / playerStatsCalculated.misc.attackSpeed) *100}%,
+            transparent ${totalTimeSincePlayerAttackInMs/ (1000 / playerStatsCalculated.misc.attackSpeed)*100}%,
             transparent
         )`)
         
         $("#gameSpeed").text(`Game speed: x${FormatNumber(gameSpeed)}`)
     }
     //#endregion
+    //#region Inventory nav
+    $("#inventory").on("click", ()=>{
+        mainMenuIndex=3
+        GoToInventory()
+    })
+
+    const GoToInventory= ()=>{
+        view.html(`
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
+                <div class="subMenuItem selectedSubMenuItem">
+                    Main
+                </div>
+            </div>
+            <div class="mainView">
+                
+            </div>
+        `)
+
+        AddInventoryUIEvents()
+    }
+    //onerror="this.onerror=null; this.src='Default.jpg'"
+    //#endregion
+    //#region AddInventoryUIEvents
+    const AddInventoryUIEvents = ()=>{
+
+    }
+    //#endregion
+    //#region UpdateInventoryView
+    const UpdateInventoryView= ()=>{
+
+    }
+    //#region PlayerAttack
+    const PlayerAttack = ()=>{
+
+    }
+    //#endregion
+    //#region EnemyAttack
+    const EnemyAttack = ()=>{
+
+    }
+    //#endregion
     //#region tick
-    let totalTimeSinceReplicationInMs=0
+    let totalTimeSincePlayerAttackInMs=0
+    let totalTimeSinceEnemyAttackInMs=0
     const DoTick = (ms)=>{
         if(gameSpeed>1000 || gameSpeed<0){
             gameSpeed=1
         }
-        totalTimeSinceReplicationInMs+=ms * gameSpeed
+        totalTimeSincePlayerAttackInMs+=ms * gameSpeed
+        totalTimeSinceEnemyAttackInMs+=ms * gameSpeed
 
-        while(totalTimeSinceReplicationInMs>=playerStatsCalculated.replicanti.replicationTimeInMs){
+        while(totalTimeSincePlayerAttackInMs>=(1000 / playerStatsCalculated.misc.attackSpeed)){
+            totalTimeSincePlayerAttackInMs-=1000 / playerStatsCalculated.misc.attackSpeed
+            PlayerAttack()
         }
 
-        if(player.stats.infinity.currentAmount==Infinity){
-            DoEternityReset()
+        while(totalTimeSinceEnemyAttackInMs>=(1000 / enemyStats.misc.attackSpeed)){
+            totalTimeSinceEnemyAttackInMs-=(1000 / enemyStats.misc.attackSpeed)
+            EnemyAttack()
         }
+
+        
     }
     //#endregion
     //#region update UI
     const UpdateUI = () =>{
         if(mainMenuIndex==2){
-            UpdateReplicantiView()
+            UpdateTowerView()
         }
         if(mainMenuIndex==3){
-            UpdateInfinityView()
-        }
-
-        if(mainMenuIndex==4){
-            if(subMenuIndexes[mainMenuIndex]==0){
-                UpdateEternityMainView()
-            }
+            UpdateInventoryView()
         }
     }
     //#endregion
@@ -729,7 +866,7 @@ $(()=>{
         }
         return result; 
     }
-    let mainMenuCallbacks=[GoToSettings, GoToInformation, GoToReplicanti]
+    let mainMenuCallbacks=[GoToSettings, GoToInformation, GoToTower, GoToInventory]
     let tick=setInterval(DoTick, 25, 25)
     let uiUpdateTicker=setInterval(UpdateUI, 25)
     //#endregion
@@ -748,7 +885,8 @@ $(()=>{
             windowFocused=true
             let timeWhenFocused=Date.now()
             let timeDiff=timeWhenFocused-timeWhenBlurred
-            totalTimeSinceReplicationInMs+=timeDiff
+            totalTimeSincePlayerAttackInMs+=timeDiff
+            totalTimeSinceEnemyAttackInMs+=timeDiff
             tick=setInterval(DoTick, 25, 25)
             uiUpdateTicker=setInterval(UpdateUI, player.options.ui.uiUpdateRateInMs)
             if(player.options.save.saveIntervalInMs!=0){
@@ -836,8 +974,9 @@ $(()=>{
     }
     //#endregion
     Load()
-    
+    //setTimeout(()=>{debugger;} , 1000)
     if(window.innerWidth<400){
         ShowDialogBox("Warning", "This game is not optimized for small screens. <br> Please use a device with a larger screen for the best experience. <br> or use landscape orientation", "Warning")
     }
+    debugger;
 })
