@@ -10,7 +10,7 @@ $(()=>{
             currentFloor:1,
             floorStats:[
                 {
-                    EnemiesDefeated:0,
+                    EnemiesKilled: 0,
                     BossKilled:false
                 },
             ],
@@ -720,76 +720,86 @@ $(()=>{
     const GoToTower = () =>{
         view.html(`
             <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
-                <div class="subMenuItem selectedSubMenuItem floorSelect">
-                    <div class="floorSelectText">
-                        Select floor: 
-                    </div>
-                    <div class="floorSelectItem ${player.stats.currentFloor==1 ? "inactiveFloorSelectItem" :""}" id="floorSelectFirst">
-                        1
-                    </div>
-                    <div class="floorSelectItem ${player.stats.currentFloor==1 ? "inactiveFloorSelectItem" :""}" id="floorSelectBack">
-                        <
-                    </div>
-                    <div id="currentFloor">
-                        ${player.stats.currentFloor}
-                    </div>
-                    <div class="floorSelectItem ${player.stats.currentFloor==player.stats.floorStats.length ? "inactiveFloorSelectItem" :""}" id="floorSelectForward">
-                        >
-                    </div>
-                    <div class="floorSelectItem ${player.stats.currentFloor==player.stats.floorStats.length ? "inactiveFloorSelectItem" :""}" id="floorSelectLast">
-                        ${player.stats.floorStats.length}
-                    </div>
+                <div class="subMenuItem selectedSubMenuItem">
+                    Tower
                 </div>
             </div>
             <div class="mainView" id="fightView">
                 <div id="gameSpeed">
                      ${gameSpeed!=1 ? "Game speed: x"+gameSpeed :""}
                 </div>
-                <div class="fightSide">
-                    <div class="fightSideTitle">
-                        Player
+                <div class="floorSelect">
+                    <div class="floorSelectItem ${player.stats.currentFloor==1 ? "inactiveFloorSelectItem" :""}" id="floorSelectFirst">
+                        Floor 1
                     </div>
-                    ` /*Maybe add player Image*/+ `
-                    <div class="progressBar" id="playerHealthBar">
-                        x / x Hp
+                    <div class="floorSelectItem ${player.stats.currentFloor==1 ? "inactiveFloorSelectItem" :""}" id="floorSelectBack">
+                        Last floor
                     </div>
-                    <div class="progressBar" id="playerAttackBar">
-                        x / x ms
+                    <div id="currentFloor">
+                        Floor ${player.stats.currentFloor}
                     </div>
-                    <ul id="playerStats">
-                        <li>Damage: 1 physical, 0 magic</li>
-                        <li>Defense: 0% + 0 </li>
-                        <li>Elemental Damage: None </li>
-                        <li>Elemental Defense: None </li>
-                        <li>Regeneration: 0 / s</li>
-                        <li>Accuracy: x%</li>
-                        <li>Dodge chance: x%</li>
-                        <li>Critical chance: x%</li>
-                        <li>Critical multiplier: x2</li>
-                    </ul>
+                    <div class="floorSelectItem ${player.stats.currentFloor==player.stats.floorStats.length ? "inactiveFloorSelectItem" :""}" id="floorSelectForward">
+                        Next floor
+                    </div>
+                    <div class="floorSelectItem ${player.stats.currentFloor==player.stats.floorStats.length ? "inactiveFloorSelectItem" :""}" id="floorSelectLast">
+                        Floor ${player.stats.floorStats.length}
+                    </div>
                 </div>
-                <div class="fightSide">
-                    <div class="fightSideTitle">
-                        Enemy
+                <div class="progressBar" id="floorEnemiesKilledToBoss">
+
+                </div>
+                <div class="progressBar" id="floorEnemiesKilledToClear">
+
+                </div>
+                <div id="fightSides">
+                    <div class="fightSide">
+                        <div class="fightSideTitle">
+                            Player
+                        </div>
+                        ` /*Maybe add player Image*/+ `
+                        <div class="progressBar" id="playerHealthBar">
+                            x / x Hp
+                        </div>
+                        <div class="progressBar" id="playerAttackBar">
+                            x / x ms
+                        </div>
+                        <ul id="playerStats">
+                            <li>Damage: 1 physical, 0 magic</li>
+                            <li>Defense: 0% + 0 </li>
+                            <li>Elemental Damage: None </li>
+                            <li>Elemental Defense: None </li>
+                            <li>Regeneration: 0 / s</li>
+                            <li>Accuracy: x%</li>
+                            <li>Dodge chance: x%</li>
+                            <li>Critical chance: x%</li>
+                            <li>Critical multiplier: x2</li>
+                        </ul>
                     </div>
-                    ` /*Maybe add enemy Image*/+ `
-                    <div class="progressBar" id="enemyHealthBar">
-                        x / x Hp
+                    <div class="fightSide">
+                        <div class="fightSideTitle">
+                            Enemy
+                        </div>
+                        ` /*Maybe add enemy Image*/+ `
+                        <div class="progressBar" id="enemyHealthBar">
+                            x / x Hp
+                        </div>
+                        <div class="progressBar" id="enemyAttackBar">
+                            x / x ms
+                        </div>
+                        <ul id="enemyStats">
+                            <li>Damage: 1 physical, 0 magic</li>
+                            <li>Defense: 0% + 0 </li>
+                            <li>Elemental Damage: None </li>
+                            <li>Elemental Defense: None </li>
+                            <li>Regeneration: 0 / s</li>
+                            <li>Accuracy: x%</li>
+                            <li>Dodge chance: x%</li>
+                            <li>Critical chance: x%</li>
+                            <li>Critical multiplier: x2</li>
+                        </ul>
                     </div>
-                    <div class="progressBar" id="enemyAttackBar">
-                        x / x ms
-                    </div>
-                    <ul id="enemyStats">
-                        <li>Damage: 1 physical, 0 magic</li>
-                        <li>Defense: 0% + 0 </li>
-                        <li>Elemental Damage: None </li>
-                        <li>Elemental Defense: None </li>
-                        <li>Regeneration: 0 / s</li>
-                        <li>Accuracy: x%</li>
-                        <li>Dodge chance: x%</li>
-                        <li>Critical chance: x%</li>
-                        <li>Critical multiplier: x2</li>
-                    </ul>
+                </div>
+                <div id="dropChances">
                 </div>
             </div>
         `)
@@ -838,6 +848,38 @@ $(()=>{
             transparent ${totalTimeSincePlayerAttackInMs/ (1000 / playerStatsCalculated.misc.attackSpeed)*100}%,
             transparent
         )`)
+
+        if(player.stats.floorStats[player.stats.currentFloor-1].BossKilled==false){
+            $("#floorEnemiesKilledToBoss").text(`${FormatNumber(player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled)} / 10 enemies to boss`)
+            $("#floorEnemiesKilledToBoss").css("background-image", `linear-gradient(
+                to right, 
+                yellow,
+                yellow ${player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled *10}%,
+                transparent ${player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled *10}%,
+                transparent
+            )`)
+        }
+        else{
+            $("#floorEnemiesKilledToBoss").text(`Boss killed. Unlocked next floor, and multi killing on this floor`)
+        }
+        
+        if(player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled==Infinity){
+            $("#floorEnemiesKilledToClear").text(`Floor cleared`)
+            $("#floorEnemiesKilledToClear").css("background-color", `orange`)
+        }
+        else{
+            $("#floorEnemiesKilledToClear").text(`${FormatNumber(player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled)} / 1.78e308 enemies`)
+            $("#floorEnemiesKilledToClear").css("background-image", `linear-gradient(
+                to right, 
+                orange,
+                orange ${(Math.log10(player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled) / Math.log10(1.78e308)) *100}%,
+                transparent ${(Math.log10(player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled) / Math.log10(1.78e308)) *100}%,
+                transparent
+            )`)
+        }
+        
+
+
         if(gameSpeed!=1){
             $("#gameSpeed").text(`Game speed: x${FormatNumber(gameSpeed)}`)
         }
@@ -891,20 +933,35 @@ $(()=>{
         if(gameSpeed>1000 || gameSpeed<0){
             gameSpeed=1
         }
-        totalTimeSincePlayerAttackInMs+=ms * gameSpeed
-        totalTimeSinceEnemyAttackInMs+=ms * gameSpeed
 
-        while(totalTimeSincePlayerAttackInMs>=(1000 / playerStatsCalculated.misc.attackSpeed)){
-            totalTimeSincePlayerAttackInMs-=1000 / playerStatsCalculated.misc.attackSpeed
-            PlayerAttack()
+        if(playerStatsCalculated.attacking){
+            totalTimeSincePlayerAttackInMs+=ms * gameSpeed
+            totalTimeSinceEnemyAttackInMs+=ms * gameSpeed
+
+            while(totalTimeSincePlayerAttackInMs>=(1000 / playerStatsCalculated.misc.attackSpeed)){
+                totalTimeSincePlayerAttackInMs-=1000 / playerStatsCalculated.misc.attackSpeed
+                PlayerAttack()
+            }
+
+            while(totalTimeSinceEnemyAttackInMs>=(1000 / enemyStats.misc.attackSpeed)){
+                totalTimeSinceEnemyAttackInMs-=(1000 / enemyStats.misc.attackSpeed)
+                EnemyAttack()
+            }
         }
+        else{
+            if(playerStatsCalculated.health<playerStatsCalculated.maxHealth)
+                playerStatsCalculated.health+=playerStatsCalculated.maxHealth/100 * gameSpeed
+            if(enemyStats.health<enemyStats.maxHealth)
+                enemyStats.health+=enemyStats.maxHealth / 50 * gameSpeed 
+        }        
 
-        while(totalTimeSinceEnemyAttackInMs>=(1000 / enemyStats.misc.attackSpeed)){
-            totalTimeSinceEnemyAttackInMs-=(1000 / enemyStats.misc.attackSpeed)
-            EnemyAttack()
-        }
+        playerStatsCalculated.health+=playerStatsCalculated.misc.regeneration * gameSpeed
+        enemyStats.health+=enemyStats.misc.regeneration * gameSpeed
 
-        
+        if(playerStatsCalculated.health>playerStatsCalculated.maxHealth)
+            playerStatsCalculated.health=playerStatsCalculated.maxHealth
+        if(enemyStats.health>enemyStats.maxHealth)
+            enemyStats.health=enemyStats.maxHealth
     }
     //#endregion
     //#region update UI
@@ -1050,5 +1107,5 @@ $(()=>{
     if(window.innerWidth<400){
         ShowDialogBox("Warning", "This game is not optimized for small screens. <br> Please use a device with a larger screen for the best experience. <br> or use landscape orientation", "Warning")
     }
-    GoToTower()
+    GoToTower()    
 })

@@ -11,29 +11,10 @@
   background-color: rgba(128, 128, 128, 0.25);
 }
 
-.floorSelect{
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  justify-content: center;
-}
-.floorSelectItem{
-  transition-duration: 0.25s;
-}
-.floorSelectItem:hover{
-  transform: scale(1.25);
-}
-.inactiveFloorSelectItem{
-  color: gray;
-}
-.inactiveFloorSelectItem:hover{
-  color: gray;
-}
-
 #fightView{
   position: relative;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   gap: 15px;
 }
@@ -43,7 +24,46 @@
   left: 50%;
   transform: translateX(-50%);
 }
+.floorSelect{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 25px;
+  font-size: x-large;
+}
+.floorSelectItem{
+  transition-duration: 0.25s;
+}
+.floorSelectItem:hover{
+  transform: scale(1.25);
+}
+.inactiveFloorSelectItem{
+  color: gray;
+  opacity: 0.5;
+}
+.inactiveFloorSelectItem:hover{
+  color: gray;
+}
+.floorSelect>div{
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+#floorSelectBack{
+  background-color: rgba(200,0, 0, 0.5);
+}
+#floorSelectForward{
+  background-color: rgba(0,200, 0, 0.5);
+}
+#fightSides{
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  width: 100%;
+}
 .fightSide{
+  min-width: 225px;
   margin-top: 25px;
   flex: 1;
   display: flex;
@@ -66,6 +86,18 @@
   border-radius: 30px;
   text-align: center;
   font-size: x-large;
+}
+#floorEnemiesKilledToBoss{
+  border: 1px solid yellow;
+}
+#floorEnemiesKilledToClear{
+  border: 1px solid orange;
+}
+#playerHealthBar, #enemyHealthBar{
+  border: 1px solid red;
+}
+#playerAttackBar, #enemyAttackBar{
+  border: 1px solid blue;
 }
 .fightSide>ul{
   margin: auto;
