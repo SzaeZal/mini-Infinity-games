@@ -2,6 +2,7 @@ $(()=>{
     $("#goBackToHub").on("click", ()=>{
         window.location.href="../index.html"
     })
+    const inventoryLimit=36
     //#region player
     let player={
         stats:{
@@ -17,6 +18,8 @@ $(()=>{
             gear:{
                 weapon:{
                     name:"stick",
+                    itemType:"Weapons/Swords",
+                    rarity:"Common",
                     attack:{
                         type:{
                             physical:1,
@@ -28,15 +31,30 @@ $(()=>{
                             water:0,
                             air:0
                         }
-                    }
+                    },
+                    special: undefined
                 },
                 offhand:{
 
                 },
                 armor:{
+                    helmet:{
 
+                    },
+                    chestplate:{
+
+                    },
+                    leggings:{
+
+                    },
+                    boots:{
+
+                    }
                 }
-            }
+            },
+            inventory:[
+
+            ]
         },
         options:{
             ui:{
@@ -629,7 +647,7 @@ $(()=>{
                         mini-Infinity-games <br> Tower of Infinite Enemies
                     </div>
                     <div class="gameVersion">
-                        V1: 
+                        V0.0: Hollow shell
                     </div>
                     <div class="gameAuthor">
                         Made by SzaeZal
@@ -669,7 +687,7 @@ $(()=>{
                 <div class="changelog">
                     <div class="version">
                         <div class="changelogVersionName">
-                            V1: 
+                            V0.0: Hollow shell 
                         </div>
                         <div class="changelogChanges">
                             <ul>
@@ -941,14 +959,66 @@ $(()=>{
                     Main
                 </div>
             </div>
-            <div class="mainView">
-                
+            <div class="mainView inventoryView">
+                <div class="equippedItems">
+                    <img src="../Images/TowerOfInfiniteEnemies/graystickfigure.png" alt="player image">
+                    <div class="armorItems">
+                        <div class="storedItem" id="helmetSlot">
+                            ${GetItemUI(player.stats.gear.armor.helmet)}
+                        </div>
+                        <div class="storedItem" id="chestplateSlot">
+                            ${GetItemUI(player.stats.gear.armor.chestplate)}
+                        </div>
+                        <div class="storedItem" id="leggingsSlot">
+                            ${GetItemUI(player.stats.gear.armor.leggings)}
+                        </div>
+                        <div class="storedItem" id="bootsSlot">
+                            ${GetItemUI(player.stats.gear.armor.boots)}
+                        </div>
+                    </div>
+                    <div class="handHeldItems">
+                        <div class="storedItem" id="weaponSlot">
+                            ${GetItemUI(player.stats.gear.weapon)}
+                        </div>
+                        <div class="storedItem" id="offHandSlot">
+                            ${GetItemUI(player.stats.gear.offhand)}
+                        </div>
+                    </div>
+                </div>
+                <div class="storedItems">
+                    ${ShowStoredItems()}
+                </div>
             </div>
         `)
 
         AddInventoryUIEvents()
     }
-    //onerror="this.onerror=null; this.src='Default.jpg'"
+    //#endregion
+    //#region ShowStoredItems
+    const ShowStoredItems = ()=>{
+        let storedItemsUI=``
+        let itemUI=``
+        for (let i=0; i<36; i++){
+            try{
+                itemUI=GetItemUI(player.stats.inventory[i])
+            }
+            catch{
+                itemUI=``
+            }
+            storedItemsUI+=`
+                <div class="storedItem">
+                    ${itemUI}
+                </div>
+            `
+        }   
+        return storedItemsUI
+    }
+    //#endregion
+    //#region GetItemUI
+    const GetItemUI = (item)=>{
+        return `<img src="../Images/TowerOfInfiniteEnemies/${item.itemType}/${item.name}.png" onerror="this.onerror=null; this.src='../Images/TowerOfInfiniteEnemies/questionMark.png'" 
+            alt="inventory item ${item.itemType} ${item.name}" class="rarity${item.rarity}">`
+    }
     //#endregion
     //#region AddInventoryUIEvents
     const AddInventoryUIEvents = ()=>{
@@ -959,6 +1029,7 @@ $(()=>{
     const UpdateInventoryView= ()=>{
 
     }
+    //#endregion
     //#region PlayerAttack
     const PlayerAttack = ()=>{
 

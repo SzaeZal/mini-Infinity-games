@@ -128,3 +128,78 @@
     overflow-y: auto;
   }
 }
+
+.inventoryView{
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  height: 100%;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.equippedItems{
+  flex: 4;
+  position: relative;
+  height: fit-content;
+  text-align: center;
+}
+.armorItems{
+  position: absolute;
+  transform: translateX(-47%);
+  top: 50px;
+  left: 49%;
+  display: flex;
+  flex-direction: column;
+  gap: 75px;
+}
+.handHeldItems{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 40%;
+  display: flex;
+  flex-direction: row;
+  width: 300px;
+  justify-content: space-between;
+}
+.storedItems{
+  flex: 6;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  max-height: fit-content;
+  gap: 5px;
+}
+.storedItem{
+  width: 64px;
+  height: 64px;
+  border: 3px solid gray;
+  border-radius: 10px;
+}
+.storedItem>img{
+  width: 64px;
+  height: 64px;
+}
+
+.rarityCommon{
+  background-color: rgba(128, 128, 128, 0.5);
+}
+.rarityUncommon{
+  background-color: green;
+}
+.rarityRare{
+  background-color: blue;
+}
+.rarityEpic{
+  background-color: purple;
+}
+.rarityLegendary{
+  background-color: orange;
+}
+.rarityMythic{
+  background-color: red;
+}
+.rarityDivine{
+  background-color: yellow;
+}
