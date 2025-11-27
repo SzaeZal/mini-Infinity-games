@@ -725,90 +725,125 @@ $(()=>{
                 </div>
             </div>
             <div class="mainView" id="fightView">
-                <div id="gameSpeed">
-                     ${gameSpeed!=1 ? "Game speed: x"+gameSpeed :""}
-                </div>
-                <div class="floorSelect">
-                    <div class="floorSelectItem ${player.stats.currentFloor==1 ? "inactiveFloorSelectItem" :""}" id="floorSelectFirst">
-                        Floor 1
-                    </div>
-                    <div class="floorSelectItem ${player.stats.currentFloor==1 ? "inactiveFloorSelectItem" :""}" id="floorSelectBack">
-                        Last floor
-                    </div>
-                    <div id="currentFloor">
-                        Floor ${player.stats.currentFloor}
-                    </div>
-                    <div class="floorSelectItem ${player.stats.currentFloor==player.stats.floorStats.length ? "inactiveFloorSelectItem" :""}" id="floorSelectForward">
-                        Next floor
-                    </div>
-                    <div class="floorSelectItem ${player.stats.currentFloor==player.stats.floorStats.length ? "inactiveFloorSelectItem" :""}" id="floorSelectLast">
-                        Floor ${player.stats.floorStats.length}
-                    </div>
-                </div>
-                <div class="progressBar" id="floorEnemiesKilledToBoss">
-
-                </div>
-                <div class="progressBar" id="floorEnemiesKilledToClear">
-
-                </div>
-                <div id="fightSides">
-                    <div class="fightSide">
-                        <div class="fightSideTitle">
-                            Player
-                        </div>
-                        ` /*Maybe add player Image*/+ `
-                        <div class="progressBar" id="playerHealthBar">
-                            x / x Hp
-                        </div>
-                        <div class="progressBar" id="playerAttackBar">
-                            x / x ms
-                        </div>
-                        <ul id="playerStats">
-                            <li>Damage: 1 physical, 0 magic</li>
-                            <li>Defense: 0% + 0 </li>
-                            <li>Elemental Damage: None </li>
-                            <li>Elemental Defense: None </li>
-                            <li>Regeneration: 0 / s</li>
-                            <li>Accuracy: x%</li>
-                            <li>Dodge chance: x%</li>
-                            <li>Critical chance: x%</li>
-                            <li>Critical multiplier: x2</li>
-                        </ul>
-                    </div>
-                    <div class="fightSide">
-                        <div class="fightSideTitle">
-                            Enemy
-                        </div>
-                        ` /*Maybe add enemy Image*/+ `
-                        <div class="progressBar" id="enemyHealthBar">
-                            x / x Hp
-                        </div>
-                        <div class="progressBar" id="enemyAttackBar">
-                            x / x ms
-                        </div>
-                        <ul id="enemyStats">
-                            <li>Damage: 1 physical, 0 magic</li>
-                            <li>Defense: 0% + 0 </li>
-                            <li>Elemental Damage: None </li>
-                            <li>Elemental Defense: None </li>
-                            <li>Regeneration: 0 / s</li>
-                            <li>Accuracy: x%</li>
-                            <li>Dodge chance: x%</li>
-                            <li>Critical chance: x%</li>
-                            <li>Critical multiplier: x2</li>
-                        </ul>
-                    </div>
-                </div>
-                <div id="dropChances">
-                </div>
+                
             </div>
         `)
+        ChangeFloor(player.stats.currentFloor)
         AddTowerUIEvents()
+    }
+    //#endregion
+    //#region ChangeFloor
+    const ChangeFloor = (floor)=>{
+        $("#fightView").html(`
+            <div id="gameSpeed">
+                 ${gameSpeed!=1 ? "Game speed: x"+gameSpeed :""}
+            </div>
+            <div class="floorSelect">
+                <div class="floorSelectItem ${player.stats.currentFloor==1 ? "inactiveFloorSelectItem" :""}" id="floorSelectFirst">
+                    Floor 1
+                </div>
+                <div class="floorSelectItem ${player.stats.currentFloor==1 ? "inactiveFloorSelectItem" :""}" id="floorSelectBack">
+                    Last floor
+                </div>
+                <div id="currentFloor">
+                    Floor ${player.stats.currentFloor}
+                </div>
+                <div class="floorSelectItem ${player.stats.currentFloor==player.stats.floorStats.length ? "inactiveFloorSelectItem" :""}" id="floorSelectForward">
+                    Next floor
+                </div>
+                <div class="floorSelectItem ${player.stats.currentFloor==player.stats.floorStats.length ? "inactiveFloorSelectItem" :""}" id="floorSelectLast">
+                    Floor ${player.stats.floorStats.length}
+                </div>
+            </div>
+            <div class="progressBar" id="floorEnemiesKilledToBoss">
+            </div>
+            <div class="progressBar" id="floorEnemiesKilledToClear">
+            </div>
+            <div id="fightSides">
+                <div class="fightSide">
+                    <div class="fightSideTitle">
+                        Player
+                    </div>
+                    ` /*Maybe add player Image*/+ `
+                    <div class="progressBar" id="playerHealthBar">
+                        x / x Hp
+                    </div>
+                    <div class="progressBar" id="playerAttackBar">
+                        x / x ms
+                    </div>
+                    <div id="attackToggle">
+                        Start Fight
+                    </div>
+                    <ul id="playerStats">
+                        <li>Damage: 1 physical, 0 magic</li>
+                        <li>Defense: 0% + 0 </li>
+                        <li>Elemental Damage: None </li>
+                        <li>Elemental Defense: None </li>
+                        <li>Regeneration: 0 / s</li>
+                        <li>Accuracy: x%</li>
+                        <li>Dodge chance: x%</li>
+                        <li>Critical chance: x%</li>
+                        <li>Critical multiplier: x2</li>
+                    </ul>
+                </div>
+                <div class="fightSide">
+                    <div class="fightSideTitle">
+                        Enemy
+                    </div>
+                    ` /*Maybe add enemy Image*/+ `
+                    <div class="progressBar" id="enemyHealthBar">
+                        x / x Hp
+                    </div>
+                    <div class="progressBar" id="enemyAttackBar">
+                        x / x ms
+                    </div>
+                    <ul id="enemyStats">
+                        <li>Damage: 1 physical, 0 magic</li>
+                        <li>Defense: 0% + 0 </li>
+                        <li>Elemental Damage: None </li>
+                        <li>Elemental Defense: None </li>
+                        <li>Regeneration: 0 / s</li>
+                        <li>Accuracy: x%</li>
+                        <li>Dodge chance: x%</li>
+                        <li>Critical chance: x%</li>
+                        <li>Critical multiplier: x2</li>
+                    </ul>
+                </div>
+            </div>
+            <div id="dropChances">
+                ${ShowDropChances(floor)}
+            </div>    
+        `)
+    }
+    //#endregion
+    //#region ShowDropChances
+    const ShowDropChances=(floor)=>{
+        return "DropChances"
     }
     //#endregion
     //#region replicanti ui events
     const AddTowerUIEvents=()=>{
-        
+        if(player.stats.currentFloor!=1){
+            $("#floorSelectFirst").on("click", ()=>{
+                player.stats.currentFloor=1
+                ChangeFloor(1)
+            })
+            $("#floorSelectBack").on("click", ()=>{
+                player.stats.currentFloor--
+                ChangeFloor(player.stats.currentFloor)
+            })
+        }
+
+        if(player.stats.currentFloor!=player.stats.floorStats.length){
+            $("#floorSelectForward").on("click", ()=>{
+                player.stats.currentFloor++
+                ChangeFloor(player.stats.currentFloor)
+            })
+            $("#floorSelectLast").on("click", ()=>{
+                player.stats.currentFloor=player.stats.floorStats.length
+                ChangeFloor(player.stats.currentFloor)
+            })
+        }
     }
     //#endregion
     //#region Tower UI update
@@ -849,7 +884,17 @@ $(()=>{
             transparent
         )`)
 
-        if(player.stats.floorStats[player.stats.currentFloor-1].BossKilled==false){
+        if(player.stats.floorStats[player.stats.currentFloor-1].BossKilled==false && player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled<10){
+            $("#floorEnemiesKilledToBoss").text(`${FormatNumber(player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled)} / 10 enemies to boss`)
+            $("#floorEnemiesKilledToBoss").css("background-image", `linear-gradient(
+                to right, 
+                yellow,
+                yellow ${player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled *10}%,
+                transparent ${player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled *10}%,
+                transparent
+            )`)
+        }
+        else if(player.stats.floorStats[player.stats.currentFloor-1].BossKilled==false){
             $("#floorEnemiesKilledToBoss").text(`${FormatNumber(player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled)} / 10 enemies to boss`)
             $("#floorEnemiesKilledToBoss").css("background-image", `linear-gradient(
                 to right, 
@@ -878,8 +923,6 @@ $(()=>{
             )`)
         }
         
-
-
         if(gameSpeed!=1){
             $("#gameSpeed").text(`Game speed: x${FormatNumber(gameSpeed)}`)
         }
