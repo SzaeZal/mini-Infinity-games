@@ -114,7 +114,8 @@ $(()=>{
             regeneration:0,
             accuracy:100,
             evasion: 0,
-            dodgeChance:0,
+            hitChance: 0,
+            reflectChance:0,
             criticalChance:0,
             criticalDamageMult: 2
         }
@@ -167,7 +168,8 @@ $(()=>{
             regeneration:0,
             accuracy:100,
             evasion: 0,
-            dodgeChance:0,
+            hitChance: 0,
+            reflectChance:0,
             criticalChance:0,
             criticalDamageMult: 2
         }
@@ -752,6 +754,7 @@ $(()=>{
     //#endregion
     //#region ChangeFloor
     const ChangeFloor = (floor)=>{
+        CalculateHitChances()
         $("#fightView").html(`
             <div id="gameSpeed">
                  ${gameSpeed!=1 ? "Game speed: x"+gameSpeed :""}
@@ -798,8 +801,8 @@ $(()=>{
                         <li>Elemental Damage: None </li>
                         <li>Elemental Defense: None </li>
                         <li>Regeneration: 0 / s</li>
-                        <li>Accuracy: x%</li>
-                        <li>Dodge chance: x%</li>
+                        <li>Hit chance: ${FormatNumber(playerStatsCalculated.misc.hitChance*100)}%</li>
+                        <li>Reflect chance: x%</li>
                         <li>Critical chance: x%</li>
                         <li>Critical multiplier: x2</li>
                     </ul>
@@ -821,8 +824,8 @@ $(()=>{
                         <li>Elemental Damage: None </li>
                         <li>Elemental Defense: None </li>
                         <li>Regeneration: 0 / s</li>
-                        <li>Accuracy: x%</li>
-                        <li>Dodge chance: x%</li>
+                        <li>Hit chance: ${FormatNumber(enemyStats.misc.hitChance*100)}%</li>
+                        <li>Reflect chance: x%</li>
                         <li>Critical chance: x%</li>
                         <li>Critical multiplier: x2</li>
                     </ul>
@@ -839,7 +842,7 @@ $(()=>{
         return "DropChances"
     }
     //#endregion
-    //#region replicanti ui events
+    //#region tower ui events
     const AddTowerUIEvents=()=>{
         if(player.stats.currentFloor!=1){
             $("#floorSelectFirst").on("click", ()=>{
@@ -861,6 +864,15 @@ $(()=>{
                 player.stats.currentFloor=player.stats.floorStats.length
                 ChangeFloor(player.stats.currentFloor)
             })
+        }
+
+        if(playerStatsCalculated.attacking==false){
+            $("#attackToggle").text("Start fight")
+            $("#attackToggle").on("click", ()=>{ToggleAttack()})
+        }
+        else{
+            $("#attackToggle").text("Stop fight")
+            $("#attackToggle").on("click", ()=>{ToggleAttack()})
         }
     }
     //#endregion
@@ -943,6 +955,9 @@ $(()=>{
         
         if(gameSpeed!=1){
             $("#gameSpeed").text(`Game speed: x${FormatNumber(gameSpeed)}`)
+        }
+        else{
+            $("#gameSpeed").text(``)
         }
     }
     //#endregion
@@ -1030,16 +1045,134 @@ $(()=>{
 
     }
     //#endregion
+    //#region CalculateHitChances
+    const CalculateHitChances = ()=>{
+        if(playerStatsCalculated.misc.accuracy>=enemyStats.misc.evasion){
+            playerStatsCalculated.misc.hitChance=1
+        }
+        else{
+            playerStatsCalculated.misc.hitChance=1 / Math.log2(enemyStats.misc.evasion - playerStatsCalculated.misc.accuracy)
+        }
+
+        if(enemyStats.misc.accuracy>=playerStatsCalculated.misc.evasion){
+            enemyStats.misc.hitChance=1
+        }
+        else{
+            enemyStats.misc.hitChance=1 / Math.log2(playerStatsCalculated.misc.evasion - enemyStats.misc.accuracy)
+        }
+    }
+    //#endregion
+    let canToggleAttack=true
+    //#region ToggleAttack
+    const ToggleAttack = ()=>{
+        if(canToggleAttack){
+            playerStatsCalculated.attacking=!playerStatsCalculated.attacking
+            totalTimeSincePlayerAttackInMs=0
+            totalTimeSinceEnemyAttackInMs=0
+            if(playerStatsCalculated.attacking){
+                $("#attackToggle").text("Stop fight")
+            }
+            else{
+                $("#attackToggle").text("Start fight")
+            }
+        }
+    }
+    //#endregion
     //#region PlayerAttack
     const PlayerAttack = ()=>{
-
+        let SuccessfulHit=Math.random()<=playerStatsCalculated.misc.hitChance
+        if(SuccessfulHit){
+            let criticalRng=Math.random() <= playerStatsCalculated.misc.criticalChance
+            let critMult=criticalRng ? playerStatsCalculated.misc.criticalDamageMult : 1
+            let physicalDamage=(playerStatsCalculated.attack.type.physical * critMult - enemyStats.defense.type.absolute) * (1 - (enemyStats.defense.type.relative / 100))
+            let magicDamage=playerStatsCalculated.attack.type.magic * critMult
+            let elementalDamage=GetHighestElementalDamage(playerStatsCalculated.attack.element, critMult, enemyStats.defense.element) 
+            let enemyReflectRng=Math.random()<=(enemyStats.misc.reflectChance/100)
+            if(enemyReflectRng){
+                playerStatsCalculated.health -= (physicalDamage + magicDamage + elementalDamage) * 0.8
+                enemyStats.health -= (physicalDamage + magicDamage + elementalDamage) * 0.2
+            }
+            else{
+                enemyStats.health -= (physicalDamage + magicDamage + elementalDamage)
+            }
+        }
     }
     //#endregion
     //#region EnemyAttack
     const EnemyAttack = ()=>{
-
+        let SuccessfulHit=Math.random()<=enemyStats.misc.hitChance
+        if(SuccessfulHit){
+            let criticalRng=Math.random() <= enemyStats.misc.criticalChance
+            let critMult=criticalRng ? enemyStats.misc.criticalDamageMult : 1
+            let physicalDamage=(enemyStats.attack.type.physical * critMult - playerStatsCalculated.defense.type.absolute) * (1 - (playerStatsCalculated.defense.type.relative / 100))
+            let magicDamage=enemyStats.attack.type.magic * critMult
+            let elementalDamage=GetHighestElementalDamage(enemyStats.attack.element, critMult, playerStatsCalculated.defense.element)
+            let enemyReflectRng=Math.random()<=(playerStatsCalculated.misc.reflectChance/100)
+            if(enemyReflectRng){
+                playerStatsCalculated.health -= (physicalDamage + magicDamage + elementalDamage) * 0.2
+                enemyStats.health -= (physicalDamage + magicDamage + elementalDamage) * 0.8
+            }
+            else{
+                playerStatsCalculated.health -= (physicalDamage + magicDamage + elementalDamage)
+            }
+        }
     }
     //#endregion
+    //#region KillEnemy
+    const KillEnemy = ()=>{
+        if(player.stats.floorStats[player.stats.currentFloor-1].BossKilled==false){
+            player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled++
+            GainDrop(1)
+        }
+        else{
+            let overKill=(Math.abs(enemyStats.health) / enemyStats.maxHealth)
+            player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled+=1 + overKill
+            GainDrop((1+overKill))
+        }
+    }
+    //#endregion
+    //#region GainDrop
+    const GainDrop = (luckMulti)=>{
+        player.stats.inventory.push({
+            name:"crimsonBlade",
+            itemType:"Weapons/Swords",
+            rarity:"Mythic",
+            attack:{
+                type:{
+                    physical:1000,
+                    magic:0
+                },
+                element:{
+                    fire:0,
+                    earth:0,
+                    water:0,
+                    air:0
+                }
+            },
+            special: undefined
+        })
+    }
+    //#endregion
+    //#region GetHighestElementalDamage
+    const GetHighestElementalDamage = (elements, critMult, otherDefense) =>{
+        let trueFireDamage=(elements.fire * critMult - otherDefense.fire.absolute) * (1 - (otherDefense.fire.relative / 100))
+        let trueWaterDamage=(elements.water * critMult - otherDefense.water.absolute) * (1 - (otherDefense.water.relative / 100))
+        let trueAirDamage=(elements.air * critMult - otherDefense.air.absolute) * (1 - (otherDefense.air.relative / 100))
+        let trueEarthDamage=(elements.earth * critMult - otherDefense.earth.absolute) * (1 - (otherDefense.earth.relative / 100))
+        if(trueFireDamage<=0 && trueWaterDamage<=0 && trueAirDamage<=0 && trueEarthDamage<=0){
+            return 0
+        }
+        if(trueFireDamage>=trueWaterDamage && trueFireDamage>=trueAirDamage && trueFireDamage>=trueEarthDamage){
+            return trueFireDamage
+        }
+        else if(trueWaterDamage>=trueAirDamage && trueWaterDamage>=trueEarthDamage){
+            return trueWaterDamage
+        }
+        else if(trueAirDamage>=trueEarthDamage){
+            return trueAirDamage
+        }
+        return trueEarthDamage
+    }
     //#region tick
     let totalTimeSincePlayerAttackInMs=0
     let totalTimeSinceEnemyAttackInMs=0
@@ -1060,6 +1193,18 @@ $(()=>{
             while(totalTimeSinceEnemyAttackInMs>=(1000 / enemyStats.misc.attackSpeed)){
                 totalTimeSinceEnemyAttackInMs-=(1000 / enemyStats.misc.attackSpeed)
                 EnemyAttack()
+            }
+
+            if(playerStatsCalculated.health<=0){
+                ToggleAttack()
+                canToggleAttack=false
+                setTimeout(() => {
+                    canToggleAttack=true   
+                }, (10000 / gameSpeed));
+            }
+
+            if(enemyStats.health<=0){
+                KillEnemy()
             }
         }
         else{
