@@ -53,7 +53,7 @@ $(()=>{
                 }
             },
             inventory:[
-
+                {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
             ]
         },
         options:{
@@ -979,24 +979,24 @@ $(()=>{
                     <img src="../Images/TowerOfInfiniteEnemies/graystickfigure.png" alt="player image">
                     <div class="armorItems">
                         <div class="storedItem" id="helmetSlot">
-                            ${GetItemUI(player.stats.gear.armor.helmet)}
+                            ${GetItemUI(player.stats.gear.armor.helmet, "Helmet")}
                         </div>
                         <div class="storedItem" id="chestplateSlot">
-                            ${GetItemUI(player.stats.gear.armor.chestplate)}
+                            ${GetItemUI(player.stats.gear.armor.chestplate, "Chestplate")}
                         </div>
                         <div class="storedItem" id="leggingsSlot">
-                            ${GetItemUI(player.stats.gear.armor.leggings)}
+                            ${GetItemUI(player.stats.gear.armor.leggings, "Leggings")}
                         </div>
                         <div class="storedItem" id="bootsSlot">
-                            ${GetItemUI(player.stats.gear.armor.boots)}
+                            ${GetItemUI(player.stats.gear.armor.boots, "Boots")}
                         </div>
                     </div>
                     <div class="handHeldItems">
                         <div class="storedItem" id="weaponSlot">
-                            ${GetItemUI(player.stats.gear.weapon)}
+                            ${GetItemUI(player.stats.gear.weapon, "Weapon")}
                         </div>
                         <div class="storedItem" id="offHandSlot">
-                            ${GetItemUI(player.stats.gear.offhand)}
+                            ${GetItemUI(player.stats.gear.offhand, "offHand")}
                         </div>
                     </div>
                 </div>
@@ -1014,14 +1014,14 @@ $(()=>{
         let storedItemsUI=``
         let itemUI=``
         for (let i=0; i<36; i++){
-            try{
-                itemUI=GetItemUI(player.stats.inventory[i])
+            try{                
+                itemUI=GetItemUI(player.stats.inventory[i], i)
             }
-            catch{
+            catch(error){                
                 itemUI=``
-            }
+            }                        
             storedItemsUI+=`
-                <div class="storedItem">
+                <div class="storedItem" id="itemSlot${i}">
                     ${itemUI}
                 </div>
             `
@@ -1030,14 +1030,37 @@ $(()=>{
     }
     //#endregion
     //#region GetItemUI
-    const GetItemUI = (item)=>{
+    const GetItemUI = (item, idIndex)=>{
+        if(item.name==undefined){
+            return ``
+        }
+        
         return `<img src="../Images/TowerOfInfiniteEnemies/${item.itemType}/${item.name}.png" onerror="this.onerror=null; this.src='../Images/TowerOfInfiniteEnemies/questionMark.png'" 
-            alt="inventory item ${item.itemType} ${item.name}" class="rarity${item.rarity}">`
+            alt="inventory item ${item.itemType} ${item.name}" class="rarity${item.rarity}" id="storedItem${idIndex}">
+            <div class="hiddenPart itemDescription ${player.options.ui.theme=="Dark" ? "theme-dark" : "theme-light"}" id="storedItem${idIndex}Description">
+                alma
+            </div>`
     }
     //#endregion
     //#region AddInventoryUIEvents
     const AddInventoryUIEvents = ()=>{
+        for(let i=0; i<player.stats.inventory.length; i++){
+            try{
+                $(`#storedItem${i}`).on("click", ()=>{                    
+                    if("hiddenPart" == $(`#storedItem${i}Description`)[0].classList[0] || "hiddenPart" == $(`#storedItem${i}Description`)[0].classList[2]){                        
+                        $(`#storedItem${i}Description`).removeClass("hiddenPart")
+                    }
+                    else{                        
+                        $(`#storedItem${i}Description`).addClass("hiddenPart")
+                    }
+                    
+                })
+            }
+            catch{
 
+            }
+            
+        }
     }
     //#endregion
     //#region UpdateInventoryView
@@ -1133,24 +1156,29 @@ $(()=>{
     //#endregion
     //#region GainDrop
     const GainDrop = (luckMulti)=>{
-        player.stats.inventory.push({
-            name:"crimsonBlade",
-            itemType:"Weapons/Swords",
-            rarity:"Mythic",
-            attack:{
-                type:{
-                    physical:1000,
-                    magic:0
-                },
-                element:{
-                    fire:0,
-                    earth:0,
-                    water:0,
-                    air:0
+        for(let i=0; i<player.stats.inventory.length; i++){
+            if(player.stats.inventory[i].name==undefined){
+                player.stats.inventory[i]={
+                    name:"crimsonBlade",
+                    itemType:"Weapons/Swords",
+                    rarity:"Mythic",
+                    attack:{
+                        type:{
+                            physical:1000,
+                            magic:0
+                        },
+                        element:{
+                            fire:0,
+                            earth:0,
+                            water:0,
+                            air:0
+                        }
+                    },
+                    special: undefined
                 }
-            },
-            special: undefined
-        })
+                break;
+            }
+        }
     }
     //#endregion
     //#region GetHighestElementalDamage
