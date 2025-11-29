@@ -1038,7 +1038,7 @@ $(()=>{
         return `<img src="../Images/TowerOfInfiniteEnemies/${item.itemType}/${item.name}.png" onerror="this.onerror=null; this.src='../Images/TowerOfInfiniteEnemies/questionMark.png'" 
             alt="inventory item ${item.itemType} ${item.name}" class="rarity${item.rarity}" id="storedItem${idIndex}">
             <div class="hiddenPart itemDescription ${player.options.ui.theme=="Dark" ? "theme-dark" : "theme-light"}" id="storedItem${idIndex}Description">
-                alma
+                ${GetItemDetails(item, idIndex)}
             </div>`
     }
     //#endregion
@@ -1061,6 +1061,30 @@ $(()=>{
             }
             
         }
+    }
+    //#endregion
+    //#region GetItemDetails
+    const GetItemDetails = (item, index)=>{
+        let itemStats=``
+        if(item.itemType.split("/")[0]=="Weapons"){
+            itemStats+= item.attack.type.physical>0 ? `<p class="itemStat">Physical damage: ${FormatNumber(item.attack.type.physical)}</p>` :""
+            itemStats+= item.attack.type.magic>0 ? `<p class="itemStat">Magic damage: ${FormatNumber(item.attack.type.magic)}</p>` :""
+            itemStats+= item.attack.element.fire>0 ? `<p class="itemStat">Fire damage: ${FormatNumber(item.attackelement.fire)}</p>` :""
+            itemStats+= item.attack.element.water>0 ? `<p class="itemStat">Water damage: ${FormatNumber(item.attack.element.water)}</p>` :""
+            itemStats+= item.attack.element.air>0 ? `<p class="itemStat">Air damage ${FormatNumber(item.attack.element.air)}</p>` :""
+            itemStats+= item.attack.element.earth>0 ? `<p class="itemStat">Earth damage ${FormatNumber(item.attack.element.earth)}</p>` :""
+        }
+        return `    
+            <span class="itemMain">
+                <p class="itemName ">${item.name}</p>
+                <p class="itemType">${item.itemType}</p>
+            </span>
+            ${itemStats}
+            <span class="itemActions">
+                <div id="item${index}Equip">Equip</div>
+                <div id="item${index}Delete">Delete</div>
+            </span>
+        `
     }
     //#endregion
     //#region UpdateInventoryView
