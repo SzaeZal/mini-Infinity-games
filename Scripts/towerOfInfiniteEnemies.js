@@ -126,7 +126,6 @@ $(()=>{
         name: "",
         health: 100,
         maxHealth: 100,
-        attacking:false,
         attack:{
             type:{
                 physical:1,
@@ -175,6 +174,119 @@ $(()=>{
         }
     }
     //#endregion
+    //#region floorStuff
+    const floorStuff={
+        floor1:{
+            enemyStats:{
+                name: "wolf",
+                health: 50,
+                maxHealth: 50,
+                attack:{
+                    type:{
+                        physical:1,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:0,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:0,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:0,
+                            relative:0
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1,
+                    regeneration:0,
+                    accuracy:50,
+                    evasion: 0,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:0,
+                    criticalDamageMult: 2
+                }
+            },
+            bossStats:{
+                name: "alpha wolf",
+                health: 1000,
+                maxHealth: 1000,
+                attack:{
+                    type:{
+                        physical:15,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:10,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:10,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:100,
+                            relative:10
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1.1,
+                    regeneration:1,
+                    accuracy:1000,
+                    evasion: 50,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:5,
+                    criticalDamageMult: 2
+                }
+            },
+            items:[
+                {}
+            ]
+        },
+        floor2:{
+
+        }
+    }
     gameSpeed=1
     //#region sidebar open-close
     let sidebar = $("#sidebar")
@@ -754,6 +866,7 @@ $(()=>{
     //#endregion
     //#region ChangeFloor
     const ChangeFloor = (floor)=>{
+        enemyStats=floorStuff[`floor${floor}`].enemyStats
         CalculateHitChances()
         $("#fightView").html(`
             <div id="gameSpeed">
@@ -796,20 +909,26 @@ $(()=>{
                         Start Fight
                     </div>
                     <ul id="playerStats">
-                        <li>Damage: 1 physical, 0 magic</li>
-                        <li>Defense: 0% + 0 </li>
-                        <li>Elemental Damage: None </li>
-                        <li>Elemental Defense: None </li>
-                        <li>Regeneration: 0 / s</li>
+                        <li>Damage: ${FormatNumber(playerStatsCalculated.attack.type.physical)} physical, ${FormatNumber(playerStatsCalculated.attack.type.magic)} magic</li>
+                        <li>Defense: ${FormatNumber(playerStatsCalculated.defense.type.relative)}% + ${FormatNumber(playerStatsCalculated.defense.type.absolute)} </li>
+                        <li>Elemental Damage: ${FormatNumber(playerStatsCalculated.attack.element.fire)} fire, ${FormatNumber(playerStatsCalculated.attack.element.water)} water, 
+                            ${FormatNumber(playerStatsCalculated.attack.element.air)} air, ${FormatNumber(playerStatsCalculated.attack.element.earth)} earth</li>
+                        <li>Elemental Defense: 
+                            ${FormatNumber(playerStatsCalculated.defense.element.fire.relative)}% + ${FormatNumber(playerStatsCalculated.defense.element.fire.absolute)} fire,
+                            ${FormatNumber(playerStatsCalculated.defense.element.water.relative)}% + ${FormatNumber(playerStatsCalculated.defense.element.water.absolute)} water, 
+                            ${FormatNumber(playerStatsCalculated.defense.element.air.relative)}% + ${FormatNumber(playerStatsCalculated.defense.element.air.absolute)} air, 
+                            ${FormatNumber(playerStatsCalculated.defense.element.earth.relative)}% + ${FormatNumber(playerStatsCalculated.defense.element.earth.absolute)} earth,  
+                        </li>
+                        <li>Regeneration: ${playerStatsCalculated.misc.regeneration} / s</li>
                         <li>Hit chance: ${FormatNumber(playerStatsCalculated.misc.hitChance*100)}%</li>
-                        <li>Reflect chance: x%</li>
-                        <li>Critical chance: x%</li>
-                        <li>Critical multiplier: x2</li>
+                        <li>Reflect chance: ${FormatNumber(playerStatsCalculated.misc.reflectChance)}%</li>
+                        <li>Critical chance: ${FormatNumber(playerStatsCalculated.misc.criticalChance)}%</li>
+                        <li>Critical multiplier: x${FormatNumber(playerStatsCalculated.misc.criticalDamageMult)}</li>
                     </ul>
                 </div>
                 <div class="fightSide">
                     <div class="fightSideTitle">
-                        Enemy
+                        ${enemyStats.name}
                     </div>
                     ` /*Maybe add enemy Image*/+ `
                     <div class="progressBar" id="enemyHealthBar">
@@ -819,15 +938,21 @@ $(()=>{
                         x / x ms
                     </div>
                     <ul id="enemyStats">
-                        <li>Damage: 1 physical, 0 magic</li>
-                        <li>Defense: 0% + 0 </li>
-                        <li>Elemental Damage: None </li>
-                        <li>Elemental Defense: None </li>
-                        <li>Regeneration: 0 / s</li>
+                        <li>Damage: ${FormatNumber(enemyStats.attack.type.physical)} physical, ${FormatNumber(enemyStats.attack.type.magic)} magic</li>
+                        <li>Defense: ${FormatNumber(enemyStats.defense.type.relative)}% + ${FormatNumber(enemyStats.defense.type.absolute)} </li>
+                        <li>Elemental Damage: ${FormatNumber(enemyStats.attack.element.fire)} fire, ${FormatNumber(enemyStats.attack.element.water)} water, 
+                            ${FormatNumber(enemyStats.attack.element.air)} air, ${FormatNumber(enemyStats.attack.element.earth)} earth</li>
+                        <li>Elemental Defense: 
+                            ${FormatNumber(enemyStats.defense.element.fire.relative)}% + ${FormatNumber(enemyStats.defense.element.fire.absolute)} fire,
+                            ${FormatNumber(enemyStats.defense.element.water.relative)}% + ${FormatNumber(enemyStats.defense.element.water.absolute)} water, 
+                            ${FormatNumber(enemyStats.defense.element.air.relative)}% + ${FormatNumber(enemyStats.defense.element.air.absolute)} air, 
+                            ${FormatNumber(enemyStats.defense.element.earth.relative)}% + ${FormatNumber(enemyStats.defense.element.earth.absolute)} earth,  
+                        </li>
+                        <li>Regeneration: ${enemyStats.misc.regeneration} / s</li>
                         <li>Hit chance: ${FormatNumber(enemyStats.misc.hitChance*100)}%</li>
-                        <li>Reflect chance: x%</li>
-                        <li>Critical chance: x%</li>
-                        <li>Critical multiplier: x2</li>
+                        <li>Reflect chance: ${FormatNumber(enemyStats.misc.reflectChance)}%</li>
+                        <li>Critical chance: ${FormatNumber(enemyStats.misc.criticalChance)}%</li>
+                        <li>Critical multiplier: x${FormatNumber(enemyStats.misc.criticalDamageMult)}</li>
                     </ul>
                 </div>
             </div>
@@ -839,6 +964,8 @@ $(()=>{
     //#endregion
     //#region ShowDropChances
     const ShowDropChances=(floor)=>{
+        let items=floorStuff[`floor${floor}`].items
+        
         return "DropChances"
     }
     //#endregion
