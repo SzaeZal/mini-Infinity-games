@@ -232,15 +232,21 @@
 .itemActions{
   position: absolute;
   bottom: 0;
+  padding: 0;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  width: 130px;
+  width: 150px;
   border-top: 1px solid rgba(64, 64, 64, 1);
 }
-.itemActions>div{
+.itemAction{
   flex: 1;
+  padding: 10px;
+  transition-duration: 0.3s;
 }
-.itemActions>div::first-line{
+.itemAction:hover{
+  background-color: rgba(64, 64, 64, 0.5);
+}
+.itemAction:first-of-type{
   border-right: 1px solid rgba(64, 64, 64, 1);
 }

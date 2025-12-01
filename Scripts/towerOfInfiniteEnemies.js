@@ -1111,24 +1111,24 @@ $(()=>{
                 <div class="equippedItems">
                     <img src="../Images/TowerOfInfiniteEnemies/graystickfigure.png" alt="player image">
                     <div class="armorItems">
-                        <div class="storedItem" id="helmetSlot">
+                        <div class="storedItem" id="itemSlotHelmet">
                             ${GetItemUI(player.stats.gear.armor.helmet, "Helmet")}
                         </div>
-                        <div class="storedItem" id="chestplateSlot">
+                        <div class="storedItem" id="itemSlotChestplate">
                             ${GetItemUI(player.stats.gear.armor.chestplate, "Chestplate")}
                         </div>
-                        <div class="storedItem" id="leggingsSlot">
+                        <div class="storedItem" id="itemSlotLeggings">
                             ${GetItemUI(player.stats.gear.armor.leggings, "Leggings")}
                         </div>
-                        <div class="storedItem" id="bootsSlot">
+                        <div class="storedItem" id="itemSlotBoots">
                             ${GetItemUI(player.stats.gear.armor.boots, "Boots")}
                         </div>
                     </div>
                     <div class="handHeldItems">
-                        <div class="storedItem" id="weaponSlot">
+                        <div class="storedItem" id="itemSlotWeapon">
                             ${GetItemUI(player.stats.gear.weapon, "Weapon")}
                         </div>
-                        <div class="storedItem" id="offHandSlot">
+                        <div class="storedItem" id="itemSlotOffHand">
                             ${GetItemUI(player.stats.gear.offhand, "offHand")}
                         </div>
                     </div>
@@ -1186,8 +1186,10 @@ $(()=>{
                     else{                        
                         $(`#storedItem${i}Description`).addClass("hiddenPart")
                     }
-                    
                 })
+
+                $(`#item${i}Equip`).on("click", ()=>{EquipItem(i)})
+                $(`#item${i}Delete`).on("click", ()=>{DeleteItem(i)})
             }
             catch{
 
@@ -1213,15 +1215,38 @@ $(()=>{
                 <p class="itemType">${item.itemType}</p>
             </span>
             ${itemStats}
-            <span class="itemActions">
-                <div id="item${index}Equip">Equip</div>
-                <div id="item${index}Delete">Delete</div>
-            </span>
+            <div class="itemActions">
+                <div class="interactable itemAction" id="item${index}Equip">Equip</div>
+                <div class="interactable itemAction" id="item${index}Delete">Delete</div>
+            </div>
         `
     }
     //#endregion
+    //#region EquipItem
+    const EquipItem = (index)=>{
+        let item=player.stats.inventory[index]
+        let itemTypes=item.itemType.split("/")
+        if(itemTypes[0]=="Weapons"){
+            $(`#storedItem${index}Description`).addClass("hiddenPart")
+            let htmltemp=$(`#itemSlotWeapon`).html()            
+            $(`#itemSlotWeapon`).html($(`#itemSlot${index}`).html())
+            $(`#itemSlot${index}`).html(htmltemp)
+            let itemTemp=item
+            player.stats.inventory[index]=player.stats.gear.weapon
+            player.stats.gear.weapon=itemTemp
+        }
+        CalculatePlayerStats()
+    }
+    //#endregion
+    //#region DeleteItem
+    const DeleteItem = (index)=>{
+        $(`#itemSlot${index}`).html(``)
+        player.stats.inventory[index]={}
+        CalculatePlayerStats()
+    }
+    //#endregion
     //#region UpdateInventoryView
-    const UpdateInventoryView= ()=>{
+    const UpdateInventoryView=()=>{
 
     }
     //#endregion
