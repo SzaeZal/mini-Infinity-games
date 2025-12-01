@@ -126,6 +126,7 @@
 table{
   display: block;
   border: 3px solid gray;
+  border-radius: 15px;
   border-collapse: collapse;
   font-size: larger;
 }
@@ -143,6 +144,7 @@ th{
   padding: 5px;
 }
 td{
+  padding: 3px;
   text-align: center;
   border: none;
 }
@@ -151,16 +153,30 @@ td{
   opacity: 0.5;
   transition-duration: 0.5s;
 }
-td:hover>.inactiveAutoDelete{
+.inactiveAutoDelete>svg{
+  fill: gray;
+  transition-duration: 0.5s;
+}
+.inactiveAutoDelete:hover{
   opacity: 1;
+}
+.inactiveAutoDelete:hover>svg{
+  fill: rgba(255,0, 0, 0.75);
 }
 
 .activeAutoDelete{
   opacity: 1;
   transition-duration: 0.5s;
 }
-td:hover>.activeAutoDelete{
+.activeAutoDelete>svg{
+  fill: red;
+  transition-duration: 0.5s;
+}
+.activeAutoDelete:hover{
   opacity: 0.5;
+}
+.activeAutoDelete:hover>svg{
+  fill: rgba(128, 128, 128, 0.5);
 }
 
 @media screen and (max-height:420px) {

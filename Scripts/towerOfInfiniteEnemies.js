@@ -2228,16 +2228,16 @@ $(()=>{
                 </caption>
                 <thead>
                     <tr>
-                        <th>
+                        <th id="itemName">
                             Item name
                         </th>
-                        <th>
+                        <th id="itemType">
                             Item type
                         </th>
-                        <th>
+                        <th id="itemBaseRarity">
                             Base rarity
                         </th>
-                        <th>
+                        <th id="autoDelete">
                             Auto delete
                         </th>
                     </tr>
@@ -2257,17 +2257,17 @@ $(()=>{
             let item=items[i]
             dropChancesUI+=`
                 <tr>
-                    <td>
+                    <td headers="itemName">
                         ${item.name}
                     </td>
-                    <td>
+                    <td headers="itemType">
                         ${item.itemType}
                     </td>
-                    <td>
+                    <td headers="itemBaseChance">
                         ${items[i].dropChance}%
                     </td>
-                    <td id="autoDeleteItem${i}" class="interactable">
-                        <svg  class="${floorAutoDeletes[i] ? "activeAutoDelete" : "inactiveAutoDelete"}" xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 -960 960 960" width="25px" fill="#e3e3e3"><path d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"/></svg>
+                    <td id="autoDeleteItem${i}" class="interactable ${floorAutoDeletes[i] ? "activeAutoDelete" : "inactiveAutoDelete"}" headers="autoDelete">
+                        <svg id="autoDeleteItem${i}Svg" xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 -960 960 960" width="25px" fill="#888"><path d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"/></svg>
                     </td>
                 </tr>
             `
@@ -2306,6 +2306,10 @@ $(()=>{
         else{
             $("#attackToggle").text("Stop fight")
             $("#attackToggle").on("click", ()=>{ToggleAttack()})
+        }
+
+        for(let i=0; i<player.stats.floorStats[player.stats.currentFloor-1].autoDeletes.length; i++){
+            $(`#autoDeleteItem${i}`).on("click", ()=>{ToggleAutoDelete(i)})
         }
     }
     //#endregion
@@ -2548,6 +2552,20 @@ $(()=>{
         CalculatePlayerStats()
     }
     //#endregion
+    //#region ToggleAutoDelete
+    const ToggleAutoDelete = (index)=>{
+        player.stats.floorStats[player.stats.currentFloor-1].autoDeletes[index] = !player.stats.floorStats[player.stats.currentFloor-1].autoDeletes[index]
+        if(player.stats.floorStats[player.stats.currentFloor-1].autoDeletes[index]){
+            $(`#autoDeleteItem${index}`).removeClass("inactiveAutoDelete")
+            $(`#autoDeleteItem${index}`).addClass("activeAutoDelete")
+        }
+        else{
+            $(`#autoDeleteItem${index}`).addClass("inactiveAutoDelete")
+            $(`#autoDeleteItem${index}`).removeClass("activeAutoDelete")
+        }
+        
+    }
+    //#endregion
     //#region UpdateInventoryView
     const UpdateInventoryView=()=>{
 
@@ -2674,11 +2692,13 @@ $(()=>{
             +(player.stats.gear.offhand.misc == undefined ? 0 : player.stats.gear.offhand.misc.attackSpeed)
 
         playerStatsCalculated.misc.criticalChance = 0
-            +(player.stats.gear.weapon.misc == undefined ? 0 : player.stats.gear.weapon.misc.criticalChance)
+            +(player.stats.gear.weapon.misc == undefined || player.stats.gear.weapon.misc.criticalChance==undefined ? 0 : player.stats.gear.weapon.misc.criticalChance)
             +(player.stats.gear.offhand.misc == undefined ? 0 : player.stats.gear.offhand.misc.criticalChance)
+
+        
         
         playerStatsCalculated.misc.criticalDamageMult = 2
-            +(player.stats.gear.weapon.misc == undefined ? 0 : player.stats.gear.weapon.misc.criticalDamageMult)
+            +(player.stats.gear.weapon.misc == undefined || player.stats.gear.weapon.misc.criticalDamageMult==undefined ? 0 : player.stats.gear.weapon.misc.criticalDamageMult)
             +(player.stats.gear.offhand.misc == undefined ? 0 : player.stats.gear.offhand.misc.criticalDamageMult)
 
         playerStatsCalculated.misc.accuracy = 100 //TODO: change based on weapon type
@@ -2808,26 +2828,26 @@ $(()=>{
         let floorItems=floorStuff[`floor${player.stats.currentFloor}`].items
         let possibbleDrops=[]
         for(let i in floorItems){
-            console.log(floorItems[i]);
             if(floorItems[i].dropChance * luckMulti>=rng){
-                console.log("here");
                 possibbleDrops.push(floorItems[i])
             }
         }
-        console.log(possibbleDrops);
         
         if(possibbleDrops.length>0){
             let dropIndex=Math.floor(Math.random()*possibbleDrops.length)
-            AddItemToInventory(possibbleDrops[dropIndex])
+            let floorItemIndex=floorItems.indexOf(possibbleDrops[dropIndex])
+            if(!player.stats.floorStats[player.stats.currentFloor-1].autoDeletes[floorItemIndex]){
+                AddItemToInventory(possibbleDrops[dropIndex])
+            }
         }
         else{
             AddItemToInventory({
-                    name:"crimsonBlade",
-                    itemType:"Weapons/Swords",
-                    rarity:"Mythic",
+                    name:"null",
+                    itemType:"null",
+                    rarity:"Common",
                     attack:{
                         type:{
-                            physical:1000,
+                            physical:0,
                             magic:0
                         },
                         element:{
@@ -2837,7 +2857,7 @@ $(()=>{
                             air:0
                         }
                     },
-                    special: undefined
+                    special: "Something broke"
                 })
         }
     }
