@@ -283,7 +283,314 @@ $(()=>{
                 }
             },
             items:[
-                {}
+                {
+                    dropChance: 0.0001,
+                    name:"crimsonBlade",
+                    itemType:"Weapons/Swords",
+                    rarity:"Mythic",
+                    attack:{
+                        type:{
+                            physical:1000,
+                            magic:0
+                        },
+                        element:{
+                            fire:10000,
+                            earth:0,
+                            water:0,
+                            air:0
+                        }
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.0005,
+                    name:"woB",
+                    itemType:"Weapons/Bows",
+                    rarity:"Legendary",
+                    attack:{
+                        type:{
+                            physical:500,
+                            magic:0
+                        },
+                        element:{
+                            fire:0,
+                            earth:0,
+                            water:0,
+                            air:0
+                        }
+                    },
+                    misc:{
+                        accuracyMult:1e100
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.005,
+                    name:"Spiked shield",
+                    itemType:"OffHand/Shields",
+                    rarity:"Legendary",
+                    defense:{
+                        type:{
+                            absolute:0,
+                            relative:0
+                        },
+                        element:{
+                            fire:{
+                                absolute:0,
+                                relative:0
+                            },
+                            earth:{
+                                absolute:0,
+                                relative:0
+                            },
+                            water:{
+                                absolute:0,
+                                relative:0
+                            },
+                            air:{
+                                absolute:0,
+                                relative:0
+                            }
+                        }
+                    },
+                    misc:{
+                        reflectChance:100
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.01,
+                    name:"Wolf hat",
+                    itemType:"Armor/Helmets",
+                    rarity:"Legendary",
+                    weight: 1,
+                    defense:{
+                        type:{
+                            absolute:100,
+                            relative:2
+                        },
+                        element:{
+                            fire:{
+                                absolute:0,
+                                relative:0
+                            },
+                            earth:{
+                                absolute:100,
+                                relative:10
+                            },
+                            water:{
+                                absolute:0,
+                                relative:0
+                            },
+                            air:{
+                                absolute:0,
+                                relative:0
+                            }
+                        }
+                    },
+                    misc:{
+                        accuracyMult:1.5,
+                        criticalDamageMult:2,
+                        criticalChance:5,
+                        evasionMult: 2
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.07,
+                    name:"Wolf boots",
+                    itemType:"Armor/Boots",
+                    rarity:"Legendary",
+                    weight: 1,
+                    defense:{
+                        type:{
+                            absolute:100,
+                            relative:2
+                        },
+                        element:{
+                            fire:{
+                                absolute:0,
+                                relative:0
+                            },
+                            earth:{
+                                absolute:100,
+                                relative:10
+                            },
+                            water:{
+                                absolute:0,
+                                relative:0
+                            },
+                            air:{
+                                absolute:0,
+                                relative:0
+                            }
+                        }
+                    },
+                    misc:{
+                        accuracyMult:1.5,
+                        criticalDamageMult:2,
+                        criticalChance:5,
+                        evasionMult: 2
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.25,
+                    name:"Wolf chestplate",
+                    itemType:"Armor/Chestplates",
+                    rarity:"Legendary",
+                    weight: 3,
+                    defense:{
+                        type:{
+                            absolute:100,
+                            relative:2
+                        },
+                        element:{
+                            fire:{
+                                absolute:0,
+                                relative:0
+                            },
+                            earth:{
+                                absolute:100,
+                                relative:10
+                            },
+                            water:{
+                                absolute:0,
+                                relative:0
+                            },
+                            air:{
+                                absolute:0,
+                                relative:0
+                            }
+                        }
+                    },
+                    misc:{
+                        accuracyMult:1.5,
+                        criticalDamageMult:2,
+                        criticalChance:5,
+                        evasionMult: 2
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 1,
+                    name:"Wolf leggings",
+                    itemType:"Armor/Leggings",
+                    rarity:"Legendary",
+                    weight: 2,
+                    defense:{
+                        type:{
+                            absolute:100,
+                            relative:2
+                        },
+                        element:{
+                            fire:{
+                                absolute:0,
+                                relative:0
+                            },
+                            earth:{
+                                absolute:100,
+                                relative:10
+                            },
+                            water:{
+                                absolute:0,
+                                relative:0
+                            },
+                            air:{
+                                absolute:0,
+                                relative:0
+                            }
+                        }
+                    },
+                    misc:{
+                        criticalDamageMult:2,
+                        criticalChance:5,
+                        evasionMult: 2
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 15,
+                    name:"knuckles",
+                    itemType:"Weapons/HandGears",
+                    rarity:"Rare",
+                    attack:{
+                        type:{
+                            physical:15,
+                            magic:0
+                        },
+                        element:{
+                            fire:0,
+                            earth:5,
+                            water:0,
+                            air:0
+                        }
+                    },
+                    misc:{
+                        attackSpeed:1
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 30,
+                    name:"Iron sword",
+                    itemType:"Weapons/Swords",
+                    rarity:"Rare",
+                    attack:{
+                        type:{
+                            physical:15,
+                            magic:0
+                        },
+                        element:{
+                            fire:0,
+                            earth:0,
+                            water:0,
+                            air:0
+                        }
+                    },
+                    misc:{
+                        attackSpeed:1
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 65,
+                    name:"Wood bow",
+                    itemType:"Weapons/Bows",
+                    rarity:"Uncommon",
+                    attack:{
+                        type:{
+                            physical:5,
+                            magic:0
+                        },
+                        element:{
+                            fire:0,
+                            earth:0,
+                            water:0,
+                            air:0
+                        }
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 100,
+                    name:"Wood sword",
+                    itemType:"Weapons/Swords",
+                    rarity:"Uncommon",
+                    attack:{
+                        type:{
+                            physical:3,
+                            magic:0
+                        },
+                        element:{
+                            fire:0,
+                            earth:0,
+                            water:0,
+                            air:0
+                        }
+                    },
+                    special: undefined
+                },
             ]
         },
         floor2:{
@@ -1875,7 +2182,7 @@ $(()=>{
                             ${FormatNumber(playerStatsCalculated.defense.element.fire.relative)}% + ${FormatNumber(playerStatsCalculated.defense.element.fire.absolute)} fire,
                             ${FormatNumber(playerStatsCalculated.defense.element.water.relative)}% + ${FormatNumber(playerStatsCalculated.defense.element.water.absolute)} water, 
                             ${FormatNumber(playerStatsCalculated.defense.element.air.relative)}% + ${FormatNumber(playerStatsCalculated.defense.element.air.absolute)} air, 
-                            ${FormatNumber(playerStatsCalculated.defense.element.earth.relative)}% + ${FormatNumber(playerStatsCalculated.defense.element.earth.absolute)} earth,  
+                            ${FormatNumber(playerStatsCalculated.defense.element.earth.relative)}% + ${FormatNumber(playerStatsCalculated.defense.element.earth.absolute)} earth
                         </li>
                         <li>Regeneration: ${playerStatsCalculated.misc.regeneration} / s</li>
                         <li>Hit chance: ${FormatNumber(playerStatsCalculated.misc.hitChance*100)}%</li>
@@ -1904,7 +2211,7 @@ $(()=>{
                             ${FormatNumber(enemyStats.defense.element.fire.relative)}% + ${FormatNumber(enemyStats.defense.element.fire.absolute)} fire,
                             ${FormatNumber(enemyStats.defense.element.water.relative)}% + ${FormatNumber(enemyStats.defense.element.water.absolute)} water, 
                             ${FormatNumber(enemyStats.defense.element.air.relative)}% + ${FormatNumber(enemyStats.defense.element.air.absolute)} air, 
-                            ${FormatNumber(enemyStats.defense.element.earth.relative)}% + ${FormatNumber(enemyStats.defense.element.earth.absolute)} earth,  
+                            ${FormatNumber(enemyStats.defense.element.earth.relative)}% + ${FormatNumber(enemyStats.defense.element.earth.absolute)} earth
                         </li>
                         <li>Regeneration: ${enemyStats.misc.regeneration} / s</li>
                         <li>Hit chance: ${FormatNumber(enemyStats.misc.hitChance*100)}%</li>
