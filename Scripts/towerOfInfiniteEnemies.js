@@ -288,83 +288,60 @@ $(()=>{
         },
         floor2:{
             enemyStats:{
-                name: "wolf",
+                name: "forest troll",
                 isBoss: false,
-                health: 50,
-                maxHealth: 50,
+                health: 650,
+                maxHealth: 650,
                 attack:{
-                    type:{
-                        physical:1,
-                        magic:0
-                    },
-                    element:{
-                        fire:0,
-                        earth:0,
-                        water:0,
-                        air:0
-                    }
+                    type:{ physical:60, magic:25 },
+                    element:{ fire:0, earth:50, water:0, air:0 }
                 },
                 defense:{
-                    type:{
-                        absolute:0,
-                        relative:0
-                    },
+                    type:{ absolute:10, relative:5 },
                     element:{
-                        fire:{
-                            absolute:0,
-                            relative:0
-                        },
-                        earth:{
-                            absolute:0,
-                            relative:0
-                        },
-                        water:{
-                            absolute:0,
-                            relative:0
-                        },
-                        air:{
-                            absolute:0,
-                            relative:0
-                        }
+                        fire:{ absolute:-50, relative:0 },
+                        earth:{ absolute:100, relative:50 },
+                        water:{ absolute:0, relative:0 },
+                        air:{ absolute:0, relative:0 }
                     }
                 },
                 misc:{
-                    attackSpeed:1,
-                    regeneration:0,
-                    accuracy:50,
-                    evasion: 0,
-                    hitChance: 0,
-                    reflectChance:0,
-                    criticalChance:0,
+                    attackSpeed:0.8,
+                    regeneration:10,
+                    accuracy:250,
+                    evasion:100,
+                    hitChance:0,
+                    reflectChance:10,
+                    criticalChance:5,
                     criticalDamageMult: 2
                 }
             },
             bossStats:{
-                name: "alpha wolf",
+                name: "forest saint",
                 isBoss:true,
-                health: 1000,
-                maxHealth: 1000,
+                health: 100000,
+                maxHealth: 1e5,
                 attack:{
                     type:{
                         physical:15,
-                        magic:0
+                        magic:1000
                     },
                     element:{
                         fire:0,
-                        earth:10,
+                        earth:250,
                         water:0,
-                        air:0
+                        air:10000
                     }
                 },
                 defense:{
                     type:{
-                        absolute:10,
-                        relative:0
+                        absolute:100,
+                        relative:10
                     },
                     element:{
                         fire:{
                             absolute:0,
-                            relative:0
+                            relative:-100
                         },
                         earth:{
                             absolute:100,
@@ -372,22 +349,22 @@ $(()=>{
                         },
                         water:{
                             absolute:0,
-                            relative:0
+                            relative:20
                         },
                         air:{
                             absolute:0,
-                            relative:0
+                            relative:100
                         }
                     }
                 },
                 misc:{
-                    attackSpeed:1.1,
-                    regeneration:1,
-                    accuracy:1000,
-                    evasion: 50,
+                    attackSpeed:2,
+                    regeneration:2500,
+                    accuracy:10000,
+                    evasion: 5000,
                     hitChance: 0,
                     reflectChance:0,
-                    criticalChance:5,
+                    criticalChance:0,
                     criticalDamageMult: 2
                 }
             },
@@ -1268,6 +1245,7 @@ $(()=>{
             ]
         }
     }
+    //#endregion
     gameSpeed=1
     //#region sidebar open-close
     let sidebar = $("#sidebar")
