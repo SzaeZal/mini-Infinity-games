@@ -1474,7 +1474,12 @@ $(()=>{
         if(player.stats.floorStats[player.stats.currentFloor-1].BossKilled==false){
             player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled++
             enemyStats.health=enemyStats.maxHealth
-            GainDrop(1)
+            if(enemyStats.isBoss){
+                UnlockNextFloor()
+            }
+            else{
+                GainDrop(1)
+            }
         }
         else{
             let overKill=(Math.abs(enemyStats.health) / enemyStats.maxHealth)
@@ -1482,6 +1487,16 @@ $(()=>{
             enemyStats.health=enemyStats.maxHealth
             GainDrop((1+overKill))
         }
+    }
+    //#endregion
+    //#region UnlockNextFloor
+    const UnlockNextFloor = ()=>{
+        player.stats.floorStats[player.stats.currentFloor-1].BossKilled=true
+        player.stats.floorStats.push({
+            EnemiesKilled:0,
+            BossKilled:false
+        })
+        ChangeFloor(player.stats.currentFloor, false)
     }
     //#endregion
     //#region GainDrop
