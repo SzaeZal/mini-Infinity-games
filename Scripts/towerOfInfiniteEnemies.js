@@ -124,6 +124,7 @@ $(()=>{
     //#region enemyStats 
     let enemyStats = {
         name: "",
+        isBoss:false,
         health: 100,
         maxHealth: 100,
         attack:{
@@ -179,6 +180,7 @@ $(()=>{
         floor1:{
             enemyStats:{
                 name: "wolf",
+                isBoss: false,
                 health: 50,
                 maxHealth: 50,
                 attack:{
@@ -230,6 +232,7 @@ $(()=>{
             },
             bossStats:{
                 name: "alpha wolf",
+                isBoss:true,
                 health: 1000,
                 maxHealth: 1000,
                 attack:{
@@ -860,13 +863,12 @@ $(()=>{
                 
             </div>
         `)
-        ChangeFloor(player.stats.currentFloor)
-        AddTowerUIEvents()
+        ChangeFloor(player.stats.currentFloor, false)
     }
     //#endregion
     //#region ChangeFloor
-    const ChangeFloor = (floor)=>{
-        enemyStats=floorStuff[`floor${floor}`].enemyStats
+    const ChangeFloor = (floor, isBoss)=>{
+        enemyStats=isBoss ? floorStuff[`floor${floor}`].bossStats : floorStuff[`floor${floor}`].enemyStats
         CalculateHitChances()
         $("#fightView").html(`
             <div id="gameSpeed">
@@ -960,6 +962,7 @@ $(()=>{
                 ${ShowDropChances(floor)}
             </div>    
         `)
+        AddTowerUIEvents()
     }
     //#endregion
     //#region ShowDropChances
@@ -974,22 +977,22 @@ $(()=>{
         if(player.stats.currentFloor!=1){
             $("#floorSelectFirst").on("click", ()=>{
                 player.stats.currentFloor=1
-                ChangeFloor(1)
+                ChangeFloor(1, false)
             })
             $("#floorSelectBack").on("click", ()=>{
                 player.stats.currentFloor--
-                ChangeFloor(player.stats.currentFloor)
+                ChangeFloor(player.stats.currentFloor, false)
             })
         }
 
         if(player.stats.currentFloor!=player.stats.floorStats.length){
             $("#floorSelectForward").on("click", ()=>{
                 player.stats.currentFloor++
-                ChangeFloor(player.stats.currentFloor)
+                ChangeFloor(player.stats.currentFloor, false)
             })
             $("#floorSelectLast").on("click", ()=>{
                 player.stats.currentFloor=player.stats.floorStats.length
-                ChangeFloor(player.stats.currentFloor)
+                ChangeFloor(player.stats.currentFloor, false)
             })
         }
 
@@ -1032,16 +1035,17 @@ $(()=>{
             transparent
         )`)
 
-        $("#enemyAttackBar").text(`${FormatNumber(totalTimeSincePlayerAttackInMs)} / ${FormatNumber(1000 / playerStatsCalculated.misc.attackSpeed)} ms`)
+        $("#enemyAttackBar").text(`${FormatNumber(totalTimeSinceEnemyAttackInMs)} / ${FormatNumber(1000 / enemyStats.misc.attackSpeed)} ms`)
         $("#enemyAttackBar").css("background-image", `linear-gradient(
             to right, 
             blue,
-            blue ${totalTimeSincePlayerAttackInMs/ (1000 / playerStatsCalculated.misc.attackSpeed) *100}%,
-            transparent ${totalTimeSincePlayerAttackInMs/ (1000 / playerStatsCalculated.misc.attackSpeed)*100}%,
+            blue ${totalTimeSinceEnemyAttackInMs/ (1000 / enemyStats.misc.attackSpeed) *100}%,
+            transparent ${totalTimeSinceEnemyAttackInMs/ (1000 / enemyStats.misc.attackSpeed)*100}%,
             transparent
         )`)
 
-        if(player.stats.floorStats[player.stats.currentFloor-1].BossKilled==false && player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled<10){
+        if(player.stats.floorStats[player.stats.currentFloor-1].BossKilled==false 
+            && player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled<10){
             $("#floorEnemiesKilledToBoss").text(`${FormatNumber(player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled)} / 10 enemies to boss`)
             $("#floorEnemiesKilledToBoss").css("background-image", `linear-gradient(
                 to right, 
@@ -1051,18 +1055,20 @@ $(()=>{
                 transparent
             )`)
         }
+        else if(player.stats.floorStats[player.stats.currentFloor-1].BossKilled==false 
+            && enemyStats.isBoss==true){
+            $("#floorEnemiesKilledToBoss").text(`Exit boss lair`)
+            $("#floorEnemiesKilledToBoss").css("background-color", `orange`)
+            $("#floorEnemiesKilledToBoss").on("click", ()=>{ChangeFloor(player.stats.currentFloor, false)})
+        }
         else if(player.stats.floorStats[player.stats.currentFloor-1].BossKilled==false){
-            $("#floorEnemiesKilledToBoss").text(`${FormatNumber(player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled)} / 10 enemies to boss`)
-            $("#floorEnemiesKilledToBoss").css("background-image", `linear-gradient(
-                to right, 
-                yellow,
-                yellow ${player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled *10}%,
-                transparent ${player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled *10}%,
-                transparent
-            )`)
+            $("#floorEnemiesKilledToBoss").text(`Enter boss lair`)
+            $("#floorEnemiesKilledToBoss").css("background-color", `orange`)
+            $("#floorEnemiesKilledToBoss").on("click", ()=>{ChangeFloor(player.stats.currentFloor, true)})
         }
         else{
             $("#floorEnemiesKilledToBoss").text(`Boss killed. Unlocked next floor, and multi killing on this floor`)
+            $("#floorEnemiesKilledToBoss").css("background-color", `green`)
         }
         
         if(player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled==Infinity){
@@ -1256,7 +1262,7 @@ $(()=>{
     const PlayerAttack = ()=>{
         let SuccessfulHit=Math.random()<=playerStatsCalculated.misc.hitChance
         if(SuccessfulHit){
-            let criticalRng=Math.random() <= playerStatsCalculated.misc.criticalChance
+            let criticalRng=Math.random() <= (playerStatsCalculated.misc.criticalChance/100)
             let critMult=criticalRng ? playerStatsCalculated.misc.criticalDamageMult : 1
             let physicalDamage=(playerStatsCalculated.attack.type.physical * critMult - enemyStats.defense.type.absolute) * (1 - (enemyStats.defense.type.relative / 100))
             let magicDamage=playerStatsCalculated.attack.type.magic * critMult
@@ -1276,7 +1282,7 @@ $(()=>{
     const EnemyAttack = ()=>{
         let SuccessfulHit=Math.random()<=enemyStats.misc.hitChance
         if(SuccessfulHit){
-            let criticalRng=Math.random() <= enemyStats.misc.criticalChance
+            let criticalRng=Math.random() <= (enemyStats.misc.criticalChance/100)
             let critMult=criticalRng ? enemyStats.misc.criticalDamageMult : 1
             let physicalDamage=(enemyStats.attack.type.physical * critMult - playerStatsCalculated.defense.type.absolute) * (1 - (playerStatsCalculated.defense.type.relative / 100))
             let magicDamage=enemyStats.attack.type.magic * critMult
@@ -1296,11 +1302,13 @@ $(()=>{
     const KillEnemy = ()=>{
         if(player.stats.floorStats[player.stats.currentFloor-1].BossKilled==false){
             player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled++
+            enemyStats.health=enemyStats.maxHealth
             GainDrop(1)
         }
         else{
             let overKill=(Math.abs(enemyStats.health) / enemyStats.maxHealth)
             player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled+=1 + overKill
+            enemyStats.health=enemyStats.maxHealth
             GainDrop((1+overKill))
         }
     }
@@ -1388,9 +1396,9 @@ $(()=>{
         }
         else{
             if(playerStatsCalculated.health<playerStatsCalculated.maxHealth)
-                playerStatsCalculated.health+=playerStatsCalculated.maxHealth/100 * gameSpeed
+                playerStatsCalculated.health+=playerStatsCalculated.maxHealth/500 * gameSpeed
             if(enemyStats.health<enemyStats.maxHealth)
-                enemyStats.health+=enemyStats.maxHealth / 50 * gameSpeed 
+                enemyStats.health+=enemyStats.maxHealth / 250 * gameSpeed 
         }        
 
         playerStatsCalculated.health+=playerStatsCalculated.misc.regeneration * gameSpeed
