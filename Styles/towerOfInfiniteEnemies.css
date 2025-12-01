@@ -33,6 +33,7 @@
   font-size: x-large;
 }
 .floorSelectItem{
+  text-align: center;
   transition-duration: 0.25s;
 }
 .floorSelectItem:hover{
@@ -120,6 +121,46 @@
   min-width: 40%;
   text-align: center;
   margin-bottom: 5px;
+}
+
+table{
+  display: block;
+  border: 3px solid gray;
+  border-collapse: collapse;
+  font-size: larger;
+}
+caption{
+  padding: 5px;
+  font-size: x-large;
+}
+tr{
+  transition-duration: 0.3s;
+}
+tr:hover{
+  background-color: rgba(128, 128, 128, 0.5);
+}
+th{
+  padding: 5px;
+}
+td{
+  text-align: center;
+  border: none;
+}
+
+.inactiveAutoDelete{
+  opacity: 0.5;
+  transition-duration: 0.5s;
+}
+td:hover>.inactiveAutoDelete{
+  opacity: 1;
+}
+
+.activeAutoDelete{
+  opacity: 1;
+  transition-duration: 0.5s;
+}
+td:hover>.activeAutoDelete{
+  opacity: 0.5;
 }
 
 @media screen and (max-height:420px) {

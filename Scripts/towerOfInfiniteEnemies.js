@@ -12,7 +12,8 @@ $(()=>{
             floorStats:[
                 {
                     EnemiesKilled: 0,
-                    BossKilled:false
+                    BossKilled:false,
+                    autoDeletes: [false, false, false, false, false, false, false, false, false, false, false]
                 },
             ],
             gear:{
@@ -2221,9 +2222,28 @@ $(()=>{
                     </ul>
                 </div>
             </div>
-            <div id="dropChances">
+            <table id="dropChances">
+                <caption>
+                    Floor drops
+                </caption>
+                <thead>
+                    <tr>
+                        <th>
+                            Item name
+                        </th>
+                        <th>
+                            Item type
+                        </th>
+                        <th>
+                            Base rarity
+                        </th>
+                        <th>
+                            Auto delete
+                        </th>
+                    </tr>
+                </thead>
                 ${ShowDropChances(floor)}
-            </div>    
+            </table>    
         `)
         AddTowerUIEvents()
     }
@@ -2231,8 +2251,28 @@ $(()=>{
     //#region ShowDropChances
     const ShowDropChances=(floor)=>{
         let items=floorStuff[`floor${floor}`].items
-        
-        return "DropChances"
+        let floorAutoDeletes=player.stats.floorStats[floor-1].autoDeletes
+        let dropChancesUI=``
+        for(let i=0; i<items.length; i++){
+            let item=items[i]
+            dropChancesUI+=`
+                <tr>
+                    <td>
+                        ${item.name}
+                    </td>
+                    <td>
+                        ${item.itemType}
+                    </td>
+                    <td>
+                        ${items[i].dropChance}%
+                    </td>
+                    <td id="autoDeleteItem${i}" class="interactable">
+                        <svg  class="${floorAutoDeletes[i] ? "activeAutoDelete" : "inactiveAutoDelete"}" xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 -960 960 960" width="25px" fill="#e3e3e3"><path d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"/></svg>
+                    </td>
+                </tr>
+            `
+        }
+        return dropChancesUI
     }
     //#endregion
     //#region tower ui events
