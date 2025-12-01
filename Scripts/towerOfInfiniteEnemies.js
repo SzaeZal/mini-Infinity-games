@@ -287,7 +287,985 @@ $(()=>{
             ]
         },
         floor2:{
-
+            enemyStats:{
+                name: "wolf",
+                isBoss: false,
+                health: 50,
+                maxHealth: 50,
+                attack:{
+                    type:{
+                        physical:1,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:0,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:0,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:0,
+                            relative:0
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1,
+                    regeneration:0,
+                    accuracy:50,
+                    evasion: 0,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:0,
+                    criticalDamageMult: 2
+                }
+            },
+            bossStats:{
+                name: "alpha wolf",
+                isBoss:true,
+                health: 1000,
+                maxHealth: 1000,
+                attack:{
+                    type:{
+                        physical:15,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:10,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:10,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:100,
+                            relative:10
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1.1,
+                    regeneration:1,
+                    accuracy:1000,
+                    evasion: 50,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:5,
+                    criticalDamageMult: 2
+                }
+            },
+            items:[
+                {}
+            ]
+        },
+        floor3:{
+            enemyStats:{
+                name: "wolf",
+                isBoss: false,
+                health: 50,
+                maxHealth: 50,
+                attack:{
+                    type:{
+                        physical:1,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:0,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:0,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:0,
+                            relative:0
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1,
+                    regeneration:0,
+                    accuracy:50,
+                    evasion: 0,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:0,
+                    criticalDamageMult: 2
+                }
+            },
+            bossStats:{
+                name: "alpha wolf",
+                isBoss:true,
+                health: 1000,
+                maxHealth: 1000,
+                attack:{
+                    type:{
+                        physical:15,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:10,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:10,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:100,
+                            relative:10
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1.1,
+                    regeneration:1,
+                    accuracy:1000,
+                    evasion: 50,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:5,
+                    criticalDamageMult: 2
+                }
+            },
+            items:[
+                {}
+            ]
+        },
+        floor4:{
+            enemyStats:{
+                name: "wolf",
+                isBoss: false,
+                health: 50,
+                maxHealth: 50,
+                attack:{
+                    type:{
+                        physical:1,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:0,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:0,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:0,
+                            relative:0
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1,
+                    regeneration:0,
+                    accuracy:50,
+                    evasion: 0,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:0,
+                    criticalDamageMult: 2
+                }
+            },
+            bossStats:{
+                name: "alpha wolf",
+                isBoss:true,
+                health: 1000,
+                maxHealth: 1000,
+                attack:{
+                    type:{
+                        physical:15,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:10,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:10,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:100,
+                            relative:10
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1.1,
+                    regeneration:1,
+                    accuracy:1000,
+                    evasion: 50,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:5,
+                    criticalDamageMult: 2
+                }
+            },
+            items:[
+                {}
+            ]
+        },
+        floor5:{
+            enemyStats:{
+                name: "wolf",
+                isBoss: false,
+                health: 50,
+                maxHealth: 50,
+                attack:{
+                    type:{
+                        physical:1,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:0,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:0,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:0,
+                            relative:0
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1,
+                    regeneration:0,
+                    accuracy:50,
+                    evasion: 0,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:0,
+                    criticalDamageMult: 2
+                }
+            },
+            bossStats:{
+                name: "alpha wolf",
+                isBoss:true,
+                health: 1000,
+                maxHealth: 1000,
+                attack:{
+                    type:{
+                        physical:15,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:10,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:10,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:100,
+                            relative:10
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1.1,
+                    regeneration:1,
+                    accuracy:1000,
+                    evasion: 50,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:5,
+                    criticalDamageMult: 2
+                }
+            },
+            items:[
+                {}
+            ]
+        },
+        floor6:{
+            enemyStats:{
+                name: "wolf",
+                isBoss: false,
+                health: 50,
+                maxHealth: 50,
+                attack:{
+                    type:{
+                        physical:1,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:0,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:0,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:0,
+                            relative:0
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1,
+                    regeneration:0,
+                    accuracy:50,
+                    evasion: 0,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:0,
+                    criticalDamageMult: 2
+                }
+            },
+            bossStats:{
+                name: "alpha wolf",
+                isBoss:true,
+                health: 1000,
+                maxHealth: 1000,
+                attack:{
+                    type:{
+                        physical:15,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:10,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:10,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:100,
+                            relative:10
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1.1,
+                    regeneration:1,
+                    accuracy:1000,
+                    evasion: 50,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:5,
+                    criticalDamageMult: 2
+                }
+            },
+            items:[
+                {}
+            ]
+        },
+        floor7:{
+            enemyStats:{
+                name: "wolf",
+                isBoss: false,
+                health: 50,
+                maxHealth: 50,
+                attack:{
+                    type:{
+                        physical:1,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:0,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:0,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:0,
+                            relative:0
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1,
+                    regeneration:0,
+                    accuracy:50,
+                    evasion: 0,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:0,
+                    criticalDamageMult: 2
+                }
+            },
+            bossStats:{
+                name: "alpha wolf",
+                isBoss:true,
+                health: 1000,
+                maxHealth: 1000,
+                attack:{
+                    type:{
+                        physical:15,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:10,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:10,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:100,
+                            relative:10
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1.1,
+                    regeneration:1,
+                    accuracy:1000,
+                    evasion: 50,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:5,
+                    criticalDamageMult: 2
+                }
+            },
+            items:[
+                {}
+            ]
+        },
+        floor8:{
+            enemyStats:{
+                name: "wolf",
+                isBoss: false,
+                health: 50,
+                maxHealth: 50,
+                attack:{
+                    type:{
+                        physical:1,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:0,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:0,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:0,
+                            relative:0
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1,
+                    regeneration:0,
+                    accuracy:50,
+                    evasion: 0,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:0,
+                    criticalDamageMult: 2
+                }
+            },
+            bossStats:{
+                name: "alpha wolf",
+                isBoss:true,
+                health: 1000,
+                maxHealth: 1000,
+                attack:{
+                    type:{
+                        physical:15,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:10,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:10,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:100,
+                            relative:10
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1.1,
+                    regeneration:1,
+                    accuracy:1000,
+                    evasion: 50,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:5,
+                    criticalDamageMult: 2
+                }
+            },
+            items:[
+                {}
+            ]
+        },
+        floor9:{
+            enemyStats:{
+                name: "wolf",
+                isBoss: false,
+                health: 50,
+                maxHealth: 50,
+                attack:{
+                    type:{
+                        physical:1,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:0,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:0,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:0,
+                            relative:0
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1,
+                    regeneration:0,
+                    accuracy:50,
+                    evasion: 0,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:0,
+                    criticalDamageMult: 2
+                }
+            },
+            bossStats:{
+                name: "alpha wolf",
+                isBoss:true,
+                health: 1000,
+                maxHealth: 1000,
+                attack:{
+                    type:{
+                        physical:15,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:10,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:10,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:100,
+                            relative:10
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1.1,
+                    regeneration:1,
+                    accuracy:1000,
+                    evasion: 50,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:5,
+                    criticalDamageMult: 2
+                }
+            },
+            items:[
+                {}
+            ]
+        },
+        floor10:{
+            enemyStats:{
+                name: "wolf",
+                isBoss: false,
+                health: 50,
+                maxHealth: 50,
+                attack:{
+                    type:{
+                        physical:1,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:0,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:0,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:0,
+                            relative:0
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1,
+                    regeneration:0,
+                    accuracy:50,
+                    evasion: 0,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:0,
+                    criticalDamageMult: 2
+                }
+            },
+            bossStats:{
+                name: "alpha wolf",
+                isBoss:true,
+                health: 1000,
+                maxHealth: 1000,
+                attack:{
+                    type:{
+                        physical:15,
+                        magic:0
+                    },
+                    element:{
+                        fire:0,
+                        earth:10,
+                        water:0,
+                        air:0
+                    }
+                },
+                defense:{
+                    type:{
+                        absolute:10,
+                        relative:0
+                    },
+                    element:{
+                        fire:{
+                            absolute:0,
+                            relative:0
+                        },
+                        earth:{
+                            absolute:100,
+                            relative:10
+                        },
+                        water:{
+                            absolute:0,
+                            relative:0
+                        },
+                        air:{
+                            absolute:0,
+                            relative:0
+                        }
+                    }
+                },
+                misc:{
+                    attackSpeed:1.1,
+                    regeneration:1,
+                    accuracy:1000,
+                    evasion: 50,
+                    hitChance: 0,
+                    reflectChance:0,
+                    criticalChance:5,
+                    criticalDamageMult: 2
+                }
+            },
+            items:[
+                {}
+            ]
         }
     }
     gameSpeed=1
