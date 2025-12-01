@@ -179,10 +179,10 @@ $(()=>{
     const floorStuff={
         floor1:{
             enemyStats:{
-                name: "wolf",
+                name: "Wolf",
                 isBoss: false,
-                health: 50,
-                maxHealth: 50,
+                health: 15,
+                maxHealth: 15,
                 attack:{
                     type:{
                         physical:1,
@@ -576,7 +576,7 @@ $(()=>{
                     dropChance: 100,
                     name:"Wood sword",
                     itemType:"Weapons/Swords",
-                    rarity:"Uncommon",
+                    rarity:"Common",
                     attack:{
                         type:{
                             physical:3,
@@ -2764,9 +2764,24 @@ $(()=>{
     //#endregion
     //#region GainDrop
     const GainDrop = (luckMulti)=>{
-        for(let i=0; i<player.stats.inventory.length; i++){
-            if(player.stats.inventory[i].name==undefined){
-                player.stats.inventory[i]={
+        let rng=Math.random()*100
+        let floorItems=floorStuff[`floor${player.stats.currentFloor}`].items
+        let possibbleDrops=[]
+        for(let i in floorItems){
+            console.log(floorItems[i]);
+            if(floorItems[i].dropChance * luckMulti>=rng){
+                console.log("here");
+                possibbleDrops.push(floorItems[i])
+            }
+        }
+        console.log(possibbleDrops);
+        
+        if(possibbleDrops.length>0){
+            let dropIndex=Math.floor(Math.random()*possibbleDrops.length)
+            AddItemToInventory(possibbleDrops[dropIndex])
+        }
+        else{
+            AddItemToInventory({
                     name:"crimsonBlade",
                     itemType:"Weapons/Swords",
                     rarity:"Mythic",
@@ -2783,7 +2798,15 @@ $(()=>{
                         }
                     },
                     special: undefined
-                }
+                })
+        }
+    }
+    //#endregion
+    //#region AddItemToInventory
+    const AddItemToInventory=(item)=>{
+        for(let i=0; i<player.stats.inventory.length; i++){
+            if(player.stats.inventory[i].name==undefined){
+                player.stats.inventory[i]=item
                 break;
             }
         }
