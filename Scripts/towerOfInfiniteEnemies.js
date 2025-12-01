@@ -1474,7 +1474,7 @@ $(()=>{
         if(player.stats.floorStats[player.stats.currentFloor-1].BossKilled==false){
             player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled++
             enemyStats.health=enemyStats.maxHealth
-            if(enemyStats.isBoss){
+            if(enemyStats.isBoss && player.stats.currentFloor==player.stats.floorStats.length){
                 UnlockNextFloor()
             }
             else{
