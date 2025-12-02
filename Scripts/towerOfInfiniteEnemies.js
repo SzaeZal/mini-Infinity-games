@@ -184,6 +184,7 @@ $(()=>{
                 isBoss: false,
                 health: 15,
                 maxHealth: 15,
+                goldReward: 1,
                 attack:{
                     type:{
                         physical:1,
@@ -236,6 +237,7 @@ $(()=>{
                 isBoss:true,
                 health: 1000,
                 maxHealth: 1000,
+                goldReward: 100,
                 attack:{
                     type:{
                         physical:15,
@@ -600,6 +602,7 @@ $(()=>{
                 isBoss: false,
                 health: 650,
                 maxHealth: 650,
+                goldReward: 150,
                 attack:{
                     type:{ physical:60, magic:25 },
                     element:{ fire:0, earth:50, water:0, air:0 }
@@ -629,6 +632,7 @@ $(()=>{
                 isBoss:true,
                 health: 100000,
                 maxHealth: 1e5,
+                goldReward: 2e5,
                 attack:{
                     type:{
                         physical:15,
@@ -682,13 +686,14 @@ $(()=>{
         },
         floor3:{
             enemyStats:{
-                name: "wolf",
+                name: "undead",
                 isBoss: false,
-                health: 50,
-                maxHealth: 50,
+                health: 2e4,
+                maxHealth: 2e4,
+                goldReward: 5e5,
                 attack:{
                     type:{
-                        physical:1,
+                        physical:1e4,
                         magic:0
                     },
                     element:{
@@ -724,36 +729,37 @@ $(()=>{
                 },
                 misc:{
                     attackSpeed:1,
-                    regeneration:0,
-                    accuracy:50,
+                    regeneration:1e3,
+                    accuracy:1e5,
                     evasion: 0,
                     hitChance: 0,
                     reflectChance:0,
-                    criticalChance:0,
-                    criticalDamageMult: 2
+                    criticalChance:50,
+                    criticalDamageMult: 5
                 }
             },
             bossStats:{
-                name: "alpha wolf",
+                name: "necromancer",
                 isBoss:true,
-                health: 1000,
-                maxHealth: 1000,
+                health: 2e8,
+                maxHealth: 2e8,
+                goldReward: 1e8,
                 attack:{
                     type:{
-                        physical:15,
-                        magic:0
+                        physical:1e4,
+                        magic:1e5
                     },
                     element:{
                         fire:0,
-                        earth:10,
+                        earth:0,
                         water:0,
                         air:0
                     }
                 },
                 defense:{
                     type:{
-                        absolute:10,
-                        relative:0
+                        absolute:1e3,
+                        relative:25
                     },
                     element:{
                         fire:{
@@ -762,27 +768,27 @@ $(()=>{
                         },
                         earth:{
                             absolute:100,
-                            relative:10
+                            relative:25
                         },
                         water:{
                             absolute:0,
-                            relative:0
+                            relative: 25
                         },
                         air:{
                             absolute:0,
-                            relative:0
+                            relative:25
                         }
                     }
                 },
                 misc:{
-                    attackSpeed:1.1,
-                    regeneration:1,
-                    accuracy:1000,
-                    evasion: 50,
+                    attackSpeed:1.25,
+                    regeneration:5e6,
+                    accuracy:5e6,
+                    evasion: 5e6,
                     hitChance: 0,
-                    reflectChance:0,
-                    criticalChance:5,
-                    criticalDamageMult: 2
+                    reflectChance:15,
+                    criticalChance:25,
+                    criticalDamageMult: 3
                 }
             },
             items:[
