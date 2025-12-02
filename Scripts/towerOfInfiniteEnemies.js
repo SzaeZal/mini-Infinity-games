@@ -55,7 +55,10 @@ $(()=>{
             },
             inventory:[
                 {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
-            ]
+            ],
+            upgrades:{
+
+            }
         },
         options:{
             ui:{
@@ -122,12 +125,18 @@ $(()=>{
         }
     }
     //#endregion
+    //#region upgradeStats
+    let upgradeStats ={
+
+    }
+    //#endregion
     //#region enemyStats 
     let enemyStats = {
         name: "",
         isBoss:false,
         health: 100,
         maxHealth: 100,
+        goldReward: 0,
         attack:{
             type:{
                 physical:1,
@@ -1671,8 +1680,8 @@ $(()=>{
     //#region menu navigation
     const view = $("#view")
     let mainMenuIndex=2
-    let subMenuIndexes=[0, 0, 0, 0]
-    let subMenuLimits=[2, 1, 0, 0]
+    let subMenuIndexes=[0, 0, 0, 0, 0]
+    let subMenuLimits=[2, 1, 0, 0, 0]
     $(document).keydown((e)=>{
         if(e.originalEvent.code == "KeyS" || e.originalEvent.code == "ArrowDown"){
             mainMenuIndex= mainMenuIndex == subMenuLimits.length-1 ? 0 : mainMenuIndex+1
@@ -2091,7 +2100,6 @@ $(()=>{
                         }
                     </div>
                 </div>
-
             </div>    
         `)
         AddChangelogInformationUIEvents()
@@ -2208,6 +2216,9 @@ $(()=>{
                     </div>
                     <div class="progressBar" id="enemyAttackBar">
                         x / x ms
+                    </div>
+                    <div class="goldReward">
+                        Kill reward: ${FormatNumber(enemyStats.goldReward)} Gold + 1 drop (see below)
                     </div>
                     <ul id="enemyStats">
                         <li>Damage: ${FormatNumber(enemyStats.attack.type.physical)} physical, ${FormatNumber(enemyStats.attack.type.magic)} magic</li>
@@ -2802,6 +2813,7 @@ $(()=>{
     const KillEnemy = ()=>{
         if(player.stats.floorStats[player.stats.currentFloor-1].BossKilled==false){
             player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled++
+            player.stats.coins+=enemyStats.goldReward
             enemyStats.health=enemyStats.maxHealth
             if(enemyStats.isBoss && player.stats.currentFloor==player.stats.floorStats.length){
                 UnlockNextFloor()
@@ -2813,17 +2825,26 @@ $(()=>{
         else{
             let overKill=(Math.abs(enemyStats.health) / enemyStats.maxHealth)
             player.stats.floorStats[player.stats.currentFloor-1].EnemiesKilled+=1 + overKill
+            player.stats.coins+=enemyStats.goldReward * (1 + overKill)
             enemyStats.health=enemyStats.maxHealth
             GainDrop((1+overKill))
         }
     }
     //#endregion
+    
+    
     //#region UnlockNextFloor
     const UnlockNextFloor = ()=>{
         player.stats.floorStats[player.stats.currentFloor-1].BossKilled=true
+        let autoDeletes=[]
+        let nextFloorItems=floorStuff[`floor${player.stats.currentFloor}`].items
+        for (let item in nextFloorItems){
+            autoDeletes.push(false)
+        }
         player.stats.floorStats.push({
             EnemiesKilled:0,
-            BossKilled:false
+            BossKilled:false,
+            autoDeletes: autoDeletes
         })
         ChangeFloor(player.stats.currentFloor, false)
     }
@@ -2898,6 +2919,26 @@ $(()=>{
         }
         return trueEarthDamage
     }
+    //#endregion
+    //#region Upgrades nav
+    $("#upgrades").on("click", ()=>{
+        mainMenuIndex=4
+        GoToUpgrades()
+    })
+
+    const GoToUpgrades = ()=>{
+        view.html(`
+            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
+                <div class="subMenuItem selectedSubMenuItem">
+                    Upgrades
+                </div>
+            </div>
+            <div class="mainView">
+
+            </div>
+        `)
+    }
+    //#endregion
     //#region tick
     let totalTimeSincePlayerAttackInMs=0
     let totalTimeSinceEnemyAttackInMs=0
@@ -2979,7 +3020,7 @@ $(()=>{
         }
         return result; 
     }
-    let mainMenuCallbacks=[GoToSettings, GoToInformation, GoToTower, GoToInventory]
+    let mainMenuCallbacks=[GoToSettings, GoToInformation, GoToTower, GoToInventory, GoToUpgrades]
     let tick=setInterval(DoTick, 25, 25)
     let uiUpdateTicker=setInterval(UpdateUI, 25)
     //#endregion

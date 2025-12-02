@@ -108,6 +108,10 @@
   font-size: larger;
   margin: auto;
 }
+.goldReward{
+  font-size: larger;
+  text-align: center;
+}
 .fightSide>ul{
   margin: auto;
   list-style-type: none;
