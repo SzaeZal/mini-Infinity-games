@@ -56,8 +56,10 @@ $(()=>{
             inventory:[
                 {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
             ],
-            upgrades:{
-
+            upgradesBought:{
+                offensive:[false, false, false],
+                defensive:[false, false, false],
+                misc:[false, false, false]
             }
         },
         options:{
@@ -127,7 +129,57 @@ $(()=>{
     //#endregion
     //#region upgradeStats
     let upgradeStats ={
-
+        offensive:[
+            {
+                upgradeName: "Damage doubler (physical)",
+                upgradeDescription: "Doubles your physical damage",
+                upgradeCost: 100,
+            },
+            {
+                upgradeName: "Damage doubler (magic)",
+                upgradeDescription: "Doubles your magic damage",
+                upgradeCost: 1000
+            },
+            {
+                upgradeName: "Damage doubler (elemental)",
+                upgradeDescription: "Doubles all your elemental damage",
+                upgradeCost: 1500
+            }
+        ],
+        defensive:[
+            {
+                upgradeName: "Max health doubler",
+                upgradeDescription: "Doubles your max health",
+                upgradeCost: 100,
+            },
+            {
+                upgradeName: "Starter regen",
+                upgradeDescription: "Gain +5 regeneration",
+                upgradeCost: 250
+            },
+            {
+                upgradeName: "Starter defense",
+                upgradeDescription: "Gain +10 physical defense",
+                upgradeCost: 500
+            }
+        ],
+        misc:[
+            {
+                upgradeName: "Starter attack speed",
+                upgradeDescription: "Gain +0.1 attack speed",
+                upgradeCost: 300,
+            },
+            {
+                upgradeName: "Beginner attack speed",
+                upgradeDescription: "Gain +0.25 attack speed",
+                upgradeCost: 1e5
+            },
+            {
+                upgradeName: "Intermediate attack speed",
+                upgradeDescription: "Gain +0.5 attack speed",
+                upgradeCost: 1e10
+            }
+        ]
     }
     //#endregion
     //#region enemyStats 
@@ -2933,10 +2985,15 @@ $(()=>{
                     Upgrades
                 </div>
             </div>
-            <div class="mainView">
+            <div class="mainView upgradesView">
 
             </div>
         `)
+    }
+    //#endregion
+    //#region UpdateUpgradesView
+    const UpdateUpgradesView = ()=>{
+
     }
     //#endregion
     //#region tick
@@ -2996,6 +3053,9 @@ $(()=>{
         }
         if(mainMenuIndex==3){
             UpdateInventoryView()
+        }
+        if(mainMenuIndex==4){
+            UpdateUpgradesView()
         }
     }
     //#endregion
@@ -3106,7 +3166,13 @@ $(()=>{
     };
 
     const CheckForMissingData = () => {
-        
+        if(player.stats.upgradesBought==undefined){
+            player.stats.upgradesBought={
+                offensive:[false, false, false],
+                defensive:[false, false, false],
+                misc:[false, false, false]
+            }
+        }
     };
 
     const HardReset = () => {

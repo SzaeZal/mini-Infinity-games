@@ -231,6 +231,7 @@ td{
   align-items: center;
   max-height: fit-content;
   gap: 5px;
+  min-width: 150px;
 }
 .storedItem{
   width: 64px;
