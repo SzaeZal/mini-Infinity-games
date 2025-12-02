@@ -2986,14 +2986,39 @@ $(()=>{
                 </div>
             </div>
             <div class="mainView upgradesView">
-
+                <div id="playerGold">
+                    Gold: 1
+                </div>
+                <div id="hideBoughtUpgrades">
+                    Hide bought upgrades
+                </div>
+                <div id="upgradeBoards">
+                    <div class="upgradeBoard" id="offensiveUpgrades">
+                        <div class="upgradeBoardTitle">
+                            Offensive
+                        </div>
+                        ${ShowOffensiveUpgrades()}
+                    </div>
+                    <div class="upgradeBoard" id="defensiveUpgrades">
+                        <div class="upgradeBoardTitle">
+                            Defensive
+                        </div>
+                        ${ShowDefensiveUpgrades()}
+                    </div>
+                    <div class="upgradeBoard" id="miscUpgrades">
+                        <div class="upgradeBoardTitle">
+                            Miscellaneous
+                        </div>
+                        ${ShowMiscUpgrades()}
+                    </div>
+                </div>
             </div>
         `)
     }
     //#endregion
     //#region UpdateUpgradesView
     const UpdateUpgradesView = ()=>{
-
+        $("#playerGold").text(`Gold: ${FormatNumber(player.stats.coins)}`)
     }
     //#endregion
     //#region tick
