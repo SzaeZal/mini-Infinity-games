@@ -66,7 +66,8 @@ $(()=>{
             ui:{
                 theme: "Dark",
                 subMenuShown: true,
-                uiUpdateRateInMs: 25 
+                uiUpdateRateInMs: 25, 
+                hideBoughtUpgrades:false
             },
             save:{
                 saveIntervalInMs: 5000
@@ -2990,7 +2991,7 @@ $(()=>{
                     Gold: 1
                 </div>
                 <div id="hideBoughtUpgrades">
-                    Hide bought upgrades
+                    ${player.options.ui.hideBoughtUpgrades==false ? "Hide bought upgrades" : "Show bought upgrades"}
                 </div>
                 <div id="upgradeBoards">
                     <div class="upgradeBoard" id="offensiveUpgrades">
@@ -3013,7 +3014,89 @@ $(()=>{
                     </div>
                 </div>
             </div>
-        `)
+        `)        
+    }
+    //#endregion
+    //#region ShowOffensiveUpgrades
+    const ShowOffensiveUpgrades = ()=>{
+        let upgradesUI=``
+        let upgrade
+        
+        for(let i=0;i<player.stats.upgradesBought.offensive.length; i++){          
+            upgrade=upgradeStats.offensive[i]
+            if(!(player.stats.upgradesBought.offensive[i]==true && player.options.ui.hideBoughtUpgrades==true)){
+                upgradesUI+=`
+                    <div class="upgrade interactable ${player.stats.upgradesBought.offensive[i]==true ? "boughtUpgrade" :""}" id="offensiveUpgrade${i}">
+                        <div class="upgradeText">    
+                            <div class="upgradeTitle">
+                                ${upgrade.upgradeName}
+                            </div>
+                            <div class="upgradeDescription">
+                                ${upgrade.upgradeDescription}
+                            </div>
+                        </div>
+                        <div class="upgradeCost" id="offensiveUpgrade${i}Buy">
+                            ${FormatNumber(upgrade.upgradeCost)} Gold
+                        </div>
+                    </div>
+                `
+            }
+        }
+        return upgradesUI
+    }
+    //#endregion
+    //#region ShowDefensiveUpgrades
+    const ShowDefensiveUpgrades = ()=>{
+        let upgradesUI=``
+        let upgrade
+        for(let i=0;i<player.stats.upgradesBought.defensive.length; i++){
+            upgrade=upgradeStats.defensive[i]
+            if(!(player.stats.upgradesBought.defensive[i]==true && player.options.ui.hideBoughtUpgrades==true)){
+                upgradesUI+=`
+                    <div class="upgrade interactable ${player.stats.upgradesBought.defensive[i]==true ? "boughtUpgrade" :""}" id="defensiveUpgrade${i}">
+                        <div class="upgradeText">    
+                            <div class="upgradeTitle">
+                                ${upgrade.upgradeName}
+                            </div>
+                            <div class="upgradeDescription">
+                                ${upgrade.upgradeDescription}
+                            </div>
+                        </div>
+                        <div class="upgradeCost" id="defensiveUpgrade${i}Buy">
+                            ${FormatNumber(upgrade.upgradeCost)} Gold
+                        </div>
+                    </div>
+                `
+            }
+        }
+        return upgradesUI
+    }
+    //#endregion
+    //#region ShowMiscUpgrades
+    const ShowMiscUpgrades = ()=>{
+        let upgradesUI=``
+        let upgrade
+        for(let i=0;i<player.stats.upgradesBought.misc.length; i++){
+            upgrade=upgradeStats.misc[i]            
+            if(!(player.stats.upgradesBought.misc[i]==true && player.options.ui.hideBoughtUpgrades==true)){
+                upgradesUI+=`
+                    <div class="upgrade interactable ${player.stats.upgradesBought.misc[i]==true ? "boughtUpgrade" :""}" id="defensiveUpgrade${i}">
+                        <div class="upgradeText">    
+                            <div class="upgradeTitle">
+                                ${upgrade.upgradeName}
+                            </div>
+                            <div class="upgradeDescription">
+                                ${upgrade.upgradeDescription}
+                            </div>
+                        </div>
+                        <div class="upgradeCost" id="miscUpgrade${i}Buy">
+                            ${FormatNumber(upgrade.upgradeCost)} Gold
+                        </div>
+                    </div>
+                `
+            }
+        }
+        return upgradesUI
     }
     //#endregion
     //#region UpdateUpgradesView

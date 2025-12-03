@@ -312,3 +312,73 @@ td{
 .itemAction:first-of-type{
   border-right: 1px solid rgba(64, 64, 64, 1);
 }
+
+#playerGold{
+  text-align: center;
+  font-size: x-large;
+  padding: 20px;
+}
+#hideBoughtUpgrades{
+  margin: auto;
+  width: fit-content;
+  padding: 10px;
+  border: 2px solid gray;
+  border-radius: 15px;
+  font-size: larger;
+  text-align: center;
+  transition-duration: 0.5s;
+}
+#hideBoughtUpgrades:hover{
+  transform: scale(1.15);
+}
+#upgradeBoards{
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.upgradeBoard{
+  min-width: 250px;
+  max-width: 333px;
+  display: flex;
+  flex-direction: column;
+  font-size: larger;
+  text-align: center;
+  border: 1px solid gray;
+}
+.upgradeBoardTitle{
+  padding: 15px;
+  font-size: x-large;
+  border-bottom: 1px solid gray;
+}
+.upgrade{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid gray;
+}
+.upgradeCost{
+  padding: 10px;
+  flex: 1;
+}
+.upgradeText{
+  flex: 3;
+  border-right: 1px solid gray;
+}
+.upgradeTitle{
+  padding: 5px;
+  border-bottom: 1px solid gray;
+}
+.upgradeDescription{
+  padding: 7px;
+}
+.boughtUpgrade{
+  background-color: rgba(0,200, 0, 0.5);
+}
+.purchaseableUpgrade{
+  background-color: rgba(0,200, 0, 0.5);
+  transition-duration: 0.5s;
+}
+.upgrade:hover>.purchaseableUpgrade{
+  background-color: rgba(0,200, 0, 0.25);
+}
