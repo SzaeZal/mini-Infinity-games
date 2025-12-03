@@ -135,16 +135,25 @@ $(()=>{
                 upgradeName: "Damage doubler (physical)",
                 upgradeDescription: "Doubles your physical damage",
                 upgradeCost: 100,
+                effect:{
+                    physicalDamageMultiplier:1
+                }
             },
             {
                 upgradeName: "Damage doubler (magic)",
                 upgradeDescription: "Doubles your magic damage",
-                upgradeCost: 1000
+                upgradeCost: 1000,
+                effect:{
+                    magicDamageMultiplier:1
+                }
             },
             {
                 upgradeName: "Damage doubler (elemental)",
                 upgradeDescription: "Doubles all your elemental damage",
-                upgradeCost: 1500
+                upgradeCost: 1500,
+                effect:{
+                    elementalDamageMultiplier:1
+                }
             }
         ],
         defensive:[
@@ -152,16 +161,25 @@ $(()=>{
                 upgradeName: "Max health doubler",
                 upgradeDescription: "Doubles your max health",
                 upgradeCost: 100,
+                effect:{
+                    maxHealthMultiplier:1
+                }
             },
             {
                 upgradeName: "Starter regen",
                 upgradeDescription: "Gain +5 regeneration",
-                upgradeCost: 250
+                upgradeCost: 250,
+                effect:{
+                    regenerationAdder:0
+                }
             },
             {
                 upgradeName: "Starter defense",
                 upgradeDescription: "Gain +10 physical defense",
-                upgradeCost: 500
+                upgradeCost: 500,
+                effect:{
+                    absolutePhysicalDefenseAdder:0
+                }
             }
         ],
         misc:[
@@ -169,16 +187,25 @@ $(()=>{
                 upgradeName: "Starter attack speed",
                 upgradeDescription: "Gain +0.1 attack speed",
                 upgradeCost: 300,
+                effect:{
+                    attackSpeedAdder:0
+                }
             },
             {
                 upgradeName: "Beginner attack speed",
                 upgradeDescription: "Gain +0.25 attack speed",
-                upgradeCost: 1e5
+                upgradeCost: 1e5,
+                effect:{
+                    attackSpeedAdder:0
+                }
             },
             {
                 upgradeName: "Intermediate attack speed",
                 upgradeDescription: "Gain +0.5 attack speed",
-                upgradeCost: 1e10
+                upgradeCost: 1e10,
+                effect:{
+                    attackSpeedAdder:0
+                }
             }
         ]
     }
@@ -2651,28 +2678,34 @@ $(()=>{
     //#region CalculatePlayerDamages
     const CalculatePlayerDamages=()=>{
         playerStatsCalculated.attack.type.physical= 
-            player.stats.gear.weapon.attack.type.physical
-            + (player.stats.gear.offhand.attack == undefined ? 0 : player.stats.gear.offhand.attack.type.physical)
+            (player.stats.gear.weapon.attack.type.physical
+            + (player.stats.gear.offhand.attack == undefined ? 0 : player.stats.gear.offhand.attack.type.physical))
+            * upgradeStats.offensive[0].effect.physicalDamageMultiplier
         
         playerStatsCalculated.attack.type.magic= 
-            player.stats.gear.weapon.attack.type.magic
-            + (player.stats.gear.offhand.attack == undefined ? 0 : player.stats.gear.offhand.attack.type.magic)
+            (player.stats.gear.weapon.attack.type.magic
+            + (player.stats.gear.offhand.attack == undefined ? 0 : player.stats.gear.offhand.attack.type.magic))
+            * upgradeStats.offensive[1].effect.magicDamageMultiplier
         
         playerStatsCalculated.attack.element.fire= 
-            player.stats.gear.weapon.attack.element.fire
-            + (player.stats.gear.offhand.attack == undefined ? 0 : player.stats.gear.offhand.attack.element.fire)
+            (player.stats.gear.weapon.attack.element.fire
+            + (player.stats.gear.offhand.attack == undefined ? 0 : player.stats.gear.offhand.attack.element.fire))
+            * upgradeStats.offensive[2].effect.elementalDamageMultiplier
         
         playerStatsCalculated.attack.element.water= 
-            player.stats.gear.weapon.attack.element.water
-            + (player.stats.gear.offhand.attack == undefined ? 0 : player.stats.gear.offhand.attack.element.water)
+            (player.stats.gear.weapon.attack.element.water
+            + (player.stats.gear.offhand.attack == undefined ? 0 : player.stats.gear.offhand.attack.element.water))
+            * upgradeStats.offensive[2].effect.elementalDamageMultiplier
             
         playerStatsCalculated.attack.element.air= 
-            player.stats.gear.weapon.attack.element.air
-            + (player.stats.gear.offhand.attack == undefined ? 0 : player.stats.gear.offhand.attack.element.air)
+            (player.stats.gear.weapon.attack.element.air
+            + (player.stats.gear.offhand.attack == undefined ? 0 : player.stats.gear.offhand.attack.element.air))
+            * upgradeStats.offensive[2].effect.elementalDamageMultiplier
             
         playerStatsCalculated.attack.element.earth= 
-            player.stats.gear.weapon.attack.element.earth
-            + (player.stats.gear.offhand.attack == undefined ? 0 : player.stats.gear.offhand.attack.element.earth)
+            (player.stats.gear.weapon.attack.element.earth
+            + (player.stats.gear.offhand.attack == undefined ? 0 : player.stats.gear.offhand.attack.element.earth))
+            * upgradeStats.offensive[2].effect.elementalDamageMultiplier
     }
     //#endregion
     //#region CalculatePlayerDefenses
@@ -2683,6 +2716,7 @@ $(()=>{
             +(player.stats.gear.armor.leggings.type == undefined ? 0 : player.stats.gear.armor.leggings.type.absolute)
             +(player.stats.gear.armor.boots.type == undefined ? 0 : player.stats.gear.armor.boots.type.absolute)
             +(player.stats.gear.offhand.defense == undefined ? 0 : player.stats.gear.offhand.defense.type.absolute)
+            + upgradeStats.defensive[2].effect.absolutePhysicalDefenseAdder
         
         playerStatsCalculated.defense.type.relative=
             (player.stats.gear.armor.helmet.type == undefined ? 0 : player.stats.gear.armor.helmet.type.relative)
@@ -2756,6 +2790,7 @@ $(()=>{
             *(player.stats.gear.armor.leggings.misc == undefined ? 1 : player.stats.gear.armor.leggings.misc.maxHealthMultiplier)
             *(player.stats.gear.armor.boots.misc == undefined ? 1 : player.stats.gear.armor.boots.misc.maxHealthMultiplier)
             *(player.stats.gear.offhand.misc == undefined ? 1 : player.stats.gear.offhand.misc.maxHealthMultiplier)
+            * upgradeStats.defensive[0].effect.maxHealthMultiplier
             
         playerStatsCalculated.misc.attackSpeed = 1
             +(player.stats.gear.weapon.misc == undefined ? 0 : player.stats.gear.weapon.misc.attackSpeed)
@@ -2787,6 +2822,7 @@ $(()=>{
             +(player.stats.gear.armor.leggings.misc == undefined ? 0 : player.stats.gear.armor.leggings.misc.regeneration)
             +(player.stats.gear.armor.boots.misc == undefined ? 0 : player.stats.gear.armor.boots.misc.regeneration)
             +(player.stats.gear.offhand.misc == undefined ? 0 : player.stats.gear.offhand.misc.regeneration)
+            + upgradeStats.defensive[1].effect.regenerationAdder
     }
     //#endregion
     //#region CalculateHitChances
@@ -3098,7 +3134,7 @@ $(()=>{
             upgrade=upgradeStats.misc[i]            
             if(!(player.stats.upgradesBought.misc[i]==true && player.options.ui.hideBoughtUpgrades==true)){
                 upgradesUI+=`
-                    <div class="upgrade interactable ${player.stats.upgradesBought.misc[i]==true ? "boughtUpgrade" :""}" id="defensiveUpgrade${i}">
+                    <div class="upgrade interactable ${player.stats.upgradesBought.misc[i]==true ? "boughtUpgrade" :""}" id="miscUpgrade${i}">
                         <div class="upgradeText">    
                             <div class="upgradeTitle">
                                 ${upgrade.upgradeName}
@@ -3125,17 +3161,260 @@ $(()=>{
     //#endregion
     //#region TryBuyOffensiveUpgrade
     const TryBuyOffensiveUpgrade=(index)=>{
+        if(index==0 && player.stats.coins>=upgradeStats.offensive[0].upgradeCost && player.stats.upgradesBought.offensive[0]==false){
+            BuyOffensiveUpgrade1()
+        }
+        else if(index==1 && player.stats.coins>=upgradeStats.offensive[1].upgradeCost && player.stats.upgradesBought.offensive[1]==false){
+            BuyOffensiveUpgrade2()
+        }
+        else if(index==2 && player.stats.coins>=upgradeStats.offensive[2].upgradeCost && player.stats.upgradesBought.offensive[2]==false){
+            BuyOffensiveUpgrade3()
+        }
+    }
+    //#endregion
+    //#region BuyOffensiveUpgrades
+    const BuyOffensiveUpgrade1=()=>{
+        player.stats.coins-=upgradeStats.offensive[0].upgradeCost
+        player.stats.upgradesBought.offensive[0]=true
+        upgradeStats.offensive[0].effect.physicalDamageMultiplier=2
+        if(player.options.ui.hideBoughtUpgrades==true){
+            $("#offensiveUpgrade0").addClass("hiddenPart")
+        }
+        else{
+            $("#offensiveUpgrade0").addClass("boughtUpgrade")    
+        }
+        CalculatePlayerDamages()
+        if(upgradeStats.offensive.length>(0+3)){
+            AddNextOffensiveUpgrade()
+        }
+    }
 
+    const BuyOffensiveUpgrade2=()=>{
+        player.stats.coins-=upgradeStats.offensive[1].upgradeCost
+        player.stats.upgradesBought.offensive[1]=true
+        upgradeStats.offensive[1].effect.magicDamageMultiplier=2
+        if(player.options.ui.hideBoughtUpgrades==true){
+            $("#offensiveUpgrade1").addClass("hiddenPart")
+        }
+        else{
+            $("#offensiveUpgrade1").addClass("boughtUpgrade")    
+        }
+        CalculatePlayerDamages()
+        if(upgradeStats.offensive.length>(1+3)){
+            AddNextOffensiveUpgrade()
+        }
+    }
+
+    const BuyOffensiveUpgrade3=()=>{
+        player.stats.coins-=upgradeStats.offensive[2].upgradeCost
+        player.stats.upgradesBought.offensive[2]=true
+        upgradeStats.offensive[2].effect.elementalDamageMultiplier=2
+        if(player.options.ui.hideBoughtUpgrades==true){
+            $("#offensiveUpgrade2").addClass("hiddenPart")
+        }
+        else{
+            $("#offensiveUpgrade2").addClass("boughtUpgrade")    
+        }
+        CalculatePlayerDamages()
+        if(upgradeStats.offensive.length>(2+3)){
+            AddNextOffensiveUpgrade()
+        }
+    }
+    //#endregion
+    //#region AddNextOffensiveUpgrade
+    const AddNextOffensiveUpgrade=()=>{
+        let nextIndex=player.stats.upgradesBought.offensive.length
+        let nextUpgrade=upgradeStats.offensive[nextIndex]
+        let upgradeUI=`
+            <div class="upgrade interactable" id="offensiveUpgrade${nextIndex}">
+                <div class="upgradeText">    
+                    <div class="upgradeTitle">
+                        ${nextUpgrade.upgradeName}
+                    </div>
+                    <div class="upgradeDescription">
+                        ${nextUpgrade.upgradeDescription}
+                    </div>
+                </div>
+                <div class="upgradeCost" id="offensiveUpgrade${nextIndex}Buy">
+                    ${FormatNumber(nextUpgrade.upgradeCost)} Gold
+                </div>
+            </div>
+        `
+        $("#offensiveUpgrades").append(upgradeUI)
+        $(`#offensiveUpgrade${nextIndex}`).on("click", ()=>{TryBuyOffensiveUpgrade(nextIndex)})
+        player.stats.upgradesBought.offensive.push(false)
     }
     //#endregion
     //#region TryBuyDefensiveUpgrade
     const TryBuyDefensiveUpgrade=(index)=>{
+        if(index==0 && player.stats.coins>=upgradeStats.defensive[0].upgradeCost && player.stats.upgradesBought.defensive[0]==false){
+            BuyDefensiveUpgrade1()
+        }
+        else if(index==1 && player.stats.coins>=upgradeStats.defensive[1].upgradeCost && player.stats.upgradesBought.defensive[1]==false){
+            BuyDefensiveUpgrade2()
+        }
+        else if(index==2 && player.stats.coins>=upgradeStats.defensive[2].upgradeCost && player.stats.upgradesBought.defensive[2]==false){
+            BuyDefensiveUpgrade3()
+        }
+    }
+    //#endregion
+    //#region BuyDefensiveUpgrades
+    const BuyDefensiveUpgrade1=()=>{
+        player.stats.coins-=upgradeStats.defensive[0].upgradeCost
+        player.stats.upgradesBought.defensive[0]=true
+        upgradeStats.defensive[0].effect.maxHealthMultiplier=2
+        if(player.options.ui.hideBoughtUpgrades==true){
+            $("#defensiveUpgrade0").addClass("hiddenPart")
+        }
+        else{
+            $("#defensiveUpgrade0").addClass("boughtUpgrade")    
+        }
+        CalculatePlayerMisc()
+        if(upgradeStats.defensive.length>(0+3)){
+            AddNextDefensiveUpgrade()
+        }
+    }
 
+    const BuyDefensiveUpgrade2=()=>{
+        player.stats.coins-=upgradeStats.defensive[1].upgradeCost
+        player.stats.upgradesBought.defensive[1]=true
+        upgradeStats.defensive[1].effect.regenerationAdder=5
+        if(player.options.ui.hideBoughtUpgrades==true){
+            $("#defensiveUpgrade1").addClass("hiddenPart")
+        }
+        else{
+            $("#defensiveUpgrade1").addClass("boughtUpgrade")    
+        }
+        CalculatePlayerMisc()
+        if(upgradeStats.defensive.length>(1+3)){
+            AddNextDefensiveUpgrade()
+        }
+    }
+
+    const BuyDefensiveUpgrade3=()=>{
+        player.stats.coins-=upgradeStats.defensive[2].upgradeCost
+        player.stats.upgradesBought.defensive[2]=true
+        upgradeStats.defensive[2].effect.absolutePhysicalDefenseAdder=10
+        if(player.options.ui.hideBoughtUpgrades==true){
+            $("#defensiveUpgrade2").addClass("hiddenPart")
+        }
+        else{
+            $("#defensiveUpgrade2").addClass("boughtUpgrade")    
+        }
+        CalculatePlayerDefenses()
+        if(upgradeStats.defensive.length>(2+3)){
+            AddNextDefensiveUpgrade()
+        }
+    }
+    //#endregion
+    //#region AddNextDefensiveUpgrade
+    const AddNextDefensiveUpgrade=()=>{
+        let nextIndex=player.stats.upgradesBought.defensive.length
+        let nextUpgrade=upgradeStats.defensive[nextIndex]
+        let upgradeUI=`
+            <div class="upgrade interactable" id="defensiveUpgrade${nextIndex}">
+                <div class="upgradeText">    
+                    <div class="upgradeTitle">
+                        ${nextUpgrade.upgradeName}
+                    </div>
+                    <div class="upgradeDescription">
+                        ${nextUpgrade.upgradeDescription}
+                    </div>
+                </div>
+                <div class="upgradeCost" id="defensiveUpgrade${nextIndex}Buy">
+                    ${FormatNumber(nextUpgrade.upgradeCost)} Gold
+                </div>
+            </div>
+        `
+        $("#defensiveUpgrades").append(upgradeUI)
+        $(`#defensiveUpgrade${nextIndex}`).on("click", ()=>{TryBuyDefensiveUpgrade(nextIndex)})
+        player.stats.upgradesBought.defensive.push(false)
     }
     //#endregion
     //#region TryBuyMiscUpgrade
     const TryBuyMiscUpgrade=(index)=>{
-        
+        if(index==0 && player.stats.coins>=upgradeStats.misc[0].upgradeCost && player.stats.upgradesBought.misc[0]==false){
+            BuyMiscUpgrade1()
+        }
+        else if(index==1 && player.stats.coins>=upgradeStats.misc[1].upgradeCost && player.stats.upgradesBought.misc[1]==false){
+            BuyMiscUpgrade2()
+        }
+        else if(index==2 && player.stats.coins>=upgradeStats.misc[2].upgradeCost && player.stats.upgradesBought.misc[2]==false){
+            BuyMiscUpgrade3()
+        }
+    }
+    //#endregion
+    //#region BuyMiscUpgrades
+    const BuyMiscUpgrade1=()=>{
+        player.stats.coins-=upgradeStats.misc[0].upgradeCost
+        player.stats.upgradesBought.misc[0]=true
+        upgradeStats.misc[0].effect.attackSpeedAdder=0.1
+        if(player.options.ui.hideBoughtUpgrades==true){
+            $("#miscUpgrade0").addClass("hiddenPart")
+        }
+        else{
+            $("#miscUpgrade0").addClass("boughtUpgrade")    
+        }
+        CalculatePlayerMisc()
+        if(upgradeStats.misc.length>(0+3)){
+            AddNextMiscUpgrade()
+        }
+    }
+
+    BuyMiscUpgrade2=()=>{
+        player.stats.coins-=upgradeStats.misc[1].upgradeCost
+        player.stats.upgradesBought.misc[1]=true
+        upgradeStats.misc[1].effect.attackSpeedAdder=0.25
+        if(player.options.ui.hideBoughtUpgrades==true){
+            $("#miscUpgrade1").addClass("hiddenPart")
+        }
+        else{
+            $("#miscUpgrade1").addClass("boughtUpgrade")    
+        }
+        CalculatePlayerMisc()
+        if(upgradeStats.misc.length>(1+3)){
+            AddNextMiscUpgrade()
+        }
+    }
+
+    const BuyMiscUpgrade3=()=>{
+        player.stats.coins-=upgradeStats.misc[2].upgradeCost
+        player.stats.upgradesBought.misc[2]=true
+        upgradeStats.misc[2].effect.attackSpeedAdder=0.5
+        if(player.options.ui.hideBoughtUpgrades==true){
+            $("#miscUpgrade2").addClass("hiddenPart")
+        }
+        else{
+            $("#miscUpgrade2").addClass("boughtUpgrade")    
+        }
+        CalculatePlayerMisc()
+        if(upgradeStats.misc.length>(2+3)){
+            AddNextMiscUpgrade()
+        }
+    }
+    //#endregion
+    //#region AddNextMiscUpgrade
+    const AddNextMiscUpgrade=()=>{
+        let nextIndex=player.stats.upgradesBought.misc.length
+        let nextUpgrade=upgradeStats.misc[nextIndex]
+        let upgradeUI=`
+            <div class="upgrade interactable" id="miscUpgrade${nextIndex}">
+                <div class="upgradeText">    
+                    <div class="upgradeTitle">
+                        ${nextUpgrade.upgradeName}
+                    </div>
+                    <div class="upgradeDescription">
+                        ${nextUpgrade.upgradeDescription}
+                    </div>
+                </div>
+                <div class="upgradeCost" id="miscUpgrade${nextIndex}Buy">
+                    ${FormatNumber(nextUpgrade.upgradeCost)} Gold
+                </div>
+            </div>
+        `
+        $("#miscUpgrades").append(upgradeUI)
+        $(`#miscUpgrade${nextIndex}`).on("click", ()=>{TryBuyMiscUpgrade(nextIndex)})
+        player.stats.upgradesBought.misc.push(false)
     }
     //#endregion
     //#region UpdateUpgradesView

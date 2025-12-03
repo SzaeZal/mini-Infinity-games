@@ -274,9 +274,7 @@ td{
   background-color: yellow;
 }
 
-.hiddenPart{
-  display: none;
-}
+
 .itemDescription{
   position: absolute;
   left: -150px;
@@ -382,4 +380,8 @@ td{
 }
 .upgrade:hover>.purchaseableUpgrade{
   background-color: rgba(0,200, 0, 0.25);
+}
+
+.hiddenPart{
+  display: none;
 }
