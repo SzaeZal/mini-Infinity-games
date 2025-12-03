@@ -3014,14 +3014,32 @@ $(()=>{
                     </div>
                 </div>
             </div>
-        `)        
+        `)
+        AddUpgradesUIEvents()
     }
     //#endregion
+    //#region AddUpgradesUIEvents
+    const AddUpgradesUIEvents=()=>{
+        $("#hideBoughtUpgrades").on("click", ToggleBoughtUpgrades)
+        for(let i=0;i<player.stats.upgradesBought.offensive.length; i++){          
+            if(player.stats.upgradesBought.offensive[i]==false){
+                $(`#offensiveUpgrade${i}`).on("click", ()=>{TryBuyOffensiveUpgrade(i)})
+            }
+        }
+        for(let i=0;i<player.stats.upgradesBought.defensive.length; i++){          
+            if(player.stats.upgradesBought.defensive[i]==false){
+                $(`#defensiveUpgrade${i}`).on("click", ()=>{TryBuyDefensiveUpgrade(i)})
+            }
+        }
+        for(let i=0;i<player.stats.upgradesBought.misc.length; i++){          
+            if(player.stats.upgradesBought.misc[i]==false){
+                $(`#miscUpgrade${i}`).on("click", ()=>{TryBuyMiscUpgrade(i)})
+            }
+        }
+    }
     //#region ShowOffensiveUpgrades
     const ShowOffensiveUpgrades = ()=>{
         let upgradesUI=``
-        let upgrade
-        
         for(let i=0;i<player.stats.upgradesBought.offensive.length; i++){          
             upgrade=upgradeStats.offensive[i]
             if(!(player.stats.upgradesBought.offensive[i]==true && player.options.ui.hideBoughtUpgrades==true)){
@@ -3097,6 +3115,27 @@ $(()=>{
             }
         }
         return upgradesUI
+    }
+    //#endregion
+    //#region ToggleBoughtUpgrades
+    const ToggleBoughtUpgrades = ()=>{
+        player.options.ui.hideBoughtUpgrades=!player.options.ui.hideBoughtUpgrades
+        GoToUpgrades()
+    }
+    //#endregion
+    //#region TryBuyOffensiveUpgrade
+    const TryBuyOffensiveUpgrade=(index)=>{
+
+    }
+    //#endregion
+    //#region TryBuyDefensiveUpgrade
+    const TryBuyDefensiveUpgrade=(index)=>{
+
+    }
+    //#endregion
+    //#region TryBuyMiscUpgrade
+    const TryBuyMiscUpgrade=(index)=>{
+        
     }
     //#endregion
     //#region UpdateUpgradesView
@@ -3305,7 +3344,7 @@ $(()=>{
     //#endregion
     Load()
     //setTimeout(()=>{debugger;} , 1000)
-    if(window.innerWidth<400){
+    if(window.innerWidth<600){
         ShowDialogBox("Warning", "This game is not optimized for small screens. <br> Please use a device with a larger screen for the best experience. <br> or use landscape orientation", "Warning")
     }
     GoToTower()    

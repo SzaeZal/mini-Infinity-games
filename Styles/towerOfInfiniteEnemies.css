@@ -338,6 +338,7 @@ td{
   flex-wrap: wrap;
 }
 .upgradeBoard{
+  flex: 1;
   min-width: 250px;
   max-width: 333px;
   display: flex;
