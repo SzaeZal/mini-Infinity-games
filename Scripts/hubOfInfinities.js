@@ -306,6 +306,7 @@ $(()=>{
                                 <li>Added Board of Inflation</li>
                                 <li>Added Infinite Gates</li>
                                 <li>Added ...</li>  
+                                <li>Wrote over 15k lines of code</li>
                             </ul>
                         </div>
                     </div>
