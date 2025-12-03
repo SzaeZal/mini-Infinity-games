@@ -3420,6 +3420,43 @@ $(()=>{
     //#region UpdateUpgradesView
     const UpdateUpgradesView = ()=>{
         $("#playerGold").text(`Gold: ${FormatNumber(player.stats.coins)}`)
+        for (let i=0;i<player.stats.upgradesBought.offensive.length; i++){
+            try{
+                if(player.stats.coins>=upgradeStats.offensive[0].upgradeCost){
+                    $(`#offensiveUpgrade${i}Buy`).addClass("purchaseableUpgrade")
+                }
+                else{
+                    $(`#offensiveUpgrade${i}Buy`).removeClass("purchaseableUpgrade")
+                }
+            }
+            catch{}
+        }
+        
+        for (let i=0;i<player.stats.upgradesBought.defensive.length; i++){
+            try{
+                if(player.stats.coins>=upgradeStats.defensive[0].upgradeCost){
+                    $(`#defensiveUpgrade${i}Buy`).addClass("purchaseableUpgrade")
+                }
+                else{
+                    $(`#defensiveUpgrade${i}Buy`).removeClass("purchaseableUpgrade")
+                }
+            }
+            catch{}
+        }
+
+        for (let i=0;i<player.stats.upgradesBought.misc.length; i++){
+            try{
+                if(player.stats.coins>=upgradeStats.misc[0].upgradeCost){
+                    $(`#miscUpgrade${i}Buy`).addClass("purchaseableUpgrade")
+                }
+                else{
+                    $(`#miscUpgrade${i}Buy`).removeClass("purchaseableUpgrade")
+                }
+            }
+            catch(error){
+
+            }
+        }
     }
     //#endregion
     //#region tick
