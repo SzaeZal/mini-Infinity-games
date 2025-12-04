@@ -3184,9 +3184,7 @@ $(()=>{
             $("#offensiveUpgrade0").addClass("boughtUpgrade")    
         }
         CalculatePlayerDamages()
-        if(upgradeStats.offensive.length>(0+3)){
-            AddNextOffensiveUpgrade()
-        }
+        AddNextOffensiveUpgrade()
     }
 
     const BuyOffensiveUpgrade2=()=>{
@@ -3200,9 +3198,7 @@ $(()=>{
             $("#offensiveUpgrade1").addClass("boughtUpgrade")    
         }
         CalculatePlayerDamages()
-        if(upgradeStats.offensive.length>(1+3)){
-            AddNextOffensiveUpgrade()
-        }
+        AddNextOffensiveUpgrade()
     }
 
     const BuyOffensiveUpgrade3=()=>{
@@ -3216,32 +3212,33 @@ $(()=>{
             $("#offensiveUpgrade2").addClass("boughtUpgrade")    
         }
         CalculatePlayerDamages()
-        if(upgradeStats.offensive.length>(2+3)){
-            AddNextOffensiveUpgrade()
-        }
+        AddNextOffensiveUpgrade()
     }
     //#endregion
     //#region AddNextOffensiveUpgrade
     const AddNextOffensiveUpgrade=()=>{
-        let nextIndex=player.stats.upgradesBought.offensive.length
-        let nextUpgrade=upgradeStats.offensive[nextIndex]
-        let upgradeUI=`
-            <div class="upgrade interactable" id="offensiveUpgrade${nextIndex}">
-                <div class="upgradeText">    
-                    <div class="upgradeTitle">
-                        ${nextUpgrade.upgradeName}
+        try{
+            let nextIndex=player.stats.upgradesBought.offensive.length
+            let nextUpgrade=upgradeStats.offensive[nextIndex]
+            let upgradeUI=`
+                <div class="upgrade interactable" id="offensiveUpgrade${nextIndex}">
+                    <div class="upgradeText">    
+                        <div class="upgradeTitle">
+                            ${nextUpgrade.upgradeName}
+                        </div>
+                        <div class="upgradeDescription">
+                            ${nextUpgrade.upgradeDescription}
+                        </div>
                     </div>
-                    <div class="upgradeDescription">
-                        ${nextUpgrade.upgradeDescription}
+                    <div class="upgradeCost" id="offensiveUpgrade${nextIndex}Buy">
+                        ${FormatNumber(nextUpgrade.upgradeCost)} Gold
                     </div>
                 </div>
-                <div class="upgradeCost" id="offensiveUpgrade${nextIndex}Buy">
-                    ${FormatNumber(nextUpgrade.upgradeCost)} Gold
-                </div>
-            </div>
-        `
-        $("#offensiveUpgrades").append(upgradeUI)
-        $(`#offensiveUpgrade${nextIndex}`).on("click", ()=>{TryBuyOffensiveUpgrade(nextIndex)})
+            `
+            $("#offensiveUpgrades").append(upgradeUI)
+            $(`#offensiveUpgrade${nextIndex}`).on("click", ()=>{TryBuyOffensiveUpgrade(nextIndex)})
+        }
+        catch{}
         player.stats.upgradesBought.offensive.push(false)
     }
     //#endregion
@@ -3270,9 +3267,7 @@ $(()=>{
             $("#defensiveUpgrade0").addClass("boughtUpgrade")    
         }
         CalculatePlayerMisc()
-        if(upgradeStats.defensive.length>(0+3)){
-            AddNextDefensiveUpgrade()
-        }
+        AddNextDefensiveUpgrade()
     }
 
     const BuyDefensiveUpgrade2=()=>{
@@ -3286,9 +3281,7 @@ $(()=>{
             $("#defensiveUpgrade1").addClass("boughtUpgrade")    
         }
         CalculatePlayerMisc()
-        if(upgradeStats.defensive.length>(1+3)){
-            AddNextDefensiveUpgrade()
-        }
+        AddNextDefensiveUpgrade()
     }
 
     const BuyDefensiveUpgrade3=()=>{
@@ -3302,32 +3295,33 @@ $(()=>{
             $("#defensiveUpgrade2").addClass("boughtUpgrade")    
         }
         CalculatePlayerDefenses()
-        if(upgradeStats.defensive.length>(2+3)){
-            AddNextDefensiveUpgrade()
-        }
+        AddNextDefensiveUpgrade()
     }
     //#endregion
     //#region AddNextDefensiveUpgrade
     const AddNextDefensiveUpgrade=()=>{
-        let nextIndex=player.stats.upgradesBought.defensive.length
-        let nextUpgrade=upgradeStats.defensive[nextIndex]
-        let upgradeUI=`
-            <div class="upgrade interactable" id="defensiveUpgrade${nextIndex}">
-                <div class="upgradeText">    
-                    <div class="upgradeTitle">
-                        ${nextUpgrade.upgradeName}
+        try{
+            let nextIndex=player.stats.upgradesBought.defensive.length
+            let nextUpgrade=upgradeStats.defensive[nextIndex]
+            let upgradeUI=`
+                <div class="upgrade interactable" id="defensiveUpgrade${nextIndex}">
+                    <div class="upgradeText">    
+                        <div class="upgradeTitle">
+                            ${nextUpgrade.upgradeName}
+                        </div>
+                        <div class="upgradeDescription">
+                            ${nextUpgrade.upgradeDescription}
+                        </div>
                     </div>
-                    <div class="upgradeDescription">
-                        ${nextUpgrade.upgradeDescription}
+                    <div class="upgradeCost" id="defensiveUpgrade${nextIndex}Buy">
+                        ${FormatNumber(nextUpgrade.upgradeCost)} Gold
                     </div>
                 </div>
-                <div class="upgradeCost" id="defensiveUpgrade${nextIndex}Buy">
-                    ${FormatNumber(nextUpgrade.upgradeCost)} Gold
-                </div>
-            </div>
-        `
-        $("#defensiveUpgrades").append(upgradeUI)
-        $(`#defensiveUpgrade${nextIndex}`).on("click", ()=>{TryBuyDefensiveUpgrade(nextIndex)})
+            `
+            $("#defensiveUpgrades").append(upgradeUI)
+            $(`#defensiveUpgrade${nextIndex}`).on("click", ()=>{TryBuyDefensiveUpgrade(nextIndex)})
+        }
+        catch{}
         player.stats.upgradesBought.defensive.push(false)
     }
     //#endregion
@@ -3356,12 +3350,10 @@ $(()=>{
             $("#miscUpgrade0").addClass("boughtUpgrade")    
         }
         CalculatePlayerMisc()
-        if(upgradeStats.misc.length>(0+3)){
-            AddNextMiscUpgrade()
-        }
+        AddNextMiscUpgrade()
     }
 
-    BuyMiscUpgrade2=()=>{
+    const BuyMiscUpgrade2=()=>{
         player.stats.coins-=upgradeStats.misc[1].upgradeCost
         player.stats.upgradesBought.misc[1]=true
         upgradeStats.misc[1].effect.attackSpeedAdder=0.25
@@ -3372,9 +3364,7 @@ $(()=>{
             $("#miscUpgrade1").addClass("boughtUpgrade")    
         }
         CalculatePlayerMisc()
-        if(upgradeStats.misc.length>(1+3)){
-            AddNextMiscUpgrade()
-        }
+        AddNextMiscUpgrade()
     }
 
     const BuyMiscUpgrade3=()=>{
@@ -3388,32 +3378,33 @@ $(()=>{
             $("#miscUpgrade2").addClass("boughtUpgrade")    
         }
         CalculatePlayerMisc()
-        if(upgradeStats.misc.length>(2+3)){
-            AddNextMiscUpgrade()
-        }
+        AddNextMiscUpgrade()
     }
     //#endregion
     //#region AddNextMiscUpgrade
     const AddNextMiscUpgrade=()=>{
-        let nextIndex=player.stats.upgradesBought.misc.length
-        let nextUpgrade=upgradeStats.misc[nextIndex]
-        let upgradeUI=`
-            <div class="upgrade interactable" id="miscUpgrade${nextIndex}">
-                <div class="upgradeText">    
-                    <div class="upgradeTitle">
-                        ${nextUpgrade.upgradeName}
+        try{
+            let nextIndex=player.stats.upgradesBought.misc.length
+            let nextUpgrade=upgradeStats.misc[nextIndex]
+            let upgradeUI=`
+                <div class="upgrade interactable" id="miscUpgrade${nextIndex}">
+                    <div class="upgradeText">    
+                        <div class="upgradeTitle">
+                            ${nextUpgrade.upgradeName}
+                        </div>
+                        <div class="upgradeDescription">
+                            ${nextUpgrade.upgradeDescription}
+                        </div>
                     </div>
-                    <div class="upgradeDescription">
-                        ${nextUpgrade.upgradeDescription}
+                    <div class="upgradeCost" id="miscUpgrade${nextIndex}Buy">
+                        ${FormatNumber(nextUpgrade.upgradeCost)} Gold
                     </div>
                 </div>
-                <div class="upgradeCost" id="miscUpgrade${nextIndex}Buy">
-                    ${FormatNumber(nextUpgrade.upgradeCost)} Gold
-                </div>
-            </div>
-        `
-        $("#miscUpgrades").append(upgradeUI)
-        $(`#miscUpgrade${nextIndex}`).on("click", ()=>{TryBuyMiscUpgrade(nextIndex)})
+            `
+            $("#miscUpgrades").append(upgradeUI)
+            $(`#miscUpgrade${nextIndex}`).on("click", ()=>{TryBuyMiscUpgrade(nextIndex)})
+        }
+        catch{}
         player.stats.upgradesBought.misc.push(false)
     }
     //#endregion
@@ -3457,6 +3448,51 @@ $(()=>{
 
             }
         }
+    }
+    //#endregion
+    //#region UpdateUpgradesAfterLoad
+    const UpdateUpgradesAfterLoad=()=>{
+        if(player.stats.upgradesBought.offensive[0]){
+            upgradeStats.offensive[0].effect.physicalDamageMultiplier=2
+        }
+        if(player.stats.upgradesBought.offensive[1]){
+            upgradeStats.offensive[1].effect.magicDamageMultiplier=2
+        }
+        if(player.stats.upgradesBought.offensive[2]){
+            upgradeStats.offensive[2].effect.elementalDamageMultiplier=2
+        }
+        try{
+            //any further offensive upgrades here
+        }
+        catch{}
+        
+        if(player.stats.upgradesBought.defensive[0]){
+            upgradeStats.defensive[0].effect.maxHealthMultiplier=2
+        }
+        if(player.stats.upgradesBought.defensive[1]){
+            upgradeStats.defensive[1].effect.regenerationAdder=2
+        }
+        if(player.stats.upgradesBought.offensive[2]){
+            upgradeStats.defensive[2].effect.absolutePhysicalDefenseAdder=2
+        }
+        try{
+            //any further defensive upgrades here
+        }
+        catch{}
+
+        if(player.stats.upgradesBought.misc[0]){
+            upgradeStats.misc[0].effect.attackSpeedAdder=0.1
+        }
+        if(player.stats.upgradesBought.defensive[1]){
+            upgradeStats.misc[1].effect.attackSpeedAdder=0.25
+        }
+        if(player.stats.upgradesBought.offensive[2]){
+            upgradeStats.misc[2].effect.attackSpeedAdder=0.5
+        }
+        try{
+            //any further misc upgrades here
+        }
+        catch{}
     }
     //#endregion
     //#region tick
@@ -3620,6 +3656,7 @@ $(()=>{
             SetTheme(player.options.ui.theme);
             SetUIUpdateRate(player.options.ui.uiUpdateRateInMs);
 
+            UpdateUpgradesAfterLoad()
             CalculatePlayerStats()
 
         }
