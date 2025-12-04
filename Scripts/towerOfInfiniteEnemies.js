@@ -2580,10 +2580,12 @@ $(()=>{
         if(item.name==undefined){
             return ``
         }
-        
+        let extraClass="inventoryItemDesc"
+        if(isNaN(idIndex))
+            extraClass="equippedItemDesc"
         return `<img src="../Images/TowerOfInfiniteEnemies/${item.itemType}/${item.name}.png" onerror="this.onerror=null; this.src='../Images/TowerOfInfiniteEnemies/questionMark.png'" 
             alt="inventory item ${item.itemType} ${item.name}" class="rarity${item.rarity}" id="storedItem${idIndex}">
-            <div class="hiddenPart itemDescription ${player.options.ui.theme=="Dark" ? "theme-dark" : "theme-light"}" id="storedItem${idIndex}Description">
+            <div class="hiddenPart itemDescription ${player.options.ui.theme=="Dark" ? "theme-dark" : "theme-light"} ${extraClass}" id="storedItem${idIndex}Description">
                 ${GetItemDetails(item, idIndex)}
             </div>`
     }
@@ -2593,7 +2595,7 @@ $(()=>{
         for(let i=0; i<player.stats.inventory.length; i++){
             try{
                 $(`#storedItem${i}`).on("click", ()=>{                    
-                    if("hiddenPart" == $(`#storedItem${i}Description`)[0].classList[0] || "hiddenPart" == $(`#storedItem${i}Description`)[0].classList[2]){                        
+                    if("hiddenPart" == $(`#storedItem${i}Description`)[0].classList[0] || "hiddenPart" == $(`#storedItem${i}Description`)[0].classList[3]){                        
                         $(`#storedItem${i}Description`).removeClass("hiddenPart")
                     }
                     else{                        
@@ -2607,7 +2609,21 @@ $(()=>{
             catch{
 
             }
-            
+        }
+
+        if(player.stats.gear.weapon.attack!=undefined){
+            $("#itemSlotWeapon").on("click", ()=>{                
+                if("hiddenPart" == $(`#storedItemWeaponDescription`)[0].classList[0] || "hiddenPart" == $(`#storedItemWeaponDescription`)[0].classList[3]){                        
+                    $(`#storedItemWeaponDescription`).removeClass("hiddenPart")
+                }
+                else{                        
+                    $(`#storedItemWeaponDescription`).addClass("hiddenPart")
+                }
+            })
+
+            $(`#itemWeaponEquip`).on("click", ()=>{UnquipItem("Weapon")})
+            $(`#itemWeaponEquip`).text("Unequip")
+            $(`#itemWeaponDelete`).on("click", ()=>{DeleteItem("Weapon")})
         }
     }
     //#endregion
@@ -2714,7 +2730,15 @@ $(()=>{
     //#region DeleteItem
     const DeleteItem = (index)=>{
         $(`#itemSlot${index}`).html(``)
-        player.stats.inventory[index]={}
+        if(isNaN(index)){
+            if(index=="Weapon"){
+                player.stats.gear.weapon={}
+            }
+        }
+        else{
+            player.stats.inventory[index]={}
+        }
+        $(`#itemSlot${index}`).off("click")
         CalculatePlayerStats()
     }
     //#endregion
@@ -2747,34 +2771,43 @@ $(()=>{
     //#region CalculatePlayerDamages
     const CalculatePlayerDamages=()=>{
         playerStatsCalculated.attack.type.physical= 
-            (player.stats.gear.weapon.attack.type.physical
+            ((player.stats.gear.weapon.attack == undefined ? 0 : player.stats.gear.weapon.attack.type.physical)
             + (player.stats.gear.offhand.attack == undefined ? 0 : player.stats.gear.offhand.attack.type.physical))
             * upgradeStats.offensive[0].effect.physicalDamageMultiplier
         
         playerStatsCalculated.attack.type.magic= 
-            (player.stats.gear.weapon.attack.type.magic
+            ((player.stats.gear.weapon.attack == undefined ? 0 : player.stats.gear.weapon.attack.type.magic)
             + (player.stats.gear.offhand.attack == undefined ? 0 : player.stats.gear.offhand.attack.type.magic))
             * upgradeStats.offensive[1].effect.magicDamageMultiplier
         
         playerStatsCalculated.attack.element.fire= 
-            (player.stats.gear.weapon.attack.element.fire
+            ((player.stats.gear.weapon.attack == undefined ? 0 : player.stats.gear.weapon.attack.element.fire)
             + (player.stats.gear.offhand.attack == undefined ? 0 : player.stats.gear.offhand.attack.element.fire))
             * upgradeStats.offensive[2].effect.elementalDamageMultiplier
         
         playerStatsCalculated.attack.element.water= 
-            (player.stats.gear.weapon.attack.element.water
+            ((player.stats.gear.weapon.attack == undefined ? 0 : player.stats.gear.weapon.attack.element.water)
             + (player.stats.gear.offhand.attack == undefined ? 0 : player.stats.gear.offhand.attack.element.water))
             * upgradeStats.offensive[2].effect.elementalDamageMultiplier
             
         playerStatsCalculated.attack.element.air= 
-            (player.stats.gear.weapon.attack.element.air
+            ((player.stats.gear.weapon.attack == undefined ? 0 : player.stats.gear.weapon.attack.element.air)
             + (player.stats.gear.offhand.attack == undefined ? 0 : player.stats.gear.offhand.attack.element.air))
             * upgradeStats.offensive[2].effect.elementalDamageMultiplier
             
         playerStatsCalculated.attack.element.earth= 
-            (player.stats.gear.weapon.attack.element.earth
+            ((player.stats.gear.weapon.attack == undefined ? 0 : player.stats.gear.weapon.attack.element.earth)
             + (player.stats.gear.offhand.attack == undefined ? 0 : player.stats.gear.offhand.attack.element.earth))
             * upgradeStats.offensive[2].effect.elementalDamageMultiplier
+
+        if(playerStatsCalculated.attack.type.physical==0 
+            && playerStatsCalculated.attack.type.magic==0 
+            && playerStatsCalculated.attack.element.fire==0
+            && playerStatsCalculated.attack.element.water==0
+            && playerStatsCalculated.attack.element.air==0
+            && playerStatsCalculated.attack.element.earth ==0){
+                playerStatsCalculated.attack.type.physical=1
+            }
     }
     //#endregion
     //#region CalculatePlayerDefenses

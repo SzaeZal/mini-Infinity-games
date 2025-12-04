@@ -277,7 +277,6 @@ td{
 
 .itemDescription{
   position: absolute;
-  left: -175px;
   background-color: gray;
   border: 2px solid rgba(64, 64, 64, 1);
   text-align: center;
@@ -286,6 +285,12 @@ td{
   height: 230px;
   max-height: 230px;
   border-radius: 5px;
+}
+.inventoryItemDesc{
+    left: -175px;
+}
+.equippedItemDesc{
+  left: 64px;
 }
 .itemStats{
   max-height: 133px;
