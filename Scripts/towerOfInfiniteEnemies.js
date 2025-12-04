@@ -456,6 +456,7 @@ $(()=>{
                     itemType:"Armor/Helmets",
                     rarity:"Legendary",
                     weight: 1,
+                    maxHealthMultiplier:2,
                     defense:{
                         type:{
                             absolute:100,
@@ -494,6 +495,7 @@ $(()=>{
                     itemType:"Armor/Boots",
                     rarity:"Legendary",
                     weight: 1,
+                    maxHealthMultiplier:2,
                     defense:{
                         type:{
                             absolute:100,
@@ -532,6 +534,7 @@ $(()=>{
                     itemType:"Armor/Chestplates",
                     rarity:"Legendary",
                     weight: 3,
+                    maxHealthMultiplier:2,
                     defense:{
                         type:{
                             absolute:100,
@@ -570,6 +573,7 @@ $(()=>{
                     itemType:"Armor/Leggings",
                     rarity:"Legendary",
                     weight: 2,
+                    maxHealthMultiplier:2,
                     defense:{
                         type:{
                             absolute:100,
@@ -2556,10 +2560,10 @@ $(()=>{
         let storedItemsUI=``
         let itemUI=``
         for (let i=0; i<36; i++){
-            try{                
+            try{            
                 itemUI=GetItemUI(player.stats.inventory[i], i)
             }
-            catch(error){                
+            catch(error){                                
                 itemUI=``
             }                        
             storedItemsUI+=`
@@ -2613,17 +2617,77 @@ $(()=>{
         if(item.itemType.split("/")[0]=="Weapons"){
             itemStats+= item.attack.type.physical>0 ? `<p class="itemStat">Physical damage: ${FormatNumber(item.attack.type.physical)}</p>` :""
             itemStats+= item.attack.type.magic>0 ? `<p class="itemStat">Magic damage: ${FormatNumber(item.attack.type.magic)}</p>` :""
-            itemStats+= item.attack.element.fire>0 ? `<p class="itemStat">Fire damage: ${FormatNumber(item.attackelement.fire)}</p>` :""
+            itemStats+= item.attack.element.fire>0 ? `<p class="itemStat">Fire damage: ${FormatNumber(item.attack.element.fire)}</p>` :""
             itemStats+= item.attack.element.water>0 ? `<p class="itemStat">Water damage: ${FormatNumber(item.attack.element.water)}</p>` :""
             itemStats+= item.attack.element.air>0 ? `<p class="itemStat">Air damage ${FormatNumber(item.attack.element.air)}</p>` :""
             itemStats+= item.attack.element.earth>0 ? `<p class="itemStat">Earth damage ${FormatNumber(item.attack.element.earth)}</p>` :""
         }
+        else if(item.itemType.split("/")[0]=="Armor"){
+            itemStats+= `<p class="itemStat">Weight: ${FormatNumber(item.weight)}</p>`
+            itemStats+= (item.maxHealthMultiplier>0) 
+                ? `<p class="itemStat">Max health: x${FormatNumber(item.maxHealthMultiplier)}</p>` 
+                :""
+            itemStats+= (item.defense.type.absolute>0 || item.defense.type.relative>0) 
+                ? `<p class="itemStat">Physical defense: ${FormatNumber(item.defense.type.absolute)} + ${FormatNumber(item.defense.type.relative)}%</p>` 
+                :""
+            itemStats+= (item.defense.element.fire.absolute>0 || item.defense.element.fire.relative>0) 
+                ? `<p class="itemStat">Fire defense: ${FormatNumber(item.defense.element.fire.absolute)} + ${FormatNumber(item.defense.element.fire.relative)}%</p>` 
+                :""
+            itemStats+= (item.defense.element.water.absolute>0 || item.defense.element.water.relative>0) 
+                ? `<p class="itemStat">Water defense: ${FormatNumber(item.defense.element.water.absolute)} + ${FormatNumber(item.defense.element.water.relative)}%</p>` 
+                :""            
+            itemStats+= (item.defense.element.air.absolute>0 || item.defense.element.air.relative>0) 
+                ? `<p class="itemStat">Air defense: ${FormatNumber(item.defense.element.air.absolute)} + ${FormatNumber(item.defense.element.air.relative)}%</p>` 
+                :""
+            itemStats+= (item.defense.element.earth.absolute>0 || item.defense.element.earth.relative>0) 
+                ? `<p class="itemStat">Earth defense: ${FormatNumber(item.defense.element.earth.absolute)} + ${FormatNumber(item.defense.element.earth.relative)}%</p>` 
+                :""
+        }
+        else if(item.itemType.split("/")[0]=="OffHand"){
+            itemStats+= item.attack.type.physical>0 ? `<p class="itemStat">Physical damage: ${FormatNumber(item.attack.type.physical)}</p>` :""
+            itemStats+= item.attack.type.magic>0 ? `<p class="itemStat">Magic damage: ${FormatNumber(item.attack.type.magic)}</p>` :""
+            itemStats+= item.attack.element.fire>0 ? `<p class="itemStat">Fire damage: ${FormatNumber(item.attack.element.fire)}</p>` :""
+            itemStats+= item.attack.element.water>0 ? `<p class="itemStat">Water damage: ${FormatNumber(item.attack.element.water)}</p>` :""
+            itemStats+= item.attack.element.air>0 ? `<p class="itemStat">Air damage ${FormatNumber(item.attack.element.air)}</p>` :""
+            itemStats+= item.attack.element.earth>0 ? `<p class="itemStat">Earth damage ${FormatNumber(item.attack.element.earth)}</p>` :""
+            itemStats+= (item.maxHealthMultiplier>0) 
+                ? `<p class="itemStat">Max health: x${FormatNumber(item.maxHealthMultiplier)}</p>` 
+                :""
+            itemStats+= (item.defense.type.absolute>0 || item.defense.type.relative>0) 
+                ? `<p class="itemStat">Physical defense: ${FormatNumber(item.defense.type.absolute)} + ${FormatNumber(item.defense.type.relative)}%</p>` 
+                :""
+            itemStats+= (item.defense.element.fire.absolute>0 || item.defense.element.fire.relative>0) 
+                ? `<p class="itemStat">Fire defense: ${FormatNumber(item.defense.element.fire.absolute)} + ${FormatNumber(item.defense.element.fire.relative)}%</p>` 
+                :""
+            itemStats+= (item.defense.element.water.absolute>0 || item.defense.element.water.relative>0) 
+                ? `<p class="itemStat">Water defense: ${FormatNumber(item.defense.element.water.absolute)} + ${FormatNumber(item.defense.element.water.relative)}%</p>` 
+                :""            
+            itemStats+= (item.defense.element.air.absolute>0 || item.defense.element.air.relative>0) 
+                ? `<p class="itemStat">Air defense: ${FormatNumber(item.defense.element.air.absolute)} + ${FormatNumber(item.defense.element.air.relative)}%</p>` 
+                :""
+            itemStats+= (item.defense.element.earth.absolute>0 || item.defense.element.earth.relative>0) 
+                ? `<p class="itemStat">Earth defense: ${FormatNumber(item.defense.element.earth.absolute)} + ${FormatNumber(item.defense.element.earth.relative)}%</p>` 
+                :""
+        }
+        
+        if(item.misc!=undefined){
+            itemStats+= item.misc.attackSpeed>0 ? `<p class="itemStat">Attack speed: +${FormatNumber(item.misc.attackSpeed)}</p>` :""
+            itemStats+= item.misc.criticalChance>0 ? `<p class="itemStat">Critical chance: +${FormatNumber(item.misc.criticalChance)}%</p>` :""
+            itemStats+= item.misc.criticalDamageMult>0 ? `<p class="itemStat">Critical damage mult: x${FormatNumber(item.misc.criticalDamageMult)}</p>` :""
+            itemStats+= item.misc.regenerationAdder>0 ? `<p class="itemStat">Regeneration: +${FormatNumber(item.misc.regenerationAdder)}</p>` :""
+            itemStats+= item.misc.evasionMult>0 ? `<p class="itemStat">Evasion: x${FormatNumber(item.misc.evasionMult)}</p>` :""
+            itemStats+= item.misc.accuracyMult>0 ? `<p class="itemStat">Accuracy: x${FormatNumber(item.misc.accuracyMult)}</p>` :""
+            itemStats+= item.misc.reflectChance>0 ? `<p class="itemStat">Reflect chance: +${FormatNumber(item.misc.reflectChance)}%</p>` :""
+        }
+
         return `    
             <div class="itemMain">
                 <p class="itemName ">${item.name}</p>
                 <p class="itemType">${item.itemType}</p>
             </div>
-            ${itemStats}
+            <div class="itemStats">
+                ${itemStats}
+            </div>
             <div class="itemActions">
                 <div class="interactable itemAction" id="item${index}Equip">Equip</div>
                 <div class="interactable itemAction" id="item${index}Delete">Delete</div>
@@ -3524,6 +3588,9 @@ $(()=>{
             while(totalTimeSincePlayerAttackInMs>=(1000 / playerStatsCalculated.misc.attackSpeed)){
                 totalTimeSincePlayerAttackInMs-=1000 / playerStatsCalculated.misc.attackSpeed
                 PlayerAttack()
+                if(enemyStats.health<=0){
+                    KillEnemy()
+                }
             }
 
             while(totalTimeSinceEnemyAttackInMs>=(1000 / enemyStats.misc.attackSpeed)){
@@ -3539,9 +3606,7 @@ $(()=>{
                 }, (10000 / gameSpeed));
             }
 
-            if(enemyStats.health<=0){
-                KillEnemy()
-            }
+            
         }
         else{
             if(playerStatsCalculated.health<playerStatsCalculated.maxHealth)
