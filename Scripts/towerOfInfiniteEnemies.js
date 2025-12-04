@@ -2234,7 +2234,7 @@ $(()=>{
     }
     //#endregion
     //#region ChangeFloor
-    const ChangeFloor = (floor, isBoss)=>{
+    const ChangeFloor = (floor, isBoss)=>{       
         enemyStats=isBoss ? floorStuff[`floor${floor}`].bossStats : floorStuff[`floor${floor}`].enemyStats
         CalculateHitChances()
         $("#fightView").html(`
@@ -2860,10 +2860,13 @@ $(()=>{
             *(player.stats.gear.armor.boots.misc == undefined ? 1 : player.stats.gear.armor.boots.misc.maxHealthMultiplier)
             *(player.stats.gear.offhand.misc == undefined ? 1 : player.stats.gear.offhand.misc.maxHealthMultiplier)
             * upgradeStats.defensive[0].effect.maxHealthMultiplier
-            
+
         playerStatsCalculated.misc.attackSpeed = 1
             +(player.stats.gear.weapon.misc == undefined ? 0 : player.stats.gear.weapon.misc.attackSpeed)
             +(player.stats.gear.offhand.misc == undefined ? 0 : player.stats.gear.offhand.misc.attackSpeed)
+            +upgradeStats.misc[0].effect.attackSpeedAdder
+            +upgradeStats.misc[1].effect.attackSpeedAdder
+            +upgradeStats.misc[2].effect.attackSpeedAdder
 
         playerStatsCalculated.misc.criticalChance = 0
             +(player.stats.gear.weapon.misc == undefined || player.stats.gear.weapon.misc.criticalChance==undefined ? 0 : player.stats.gear.weapon.misc.criticalChance)
@@ -3548,10 +3551,10 @@ $(()=>{
             upgradeStats.defensive[0].effect.maxHealthMultiplier=2
         }
         if(player.stats.upgradesBought.defensive[1]){
-            upgradeStats.defensive[1].effect.regenerationAdder=2
+            upgradeStats.defensive[1].effect.regenerationAdder=5
         }
-        if(player.stats.upgradesBought.offensive[2]){
-            upgradeStats.defensive[2].effect.absolutePhysicalDefenseAdder=2
+        if(player.stats.upgradesBought.defensive[2]){
+            upgradeStats.defensive[2].effect.absolutePhysicalDefenseAdder=10
         }
         try{
             //any further defensive upgrades here
@@ -3561,10 +3564,10 @@ $(()=>{
         if(player.stats.upgradesBought.misc[0]){
             upgradeStats.misc[0].effect.attackSpeedAdder=0.1
         }
-        if(player.stats.upgradesBought.defensive[1]){
+        if(player.stats.upgradesBought.misc[1]){
             upgradeStats.misc[1].effect.attackSpeedAdder=0.25
         }
-        if(player.stats.upgradesBought.offensive[2]){
+        if(player.stats.upgradesBought.misc[2]){
             upgradeStats.misc[2].effect.attackSpeedAdder=0.5
         }
         try{
@@ -3615,8 +3618,8 @@ $(()=>{
                 enemyStats.health+=enemyStats.maxHealth / 250 * gameSpeed 
         }        
 
-        playerStatsCalculated.health+=playerStatsCalculated.misc.regeneration * gameSpeed
-        enemyStats.health+=enemyStats.misc.regeneration * gameSpeed
+        playerStatsCalculated.health+=playerStatsCalculated.misc.regeneration *25 /1000 * gameSpeed
+        enemyStats.health+=enemyStats.misc.regeneration *25 /1000 * gameSpeed
 
         if(playerStatsCalculated.health>playerStatsCalculated.maxHealth)
             playerStatsCalculated.health=playerStatsCalculated.maxHealth
