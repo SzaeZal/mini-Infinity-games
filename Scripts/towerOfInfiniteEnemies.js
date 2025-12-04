@@ -2336,7 +2336,7 @@ $(()=>{
                         <th id="itemType">
                             Item type
                         </th>
-                        <th id="itemBaseRarity">
+                        <th id="itemBaseChance">
                             Base rarity
                         </th>
                         <th id="autoDelete">
