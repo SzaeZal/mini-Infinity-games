@@ -2054,7 +2054,7 @@ $(()=>{
                 </div>
             </div>
             <div class="mainView">
-                
+                <h1>to be honest this is only here if I ever decide to return to this game and actually expand it with the ideas I had for the full experience</h1>
             </div>  
         `)
         AddSaveBankUIEvents()
@@ -2168,7 +2168,12 @@ $(()=>{
                         <div class="changelogChanges">
                             <ul>
                                 <li>Initial release</li>
-                                
+                                <li>Added 10 floors</li>
+                                <li>Added 10 enemies</li>
+                                <li>Added 10 bosses</li>
+                                <li>Added far too many items</li>
+                                <li>Added inventory</li>
+                                <li>Added 9 upgrades</li>
                             </ul>
                         </div>
                     </div>
@@ -3079,21 +3084,24 @@ $(()=>{
         for(let i=0;i<player.stats.upgradesBought.offensive.length; i++){          
             upgrade=upgradeStats.offensive[i]
             if(!(player.stats.upgradesBought.offensive[i]==true && player.options.ui.hideBoughtUpgrades==true)){
-                upgradesUI+=`
-                    <div class="upgrade interactable ${player.stats.upgradesBought.offensive[i]==true ? "boughtUpgrade" :""}" id="offensiveUpgrade${i}">
-                        <div class="upgradeText">    
-                            <div class="upgradeTitle">
-                                ${upgrade.upgradeName}
+                try{
+                    upgradesUI+=`
+                        <div class="upgrade interactable ${player.stats.upgradesBought.offensive[i]==true ? "boughtUpgrade" :""}" id="offensiveUpgrade${i}">
+                            <div class="upgradeText">    
+                                <div class="upgradeTitle">
+                                    ${upgrade.upgradeName}
+                                </div>
+                                <div class="upgradeDescription">
+                                    ${upgrade.upgradeDescription}
+                                </div>
                             </div>
-                            <div class="upgradeDescription">
-                                ${upgrade.upgradeDescription}
+                            <div class="upgradeCost" id="offensiveUpgrade${i}Buy">
+                                ${FormatNumber(upgrade.upgradeCost)} Gold
                             </div>
                         </div>
-                        <div class="upgradeCost" id="offensiveUpgrade${i}Buy">
-                            ${FormatNumber(upgrade.upgradeCost)} Gold
-                        </div>
-                    </div>
-                `
+                    `
+                }
+                catch{}
             }
         }
         return upgradesUI
@@ -3106,21 +3114,24 @@ $(()=>{
         for(let i=0;i<player.stats.upgradesBought.defensive.length; i++){
             upgrade=upgradeStats.defensive[i]
             if(!(player.stats.upgradesBought.defensive[i]==true && player.options.ui.hideBoughtUpgrades==true)){
-                upgradesUI+=`
-                    <div class="upgrade interactable ${player.stats.upgradesBought.defensive[i]==true ? "boughtUpgrade" :""}" id="defensiveUpgrade${i}">
-                        <div class="upgradeText">    
-                            <div class="upgradeTitle">
-                                ${upgrade.upgradeName}
+                try{
+                    upgradesUI+=`
+                        <div class="upgrade interactable ${player.stats.upgradesBought.defensive[i]==true ? "boughtUpgrade" :""}" id="defensiveUpgrade${i}">
+                            <div class="upgradeText">    
+                                <div class="upgradeTitle">
+                                    ${upgrade.upgradeName}
+                                </div>
+                                <div class="upgradeDescription">
+                                    ${upgrade.upgradeDescription}
+                                </div>
                             </div>
-                            <div class="upgradeDescription">
-                                ${upgrade.upgradeDescription}
+                            <div class="upgradeCost" id="defensiveUpgrade${i}Buy">
+                                ${FormatNumber(upgrade.upgradeCost)} Gold
                             </div>
                         </div>
-                        <div class="upgradeCost" id="defensiveUpgrade${i}Buy">
-                            ${FormatNumber(upgrade.upgradeCost)} Gold
-                        </div>
-                    </div>
-                `
+                    `
+                }
+                catch{}
             }
         }
         return upgradesUI
@@ -3133,21 +3144,24 @@ $(()=>{
         for(let i=0;i<player.stats.upgradesBought.misc.length; i++){
             upgrade=upgradeStats.misc[i]            
             if(!(player.stats.upgradesBought.misc[i]==true && player.options.ui.hideBoughtUpgrades==true)){
-                upgradesUI+=`
-                    <div class="upgrade interactable ${player.stats.upgradesBought.misc[i]==true ? "boughtUpgrade" :""}" id="miscUpgrade${i}">
-                        <div class="upgradeText">    
-                            <div class="upgradeTitle">
-                                ${upgrade.upgradeName}
+                try{
+                    upgradesUI+=`
+                        <div class="upgrade interactable ${player.stats.upgradesBought.misc[i]==true ? "boughtUpgrade" :""}" id="miscUpgrade${i}">
+                            <div class="upgradeText">    
+                                <div class="upgradeTitle">
+                                    ${upgrade.upgradeName}
+                                </div>
+                                <div class="upgradeDescription">
+                                    ${upgrade.upgradeDescription}
+                                </div>
                             </div>
-                            <div class="upgradeDescription">
-                                ${upgrade.upgradeDescription}
+                            <div class="upgradeCost" id="miscUpgrade${i}Buy">
+                                ${FormatNumber(upgrade.upgradeCost)} Gold
                             </div>
                         </div>
-                        <div class="upgradeCost" id="miscUpgrade${i}Buy">
-                            ${FormatNumber(upgrade.upgradeCost)} Gold
-                        </div>
-                    </div>
-                `
+                    `
+                }
+                catch{}
             }
         }
         return upgradesUI
@@ -3413,7 +3427,7 @@ $(()=>{
         $("#playerGold").text(`Gold: ${FormatNumber(player.stats.coins)}`)
         for (let i=0;i<player.stats.upgradesBought.offensive.length; i++){
             try{
-                if(player.stats.coins>=upgradeStats.offensive[0].upgradeCost){
+                if(player.stats.coins>=upgradeStats.offensive[i].upgradeCost){
                     $(`#offensiveUpgrade${i}Buy`).addClass("purchaseableUpgrade")
                 }
                 else{
@@ -3425,7 +3439,7 @@ $(()=>{
         
         for (let i=0;i<player.stats.upgradesBought.defensive.length; i++){
             try{
-                if(player.stats.coins>=upgradeStats.defensive[0].upgradeCost){
+                if(player.stats.coins>=upgradeStats.defensive[i].upgradeCost){
                     $(`#defensiveUpgrade${i}Buy`).addClass("purchaseableUpgrade")
                 }
                 else{
@@ -3437,7 +3451,7 @@ $(()=>{
 
         for (let i=0;i<player.stats.upgradesBought.misc.length; i++){
             try{
-                if(player.stats.coins>=upgradeStats.misc[0].upgradeCost){
+                if(player.stats.coins>=upgradeStats.misc[i].upgradeCost){
                     $(`#miscUpgrade${i}Buy`).addClass("purchaseableUpgrade")
                 }
                 else{
