@@ -2619,10 +2619,10 @@ $(()=>{
             itemStats+= item.attack.element.earth>0 ? `<p class="itemStat">Earth damage ${FormatNumber(item.attack.element.earth)}</p>` :""
         }
         return `    
-            <span class="itemMain">
+            <div class="itemMain">
                 <p class="itemName ">${item.name}</p>
                 <p class="itemType">${item.itemType}</p>
-            </span>
+            </div>
             ${itemStats}
             <div class="itemActions">
                 <div class="interactable itemAction" id="item${index}Equip">Equip</div>

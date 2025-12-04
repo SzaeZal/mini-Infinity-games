@@ -286,7 +286,7 @@ td{
   height: 230px;
   border-radius: 5px;
 }
-.itemDescription>span{
+.itemDescription>div:first-of-type{
   padding: 10px;
 }
 .itemActions{
