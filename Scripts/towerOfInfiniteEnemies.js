@@ -774,7 +774,188 @@ $(()=>{
                 }
             },
             items:[
-                {}
+                {
+                    dropChance: 0.0002,
+                    name:"VerdantSoul Blade",
+                    itemType:"Weapons/Swords",
+                    rarity:"Mythic",
+                    attack:{
+                        type:{ physical:1500, magic:400 },
+                        element:{ fire:0, earth:15000, water:0, air:0 }
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.001,
+                    name:"Elderwood Longbow",
+                    itemType:"Weapons/Bows",
+                    rarity:"Legendary",
+                    attack:{
+                        type:{ physical:900, magic:100 },
+                        element:{ fire:0, earth:800, water:0, air:300 }
+                    },
+                    misc:{
+                        accuracyMult:3,
+                        criticalChance:15
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.003,
+                    name:"Mossguard Shield",
+                    itemType:"OffHand/Shields",
+                    rarity:"Legendary",
+                    defense:{
+                        type:{ absolute:250, relative:8 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:500, relative:25 },
+                            water:{ absolute:250, relative:10 },
+                            air:{ absolute:0, relative:0 }
+                        }
+                    },
+                    misc:{
+                        reflectChance:75
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.015,
+                    name:"Antler Crown",
+                    itemType:"Armor/Helmets",
+                    rarity:"Legendary",
+                    weight: 1,
+                    maxHealthMultiplier:4,
+                    defense:{
+                        type:{ absolute:150, relative:6 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:250, relative:20 },
+                            water:{ absolute:50, relative:5 },
+                            air:{ absolute:100, relative:10 }
+                        }
+                    },
+                    misc:{
+                        accuracyMult:1.8,
+                        evasionMult:2.5
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.05,
+                    name:"Barkstride Boots",
+                    itemType:"Armor/Boots",
+                    rarity:"Epic",
+                    weight: 1,
+                    defense:{
+                        type:{ absolute:90, relative:4 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:120, relative:15 },
+                            water:{ absolute:30, relative:3 },
+                            air:{ absolute:40, relative:5 }
+                        }
+                    },
+                    misc:{
+                        evasionMult:2
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.2,
+                    name:"Timbermail Chestplate",
+                    itemType:"Armor/Chestplates",
+                    rarity:"Epic",
+                    weight: 3,
+                    maxHealthMultiplier:2,
+                    defense:{
+                        type:{ absolute:200, relative:6 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:250, relative:20 },
+                            water:{ absolute:150, relative:15 },
+                            air:{ absolute:0, relative:0 }
+                        }
+                    },
+                    misc:{
+                        accuracyMult:1.2
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.7,
+                    name:"Leafwoven Leggings",
+                    itemType:"Armor/Leggings",
+                    rarity:"Rare",
+                    weight: 2,
+                    defense:{
+                        type:{ absolute:120, relative:5 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:100, relative:12 },
+                            water:{ absolute:60, relative:7 },
+                            air:{ absolute:0, relative:0 }
+                        }
+                    },
+                    misc:{
+                        evasionMult:1.4
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 12,
+                    name:"Claw Gauntlets",
+                    itemType:"Weapons/HandGears",
+                    rarity:"Uncommon",
+                    attack:{
+                        type:{ physical:40, magic:0 },
+                        element:{ fire:0, earth:20, water:0, air:0 }
+                    },
+                    misc:{
+                        attackSpeed:1.5,
+                        criticalChance:4
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 22,
+                    name:"Forager Axe",
+                    itemType:"Weapons/Axes",
+                    rarity:"Uncommon",
+                    attack:{
+                        type:{ physical:35, magic:0 },
+                        element:{ fire:0, earth:15, water:0, air:0 }
+                    },
+                    misc:{
+                        attackSpeed:1.2
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 55,
+                    name:"Oak Bow",
+                    itemType:"Weapons/Bows",
+                    rarity:"Common",
+                    attack:{
+                        type:{ physical:12, magic:0 },
+                        element:{ fire:0, earth:4, water:0, air:0 }
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 100,
+                    name:"Twig Dagger",
+                    itemType:"Weapons/Daggers",
+                    rarity:"Common",
+                    attack:{
+                        type:{ physical:7, magic:0 },
+                        element:{ fire:0, earth:0, water:0, air:0 }
+                    },
+                    misc:{
+                        attackSpeed:1.7
+                    },
+                    special: undefined
+                }
             ]
         },
         floor3:{
@@ -2049,13 +2230,16 @@ $(()=>{
     const AddInventoryUIEvents = ()=>{
         for(let i=0; i<player.stats.inventory.length; i++){
             try{
-                $(`#storedItem${i}`).on("click", ()=>{                    
-                    if("hiddenPart" == $(`#storedItem${i}Description`)[0].classList[0] || "hiddenPart" == $(`#storedItem${i}Description`)[0].classList[3]){                        
-                        $(`#storedItem${i}Description`).removeClass("hiddenPart")
+                $(`#itemSlot${i}`).on("click", ()=>{      
+                    try{              
+                        if($(`#storedItem${i}Description`)[0].className.split(" ").indexOf("hiddenPart")!=-1){                        
+                            $(`#storedItem${i}Description`).removeClass("hiddenPart")
+                        }
+                        else{                        
+                            $(`#storedItem${i}Description`).addClass("hiddenPart")
+                        }
                     }
-                    else{                        
-                        $(`#storedItem${i}Description`).addClass("hiddenPart")
-                    }
+                    catch{}
                 })
 
                 $(`#item${i}Equip`).on("click", ()=>{EquipItem(i)})
@@ -2065,10 +2249,10 @@ $(()=>{
 
             }
         }
-
+        
         if(player.stats.gear.weapon.attack!=undefined){
-            $("#itemSlotWeapon").on("click", ()=>{                
-                if("hiddenPart" == $(`#storedItemWeaponDescription`)[0].classList[0] || "hiddenPart" == $(`#storedItemWeaponDescription`)[0].classList[3]){                        
+            $("#itemSlotWeapon").on("click", ()=>{                         
+                if($(`#storedItemWeaponDescription`)[0].className.split(" ").indexOf("hiddenPart")!=-1){                        
                     $(`#storedItemWeaponDescription`).removeClass("hiddenPart")
                 }
                 else{                        
@@ -2079,6 +2263,81 @@ $(()=>{
             $(`#itemWeaponEquip`).on("click", ()=>{UnquipItem("Weapon")})
             $(`#itemWeaponEquip`).text("Unequip")
             $(`#itemWeaponDelete`).on("click", ()=>{DeleteItem("Weapon")})
+        }
+
+        if(player.stats.gear.offhand.attack!=undefined || player.stats.gear.offhand.defense!=undefined || player.stats.gear.offhand.misc!=undefined){
+            $("#itemSlotOffHand").on("click", ()=>{                         
+                if($(`#storedItemOffHandDescription`)[0].className.split(" ").indexOf("hiddenPart")!=-1){                        
+                    $(`#storedItemOffHandDescription`).removeClass("hiddenPart")
+                }
+                else{                        
+                    $(`#storedItemOffHandDescription`).addClass("hiddenPart")
+                }
+            })
+
+            $(`#itemOffHandEquip`).on("click", ()=>{UnquipItem("Weapon")})
+            $(`#itemOffHandEquip`).text("Unequip")
+            $(`#itemOffHandDelete`).on("click", ()=>{DeleteItem("Weapon")})
+        }
+
+        if(player.stats.gear.armor.helmet.maxHealthMultiplier!=undefined){
+            $("#itemSlotHelmet").on("click", ()=>{                         
+                if($(`#storedItemHelmetDescription`)[0].className.split(" ").indexOf("hiddenPart")!=-1){                        
+                    $(`#storedItemHelmetDescription`).removeClass("hiddenPart")
+                }
+                else{                        
+                    $(`#storedItemWeaponDescription`).addClass("hiddenPart")
+                }
+            })
+
+            $(`#itemHelmetEquip`).on("click", ()=>{UnquipItem("Weapon")})
+            $(`#itemHelmetEquip`).text("Unequip")
+            $(`#itemHelmetDelete`).on("click", ()=>{DeleteItem("Weapon")})
+        }
+
+        if(player.stats.gear.armor.chestplate.maxHealthMultiplier!=undefined){
+            $("#itemSlotChestplate").on("click", ()=>{                         
+                if($(`#storedItemChestplateDescription`)[0].className.split(" ").indexOf("hiddenPart")!=-1){                        
+                    $(`#storedItemChestplateDescription`).removeClass("hiddenPart")
+                }
+                else{                        
+                    $(`#storedItemChestplateDescription`).addClass("hiddenPart")
+                }
+            })
+
+            $(`#itemChestplateEquip`).on("click", ()=>{UnquipItem("Weapon")})
+            $(`#itemChestplateEquip`).text("Unequip")
+            $(`#itemChestplateDelete`).on("click", ()=>{DeleteItem("Weapon")})
+        }
+
+        if(player.stats.gear.armor.leggings.maxHealthMultiplier!=undefined){
+            $("#itemSlotLeggings").on("click", ()=>{                         
+                if($(`#storedItemLeggingsDescription`)[0].className.split(" ").indexOf("hiddenPart")!=-1){                        
+                    $(`#storedItemLeggingsDescription`).removeClass("hiddenPart")
+                }
+                else{                        
+                    $(`#storedItemLeggingsDescription`).addClass("hiddenPart")
+                }
+            })
+
+            $(`#itemLeggingsEquip`).on("click", ()=>{UnquipItem("Weapon")})
+            $(`#itemLeggingsEquip`).text("Unequip")
+            $(`#itemLeggingsDelete`).on("click", ()=>{DeleteItem("Weapon")})
+        }
+
+        if(player.stats.gear.armor.boots.maxHealthMultiplier!=undefined){
+            $("#itemSlotBoots").on("click", ()=>{                         
+                if($(`#storedItemBootsDescription`)[0].className.split(" ").indexOf("hiddenPart")!=-1){                        
+                    $(`#storedItemBootsDescription`).removeClass("hiddenPart")
+                }
+                else{                        
+                    $(`#storedItemBootsDescription`).addClass("hiddenPart")
+                }
+            })
+
+            $(`#itemBootsEquip`).on("click", ()=>{UnquipItem("Weapon")})
+            $(`#itemBootsEquip`).text("Unequip")
+            $(`#itemBootsDelete`).on("click", ()=>{DeleteItem("Weapon")})
         }
     }
     //#endregion
@@ -2170,15 +2429,74 @@ $(()=>{
     const EquipItem = (index)=>{
         let item=player.stats.inventory[index]
         let itemTypes=item.itemType.split("/")
+        let otherItemIdPart
         if(itemTypes[0]=="Weapons"){
-            $(`#storedItem${index}Description`).addClass("hiddenPart")
-            let htmltemp=$(`#itemSlotWeapon`).html()            
-            $(`#itemSlotWeapon`).html($(`#itemSlot${index}`).html())
-            $(`#itemSlot${index}`).html(htmltemp)
+            otherItemIdPart="Weapon"
             let itemTemp=item
             player.stats.inventory[index]=player.stats.gear.weapon
             player.stats.gear.weapon=itemTemp
         }
+        else if(itemTypes[0]=="OffHand"){
+            otherItemIdPart="OffHand"
+            let itemTemp=item
+            player.stats.inventory[index]=player.stats.gear.offhand
+            player.stats.gear.offhand=itemTemp
+        }
+        else if(itemTypes[1]=="Helmets"){
+            otherItemIdPart="Helmet"
+            let itemTemp=item
+            player.stats.inventory[index]=player.stats.gear.armor.helmet
+            player.stats.gear.armor.helmet=itemTemp
+        }
+        else if(itemTypes[1]=="Chestplates"){
+            otherItemIdPart="Chestplate"
+            let itemTemp=item
+            player.stats.inventory[index]=player.stats.gear.armor.chestplate
+            player.stats.gear.armor.chestplate=itemTemp
+        }
+        else if(itemTypes[1]=="Leggings"){
+            otherItemIdPart="Leggings"
+            let itemTemp=item
+            player.stats.inventory[index]=player.stats.gear.armor.leggings
+            player.stats.gear.armor.leggings=itemTemp
+        }
+        else{
+            otherItemIdPart="Boots"
+            let itemTemp=item
+            player.stats.inventory[index]=player.stats.gear.armor.boots
+            player.stats.gear.armor.boots=itemTemp
+        }
+        let htmltemp=$(`#itemSlot${otherItemIdPart}`).html()
+        $(`#itemSlot${otherItemIdPart}`).html($(`#itemSlot${index}`).html())
+        $(`#itemSlot${index}`).html(htmltemp)
+
+        $(`#storedItem${index}Description`).attr("id", "temp")
+        $(`#storedItem${otherItemIdPart}Description`).attr("id", `storedItem${index}Description`)
+        $(`#temp`).attr("id", `storedItem${otherItemIdPart}Description`)
+
+        $(`#storedItem${otherItemIdPart}Description`).removeClass("inventoryItemDesc")
+        $(`#storedItem${otherItemIdPart}Description`).addClass("equippedItemDesc")
+
+        $(`#storedItem${index}Description`).removeClass("equippedItemDesc")
+        $(`#storedItem${index}Description`).addClass("inventoryItemDesc")
+
+        $(`#storedItem${index}`).attr("id", "temp")
+        $(`#storedItem${otherItemIdPart}`).attr("id", `storedItem${index}`)
+        $(`#temp`).attr("id", `storedItem${otherItemIdPart}`)
+
+        $(`#item${index}Equip`).attr("id", "temp")
+        $(`#item${otherItemIdPart}Equip`).attr("id", `item${index}Equip`)
+        $(`#temp`).attr("id", `item${otherItemIdPart}Equip`)
+
+        $(`#item${otherItemIdPart}Equip`).text("Unequip")
+        $(`#item${index}Equip`).text("Equip")
+
+        $(`#item${index}Delete`).attr("id", "temp")
+        $(`#item${otherItemIdPart}Delete`).attr("id", `item${index}Delete`)
+        $(`#temp`).attr("id", `item${otherItemIdPart}Delete`)
+            
+        $(`#storedItem${index}Description`).addClass("hiddenPart")
+        $(`#storedItem${otherItemIdPart}Description`).addClass("hiddenPart")
         CalculatePlayerStats()
     }
     //#endregion
@@ -2342,11 +2660,11 @@ $(()=>{
     //#region CalculatePlayerMisc
     const CalculatePlayerMisc = ()=>{
         playerStatsCalculated.maxHealth = 100
-            *(player.stats.gear.armor.helmet.misc == undefined ? 1 : player.stats.gear.armor.helmet.misc.maxHealthMultiplier)
-            *(player.stats.gear.armor.chestplate.misc == undefined ? 1 : player.stats.gear.armor.chestplate.misc.maxHealthMultiplier)
-            *(player.stats.gear.armor.leggings.misc == undefined ? 1 : player.stats.gear.armor.leggings.misc.maxHealthMultiplier)
-            *(player.stats.gear.armor.boots.misc == undefined ? 1 : player.stats.gear.armor.boots.misc.maxHealthMultiplier)
-            *(player.stats.gear.offhand.misc == undefined ? 1 : player.stats.gear.offhand.misc.maxHealthMultiplier)
+            *(player.stats.gear.armor.helmet.maxHealthMultiplier == undefined ? 1 : player.stats.gear.armor.helmet.maxHealthMultiplier)
+            *(player.stats.gear.armor.chestplate.maxHealthMultiplier == undefined ? 1 : player.stats.gear.armor.chestplate.maxHealthMultiplier)
+            *(player.stats.gear.armor.leggings.maxHealthMultiplier == undefined ? 1 : player.stats.gear.armor.leggings.maxHealthMultiplier)
+            *(player.stats.gear.armor.boots.maxHealthMultiplier == undefined ? 1 : player.stats.gear.armor.boots.maxHealthMultiplier)
+            *(player.stats.gear.offhand.maxHealthMultiplier == undefined ? 1 : player.stats.gear.offhand.maxHealthMultiplier)
             * upgradeStats.defensive[0].effect.maxHealthMultiplier
 
         playerStatsCalculated.misc.attackSpeed = 1
@@ -2370,18 +2688,18 @@ $(()=>{
         playerStatsCalculated.misc.evasion= 0 //TODO: change based on armor weight
 
         playerStatsCalculated.misc.reflectChance = 0
-            +(player.stats.gear.armor.helmet.misc == undefined ? 0 : player.stats.gear.armor.helmet.misc.reflectChance)
-            +(player.stats.gear.armor.chestplate.misc == undefined ? 0 : player.stats.gear.armor.chestplate.misc.reflectChance)
-            +(player.stats.gear.armor.leggings.misc == undefined ? 0 : player.stats.gear.armor.leggings.misc.reflectChance)
-            +(player.stats.gear.armor.boots.misc == undefined ? 0 : player.stats.gear.armor.boots.misc.reflectChance)
-            +(player.stats.gear.offhand.misc == undefined ? 0 : player.stats.gear.offhand.misc.reflectChance)
+            +(player.stats.gear.armor.helmet.misc == undefined || player.stats.gear.armor.helmet.misc.reflectChance == undefined ? 0 : player.stats.gear.armor.helmet.misc.reflectChance)
+            +(player.stats.gear.armor.chestplate.misc == undefined || player.stats.gear.armor.chestplate.misc.reflectChance == undefined ? 0 : player.stats.gear.armor.chestplate.misc.reflectChance)
+            +(player.stats.gear.armor.leggings.misc == undefined || player.stats.gear.armor.leggings.misc.reflectChance == undefined ? 0 : player.stats.gear.armor.leggings.misc.reflectChance)
+            +(player.stats.gear.armor.boots.misc == undefined || player.stats.gear.armor.boots.misc.reflectChance == undefined ? 0 : player.stats.gear.armor.boots.misc.reflectChance)
+            +(player.stats.gear.offhand.misc == undefined || player.stats.gear.offhand.misc.reflectChance == undefined ? 0 : player.stats.gear.offhand.misc.reflectChance)
 
         playerStatsCalculated.misc.regeneration = 0
-            +(player.stats.gear.armor.helmet.misc == undefined ? 0 : player.stats.gear.armor.helmet.misc.regeneration)
-            +(player.stats.gear.armor.chestplate.misc == undefined ? 0 : player.stats.gear.armor.chestplate.misc.regeneration)
-            +(player.stats.gear.armor.leggings.misc == undefined ? 0 : player.stats.gear.armor.leggings.misc.regeneration)
-            +(player.stats.gear.armor.boots.misc == undefined ? 0 : player.stats.gear.armor.boots.misc.regeneration)
-            +(player.stats.gear.offhand.misc == undefined ? 0 : player.stats.gear.offhand.misc.regeneration)
+            +(player.stats.gear.armor.helmet.misc == undefined || player.stats.gear.armor.helmet.misc.regenerationAdder == undefined ? 0 : player.stats.gear.armor.helmet.misc.regeneration)
+            +(player.stats.gear.armor.chestplate.misc == undefined || player.stats.gear.armor.chestplate.misc.regenerationAdder == undefined ? 0 : player.stats.gear.armor.chestplate.misc.regeneration)
+            +(player.stats.gear.armor.leggings.misc == undefined || player.stats.gear.armor.leggings.misc.regenerationAdder == undefined ? 0 : player.stats.gear.armor.leggings.misc.regeneration)
+            +(player.stats.gear.armor.boots.misc == undefined || player.stats.gear.armor.boots.misc.regenerationAdder == undefined ? 0 : player.stats.gear.armor.boots.misc.regeneration)
+            +(player.stats.gear.offhand.misc == undefined || player.stats.gear.offhand.misc.regenerationAdder == undefined ? 0 : player.stats.gear.offhand.misc.regeneration)
             + upgradeStats.defensive[1].effect.regenerationAdder
     }
     //#endregion
@@ -3229,6 +3547,7 @@ $(()=>{
             UpdateUpgradesAfterLoad()
             CalculatePlayerStats()
 
+            playerStatsCalculated.health=playerStatsCalculated.maxHealth /2
         }
         catch (e) {
             console.log(e);
