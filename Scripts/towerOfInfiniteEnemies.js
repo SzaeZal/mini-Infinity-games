@@ -1891,7 +1891,7 @@ $(()=>{
     const view = $("#view")
     let mainMenuIndex=2
     let subMenuIndexes=[0, 0, 0, 0, 0]
-    let subMenuLimits=[2, 1, 0, 0, 0]
+    let subMenuLimits=[1, 1, 0, 0, 0]
     $(document).keydown((e)=>{
         if(e.originalEvent.code == "KeyS" || e.originalEvent.code == "ArrowDown"){
             mainMenuIndex= mainMenuIndex == subMenuLimits.length-1 ? 0 : mainMenuIndex+1
@@ -1926,9 +1926,6 @@ $(()=>{
             case 1:
                 GoToSaveSettings();
                 break;
-            case 2:
-                GoToSaveBank();
-                break;
             default:
                 console.log("Settings sub navigation broke")
                 break;
@@ -1944,9 +1941,6 @@ $(()=>{
                 </div>
                 <div id="saveSettingsSubMenuItem" class="subMenuItem">
                     Save Settings
-                </div>
-                <div id="saveBankSubMenuItem" class="subMenuItem">
-                    Save Bank
                 </div>
             </div>
             <div class="mainView">
@@ -2012,12 +2006,7 @@ $(()=>{
                 subMenuIndexes[mainMenuIndex]=1
                 GoToSaveSettings()
             })
-            $("#saveBankSubMenuItem").on("click", ()=>{
-                subMenuIndexes[mainMenuIndex]=2
-                GoToSaveBank()
-            })
             $("#saveSettingsSubMenuItem").addClass("interactable")
-            $("#saveBankSubMenuItem").addClass("interactable")
         }
 
         $("#themeDarkOption").on("click", ()=>SetTheme("Dark"))
@@ -2066,9 +2055,6 @@ $(()=>{
                 </div>
                 <div class="subMenuItem selectedSubMenuItem">
                     Save Settings
-                </div>
-                <div id="saveBankSubMenuItem" class="subMenuItem interactable">
-                    Save Bank
                 </div>
             </div>
             <div class="mainView">
@@ -2127,10 +2113,6 @@ $(()=>{
                 subMenuIndexes[mainMenuIndex]=0
                 GoToUISettings()
             })
-            $("#saveBankSubMenuItem").on("click", ()=>{
-                subMenuIndexes[mainMenuIndex]=2
-                GoToSaveBank()
-            })
         }
         else{
             $("#UISettingsSubMenuItem").removeClass("interactable")
@@ -2168,53 +2150,6 @@ $(()=>{
         }
         $(`#autoSaveRate${newms}Option`).addClass("selectedOption")
     }
-    //#endregion
-    //#region Save bank
-    const GoToSaveBank = () =>{
-        view.html(`
-            <div id="subMenuInView" ${player.options.ui.subMenuShown==false ? 'class="subMenuHidden"' : ""}>
-                <div id="UISettingsSubMenuItem" class="subMenuItem interactable">
-                    UI Settings
-                </div>
-                <div id="saveSettingsSubMenuItem" class="subMenuItem interactable">
-                    Save Settings
-                </div>
-                <div class="subMenuItem selectedSubMenuItem">
-                    Save Bank
-                </div>
-            </div>
-            <div class="mainView">
-                <h1>to be honest this is only here if I ever decide to return to this game and actually expand it with the ideas I had for the full experience</h1>
-            </div>  
-        `)
-        AddSaveBankUIEvents()
-    }
-    //#endregion
-    //#region AddSaveBankUIEvents
-    const AddSaveBankUIEvents=()=>{
-        if(player.options.ui.subMenuShown==true){
-            $("#UISettingsSubMenuItem").on("click", ()=>{
-                subMenuIndexes[mainMenuIndex]=0
-                GoToUISettings()
-            })
-            $("#saveSettingsSubMenuItem").on("click", ()=>{
-                subMenuIndexes[mainMenuIndex]=1
-                GoToSaveSettings()
-            })
-        }
-        else{
-            $("#UISettingsSubMenuItem").removeClass("interactable")
-            $("#saveSettingsSubMenuItem").removeClass("interactable")
-        }
-
-    }
-    //#endregion
-    //#region Save bank functions
-    const saveBank={
-
-    }
-
-    
     //#endregion
     //#region Information nav
     $("#information").on("click", ()=>{
@@ -2298,10 +2233,10 @@ $(()=>{
                         <div class="changelogChanges">
                             <ul>
                                 <li>Initial release</li>
-                                <li>Added 10 floors</li>
-                                <li>Added 10 enemies</li>
-                                <li>Added 10 bosses</li>
-                                <li>Added far too many items</li>
+                                <li>Added 5 floors</li>
+                                <li>Added 5 enemies</li>
+                                <li>Added 5 bosses</li>
+                                <li>Added 33? items</li>
                                 <li>Added inventory</li>
                                 <li>Added 9 upgrades</li>
                             </ul>

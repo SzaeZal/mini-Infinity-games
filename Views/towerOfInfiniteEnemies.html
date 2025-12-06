@@ -68,14 +68,844 @@
                 </svg>
             </div>
             <div id="view">
+                <!--tower tab-->
                 <div id="subMenuInView">
+                    <div class="subMenuItem selectedSubMenuItem">
+                        Tower
+                    </div>
+                </div>
+                <div class="mainView" id="fightView">
+                    <div id="gameSpeed"></div>
+                    <div class="floorSelect">
+                        <div class="floorSelectItem inactiveFloorSelectItem" id="floorSelectFirst">
+                            Floor 1
+                        </div>
+                        <div class="floorSelectItem inactiveFloorSelectItem" id="floorSelectBack">
+                            Last floor
+                        </div>
+                        <div id="currentFloor">
+                            Floor 1
+                        </div>
+                        <div class="floorSelectItem inactiveFloorSelectItem" id="floorSelectForward">
+                            Next floor
+                        </div>
+                        <div class="floorSelectItem inactiveFloorSelectItem" id="floorSelectLast">
+                            Floor 1
+                        </div>
+                    </div>
+                    <div class="progressBar" id="floorEnemiesKilledToBoss" style="background-color: orange;">Enter boss lair</div>
+                    <div class="progressBar" id="floorEnemiesKilledToClear" style="background-image: linear-gradient(to right, orange, orange 1.25503%, transparent 1.25503%, transparent);">7390 / 1.78e308 enemies</div>
+                    <div id="fightSides">
+                        <div class="fightSide">
+                            <div class="fightSideTitle">
+                                Player
+                            </div>
+                            
+                            <div class="progressBar" id="playerHealthBar" style="background-image: linear-gradient(to right, red, red 97.0063%, transparent 97.0063%, transparent);">776 / 800 Hp</div>
+                            <div class="progressBar" id="playerAttackBar" style="background-image: linear-gradient(to right, blue, blue 0%, transparent 0%, transparent);">0 / 909 ms</div>
+                            <div id="attackToggle">Start fight</div>
+                            <ul id="playerStats">
+                                <li>Damage: 1 physical, 0 magic</li>
+                                <li>Defense: 4% + 210 </li>
+                                <li>Elemental Damage: 0 fire, 0 water, 
+                                    0 air, 0 earth</li>
+                                <li>Elemental Defense: 
+                                    0% + 0 fire,
+                                    0% + 0 water, 
+                                    0% + 0 air, 
+                                    20% + 200 earth
+                                </li>
+                                <li>Regeneration: 5 / s</li>
+                                <li>Hit chance: 100%</li>
+                                <li>Reflect chance: 0%</li>
+                                <li>Critical chance: 0%</li>
+                                <li>Critical multiplier: x2</li>
+                            </ul>
+                        </div>
+                        <div class="fightSide">
+                            <div class="fightSideTitle">
+                                Wolf
+                            </div>
+                            
+                            <div class="progressBar" id="enemyHealthBar" style="background-image: linear-gradient(to right, red, red 100%, transparent 100%, transparent);">15 / 15 Hp</div>
+                            <div class="progressBar" id="enemyAttackBar" style="background-image: linear-gradient(to right, blue, blue 0%, transparent 0%, transparent);">0 / 1000 ms</div>
+                            <div class="goldReward">
+                                Kill reward: 1 Gold + 1 drop (see below)
+                            </div>
+                            <ul id="enemyStats">
+                                <li>Damage: 1 physical, 0 magic</li>
+                                <li>Defense: 0% + 0 </li>
+                                <li>Elemental Damage: 0 fire, 0 water, 
+                                    0 air, 0 earth</li>
+                                <li>Elemental Defense: 
+                                    0% + 0 fire,
+                                    0% + 0 water, 
+                                    0% + 0 air, 
+                                    0% + 0 earth
+                                </li>
+                                <li>Regeneration: 0 / s</li>
+                                <li>Hit chance: 100%</li>
+                                <li>Reflect chance: 0%</li>
+                                <li>Critical chance: 0%</li>
+                                <li>Critical multiplier: x2</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <table id="dropChances">
+                        <caption>
+                            Floor drops
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th id="itemName">
+                                    Item name
+                                </th>
+                                <th id="itemType">
+                                    Item type
+                                </th>
+                                <th id="itemBaseChance">
+                                    Base rarity
+                                </th>
+                                <th id="autoDelete">
+                                    Auto delete
+                                </th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody><tr>
+                            <td headers="itemName">
+                                crimsonBlade
+                            </td>
+                            <td headers="itemType">
+                                Weapons/Swords
+                            </td>
+                            <td headers="itemBaseChance">
+                                0.0001%
+                            </td>
+                            <td id="autoDeleteItem0" class="interactable inactiveAutoDelete" headers="autoDelete">
+                                <svg id="autoDeleteItem0Svg" xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 -960 960 960" width="25px" fill="#888"><path d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"></path></svg>
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td headers="itemName">
+                                woB
+                            </td>
+                            <td headers="itemType">
+                                Weapons/Bows
+                            </td>
+                            <td headers="itemBaseChance">
+                                0.0005%
+                            </td>
+                            <td id="autoDeleteItem1" class="interactable inactiveAutoDelete" headers="autoDelete">
+                                <svg id="autoDeleteItem1Svg" xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 -960 960 960" width="25px" fill="#888"><path d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"></path></svg>
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td headers="itemName">
+                                Spiked shield
+                            </td>
+                            <td headers="itemType">
+                                OffHand/Shields
+                            </td>
+                            <td headers="itemBaseChance">
+                                0.005%
+                            </td>
+                            <td id="autoDeleteItem2" class="interactable inactiveAutoDelete" headers="autoDelete">
+                                <svg id="autoDeleteItem2Svg" xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 -960 960 960" width="25px" fill="#888"><path d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"></path></svg>
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td headers="itemName">
+                                Wolf hat
+                            </td>
+                            <td headers="itemType">
+                                Armor/Helmets
+                            </td>
+                            <td headers="itemBaseChance">
+                                0.01%
+                            </td>
+                            <td id="autoDeleteItem3" class="interactable inactiveAutoDelete" headers="autoDelete">
+                                <svg id="autoDeleteItem3Svg" xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 -960 960 960" width="25px" fill="#888"><path d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"></path></svg>
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td headers="itemName">
+                                Wolf boots
+                            </td>
+                            <td headers="itemType">
+                                Armor/Boots
+                            </td>
+                            <td headers="itemBaseChance">
+                                0.07%
+                            </td>
+                            <td id="autoDeleteItem4" class="interactable inactiveAutoDelete" headers="autoDelete">
+                                <svg id="autoDeleteItem4Svg" xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 -960 960 960" width="25px" fill="#888"><path d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"></path></svg>
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td headers="itemName">
+                                Wolf chestplate
+                            </td>
+                            <td headers="itemType">
+                                Armor/Chestplates
+                            </td>
+                            <td headers="itemBaseChance">
+                                0.25%
+                            </td>
+                            <td id="autoDeleteItem5" class="interactable inactiveAutoDelete" headers="autoDelete">
+                                <svg id="autoDeleteItem5Svg" xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 -960 960 960" width="25px" fill="#888"><path d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"></path></svg>
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td headers="itemName">
+                                Wolf leggings
+                            </td>
+                            <td headers="itemType">
+                                Armor/Leggings
+                            </td>
+                            <td headers="itemBaseChance">
+                                1%
+                            </td>
+                            <td id="autoDeleteItem6" class="interactable inactiveAutoDelete" headers="autoDelete">
+                                <svg id="autoDeleteItem6Svg" xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 -960 960 960" width="25px" fill="#888"><path d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"></path></svg>
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td headers="itemName">
+                                knuckles
+                            </td>
+                            <td headers="itemType">
+                                Weapons/HandGears
+                            </td>
+                            <td headers="itemBaseChance">
+                                15%
+                            </td>
+                            <td id="autoDeleteItem7" class="interactable inactiveAutoDelete" headers="autoDelete">
+                                <svg id="autoDeleteItem7Svg" xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 -960 960 960" width="25px" fill="#888"><path d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"></path></svg>
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td headers="itemName">
+                                Iron sword
+                            </td>
+                            <td headers="itemType">
+                                Weapons/Swords
+                            </td>
+                            <td headers="itemBaseChance">
+                                30%
+                            </td>
+                            <td id="autoDeleteItem8" class="interactable activeAutoDelete" headers="autoDelete">
+                                <svg id="autoDeleteItem8Svg" xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 -960 960 960" width="25px" fill="#888"><path d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"></path></svg>
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td headers="itemName">
+                                Wood bow
+                            </td>
+                            <td headers="itemType">
+                                Weapons/Bows
+                            </td>
+                            <td headers="itemBaseChance">
+                                65%
+                            </td>
+                            <td id="autoDeleteItem9" class="interactable activeAutoDelete" headers="autoDelete">
+                                <svg id="autoDeleteItem9Svg" xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 -960 960 960" width="25px" fill="#888"><path d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"></path></svg>
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td headers="itemName">
+                                Wood sword
+                            </td>
+                            <td headers="itemType">
+                                Weapons/Swords
+                            </td>
+                            <td headers="itemBaseChance">
+                                100%
+                            </td>
+                            <td id="autoDeleteItem10" class="interactable activeAutoDelete" headers="autoDelete">
+                                <svg id="autoDeleteItem10Svg" xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 -960 960 960" width="25px" fill="#888"><path d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"></path></svg>
+                            </td>
+                        </tr>
+                    
+                    </tbody></table>    
+                </div>
+                <!--inventory tab-->
+                <div id="subMenuInView1">
                     <div class="subMenuItem selectedSubMenuItem">
                         Main
                     </div>
                 </div>
-                <div class="mainView">
-                    
+                <div class="mainView inventoryView">
+                    <div class="equippedItems">
+                        <img src="../Images/TowerOfInfiniteEnemies/graystickfigure.png" alt="player image">
+                        <div class="armorItems">
+                            <div class="storedItem" id="itemSlotHelmet">
+                                
+                            </div>
+                            <div class="storedItem" id="itemSlotChestplate">
+                                <img src="../Images/TowerOfInfiniteEnemies/questionMark.png" onerror="this.onerror=null; this.src='../Images/TowerOfInfiniteEnemies/questionMark.png'" alt="inventory item Armor/Chestplates Wolf chestplate" class="rarityLegendary" id="storedItemChestplate">
+                <div class="hiddenPart itemDescription theme-dark equippedItemDesc" id="storedItemChestplateDescription">
+                        
+                <div class="itemMain">
+                    <p class="itemName ">Wolf chestplate</p>
+                    <p class="itemType">Armor/Chestplates</p>
                 </div>
+                <div class="itemStats">
+                    <p class="itemStat">Weight: 3</p><p class="itemStat">Max health: x2</p><p class="itemStat">Physical defense: 100 + 2%</p><p class="itemStat">Earth defense: 100 + 10%</p><p class="itemStat">Critical chance: +5%</p><p class="itemStat">Critical damage mult: x2</p><p class="itemStat">Evasion: x2</p><p class="itemStat">Accuracy: x1.5</p>
+                </div>
+                <div class="itemActions">
+                    <div class="interactable itemAction" id="itemChestplateEquip">Unequip</div>
+                    <div class="interactable itemAction" id="itemChestplateDelete">Delete</div>
+                </div>
+            
+                </div>
+                            </div>
+                            <div class="storedItem" id="itemSlotLeggings">
+                                <img src="../Images/TowerOfInfiniteEnemies/questionMark.png" onerror="this.onerror=null; this.src='../Images/TowerOfInfiniteEnemies/questionMark.png'" alt="inventory item Armor/Leggings Wolf leggings" class="rarityLegendary" id="storedItemLeggings">
+                <div class="hiddenPart itemDescription theme-dark equippedItemDesc" id="storedItemLeggingsDescription">
+                        
+                <div class="itemMain">
+                    <p class="itemName ">Wolf leggings</p>
+                    <p class="itemType">Armor/Leggings</p>
+                </div>
+                <div class="itemStats">
+                    <p class="itemStat">Weight: 2</p><p class="itemStat">Max health: x2</p><p class="itemStat">Physical defense: 100 + 2%</p><p class="itemStat">Earth defense: 100 + 10%</p><p class="itemStat">Critical chance: +5%</p><p class="itemStat">Critical damage mult: x2</p><p class="itemStat">Evasion: x2</p>
+                </div>
+                <div class="itemActions">
+                    <div class="interactable itemAction" id="itemLeggingsEquip">Unequip</div>
+                    <div class="interactable itemAction" id="itemLeggingsDelete">Delete</div>
+                </div>
+            
+                </div>
+                            </div>
+                            <div class="storedItem" id="itemSlotBoots">
+                                
+                            </div>
+                        </div>
+                        <div class="handHeldItems">
+                            <div class="storedItem" id="itemSlotWeapon">
+                                
+                            </div>
+                            <div class="storedItem" id="itemSlotOffHand">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="storedItems">
+                        
+                    <div class="storedItem" id="itemSlot0">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot1">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot2">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot3">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot4">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot5">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot6">
+                        <img src="../Images/TowerOfInfiniteEnemies/questionMark.png" onerror="this.onerror=null; this.src='../Images/TowerOfInfiniteEnemies/questionMark.png'" alt="inventory item Armor/Leggings Wolf leggings" class="rarityLegendary" id="storedItem6">
+                <div class="hiddenPart itemDescription theme-dark inventoryItemDesc" id="storedItem6Description">
+                        
+                <div class="itemMain">
+                    <p class="itemName ">Wolf leggings</p>
+                    <p class="itemType">Armor/Leggings</p>
+                </div>
+                <div class="itemStats">
+                    <p class="itemStat">Weight: 2</p><p class="itemStat">Max health: x2</p><p class="itemStat">Physical defense: 100 + 2%</p><p class="itemStat">Earth defense: 100 + 10%</p><p class="itemStat">Critical chance: +5%</p><p class="itemStat">Critical damage mult: x2</p><p class="itemStat">Evasion: x2</p>
+                </div>
+                <div class="itemActions">
+                    <div class="interactable itemAction" id="item6Equip">Equip</div>
+                    <div class="interactable itemAction" id="item6Delete">Delete</div>
+                </div>
+            
+                </div>
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot7">
+                        <img src="../Images/TowerOfInfiniteEnemies/questionMark.png" onerror="this.onerror=null; this.src='../Images/TowerOfInfiniteEnemies/questionMark.png'" alt="inventory item Armor/Leggings Wolf leggings" class="rarityLegendary" id="storedItem7">
+                <div class="hiddenPart itemDescription theme-dark inventoryItemDesc" id="storedItem7Description">
+                        
+                <div class="itemMain">
+                    <p class="itemName ">Wolf leggings</p>
+                    <p class="itemType">Armor/Leggings</p>
+                </div>
+                <div class="itemStats">
+                    <p class="itemStat">Weight: 2</p><p class="itemStat">Max health: x2</p><p class="itemStat">Physical defense: 100 + 2%</p><p class="itemStat">Earth defense: 100 + 10%</p><p class="itemStat">Critical chance: +5%</p><p class="itemStat">Critical damage mult: x2</p><p class="itemStat">Evasion: x2</p>
+                </div>
+                <div class="itemActions">
+                    <div class="interactable itemAction" id="item7Equip">Equip</div>
+                    <div class="interactable itemAction" id="item7Delete">Delete</div>
+                </div>
+            
+                </div>
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot8">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot9">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot10">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot11">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot12">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot13">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot14">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot15">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot16">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot17">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot18">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot19">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot20">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot21">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot22">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot23">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot24">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot25">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot26">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot27">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot28">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot29">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot30">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot31">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot32">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot33">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot34">
+                        
+                    </div>
+                
+                    <div class="storedItem" id="itemSlot35">
+                        
+                    </div>
+                
+                    </div>
+                </div>
+                <!--upgrades tab-->
+                <div id="subMenuInView2">
+                    <div class="subMenuItem selectedSubMenuItem">
+                        Upgrades
+                    </div>
+                </div>
+                <div class="mainView upgradesView">
+                    <div id="playerGold">Gold: 6140</div>
+                    <div id="hideBoughtUpgrades">
+                        Hide bought upgrades
+                    </div>
+                    <div id="upgradeBoards">
+                        <div class="upgradeBoard" id="offensiveUpgrades">
+                            <div class="upgradeBoardTitle">
+                                Offensive
+                            </div>
+                            
+                            <div class="upgrade interactable boughtUpgrade" id="offensiveUpgrade0">
+                                <div class="upgradeText">    
+                                    <div class="upgradeTitle">
+                                        Damage doubler (physical)
+                                    </div>
+                                    <div class="upgradeDescription">
+                                        Doubles your physical damage
+                                    </div>
+                                </div>
+                                <div class="upgradeCost purchaseableUpgrade" id="offensiveUpgrade0Buy">
+                                    100 Gold
+                                </div>
+                            </div>
+                        
+                            <div class="upgrade interactable " id="offensiveUpgrade1">
+                                <div class="upgradeText">    
+                                    <div class="upgradeTitle">
+                                        Damage doubler (magic)
+                                    </div>
+                                    <div class="upgradeDescription">
+                                        Doubles your magic damage
+                                    </div>
+                                </div>
+                                <div class="upgradeCost purchaseableUpgrade" id="offensiveUpgrade1Buy">
+                                    1000 Gold
+                                </div>
+                            </div>
+                        
+                            <div class="upgrade interactable " id="offensiveUpgrade2">
+                                <div class="upgradeText">    
+                                    <div class="upgradeTitle">
+                                        Damage doubler (elemental)
+                                    </div>
+                                    <div class="upgradeDescription">
+                                        Doubles all your elemental damage
+                                    </div>
+                                </div>
+                                <div class="upgradeCost purchaseableUpgrade" id="offensiveUpgrade2Buy">
+                                    1500 Gold
+                                </div>
+                            </div>
+                        
+                        </div>
+                        <div class="upgradeBoard" id="defensiveUpgrades">
+                            <div class="upgradeBoardTitle">
+                                Defensive
+                            </div>
+                            
+                            <div class="upgrade interactable boughtUpgrade" id="defensiveUpgrade0">
+                                <div class="upgradeText">    
+                                    <div class="upgradeTitle">
+                                        Max health doubler
+                                    </div>
+                                    <div class="upgradeDescription">
+                                        Doubles your max health
+                                    </div>
+                                </div>
+                                <div class="upgradeCost purchaseableUpgrade" id="defensiveUpgrade0Buy">
+                                    100 Gold
+                                </div>
+                            </div>
+                        
+                            <div class="upgrade interactable boughtUpgrade" id="defensiveUpgrade1">
+                                <div class="upgradeText">    
+                                    <div class="upgradeTitle">
+                                        Starter regen
+                                    </div>
+                                    <div class="upgradeDescription">
+                                        Gain +5 regeneration
+                                    </div>
+                                </div>
+                                <div class="upgradeCost purchaseableUpgrade" id="defensiveUpgrade1Buy">
+                                    250 Gold
+                                </div>
+                            </div>
+                        
+                            <div class="upgrade interactable boughtUpgrade" id="defensiveUpgrade2">
+                                <div class="upgradeText">    
+                                    <div class="upgradeTitle">
+                                        Starter defense
+                                    </div>
+                                    <div class="upgradeDescription">
+                                        Gain +10 physical defense
+                                    </div>
+                                </div>
+                                <div class="upgradeCost purchaseableUpgrade" id="defensiveUpgrade2Buy">
+                                    500 Gold
+                                </div>
+                            </div>
+                        
+                        </div>
+                        <div class="upgradeBoard" id="miscUpgrades">
+                            <div class="upgradeBoardTitle">
+                                Miscellaneous
+                            </div>
+                            
+                            <div class="upgrade interactable boughtUpgrade" id="miscUpgrade0">
+                                <div class="upgradeText">    
+                                    <div class="upgradeTitle">
+                                        Starter attack speed
+                                    </div>
+                                    <div class="upgradeDescription">
+                                        Gain +0.1 attack speed
+                                    </div>
+                                </div>
+                                <div class="upgradeCost purchaseableUpgrade" id="miscUpgrade0Buy">
+                                    300 Gold
+                                </div>
+                            </div>
+                        
+                            <div class="upgrade interactable " id="miscUpgrade1">
+                                <div class="upgradeText">    
+                                    <div class="upgradeTitle">
+                                        Beginner attack speed
+                                    </div>
+                                    <div class="upgradeDescription">
+                                        Gain +0.25 attack speed
+                                    </div>
+                                </div>
+                                <div class="upgradeCost" id="miscUpgrade1Buy">
+                                    100000 Gold
+                                </div>
+                            </div>
+                        
+                            <div class="upgrade interactable " id="miscUpgrade2">
+                                <div class="upgradeText">    
+                                    <div class="upgradeTitle">
+                                        Intermediate attack speed
+                                    </div>
+                                    <div class="upgradeDescription">
+                                        Gain +0.5 attack speed
+                                    </div>
+                                </div>
+                                <div class="upgradeCost" id="miscUpgrade2Buy">
+                                    1e10 Gold
+                                </div>
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+                <!--information main-->
+                <div id="subMenuInView3">
+                    <div class="subMenuItem selectedSubMenuItem">
+                        Main
+                    </div>
+                    <div id="changelogSubMenuItem" class="subMenuItem interactable">
+                        Changelog
+                    </div>
+                </div>
+                <div class="mainView">
+                    <div class="gameRelatedMainInfo">
+                        <div class="informationGameTitle">
+                            mini-Infinity-games <br> Tower of Infinite Enemies
+                        </div>
+                        <div class="gameVersion">
+                            V0.0: Hollow shell
+                        </div>
+                        <div class="gameAuthor">
+                            Made by SzaeZal
+                        </div>
+                    </div>
+                </div>
+                <!--information changelog-->
+                <div id="subMenuInView4">
+                    <div class="subMenuItem interactable" id="mainInformationSubMenuItem">
+                        Main
+                    </div>
+                    <div class="subMenuItem selectedSubMenuItem">
+                        Changelog
+                    </div>
+                </div>
+                <div class="mainView">
+                    <div class="changelog">
+                        <div class="version">
+                            <div class="changelogVersionName">
+                                V0.0: Hollow shell 
+                            </div>
+                            <div class="changelogChanges">
+                                <ul>
+                                    <li>Initial release</li>
+                                    <li>Added 5 floors</li>
+                                    <li>Added 5 enemies</li>
+                                    <li>Added 5 bosses</li>
+                                    <li>Added 33? items</li>
+                                    <li>Added inventory</li>
+                                    <li>Added 9 upgrades</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="gameSpeedChanger" class="interactable">
+                            Change game speed to 10x
+                        </div>
+                    </div>
+                </div>    
+                <!--Group settings ui tab-->
+                <div id="subMenuInView5">
+                    <div class="subMenuItem selectedSubMenuItem">
+                        UI Settings
+                    </div>
+                    <div id="saveSettingsSubMenuItem" class="subMenuItem interactable">
+                        Save Settings
+                    </div>
+                </div>
+                <div class="mainView">
+                    <div class="settings">
+                        <div class="setting">
+                            <div class="settingTitle">
+                                Theme
+                            </div>
+                            <div class="options">
+                                <div id="themeDarkOption" class="option interactable selectedOption">
+                                    Dark
+                                </div>
+                                <div id="themeLightOption" class="option interactable ">
+                                    Light
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting">
+                            <div class="settingTitle">
+                                Sub menu display
+                            </div>
+                            <div class="options">
+                                <div id="subMenuDisplayShownOption" class="option interactable selectedOption">
+                                    Shown
+                                </div>
+                                <div id="subMenuDisplayHiddenOption" class="option interactable ">
+                                    Hidden
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting">
+                            <div class="settingTitle">
+                                UI update Rate
+                            </div>
+                            <div class="options">
+                                <div id="uiUpdateRate25Option" class="option interactable selectedOption">
+                                    25 ms
+                                </div>
+                                <div id="uiUpdateRate50Option" class="option interactable ">
+                                    50 ms 
+                                </div>
+                                <div id="uiUpdateRate100Option" class="option interactable ">
+                                    100 ms 
+                                </div>
+                                <div id="uiUpdateRate150Option" class="option interactable ">
+                                    150 ms 
+                                </div>
+                                <div id="uiUpdateRate250Option" class="option interactable ">
+                                    250 ms 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+                <!--Group settings save settings tab-->
+                <div id="subMenuInView6">
+                    <div id="UISettingsSubMenuItem" class="subMenuItem interactable">
+                        UI Settings
+                    </div>
+                    <div class="subMenuItem selectedSubMenuItem">
+                        Save Settings
+                    </div>
+                </div>
+                <div class="mainView">
+                    <div class="settings">
+                        <div class="setting">
+                            <div class="settingTitle">
+                                Save Related
+                            </div>
+                            <div class="options">
+                                <div id="saveGame" class="option interactable">
+                                    Save
+                                </div>
+                                <div id="exportSaveToClipboard" class="option interactable">
+                                    Export Save to clipboard
+                                </div>
+                                <div id="importSave" class="option interactable">
+                                    Import Save
+                                </div>
+                                <div id="hardReset" class="option danger interactable">
+                                    Hard Reset
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting">
+                            <div class="settingTitle">
+                                Auto Save Rate
+                            </div>
+                            <div class="options">
+                                <div id="autoSaveRate1000Option" class="option interactable ">
+                                    1 seconds
+                                </div>
+                                <div id="autoSaveRate2500Option" class="option interactable ">
+                                    2.5 seconds
+                                </div>
+                                <div id="autoSaveRate5000Option" class="option interactable selectedOption">
+                                    5 seconds
+                                </div>
+                                <div id="autoSaveRate10000Option" class="option interactable ">
+                                    10 seconds
+                                </div>
+                                <div id="autoSaveRate0Option" class="option interactable ">
+                                    Disabled
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
             </div>
         </div>
     </div>
