@@ -4,3 +4,6 @@ módosítások hogy ne legyen validálási hiba:
     index.html : subMenuInView id-k különböző számot kaptak 
     replicantiInremental.html : subMenuInView, currencyBar, UISettingsSubMenuItem, saveSettingsSubMenuItem, saveBankSubMenuItem id-k különböző számot kaptak 
     cardsOfInfinity.html: subMenuInView, points, picksLeft, pauseMenu, pauseOptionResume, pauseOptionClose, game id-k különböző számot kaptak 
+    boardOfInflation.html: subMenuInView, playerStars1, playerPoints1 id-k különböző számot kaptak 
+    infiniteGates.html : subMenuInView id-k különböző számot kaptak 
+    towerOfInfiniteEnemies.html : subMenuInView id-k különböző számot kaptak 
