@@ -2606,6 +2606,43 @@ $(()=>{
         `
     }
     //#endregion
+    //#region SwapItemDOM
+    const SwapItemDOM = (previouslyEquippedItemIdPart, newEquippedItemIdPart)=>{
+        let htmltemp=$(`#itemSlot${newEquippedItemIdPart}`).html()
+        $(`#itemSlot${newEquippedItemIdPart}`).html($(`#itemSlot${previouslyEquippedItemIdPart}`).html())
+        $(`#itemSlot${previouslyEquippedItemIdPart}`).html(htmltemp)
+
+        $(`#storedItem${previouslyEquippedItemIdPart}Description`).attr("id", "temp")
+        $(`#storedItem${newEquippedItemIdPart}Description`).attr("id", `storedItem${previouslyEquippedItemIdPart}Description`)
+        $(`#temp`).attr("id", `storedItem${newEquippedItemIdPart}Description`)
+
+        $(`#storedItem${newEquippedItemIdPart}Description`).removeClass("inventoryItemDesc")
+        $(`#storedItem${newEquippedItemIdPart}Description`).addClass("equippedItemDesc")
+
+        $(`#storedItem${previouslyEquippedItemIdPart}Description`).removeClass("equippedItemDesc")
+        $(`#storedItem${previouslyEquippedItemIdPart}Description`).addClass("inventoryItemDesc")
+
+        $(`#storedItem${previouslyEquippedItemIdPart}`).attr("id", "temp")
+        $(`#storedItem${newEquippedItemIdPart}`).attr("id", `storedItem${previouslyEquippedItemIdPart}`)
+        $(`#temp`).attr("id", `storedItem${newEquippedItemIdPart}`)
+
+        $(`#item${previouslyEquippedItemIdPart}Equip`).attr("id", "temp")
+        $(`#item${newEquippedItemIdPart}Equip`).attr("id", `item${previouslyEquippedItemIdPart}Equip`)
+        $(`#temp`).attr("id", `item${newEquippedItemIdPart}Equip`)
+
+        $(`#item${newEquippedItemIdPart}Equip`).text("Unequip")
+        $(`#item${previouslyEquippedItemIdPart}Equip`).text("Equip")
+
+        $(`#item${previouslyEquippedItemIdPart}Delete`).attr("id", "temp")
+        $(`#item${newEquippedItemIdPart}Delete`).attr("id", `item${previouslyEquippedItemIdPart}Delete`)
+        $(`#temp`).attr("id", `item${newEquippedItemIdPart}Delete`)
+            
+        $(`#storedItem${previouslyEquippedItemIdPart}Description`).addClass("hiddenPart")
+        $(`#storedItem${newEquippedItemIdPart}Description`).addClass("hiddenPart")
+
+        GoToInventory()
+    }
+    //#endregion
     //#region EquipItem
     const EquipItem = (index)=>{
         let item=player.stats.inventory[index]
@@ -2647,43 +2684,58 @@ $(()=>{
             player.stats.inventory[index]=player.stats.gear.armor.boots
             player.stats.gear.armor.boots=itemTemp
         }
-        let htmltemp=$(`#itemSlot${otherItemIdPart}`).html()
-        $(`#itemSlot${otherItemIdPart}`).html($(`#itemSlot${index}`).html())
-        $(`#itemSlot${index}`).html(htmltemp)
-
-        $(`#storedItem${index}Description`).attr("id", "temp")
-        $(`#storedItem${otherItemIdPart}Description`).attr("id", `storedItem${index}Description`)
-        $(`#temp`).attr("id", `storedItem${otherItemIdPart}Description`)
-
-        $(`#storedItem${otherItemIdPart}Description`).removeClass("inventoryItemDesc")
-        $(`#storedItem${otherItemIdPart}Description`).addClass("equippedItemDesc")
-
-        $(`#storedItem${index}Description`).removeClass("equippedItemDesc")
-        $(`#storedItem${index}Description`).addClass("inventoryItemDesc")
-
-        $(`#storedItem${index}`).attr("id", "temp")
-        $(`#storedItem${otherItemIdPart}`).attr("id", `storedItem${index}`)
-        $(`#temp`).attr("id", `storedItem${otherItemIdPart}`)
-
-        $(`#item${index}Equip`).attr("id", "temp")
-        $(`#item${otherItemIdPart}Equip`).attr("id", `item${index}Equip`)
-        $(`#temp`).attr("id", `item${otherItemIdPart}Equip`)
-
-        $(`#item${otherItemIdPart}Equip`).text("Unequip")
-        $(`#item${index}Equip`).text("Equip")
-
-        $(`#item${index}Delete`).attr("id", "temp")
-        $(`#item${otherItemIdPart}Delete`).attr("id", `item${index}Delete`)
-        $(`#temp`).attr("id", `item${otherItemIdPart}Delete`)
-            
-        $(`#storedItem${index}Description`).addClass("hiddenPart")
-        $(`#storedItem${otherItemIdPart}Description`).addClass("hiddenPart")
+        SwapItemDOM(otherItemIdPart, index)
         CalculatePlayerStats()
     }
     //#endregion
     //#region UnquipItem
     const UnquipItem = (slot)=>{
+        let emptyInventorySlot=FindEmptyInventorySlot()
         
+        if(emptyInventorySlot!=-1){
+            let itemToUnequip=
+                slot=="Weapon" ? player.stats.gear.weapon
+                : slot=="OffHand" ? player.stats.gear.offhand
+                : slot=="Helmet" ? player.stats.gear.armor.helmet
+                : slot=="Chestplate" ? player.stats.gear.armor.chestplate
+                : slot=="Leggings" ? player.stats.gear.armor.leggings
+                : player.stats.gear.armor.boots            
+            if(slot=="Weapon"){
+                player.stats.inventory[emptyInventorySlot]=player.stats.gear.weapon
+                player.stats.gear.weapon={}
+            }
+            else if(slot=="OffHand"){
+                player.stats.inventory[emptyInventorySlot]=player.stats.gear.offhand
+                player.stats.gear.offhand={}
+            }
+            else if(slot=="Helmet"){
+                player.stats.inventory[emptyInventorySlot]=player.stats.gear.armor.helmet
+                player.stats.gear.armor.helmet={}
+            }
+            else if(slot=="Chestplate"){
+                player.stats.inventory[emptyInventorySlot]=player.stats.gear.armor.chestplate
+                player.stats.gear.armor.chestplate={}
+            }
+            else if(slot=="Leggings"){
+                player.stats.inventory[emptyInventorySlot]=player.stats.gear.armor.leggings
+                player.stats.gear.armor.leggings={}
+            }
+            else{
+                player.stats.inventory[emptyInventorySlot]=player.stats.gear.armor.boots
+                player.stats.gear.armor.boots={}
+            }
+            SwapItemDOM(slot, emptyInventorySlot)            
+        }
+    }
+    //#endregion
+    //#region FindEmptyInventorySlot
+    const FindEmptyInventorySlot=()=>{
+        for(let i=0; i<36;i++){
+            if(player.stats.inventory[i].name==undefined){
+                return i
+            }
+        }
+        return -1
     }
     //#endregion
     //#region DeleteItem
@@ -2787,74 +2839,74 @@ $(()=>{
     //#region CalculatePlayerDefenses
     const CalculatePlayerDefenses=()=>{
         playerStatsCalculated.defense.type.absolute=
-            (player.stats.gear.armor.helmet.type == undefined ? 0 : player.stats.gear.armor.helmet.type.absolute)
-            +(player.stats.gear.armor.chestplate.type == undefined ? 0 : player.stats.gear.armor.chestplate.type.absolute)
-            +(player.stats.gear.armor.leggings.type == undefined ? 0 : player.stats.gear.armor.leggings.type.absolute)
-            +(player.stats.gear.armor.boots.type == undefined ? 0 : player.stats.gear.armor.boots.type.absolute)
+            (player.stats.gear.armor.helmet.defense == undefined ? 0 : player.stats.gear.armor.helmet.defense.type.absolute)
+            +(player.stats.gear.armor.chestplate.defense == undefined ? 0 : player.stats.gear.armor.chestplate.defense.type.absolute)
+            +(player.stats.gear.armor.leggings.defense == undefined ? 0 : player.stats.gear.armor.leggings.defense.type.absolute)
+            +(player.stats.gear.armor.boots.defense == undefined ? 0 : player.stats.gear.armor.boots.defense.type.absolute)
             +(player.stats.gear.offhand.defense == undefined ? 0 : player.stats.gear.offhand.defense.type.absolute)
             + upgradeStats.defensive[2].effect.absolutePhysicalDefenseAdder
         
         playerStatsCalculated.defense.type.relative=
-            (player.stats.gear.armor.helmet.type == undefined ? 0 : player.stats.gear.armor.helmet.type.relative)
-            +(player.stats.gear.armor.chestplate.type == undefined ? 0 : player.stats.gear.armor.chestplate.type.relative)
-            +(player.stats.gear.armor.leggings.type == undefined ? 0 : player.stats.gear.armor.leggings.type.relative)
-            +(player.stats.gear.armor.boots.type == undefined ? 0 : player.stats.gear.armor.boots.type.relative)
+            (player.stats.gear.armor.helmet.defense == undefined ? 0 : player.stats.gear.armor.helmet.defense.type.relative)
+            +(player.stats.gear.armor.chestplate.defense == undefined ? 0 : player.stats.gear.armor.chestplate.defense.type.relative)
+            +(player.stats.gear.armor.leggings.defense == undefined ? 0 : player.stats.gear.armor.leggings.defense.type.relative)
+            +(player.stats.gear.armor.boots.defense == undefined ? 0 : player.stats.gear.armor.boots.defense.type.relative)
             +(player.stats.gear.offhand.defense == undefined ? 0 : player.stats.gear.offhand.defense.type.relative)
     
         playerStatsCalculated.defense.element.fire.absolute=
-            (player.stats.gear.armor.helmet.type == undefined ? 0 : player.stats.gear.armor.helmet.element.fire.absolute)
-            +(player.stats.gear.armor.chestplate.type == undefined ? 0 : player.stats.gear.armor.chestplate.element.fire.absolute)
-            +(player.stats.gear.armor.leggings.type == undefined ? 0 : player.stats.gear.armor.leggings.element.fire.absolute)
-            +(player.stats.gear.armor.boots.type == undefined ? 0 : player.stats.gear.armor.boots.element.fire.absolute)
+            (player.stats.gear.armor.helmet.defense == undefined ? 0 : player.stats.gear.armor.helmet.defense.element.fire.absolute)
+            +(player.stats.gear.armor.chestplate.defense == undefined ? 0 : player.stats.gear.armor.chestplate.defense.element.fire.absolute)
+            +(player.stats.gear.armor.leggings.defense == undefined ? 0 : player.stats.gear.armor.leggings.defense.element.fire.absolute)
+            +(player.stats.gear.armor.boots.defense == undefined ? 0 : player.stats.gear.armor.boots.defense.element.fire.absolute)
             +(player.stats.gear.offhand.defense == undefined ? 0 : player.stats.gear.offhand.defense.element.fire.absolute)
         
         playerStatsCalculated.defense.element.fire.relative=
-            (player.stats.gear.armor.helmet.type == undefined ? 0 : player.stats.gear.armor.helmet.element.fire.relative)
-            +(player.stats.gear.armor.chestplate.type == undefined ? 0 : player.stats.gear.armor.chestplate.element.fire.relative)
-            +(player.stats.gear.armor.leggings.type == undefined ? 0 : player.stats.gear.armor.leggings.element.fire.relative)
-            +(player.stats.gear.armor.boots.type == undefined ? 0 : player.stats.gear.armor.boots.element.fire.relative)
+            (player.stats.gear.armor.helmet.defense == undefined ? 0 : player.stats.gear.armor.helmet.defense.element.fire.relative)
+            +(player.stats.gear.armor.chestplate.defense == undefined ? 0 : player.stats.gear.armor.chestplate.defense.element.fire.relative)
+            +(player.stats.gear.armor.leggings.defense == undefined ? 0 : player.stats.gear.armor.leggings.defense.element.fire.relative)
+            +(player.stats.gear.armor.boots.defense == undefined ? 0 : player.stats.gear.armor.boots.defense.element.fire.relative)
             +(player.stats.gear.offhand.defense == undefined ? 0 : player.stats.gear.offhand.defense.element.fire.relative)
             
         playerStatsCalculated.defense.element.water.absolute=
-            (player.stats.gear.armor.helmet.type == undefined ? 0 : player.stats.gear.armor.helmet.element.water.absolute)
-            +(player.stats.gear.armor.chestplate.type == undefined ? 0 : player.stats.gear.armor.chestplate.element.water.absolute)
-            +(player.stats.gear.armor.leggings.type == undefined ? 0 : player.stats.gear.armor.leggings.element.water.absolute)
-            +(player.stats.gear.armor.boots.type == undefined ? 0 : player.stats.gear.armor.boots.element.water.absolute)
+            (player.stats.gear.armor.helmet.defense == undefined ? 0 : player.stats.gear.armor.helmet.defense.element.water.absolute)
+            +(player.stats.gear.armor.chestplate.defense == undefined ? 0 : player.stats.gear.armor.chestplate.defense.element.water.absolute)
+            +(player.stats.gear.armor.leggings.defense == undefined ? 0 : player.stats.gear.armor.leggings.defense.element.water.absolute)
+            +(player.stats.gear.armor.boots.defense == undefined ? 0 : player.stats.gear.armor.boots.defense.element.water.absolute)
             +(player.stats.gear.offhand.defense == undefined ? 0 : player.stats.gear.offhand.defense.element.water.absolute)
         
         playerStatsCalculated.defense.element.water.relative=
-            (player.stats.gear.armor.helmet.type == undefined ? 0 : player.stats.gear.armor.helmet.element.water.relative)
-            +(player.stats.gear.armor.chestplate.type == undefined ? 0 : player.stats.gear.armor.chestplate.element.water.relative)
-            +(player.stats.gear.armor.leggings.type == undefined ? 0 : player.stats.gear.armor.leggings.element.water.relative)
-            +(player.stats.gear.armor.boots.type == undefined ? 0 : player.stats.gear.armor.boots.element.water.relative)
+            (player.stats.gear.armor.helmet.defense == undefined ? 0 : player.stats.gear.armor.helmet.defense.element.water.relative)
+            +(player.stats.gear.armor.chestplate.defense == undefined ? 0 : player.stats.gear.armor.chestplate.defense.element.water.relative)
+            +(player.stats.gear.armor.leggings.defense == undefined ? 0 : player.stats.gear.armor.leggings.defense.element.water.relative)
+            +(player.stats.gear.armor.boots.defense == undefined ? 0 : player.stats.gear.armor.boots.defense.element.water.relative)
             +(player.stats.gear.offhand.defense == undefined ? 0 : player.stats.gear.offhand.defense.element.water.relative)
             
         playerStatsCalculated.defense.element.air.absolute=
-            (player.stats.gear.armor.helmet.type == undefined ? 0 : player.stats.gear.armor.helmet.element.air.absolute)
-            +(player.stats.gear.armor.chestplate.type == undefined ? 0 : player.stats.gear.armor.chestplate.element.air.absolute)
-            +(player.stats.gear.armor.leggings.type == undefined ? 0 : player.stats.gear.armor.leggings.element.air.absolute)
-            +(player.stats.gear.armor.boots.type == undefined ? 0 : player.stats.gear.armor.boots.element.air.absolute)
+            (player.stats.gear.armor.helmet.defense == undefined ? 0 : player.stats.gear.armor.helmet.defense.element.air.absolute)
+            +(player.stats.gear.armor.chestplate.defense == undefined ? 0 : player.stats.gear.armor.chestplate.defense.element.air.absolute)
+            +(player.stats.gear.armor.leggings.defense == undefined ? 0 : player.stats.gear.armor.leggings.defense.element.air.absolute)
+            +(player.stats.gear.armor.boots.defense == undefined ? 0 : player.stats.gear.armor.boots.defense.element.air.absolute)
             +(player.stats.gear.offhand.defense == undefined ? 0 : player.stats.gear.offhand.defense.element.air.absolute)
         
         playerStatsCalculated.defense.element.air.relative=
-            (player.stats.gear.armor.helmet.type == undefined ? 0 : player.stats.gear.armor.helmet.element.air.relative)
-            +(player.stats.gear.armor.chestplate.type == undefined ? 0 : player.stats.gear.armor.chestplate.element.air.relative)
-            +(player.stats.gear.armor.leggings.type == undefined ? 0 : player.stats.gear.armor.leggings.element.air.relative)
-            +(player.stats.gear.armor.boots.type == undefined ? 0 : player.stats.gear.armor.boots.element.air.relative)
+            (player.stats.gear.armor.helmet.defense == undefined ? 0 : player.stats.gear.armor.helmet.defense.element.air.relative)
+            +(player.stats.gear.armor.chestplate.defense == undefined ? 0 : player.stats.gear.armor.chestplate.defense.element.air.relative)
+            +(player.stats.gear.armor.leggings.defense == undefined ? 0 : player.stats.gear.armor.leggings.defense.element.air.relative)
+            +(player.stats.gear.armor.boots.defense == undefined ? 0 : player.stats.gear.armor.boots.defense.element.air.relative)
             +(player.stats.gear.offhand.defense == undefined ? 0 : player.stats.gear.offhand.defense.element.air.relative)
             
         playerStatsCalculated.defense.element.earth.absolute=
-            (player.stats.gear.armor.helmet.type == undefined ? 0 : player.stats.gear.armor.helmet.element.earth.absolute)
-            +(player.stats.gear.armor.chestplate.type == undefined ? 0 : player.stats.gear.armor.chestplate.element.earth.absolute)
-            +(player.stats.gear.armor.leggings.type == undefined ? 0 : player.stats.gear.armor.leggings.element.earth.absolute)
-            +(player.stats.gear.armor.boots.type == undefined ? 0 : player.stats.gear.armor.boots.element.earth.absolute)
+            (player.stats.gear.armor.helmet.defense == undefined ? 0 : player.stats.gear.armor.helmet.defense.element.earth.absolute)
+            +(player.stats.gear.armor.chestplate.defense == undefined ? 0 : player.stats.gear.armor.chestplate.defense.element.earth.absolute)
+            +(player.stats.gear.armor.leggings.defense == undefined ? 0 : player.stats.gear.armor.leggings.defense.element.earth.absolute)
+            +(player.stats.gear.armor.boots.defense == undefined ? 0 : player.stats.gear.armor.boots.defense.element.earth.absolute)
             +(player.stats.gear.offhand.defense == undefined ? 0 : player.stats.gear.offhand.defense.element.earth.absolute)
         
         playerStatsCalculated.defense.element.earth.relative=
-            (player.stats.gear.armor.helmet.type == undefined ? 0 : player.stats.gear.armor.helmet.element.earth.relative)
-            +(player.stats.gear.armor.chestplate.type == undefined ? 0 : player.stats.gear.armor.chestplate.element.earth.relative)
-            +(player.stats.gear.armor.leggings.type == undefined ? 0 : player.stats.gear.armor.leggings.element.earth.relative)
-            +(player.stats.gear.armor.boots.type == undefined ? 0 : player.stats.gear.armor.boots.element.earth.relative)
+            (player.stats.gear.armor.helmet.defense == undefined ? 0 : player.stats.gear.armor.helmet.defense.element.earth.relative)
+            +(player.stats.gear.armor.chestplate.defense == undefined ? 0 : player.stats.gear.armor.chestplate.defense.element.earth.relative)
+            +(player.stats.gear.armor.leggings.defense == undefined ? 0 : player.stats.gear.armor.leggings.defense.element.earth.relative)
+            +(player.stats.gear.armor.boots.defense == undefined ? 0 : player.stats.gear.armor.boots.defense.element.earth.relative)
             +(player.stats.gear.offhand.defense == undefined ? 0 : player.stats.gear.offhand.defense.element.earth.relative)
     }
     //#endregion
