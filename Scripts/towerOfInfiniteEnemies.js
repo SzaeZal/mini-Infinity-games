@@ -2456,9 +2456,9 @@ $(()=>{
                 }
             })
 
-            $(`#itemOffHandEquip`).on("click", ()=>{UnquipItem("Weapon")})
+            $(`#itemOffHandEquip`).on("click", ()=>{UnquipItem("OffHand")})
             $(`#itemOffHandEquip`).text("Unequip")
-            $(`#itemOffHandDelete`).on("click", ()=>{DeleteItem("Weapon")})
+            $(`#itemOffHandDelete`).on("click", ()=>{DeleteItem("OffHand")})
         }
 
         if(player.stats.gear.armor.helmet.maxHealthMultiplier!=undefined){
@@ -2471,9 +2471,9 @@ $(()=>{
                 }
             })
 
-            $(`#itemHelmetEquip`).on("click", ()=>{UnquipItem("Weapon")})
+            $(`#itemHelmetEquip`).on("click", ()=>{UnquipItem("Helmet")})
             $(`#itemHelmetEquip`).text("Unequip")
-            $(`#itemHelmetDelete`).on("click", ()=>{DeleteItem("Weapon")})
+            $(`#itemHelmetDelete`).on("click", ()=>{DeleteItem("Helmet")})
         }
 
         if(player.stats.gear.armor.chestplate.maxHealthMultiplier!=undefined){
@@ -2486,9 +2486,9 @@ $(()=>{
                 }
             })
 
-            $(`#itemChestplateEquip`).on("click", ()=>{UnquipItem("Weapon")})
+            $(`#itemChestplateEquip`).on("click", ()=>{UnquipItem("Chestplate")})
             $(`#itemChestplateEquip`).text("Unequip")
-            $(`#itemChestplateDelete`).on("click", ()=>{DeleteItem("Weapon")})
+            $(`#itemChestplateDelete`).on("click", ()=>{DeleteItem("Chestplate")})
         }
 
         if(player.stats.gear.armor.leggings.maxHealthMultiplier!=undefined){
@@ -2501,9 +2501,9 @@ $(()=>{
                 }
             })
 
-            $(`#itemLeggingsEquip`).on("click", ()=>{UnquipItem("Weapon")})
+            $(`#itemLeggingsEquip`).on("click", ()=>{UnquipItem("Leggings")})
             $(`#itemLeggingsEquip`).text("Unequip")
-            $(`#itemLeggingsDelete`).on("click", ()=>{DeleteItem("Weapon")})
+            $(`#itemLeggingsDelete`).on("click", ()=>{DeleteItem("Leggings")})
         }
 
         if(player.stats.gear.armor.boots.maxHealthMultiplier!=undefined){
@@ -2516,9 +2516,9 @@ $(()=>{
                 }
             })
 
-            $(`#itemBootsEquip`).on("click", ()=>{UnquipItem("Weapon")})
+            $(`#itemBootsEquip`).on("click", ()=>{UnquipItem("Boots")})
             $(`#itemBootsEquip`).text("Unequip")
-            $(`#itemBootsDelete`).on("click", ()=>{DeleteItem("Weapon")})
+            $(`#itemBootsDelete`).on("click", ()=>{DeleteItem("Boots")})
         }
     }
     //#endregion
@@ -2681,12 +2681,32 @@ $(()=>{
         CalculatePlayerStats()
     }
     //#endregion
+    //#region UnquipItem
+    const UnquipItem = (slot)=>{
+        
+    }
+    //#endregion
     //#region DeleteItem
     const DeleteItem = (index)=>{
         $(`#itemSlot${index}`).html(``)
         if(isNaN(index)){
             if(index=="Weapon"){
                 player.stats.gear.weapon={}
+            }
+            else if(index=="Helmet"){
+                player.stats.gear.armor.helmet={}
+            }
+            else if(index=="Chestplate"){
+                player.stats.gear.armor.chestplate={}
+            }
+            else if(index=="Leggings"){
+                player.stats.gear.armor.leggings={}
+            }
+            else if(index=="Boots"){
+                player.stats.gear.armor.boots={}
+            }
+            else{
+                player.stats.gear.offhand={}
             }
         }
         else{
@@ -2865,14 +2885,14 @@ $(()=>{
             +(player.stats.gear.weapon.misc == undefined || player.stats.gear.weapon.misc.criticalDamageMult==undefined ? 0 : player.stats.gear.weapon.misc.criticalDamageMult)
             +(player.stats.gear.offhand.misc == undefined ? 0 : player.stats.gear.offhand.misc.criticalDamageMult)
 
-        let weapoType=player.stats.gear.weapon.itemType.split("/")
+        let weapoType=(player.stats.gear.weapon.itemType!=undefined ? player.stats.gear.weapon.itemType.split("/") : ["", ""])
         playerStatsCalculated.misc.accuracy = 100
             *(player.stats.gear.weapon.misc == undefined || player.stats.gear.weapon.misc.accuracyMult==undefined ? 0 : player.stats.gear.weapon.misc.accuracyMult)
             *(player.stats.gear.offhand.misc == undefined || player.stats.gear.offhand.misc.accuracyMult==undefined ? 0 : player.stats.gear.offhand.misc.accuracyMult)
             *(player.stats.gear.armor.helmet.misc == undefined || player.stats.gear.armor.helmet.misc.accuracyMult==undefined ? 0 : player.stats.gear.armor.helmet.misc.accuracyMult)
-            *(player.stats.gear.armor.chestplate.misc == undefined || player.stats.gear.armor.chestplate.misc.accuracyMult==undefined ? 0 : player.stats.gear.armor.misc.accuracyMult)
-            *(player.stats.gear.armor.boots.misc == undefined || player.stats.gear.armor.leggings.misc.accuracyMult==undefined ? 0 : player.stats.gear.armor.misc.accuracyMult)
-            *(player.stats.gear.armor.boots.misc == undefined || player.stats.gear.armor.boots.misc.accuracyMult==undefined ? 0 : player.stats.gear.armor.misc.accuracyMult)
+            *(player.stats.gear.armor.chestplate.misc == undefined || player.stats.gear.armor.chestplate.misc.accuracyMult==undefined ? 0 : player.stats.gear.armor.chestplate.misc.accuracyMult)
+            *(player.stats.gear.armor.boots.misc == undefined || player.stats.gear.armor.leggings.misc.accuracyMult==undefined ? 0 : player.stats.gear.armor.leggings.misc.accuracyMult)
+            *(player.stats.gear.armor.boots.misc == undefined || player.stats.gear.armor.boots.misc.accuracyMult==undefined ? 0 : player.stats.gear.armor.boots.misc.accuracyMult)
         if(weapoType[1]=="Bows"){
             playerStatsCalculated.misc.accuracy *=10
         }
@@ -2899,9 +2919,9 @@ $(()=>{
             *(player.stats.gear.weapon.misc == undefined || player.stats.gear.weapon.misc.evasionMult==undefined ? 0 : player.stats.gear.weapon.misc.evasionMult)
             *(player.stats.gear.offhand.misc == undefined || player.stats.gear.offhand.misc.evasionMult==undefined ? 0 : player.stats.gear.offhand.misc.evasionMult)
             *(player.stats.gear.armor.helmet.misc == undefined || player.stats.gear.armor.helmet.misc.evasionMult==undefined ? 0 : player.stats.gear.armor.helmet.misc.evasionMult)
-            *(player.stats.gear.armor.chestplate.misc == undefined || player.stats.gear.armor.chestplate.misc.evasionMult==undefined ? 0 : player.stats.gear.armor.misc.evasionMult)
-            *(player.stats.gear.armor.boots.misc == undefined || player.stats.gear.armor.leggings.misc.evasionMult==undefined ? 0 : player.stats.gear.armor.misc.evasionMult)
-            *(player.stats.gear.armor.boots.misc == undefined || player.stats.gear.armor.boots.misc.evasionMult==undefined ? 0 : player.stats.gear.armor.misc.evasionMult)
+            *(player.stats.gear.armor.chestplate.misc == undefined || player.stats.gear.armor.chestplate.misc.evasionMult==undefined ? 0 : player.stats.gear.armor.chestplate.misc.evasionMult)
+            *(player.stats.gear.armor.boots.misc == undefined || player.stats.gear.armor.leggings.misc.evasionMult==undefined ? 0 : player.stats.gear.armor.leggings.misc.evasionMult)
+            *(player.stats.gear.armor.boots.misc == undefined || player.stats.gear.armor.boots.misc.evasionMult==undefined ? 0 : player.stats.gear.armor.boots.misc.evasionMult)
 
         if(armorWeight==0){
             playerStatsCalculated.misc.evasion *=10

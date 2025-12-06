@@ -212,6 +212,7 @@ td{
   display: flex;
   flex-direction: column;
   gap: 75px;
+  z-index: 2;
 }
 .handHeldItems{
   position: absolute;
@@ -222,6 +223,7 @@ td{
   flex-direction: row;
   width: 300px;
   justify-content: space-between;
+  z-index: 1;
 }
 .storedItems{
   flex: 6;
