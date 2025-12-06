@@ -432,9 +432,11 @@ $(()=>{
                 </h2>
                 <div class="gameContent">        
                     <p class="gameDescription">
-                        The fifth and last minigame in the project. Every floor there are infinite enemies, but the goal is to reach the top floor and open the door.
+                        The fifth and last minigame in the project. Every floor there are infinite enemies.
                         The floors have a boss that unlocks the next floor. The game has a very complex stat system with different damage types, elements, absolute and 
-                        relative defense, elemental defense.
+                        relative defense, elemental defense, along with accuracy and evasion, regeneration, critical chance and critical damage multiplier. There are 9
+                        upgrades that you can purchase with gold you get from killing enemies. This project didn't come out as I expected with far too many ideas I had for it
+                        that I couldn't create in the 2 weeks that were left before the deadline. I will probably come back and make a remake of this.
                         <a href="Views/towerOfInfiniteEnemies.html">Play game</a>
                     </p>
                     <div class="gameImages">
@@ -577,7 +579,7 @@ $(()=>{
     
     //#endregion
     mainMenuCallbacks=[GoToSettings, GoToInformation, GoToGamesMenu] 
-    AddGamesMenuUIEvents()
+    GoToGamesMenu()
     Load()
     //setTimeout(()=>{debugger;} , 15000)
 })
