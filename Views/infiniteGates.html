@@ -62,6 +62,7 @@
                 </svg>
             </div>
             <div id="view">
+                <!--difficulty select-->
                 <div id="subMenuInView">
                     <div class="subMenuItem selectedSubMenuItem">
                         Difficulty Select
@@ -137,6 +138,270 @@
                         </div>
                     </div>
                 </div>
+                <!--pre game menu-->
+                <div id="subMenuInView1">
+                    <div class="subMenuItem selectedSubMenuItem gameStats">
+                    <div>
+                        Points: <span id="points1">1</span>
+                    </div>
+                    <div>
+                        Gates: <span id="gatesPassed1">0</span>
+                    </div>
+                </div>
+                </div>
+                <div class="mainView">
+                    <div id="pauseMenu1" class="hiddenPart">
+                        <div class="currentDifficultyInfo theme-dark">
+                            <div class="currentDifficultyInfoTitle">
+                                Easy Difficulty
+                                <div class="currentDifficultyMedal">
+                                    <img src="../Images/MedalImages/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">
+                                </div>
+                            </div>
+                            <div class="difficultyInfo">
+                                <div class="currentDifficultyInfoPersonalBest">
+                                    Personal Best: 19 gates
+                                </div>
+                                <ul class="medalInfo">
+                                    <li>Bronze: 50 gates</li>
+                                    <li>Silver: 40 gates</li>
+                                    <li>Gold: 25 gates</li>
+                                    
+                                </ul>
+                            </div>
+                            <div class="startOptions">
+                                <div class="startOption interactable" id="pauseOptionResume1">
+                                    Resume
+                                </div>
+                                <div class="startOption interactable" id="pauseOptionRestart1">
+                                    Restart
+                                </div>
+                                <div class="startOption interactable" id="pauseOptionClose1">
+                                    Exit to difficulty selection
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="game1">
+                        <div class="currentDifficultyInfo">
+                            <div class="currentDifficultyInfoTitle">
+                                Easy Difficulty
+                                <div class="currentDifficultyMedal">
+                                    <img src="../Images/MedalImages/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">
+                                </div>
+                            </div>
+                            <div class="difficultyInfo">
+                                <div class="currentDifficultyInfoPersonalBest">
+                                    Personal Best: 19 gates
+                                </div>
+                                <ul class="medalInfo">
+                                    <li>Bronze: 50 gates</li>
+                                    <li>Silver: 40 gates</li>
+                                    <li>Gold: 25 gates</li>
+                                    
+                                    
+                                </ul>
+                            </div>
+                            <div class="startOptions">
+                                <div class="startOption interactable" id="startOptionBronze">
+                                    Play against Bronze
+                                </div>
+                                <div class="startOption interactable" id="startOptionSilver">
+                                    Play against Silver
+                                </div>
+                                <div class="startOption interactable" id="startOptionGold">
+                                    Play against Gold
+                                </div>
+                                
+                                <div class="startOption interactable" id="startOptionPB">
+                                    Play against Personal best
+                                </div>
+                                <div class="startOption interactable" id="startOptionClose">
+                                    Go back to difficulty selection
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>   
+                <!--paused mid game-->
+                <div id="subMenuInView2">
+                    <div class="subMenuItem selectedSubMenuItem gameStats">
+                    <div>
+                        Points: <span id="points">1</span>
+                    </div>
+                    <div>
+                        Gates: <span id="gatesPassed">0</span>
+                    </div>
+                </div>
+                </div>
+                <div class="mainView">
+                    <div id="pauseMenu" class="">
+                        <div class="currentDifficultyInfo theme-dark">
+                            <div class="currentDifficultyInfoTitle">
+                                Easy Difficulty
+                                <div class="currentDifficultyMedal">
+                                    <img src="../Images/MedalImages/goldMedal.png" alt="Gold Medal" class="currentDifficultyMedalImage">
+                                </div>
+                            </div>
+                            <div class="difficultyInfo">
+                                <div class="currentDifficultyInfoPersonalBest">
+                                    Personal Best: 19 gates
+                                </div>
+                                <ul class="medalInfo">
+                                    <li>Bronze: 50 gates</li>
+                                    <li>Silver: 40 gates</li>
+                                    <li>Gold: 25 gates</li>
+                                    
+                                </ul>
+                            </div>
+                            <div class="startOptions">
+                                <div class="startOption interactable" id="pauseOptionResume">
+                                    Resume
+                                </div>
+                                <div class="startOption interactable" id="pauseOptionRestart">
+                                    Restart
+                                </div>
+                                <div class="startOption interactable" id="pauseOptionClose">
+                                    Exit to difficulty selection
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="game">
+                <div id="pauseButton" class="interactable">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e3e3e3">
+                        <path d="M525-200v-560h235v560H525Zm-325 0v-560h235v560H200Zm385-60h115v-440H585v440Zm-325 0h115v-440H260v440Zm0-440v440-440Zm325 0v440-440Z"></path>
+                    </svg>
+                </div>
+                <div id="timer">2:547</div>
+                <div class="gateColumns">
+                    
+                    <div class="gateColumn interactable" id="column0">
+                        <div class="playerPosition hiddenPlayerPosition" id="playerPosition0">
+                            P
+                        </div>
+                        <div class="gate gateColorPositive" id="gate0" style="bottom: 50.94%;"><div class="gateText">^2</div></div>
+                    </div>
+                
+                    <div class="gateColumn interactable" id="column1">
+                        <div class="playerPosition" id="playerPosition1">
+                            P
+                        </div>
+                        <div class="gate gateColorPositive" id="gate1" style="bottom: 50.94%;"><div class="gateText">x5</div></div>
+                    </div>
+                
+                    
+                </div>
+            </div>
+                </div>
+                <!--information main-->
+                <div id="subMenuInView3">
+                    <div class="subMenuItem selectedSubMenuItem">
+                        Main
+                    </div>
+                    <div id="changelogSubMenuItem" class="subMenuItem interactable">
+                        Changelog
+                    </div>
+                </div>
+                <div class="mainView">
+                    <div class="gameRelatedMainInfo">
+                        <div class="informationGameTitle">
+                            mini-Infinity-games <br> Infinite gates
+                        </div>
+                        <div class="gameVersion">
+                            V0.9: No limbo
+                        </div>
+                        <div class="gameAuthor">
+                            Made by SzaeZal
+                        </div>
+                        <div class="credits">
+                            Credits: <br>
+                            <ul>
+                                <li>Medal images by Trackmania (Trackmania is owned by Nadeo and Ubisoft)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+                <!--information changelog-->
+                <div id="subMenuInView4">
+                    <div class="subMenuItem interactable" id="mainInformationSubMenuItem">
+                        Main
+                    </div>
+                    <div class="subMenuItem selectedSubMenuItem">
+                        Changelog
+                    </div>
+                </div>
+                <div class="mainView">
+                    <div class="changelog">
+                        <div class="version">
+                            <div class="changelogVersionName">
+                                V0.9: No limbo
+                            </div>
+                            <div class="changelogChanges">
+                                <ul>
+                                    <li>Initial release</li>
+                                    <li>Added easy difficulty</li>
+                                    <li>Added medium difficulty</li>
+                                    <li>Added hard difficulty</li>
+                                    <li>Added settings</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+                <!--settings-->
+                <div id="subMenuInView5">
+                    <div class="subMenuItem selectedSubMenuItem">
+                        Settings
+                    </div>
+                </div>
+                <div class="mainView">
+                    <div class="settings">
+                        <div class="setting">
+                            <div class="settingTitle">
+                                Theme
+                            </div>
+                            <div class="options">
+                                <div id="themeDarkOption" class="option interactable selectedOption">
+                                    Dark
+                                </div>
+                                <div id="themeLightOption" class="option interactable ">
+                                    Light
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting">
+                            <div class="settingTitle">
+                                Sub menu display
+                            </div>
+                            <div class="options">
+                                <div id="subMenuDisplayShownOption" class="option interactable selectedOption">
+                                    Shown
+                                </div>
+                                <div id="subMenuDisplayHiddenOption" class="option interactable ">
+                                    Hidden
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting">
+                            <div class="settingTitle">
+                                Save Related
+                            </div>
+                            <div class="options">
+                                <div id="exportSaveToClipboard" class="option interactable">
+                                    Export Save to clipboard
+                                </div>
+                                <div id="importSave" class="option interactable">
+                                    Import Save
+                                </div>
+                                <div id="hardReset" class="option danger interactable">
+                                    Hard Reset
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
             </div>
         </div>
     </div>

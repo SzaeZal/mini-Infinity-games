@@ -584,7 +584,7 @@ $(()=>{
             </div>
             <div class="mainView">
                 <div id="pauseMenu" class="hiddenPart">
-                    <div class="currentDifficultyInfo theme-${player.options.ui.theme=="Dark" ? "dark" : "light"}"">
+                    <div class="currentDifficultyInfo theme-${player.options.ui.theme=="Dark" ? "dark" : "light"}">
                         <div class="currentDifficultyInfoTitle">
                             ${difficulty} Difficulty
                             <div class="currentDifficultyMedal">
@@ -805,7 +805,7 @@ $(()=>{
             }
         }
         $("#pauseMenu").html(`
-            <div class="currentDifficultyInfo theme-${player.options.ui.theme=="Dark" ? "dark" : "light"}"">
+            <div class="currentDifficultyInfo theme-${player.options.ui.theme=="Dark" ? "dark" : "light"}">
                 <div class="currentDifficultyInfoTitle">
                     Finish
                     <div class="currentDifficultyMedal" id="medalContainer">
