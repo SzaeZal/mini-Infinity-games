@@ -77,7 +77,7 @@ $(()=>{
             </div>
             <div id="shopItems">
                 <div class="shopItem interactable" id="greenBaseDoublerOpen">
-                    <img class="itemImage" alt="green base doubler icon" src="../Images/BoardOfInflation/greenBaseDoublerIcon.png"/>
+                    <img class="itemImage" alt="green base doubler icon" src="../Images/BoardOfInflation/greenBaseDoublerIcon.png" onerror="this.onerror=null; this.src='../Images/TowerOfInfiniteEnemies/questionMark.png'"/>
                     <div class="itemTitle">
                         Green base doubler
                     </div>
@@ -86,7 +86,7 @@ $(()=>{
                     </div>
                 </div>
                 <div class="shopItem interactable" id="noRedDivisionsOpen">
-                    <img class="itemImage" alt="no red divisions icon" src="../Images/BoardOfInflation/noRedDivisionsIcon.png"/>
+                    <img class="itemImage" alt="no red divisions icon" src="../Images/BoardOfInflation/noRedDivisionsIcon.png" onerror="this.onerror=null; this.src='../Images/TowerOfInfiniteEnemies/questionMark.png'"/>
                     <div class="itemTitle">
                         No red divisions
                     </div>
@@ -95,7 +95,7 @@ $(()=>{
                     </div>
                 </div>
                 <div class="shopItem interactable" id="secondDiceOpen">
-                    <img class="itemImage" alt="second dice icon" src="../Images/BoardOfInflation/secondDiceIcon.png"/>
+                    <img class="itemImage" alt="second dice icon" src="../Images/BoardOfInflation/secondDiceIcon.png" onerror="this.onerror=null; this.src='../Images/TowerOfInfiniteEnemies/questionMark.png'"/>
                     <div class="itemTitle">
                         Second dice
                     </div>
@@ -284,7 +284,7 @@ $(()=>{
             </div>
             <div id="shopItems">
                 <div class="shopItem interactable" id="lockpickKitOpen">
-                    <img class="itemImage" alt="lockpick kit icon" src="../Images/BoardOfInflation/lockpickKitIcon.png"/>
+                    <img class="itemImage" alt="lockpick kit icon" src="../Images/BoardOfInflation/lockpickKitIcon.png" onerror="this.onerror=null; this.src='../Images/TowerOfInfiniteEnemies/questionMark.png'"/>
                     <div class="itemTitle">
                         Lockpick kit
                     </div>
@@ -296,7 +296,7 @@ $(()=>{
                     ${
                         player.stats.upgrades.secondDice.bought==true 
                         ? `
-                            <img class="itemImage" alt="rerolls icon" src="../Images/BoardOfInflation/rerollsIcon.png"/>
+                            <img class="itemImage" alt="rerolls icon" src="../Images/BoardOfInflation/rerollsIcon.png" onerror="this.onerror=null; this.src='../Images/TowerOfInfiniteEnemies/questionMark.png'"/>
                             <div class="itemTitle">
                                 Rerolls
                             </div>
@@ -305,7 +305,7 @@ $(()=>{
                             </div>
                         `
                         :`
-                            <img class="itemImage" alt="upgrade locked" src="../Images/BoardOfInflation/lock.png"/>
+                            <img class="itemImage" alt="upgrade locked" src="../Images/BoardOfInflation/lock.png" onerror="this.onerror=null; this.src='../Images/TowerOfInfiniteEnemies/questionMark.png'"/>
                             <div class="itemTitle">
                                 Locked
                             </div>
@@ -319,7 +319,7 @@ $(()=>{
                     ${
                         player.stats.upgrades.secondDice.bought==true 
                         ? `
-                            <img class="itemImage" alt="anti dice icon" src="../Images/BoardOfInflation/antiDiceIcon.png"/>
+                            <img class="itemImage" alt="anti dice icon" src="../Images/BoardOfInflation/antiDiceIcon.png" onerror="this.onerror=null; this.src='../Images/TowerOfInfiniteEnemies/questionMark.png'"/>
                             <div class="itemTitle">
                                 Anti dice
                             </div>
@@ -339,7 +339,7 @@ $(()=>{
                     }
                 </div>
                 <div class="shopItem interactable" id="keyOfInfinityOpen">
-                    <img class="itemImage" alt="key of Infinity icon" src="../Images/BoardOfInflation/keyOfInfinityIcon.png"/>
+                    <img class="itemImage" alt="key of Infinity icon" src="../Images/BoardOfInflation/keyOfInfinityIcon.png" onerror="this.onerror=null; this.src='../Images/TowerOfInfiniteEnemies/questionMark.png'"/>
                     <div class="itemTitle">
                         Key of Infinity
                     </div>
