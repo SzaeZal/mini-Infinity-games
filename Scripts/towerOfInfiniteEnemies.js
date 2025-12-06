@@ -1252,222 +1252,531 @@ $(()=>{
         },
         floor4:{
             enemyStats:{
-                name: "wolf",
+                name: "sea wraith",
                 isBoss: false,
-                health: 50,
-                maxHealth: 50,
+                health: 3e5,
+                maxHealth: 3e5,
+                goldReward: 7.5e6,
                 attack:{
-                    type:{
-                        physical:1,
-                        magic:0
-                    },
-                    element:{
-                        fire:0,
-                        earth:0,
-                        water:0,
-                        air:0
-                    }
+                type:{
+                    physical: 1.5e5,
+                    magic: 0
+                },
+                element:{
+                    fire: 0,
+                    earth: 0,
+                    water: 0,
+                    air: 0
+                }
                 },
                 defense:{
-                    type:{
-                        absolute:0,
-                        relative:0
-                    },
-                    element:{
-                        fire:{
-                            absolute:0,
-                            relative:0
-                        },
-                        earth:{
-                            absolute:0,
-                            relative:0
-                        },
-                        water:{
-                            absolute:0,
-                            relative:0
-                        },
-                        air:{
-                            absolute:0,
-                            relative:0
-                        }
-                    }
+                type:{
+                    absolute: 0,
+                    relative: 0
+                },
+                element:{
+                    fire:{ absolute:0, relative:0 },
+                    earth:{ absolute:0, relative:0 },
+                    water:{ absolute:0, relative:0 },
+                    air:{ absolute:0, relative:0 }
+                }
                 },
                 misc:{
-                    attackSpeed:1,
-                    regeneration:0,
-                    accuracy:50,
+                    attackSpeed: 15,
+                    regeneration: 1.5e4,
+                    accuracy: 1.5e6,
                     evasion: 0,
                     hitChance: 0,
-                    reflectChance:0,
-                    criticalChance:0,
-                    criticalDamageMult: 2
+                    reflectChance: 0,
+                    criticalChance: 750,
+                    criticalDamageMult: 75
                 }
             },
             bossStats:{
-                name: "alpha wolf",
-                isBoss:true,
-                health: 1000,
-                maxHealth: 1000,
+                name: "abyssal leviathan",
+                isBoss: true,
+                health: 3e9,
+                maxHealth: 3e9,
+                goldReward: 1.5e9,
                 attack:{
-                    type:{
-                        physical:15,
-                        magic:0
-                    },
-                    element:{
-                        fire:0,
-                        earth:10,
-                        water:0,
-                        air:0
-                    }
+                type:{
+                    physical: 1.5e5,
+                    magic: 1.5e6
+                },
+                element:{
+                    fire: 0,
+                    earth: 0,
+                    water: 0,
+                    air: 0
+                }
                 },
                 defense:{
-                    type:{
-                        absolute:10,
-                        relative:0
-                    },
-                    element:{
-                        fire:{
-                            absolute:0,
-                            relative:0
-                        },
-                        earth:{
-                            absolute:100,
-                            relative:10
-                        },
-                        water:{
-                            absolute:0,
-                            relative:0
-                        },
-                        air:{
-                            absolute:0,
-                            relative:0
-                        }
-                    }
+                type:{ absolute: 1.5e4, relative: 375 },
+                element:{
+                    fire:{ absolute:0, relative:0 },
+                    earth:{ absolute:1500, relative:375 },
+                    water:{ absolute:0, relative:375 },
+                    air:{ absolute:0, relative:375 }
+                }
                 },
                 misc:{
-                    attackSpeed:1.1,
-                    regeneration:1,
-                    accuracy:1000,
-                    evasion: 50,
+                    attackSpeed: 18.75,
+                    regeneration: 7.5e7,
+                    accuracy: 7.5e7,
+                    evasion: 7.5e7,
                     hitChance: 0,
-                    reflectChance:0,
-                    criticalChance:5,
-                    criticalDamageMult: 2
+                    reflectChance: 225,
+                    criticalChance: 375,
+                    criticalDamageMult: 45
                 }
             },
             items:[
-                {}
+                {
+                    dropChance: 0.0002,
+                    name:"Abyssal Gravesoul Reaver",
+                    itemType:"Weapons/Swords",
+                    rarity:"Mythic",
+                    attack:{
+                        type:{ physical:750000, magic:300000 },
+                        element:{ fire:0, earth:0, water:0, air:0 }
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.001,
+                    name:"Sirenbone Longbow",
+                    itemType:"Weapons/Bows",
+                    rarity:"Legendary",
+                    attack:{
+                        type:{ physical:625000, magic:100000 },
+                        element:{ fire:0, earth:0, water:0, air:375000 }
+                    },
+                    misc:{
+                        accuracyMult:375,
+                        criticalChance:1500
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.003,
+                    name:"Coralwarden Bulwark",
+                    itemType:"OffHand/Shields",
+                    rarity:"Legendary",
+                    defense:{
+                        type:{ absolute:225000, relative:1000 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:175000, relative:1125 },
+                            water:{ absolute:125000, relative:750 },
+                            air:{ absolute:0, relative:0 }
+                        }
+                    },
+                    misc:{
+                        reflectChance:2500
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.015,
+                    name:"Tidecrown Helm",
+                    itemType:"Armor/Helmets",
+                    rarity:"Legendary",
+                    weight: 1,
+                    maxHealthMultiplier: 500,
+                    defense:{
+                        type:{ absolute:175000, relative:1000 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:150000, relative:875 },
+                            water:{ absolute:50000, relative:500 },
+                            air:{ absolute:75000, relative:625 }
+                        }
+                    },
+                    misc:{
+                        accuracyMult:200,
+                        evasionMult:300
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.05,
+                    name:"Barnaclestride Boots",
+                    itemType:"Armor/Boots",
+                    rarity:"Epic",
+                    weight: 1,
+                    defense:{
+                        type:{ absolute:100000, relative:625 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:75000, relative:625 },
+                            water:{ absolute:22500, relative:250 },
+                            air:{ absolute:30000, relative:300 }
+                        }
+                    },
+                    misc:{
+                        evasionMult:250
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.2,
+                    name:"Depthmail Chestplate",
+                    itemType:"Armor/Chestplates",
+                    rarity:"Epic",
+                    weight: 3,
+                    maxHealthMultiplier: 250,
+                    defense:{
+                        type:{ absolute:150000, relative:750 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:175000, relative:1000 },
+                            water:{ absolute:125000, relative:875 },
+                            air:{ absolute:0, relative:0 }
+                        }
+                    },
+                    misc:{
+                        accuracyMult:150
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.7,
+                    name:"Seaweave Leggings",
+                    itemType:"Armor/Leggings",
+                    rarity:"Rare",
+                    weight: 2,
+                    defense:{
+                        type:{ absolute:112500, relative:550 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:87500, relative:750 },
+                            water:{ absolute:50000, relative:450 },
+                            air:{ absolute:0, relative:0 }
+                        }
+                    },
+                    misc:{
+                        evasionMult:175
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 12,
+                    name:"Crustacean Gauntlets",
+                    itemType:"Weapons/HandGears",
+                    rarity:"Uncommon",
+                    attack:{
+                        type:{ physical:30000, magic:0 },
+                        element:{ fire:0, earth:22500, water:0, air:0 }
+                    },
+                    misc:{
+                        attackSpeed:100,
+                        criticalChance:500
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 22,
+                    name:"Krakencleaver Axe",
+                    itemType:"Weapons/Axes",
+                    rarity:"Uncommon",
+                    attack:{
+                        type:{ physical:25000, magic:0 },
+                        element:{ fire:0, earth:17500, water:0, air:0 }
+                    },
+                    misc:{
+                        attackSpeed:75
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 55,
+                    name:"Rotwood Harpoon",
+                    itemType:"Weapons/Bows",
+                    rarity:"Common",
+                    attack:{
+                        type:{ physical:12500, magic:0 },
+                        element:{ fire:0, earth:5000, water:0, air:0 }
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 100,
+                    name:"Necrotic Coralshiv",
+                    itemType:"Weapons/Daggers",
+                    rarity:"Common",
+                    attack:{
+                        type:{ physical:7500, magic:0 },
+                        element:{ fire:0, earth:0, water:0, air:0 }
+                    },
+                    misc:{
+                        attackSpeed:125
+                    },
+                    special: undefined
+                }
             ]
         },
         floor5:{
             enemyStats:{
-                name: "wolf",
+                name: "dreadfiend",
                 isBoss: false,
-                health: 50,
-                maxHealth: 50,
+                health: 3e6,           
+                maxHealth: 3e6,
+                goldReward: 7.5e7,     
                 attack:{
-                    type:{
-                        physical:1,
-                        magic:0
-                    },
-                    element:{
-                        fire:0,
-                        earth:0,
-                        water:0,
-                        air:0
-                    }
+                type:{
+                    physical: 1.5e6,   
+                    magic: 0
+                },
+                element:{
+                    fire: 0,
+                    earth: 0,
+                    water: 0,
+                    air: 0
+                }
                 },
                 defense:{
-                    type:{
-                        absolute:0,
-                        relative:0
-                    },
-                    element:{
-                        fire:{
-                            absolute:0,
-                            relative:0
-                        },
-                        earth:{
-                            absolute:0,
-                            relative:0
-                        },
-                        water:{
-                            absolute:0,
-                            relative:0
-                        },
-                        air:{
-                            absolute:0,
-                            relative:0
-                        }
-                    }
+                type:{ absolute:0, relative:0 },
+                element:{
+                    fire:{ absolute:0, relative:100 },
+                    earth:{ absolute:0, relative:0 },
+                    water:{ absolute:0, relative:0 },
+                    air:{ absolute:0, relative:0 }
+                }
                 },
                 misc:{
-                    attackSpeed:1,
-                    regeneration:0,
-                    accuracy:50,
+                    attackSpeed: 150,           
+                    regeneration: 150000,       
+                    accuracy: 1.5e7,           
                     evasion: 0,
                     hitChance: 0,
-                    reflectChance:0,
-                    criticalChance:0,
-                    criticalDamageMult: 2
+                    reflectChance: 0,
+                    criticalChance: 7500,      
+                    criticalDamageMult: 750     
                 }
             },
             bossStats:{
-                name: "alpha wolf",
-                isBoss:true,
-                health: 1000,
-                maxHealth: 1000,
+                name: "infernal overlord",
+                isBoss: true,
+                health: 3e10,          
+                maxHealth: 3e10,
+                goldReward: 1.5e10,     
                 attack:{
-                    type:{
-                        physical:15,
-                        magic:0
-                    },
-                    element:{
-                        fire:0,
-                        earth:10,
-                        water:0,
-                        air:0
-                    }
+                type:{
+                    physical: 1.5e6,    
+                    magic: 1.5e7        
+                },
+                element:{
+                    fire: 0,
+                    earth: 0,
+                    water: 0,
+                    air: 0
+                }
                 },
                 defense:{
-                    type:{
-                        absolute:10,
-                        relative:0
-                    },
-                    element:{
-                        fire:{
-                            absolute:0,
-                            relative:0
-                        },
-                        earth:{
-                            absolute:100,
-                            relative:10
-                        },
-                        water:{
-                            absolute:0,
-                            relative:0
-                        },
-                        air:{
-                            absolute:0,
-                            relative:0
-                        }
-                    }
+                type:{ absolute: 1.5e5, relative: 100 },
+                element:{
+                    fire:{ absolute:0, relative:100 },
+                    earth:{ absolute:15000, relative:100 }, 
+                    water:{ absolute:0, relative:100 },
+                    air:{ absolute:0, relative:100 }
+                }
                 },
                 misc:{
-                    attackSpeed:1.1,
-                    regeneration:1,
-                    accuracy:1000,
-                    evasion: 50,
+                    attackSpeed: 187.5,        
+                    regeneration: 7.5e8,          
+                    accuracy: 7.5e8,            
+                    evasion: 7.5e8,           
                     hitChance: 0,
-                    reflectChance:0,
-                    criticalChance:5,
-                    criticalDamageMult: 2
+                    reflectChance: 2250,       
+                    criticalChance: 3750,      
+                    criticalDamageMult: 450   
                 }
             },
             items:[
-                {}
+                {
+                    dropChance: 0.0002,
+                    name:"Hellblade Gravesoul",
+                    itemType:"Weapons/Swords",
+                    rarity:"Mythic",
+                    attack:{
+                        type:{ physical:7500000, magic:3000000 },
+                        element:{ fire:0, earth:0, water:0, air:0 }
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.001,
+                    name:"Wailing Hellbow",
+                    itemType:"Weapons/Bows",
+                    rarity:"Legendary",
+                    attack:{
+                        type:{ physical:6250000, magic:1000000 },
+                        element:{ fire:0, earth:0, water:0, air:3750000 }
+                    },
+                    misc:{
+                        accuracyMult:3750,
+                        criticalChance:15000
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.003,
+                    name:"Oblivion Bulwark",
+                    itemType:"OffHand/Shields",
+                    rarity:"Legendary",
+                    defense:{
+                        type:{ absolute:2250000, relative:10000 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:1750000, relative:11250 },
+                            water:{ absolute:1250000, relative:7500 },
+                            air:{ absolute:0, relative:0 }
+                        }
+                    },
+                    misc:{
+                        reflectChance:25000
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.015,
+                    name:"Demonbone Crown",
+                    itemType:"Armor/Helmets",
+                    rarity:"Legendary",
+                    weight: 1,
+                    maxHealthMultiplier: 5000,
+                    defense:{
+                        type:{ absolute:1750000, relative:10000 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:1500000, relative:8750 },
+                            water:{ absolute:500000, relative:5000 },
+                            air:{ absolute:750000, relative:6250 }
+                        }
+                    },
+                    misc:{
+                        accuracyMult:2000,
+                        evasionMult:3000
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.05,
+                    name:"Flamebound Boots",
+                    itemType:"Armor/Boots",
+                    rarity:"Epic",
+                    weight: 1,
+                    defense:{
+                        type:{ absolute:1000000, relative:6250 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:750000, relative:6250 },
+                            water:{ absolute:225000, relative:2500 },
+                            air:{ absolute:300000, relative:3000 }
+                        }
+                    },
+                    misc:{
+                        evasionMult:2500
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.2,
+                    name:"Hellmail Chestplate",
+                    itemType:"Armor/Chestplates",
+                    rarity:"Epic",
+                    weight: 3,
+                    maxHealthMultiplier: 2500,
+                    defense:{
+                        type:{ absolute:1500000, relative:7500 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:1750000, relative:10000 },
+                            water:{ absolute:1250000, relative:8750 },
+                            air:{ absolute:0, relative:0 }
+                        }
+                    },
+                    misc:{
+                        accuracyMult:1500
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.7,
+                    name:"Fiendweave Leggings",
+                    itemType:"Armor/Leggings",
+                    rarity:"Rare",
+                    weight: 2,
+                    defense:{
+                        type:{ absolute:1125000, relative:5500 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:875000, relative:7500 },
+                            water:{ absolute:500000, relative:4500 },
+                            air:{ absolute:0, relative:0 }
+                        }
+                    },
+                    misc:{
+                        evasionMult:1750
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 12,
+                    name:"Claw of Ruin Gauntlets",
+                    itemType:"Weapons/HandGears",
+                    rarity:"Uncommon",
+                    attack:{
+                        type:{ physical:300000, magic:0 },
+                        element:{ fire:0, earth:225000, water:0, air:0 }
+                    },
+                    misc:{
+                        attackSpeed:1000,
+                        criticalChance:5000
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 22,
+                    name:"Doomcleaver Axe",
+                    itemType:"Weapons/Axes",
+                    rarity:"Uncommon",
+                    attack:{
+                        type:{ physical:250000, magic:0 },
+                        element:{ fire:0, earth:175000, water:0, air:0 }
+                    },
+                    misc:{
+                        attackSpeed:750
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 55,
+                    name:"Cinder Bow",
+                    itemType:"Weapons/Bows",
+                    rarity:"Common",
+                    attack:{
+                        type:{ physical:125000, magic:0 },
+                        element:{ fire:0, earth:50000, water:0, air:0 }
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 100,
+                    name:"Void Shiv",
+                    itemType:"Weapons/Daggers",
+                    rarity:"Common",
+                    attack:{
+                        type:{ physical:75000, magic:0 },
+                        element:{ fire:0, earth:0, water:0, air:0 }
+                    },
+                    misc:{
+                        attackSpeed:1250
+                    },
+                    special: undefined
+                }
             ]
-        },
+        }
     }
     //#endregion
     gameSpeed=1
