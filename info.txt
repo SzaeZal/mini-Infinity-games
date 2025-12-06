@@ -1,2 +1,5 @@
 a weboldalak a html fájlukban található csoportok csak egyikét fogják mutatni egyszerre (js-ben megoldott több menüpont miatt)
 egyedül validálási célból került minden rész a html fájlba (így a javítónak se kell majd minden js fájlból kimásolni a html részleteket)
+módosítások hogy ne legyen validálási hiba:
+    index.html : subMenuInView id-k különböző számot kaptak 
+    replicantiInremental.html : subMenuInView, currencyBar, UISettingsSubMenuItem, saveSettingsSubMenuItem, saveBankSubMenuItem id-k különböző számot kaptak 

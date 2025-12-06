@@ -428,7 +428,7 @@ $(()=>{
         `
             <div class="game" id="game5">
                 <h2 class="gameTitle">
-                    Tower of Infinite enemies (currently under development)
+                    Tower of Infinite enemies
                 </h2>
                 <div class="gameContent">        
                     <p class="gameDescription">
