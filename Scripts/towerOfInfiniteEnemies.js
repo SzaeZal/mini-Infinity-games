@@ -1066,7 +1066,188 @@ $(()=>{
                 }
             },
             items:[
-                {}
+                {
+                    dropChance: 0.0002,
+                    name:"Gravesoul Reaver",
+                    itemType:"Weapons/Swords",
+                    rarity:"Mythic",
+                    attack:{
+                        type:{ physical:30000, magic:12000 },
+                        element:{ fire:0, earth:0, water:0, air:0 }
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.001,
+                    name:"Wailing Bonebow",
+                    itemType:"Weapons/Bows",
+                    rarity:"Legendary",
+                    attack:{
+                        type:{ physical:25000, magic:4000 },
+                        element:{ fire:0, earth:0, water:0, air:15000 }
+                    },
+                    misc:{
+                        accuracyMult:15,
+                        criticalChance:60
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.003,
+                    name:"Tombwarden Bulwark",
+                    itemType:"OffHand/Shields",
+                    rarity:"Legendary",
+                    defense:{
+                        type:{ absolute:9000, relative:40 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:7000, relative:45 },
+                            water:{ absolute:5000, relative:30 },
+                            air:{ absolute:0, relative:0 }
+                        }
+                    },
+                    misc:{
+                        reflectChance:100
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.015,
+                    name:"Lichbone Crown",
+                    itemType:"Armor/Helmets",
+                    rarity:"Legendary",
+                    weight: 1,
+                    maxHealthMultiplier:20,
+                    defense:{
+                        type:{ absolute:7000, relative:40 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:6000, relative:35 },
+                            water:{ absolute:2000, relative:20 },
+                            air:{ absolute:3000, relative:25 }
+                        }
+                    },
+                    misc:{
+                        accuracyMult:8,
+                        evasionMult:12
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.05,
+                    name:"Ghoulstride Boots",
+                    itemType:"Armor/Boots",
+                    rarity:"Epic",
+                    weight: 1,
+                    defense:{
+                        type:{ absolute:4000, relative:25 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:3000, relative:25 },
+                            water:{ absolute:900, relative:10 },
+                            air:{ absolute:1200, relative:12 }
+                        }
+                    },
+                    misc:{
+                        evasionMult:10
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.2,
+                    name:"Cryptmail Chestplate",
+                    itemType:"Armor/Chestplates",
+                    rarity:"Epic",
+                    weight: 3,
+                    maxHealthMultiplier:10,
+                    defense:{
+                        type:{ absolute:6000, relative:30 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:7000, relative:40 },
+                            water:{ absolute:5000, relative:35 },
+                            air:{ absolute:0, relative:0 }
+                        }
+                    },
+                    misc:{
+                        accuracyMult:6
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 0.7,
+                    name:"Graveweave Leggings",
+                    itemType:"Armor/Leggings",
+                    rarity:"Rare",
+                    weight: 2,
+                    defense:{
+                        type:{ absolute:4500, relative:22 },
+                        element:{
+                            fire:{ absolute:0, relative:0 },
+                            earth:{ absolute:3500, relative:30 },
+                            water:{ absolute:2000, relative:18 },
+                            air:{ absolute:0, relative:0 }
+                        }
+                    },
+                    misc:{
+                        evasionMult:7
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 12,
+                    name:"Boneclaw Gauntlets",
+                    itemType:"Weapons/HandGears",
+                    rarity:"Uncommon",
+                    attack:{
+                        type:{ physical:1200, magic:0 },
+                        element:{ fire:0, earth:900, water:0, air:0 }
+                    },
+                    misc:{
+                        attackSpeed:4,
+                        criticalChance:20
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 22,
+                    name:"Ghastcleaver Axe",
+                    itemType:"Weapons/Axes",
+                    rarity:"Uncommon",
+                    attack:{
+                        type:{ physical:1000, magic:0 },
+                        element:{ fire:0, earth:700, water:0, air:0 }
+                    },
+                    misc:{
+                        attackSpeed:3
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 55,
+                    name:"Rotwood Bow",
+                    itemType:"Weapons/Bows",
+                    rarity:"Common",
+                    attack:{
+                        type:{ physical:500, magic:0 },
+                        element:{ fire:0, earth:200, water:0, air:0 }
+                    },
+                    special: undefined
+                },
+                {
+                    dropChance: 100,
+                    name:"Necrotic Shiv",
+                    itemType:"Weapons/Daggers",
+                    rarity:"Common",
+                    attack:{
+                        type:{ physical:300, magic:0 },
+                        element:{ fire:0, earth:0, water:0, air:0 }
+                    },
+                    misc:{
+                        attackSpeed:5
+                    },
+                    special: undefined
+                }
             ]
         },
         floor4:{
