@@ -3,3 +3,4 @@ egyedül validálási célból került minden rész a html fájlba (így a javí
 módosítások hogy ne legyen validálási hiba:
     index.html : subMenuInView id-k különböző számot kaptak 
     replicantiInremental.html : subMenuInView, currencyBar, UISettingsSubMenuItem, saveSettingsSubMenuItem, saveBankSubMenuItem id-k különböző számot kaptak 
+    cardsOfInfinity.html: subMenuInView, points, picksLeft, pauseMenu, pauseOptionResume, pauseOptionClose, game id-k különböző számot kaptak 
