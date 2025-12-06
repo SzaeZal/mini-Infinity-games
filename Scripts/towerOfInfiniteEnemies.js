@@ -2865,8 +2865,63 @@ $(()=>{
             +(player.stats.gear.weapon.misc == undefined || player.stats.gear.weapon.misc.criticalDamageMult==undefined ? 0 : player.stats.gear.weapon.misc.criticalDamageMult)
             +(player.stats.gear.offhand.misc == undefined ? 0 : player.stats.gear.offhand.misc.criticalDamageMult)
 
-        playerStatsCalculated.misc.accuracy = 100 //TODO: change based on weapon type
-        playerStatsCalculated.misc.evasion= 0 //TODO: change based on armor weight
+        let weapoType=player.stats.gear.weapon.itemType.split("/")
+        playerStatsCalculated.misc.accuracy = 100
+            *(player.stats.gear.weapon.misc == undefined || player.stats.gear.weapon.misc.accuracyMult==undefined ? 0 : player.stats.gear.weapon.misc.accuracyMult)
+            *(player.stats.gear.offhand.misc == undefined || player.stats.gear.offhand.misc.accuracyMult==undefined ? 0 : player.stats.gear.offhand.misc.accuracyMult)
+            *(player.stats.gear.armor.helmet.misc == undefined || player.stats.gear.armor.helmet.misc.accuracyMult==undefined ? 0 : player.stats.gear.armor.helmet.misc.accuracyMult)
+            *(player.stats.gear.armor.chestplate.misc == undefined || player.stats.gear.armor.chestplate.misc.accuracyMult==undefined ? 0 : player.stats.gear.armor.misc.accuracyMult)
+            *(player.stats.gear.armor.boots.misc == undefined || player.stats.gear.armor.leggings.misc.accuracyMult==undefined ? 0 : player.stats.gear.armor.misc.accuracyMult)
+            *(player.stats.gear.armor.boots.misc == undefined || player.stats.gear.armor.boots.misc.accuracyMult==undefined ? 0 : player.stats.gear.armor.misc.accuracyMult)
+        if(weapoType[1]=="Bows"){
+            playerStatsCalculated.misc.accuracy *=10
+        }
+        else if(weapoType[1]=="ShortBows"){
+            playerStatsCalculated.misc.accuracy *=5
+        }
+        else if(weapoType[1]=="HandGears"){
+            playerStatsCalculated.misc.accuracy *=2.5
+        }
+        else if(weapoType[1]=="Daggers"){
+            playerStatsCalculated.misc.accuracy *=1.5
+        }
+        else if(weapoType[1]=="Axes"){
+            playerStatsCalculated.misc.accuracy *=0.5
+        }
+
+        let armorWeight=0
+            +(player.stats.gear.armor.helmet.weight == undefined ? 0 : player.stats.gear.armor.helmet.weight)
+            +(player.stats.gear.armor.chestplate.weight == undefined ? 0 : player.stats.gear.armor.chestplate.weight)
+            +(player.stats.gear.armor.leggings.weight == undefined ? 0 : player.stats.gear.armor.leggings.weight)
+            +(player.stats.gear.armor.boots.weight == undefined ? 0 : player.stats.gear.armor.boots.weight)
+        
+        playerStatsCalculated.misc.evasion=100
+            *(player.stats.gear.weapon.misc == undefined || player.stats.gear.weapon.misc.evasionMult==undefined ? 0 : player.stats.gear.weapon.misc.evasionMult)
+            *(player.stats.gear.offhand.misc == undefined || player.stats.gear.offhand.misc.evasionMult==undefined ? 0 : player.stats.gear.offhand.misc.evasionMult)
+            *(player.stats.gear.armor.helmet.misc == undefined || player.stats.gear.armor.helmet.misc.evasionMult==undefined ? 0 : player.stats.gear.armor.helmet.misc.evasionMult)
+            *(player.stats.gear.armor.chestplate.misc == undefined || player.stats.gear.armor.chestplate.misc.evasionMult==undefined ? 0 : player.stats.gear.armor.misc.evasionMult)
+            *(player.stats.gear.armor.boots.misc == undefined || player.stats.gear.armor.leggings.misc.evasionMult==undefined ? 0 : player.stats.gear.armor.misc.evasionMult)
+            *(player.stats.gear.armor.boots.misc == undefined || player.stats.gear.armor.boots.misc.evasionMult==undefined ? 0 : player.stats.gear.armor.misc.evasionMult)
+
+        if(armorWeight==0){
+            playerStatsCalculated.misc.evasion *=10
+        }
+        else if(armorWeight<10){
+            playerStatsCalculated.misc.evasion *=5
+        }
+        else if(armorWeight<25){
+            playerStatsCalculated.misc.evasion *=2.5
+        }
+        else if(armorWeight<50){
+            playerStatsCalculated.misc.evasion *=1.5
+        }
+        else if(armorWeight<100){
+            playerStatsCalculated.misc.evasion *=1
+        }
+        else{
+            playerStatsCalculated.misc.evasion *=(1/Math.floor(Math.log10(armorWeight)))
+        }
+
 
         playerStatsCalculated.misc.reflectChance = 0
             +(player.stats.gear.armor.helmet.misc == undefined || player.stats.gear.armor.helmet.misc.reflectChance == undefined ? 0 : player.stats.gear.armor.helmet.misc.reflectChance)
